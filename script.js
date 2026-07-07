@@ -1,3 +1,83 @@
+// --- NAVBAR NAVIGATION CONTROLLER ---
+const navDashboard = document.getElementById('navDashboard');
+const navLearn = document.getElementById('navLearn');
+const heroSection = document.getElementById('heroSection');
+const trackerCard = document.getElementById('trackerCard');
+const learnSection = document.getElementById('learnSection');
+
+navDashboard.addEventListener('click', (e) => {
+    e.preventDefault();
+    navDashboard.classList.add('active');
+    navLearn.classList.remove('active');
+    trackerCard.classList.remove('hidden');
+    heroSection.classList.remove('hidden');
+    learnSection.classList.add('hidden');
+});
+
+navLearn.addEventListener('click', (e) => {
+    e.preventDefault();
+    navLearn.classList.add('active');
+    navDashboard.classList.remove('active');
+    trackerCard.classList.add('hidden');
+    heroSection.classList.add('hidden');
+    learnSection.classList.remove('hidden');
+});
+
+
+// --- LAB TRACKER CHART ENGINE ---
+const plotBtn = document.getElementById('plotBtn');
+const dataInput = document.getElementById('dataInput');
+const chartFeedback = document.getElementById('chartFeedback');
+let dermaChart = null;
+
+plotBtn.addEventListener('click', () => {
+    const rawValue = dataInput.value.trim();
+    if (!rawValue) {
+        chartFeedback.textContent = "Please enter numbers separated by commas.";
+        return;
+    }
+    
+    const numberArray = rawValue.split(',').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+    
+    if (numberArray.length === 0) {
+        chartFeedback.textContent = "Invalid entry. Use format: 45, 50, 60";
+        return;
+    }
+    
+    chartFeedback.classList.add('hidden');
+    const ctx = document.getElementById('dermaChart').getContext('2d');
+    
+    if (dermaChart) {
+        dermaChart.destroy();
+    }
+    
+    const labelArray = numberArray.map((_, index) => `Day ${index + 1}`);
+    
+    dermaChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labelArray,
+            datasets: [{
+                label: 'Skin Biometric Metrics (%)',
+                data: numberArray,
+                borderColor: '#8A9A86',
+                backgroundColor: 'rgba(138, 154, 134, 0.1)',
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, max: 100 }
+            }
+        }
+    });
+});
+
+
 // --- CLINICAL INGREDIENT & MYTH DATABASE ---
 const scienceDatabase = [
     {
@@ -15,7 +95,7 @@ const scienceDatabase = [
         badge: "Skin Anatomy",
         badgeClass: "badge-science",
         title: "The Epidermal Barrier Structure",
-        description: "Analysis of the stratum corneum's 'brick and mortar' framework. Corneocytes (bricks) and extracellular lipids (mortar) work in tandem to minimize transepidermal water loss (TEWL) and shield against micro-pathogens.",
+        description: "Analysis of the stratum corneum's 'brick and mortar' framework. Corneocytes (bricks) and extracellular lipids (mortar) work in tandem to minimize trransepidermal water loss (TEWL) and shield against micro-pathogens.",
         actionText: "View Interactive Diagram →"
     },
     {
@@ -38,21 +118,16 @@ const scienceDatabase = [
     }
 ];
 
-// DOM Elements for Filtering
 const databaseGrid = document.getElementById('databaseGrid');
 const filterBtns = document.querySelectorAll('.filter-btn');
 
-// Function to render cards dynamically
 function renderCards(categoryFilter) {
-    // Clear out whatever is currently in the grid
     databaseGrid.innerHTML = "";
     
-    // Filter the database array
     const filteredData = scienceDatabase.filter(item => {
         return categoryFilter === "all" || item.category === categoryFilter;
     });
     
-    // Build the HTML strings and inject them
     filteredData.forEach(item => {
         const cardHtml = `
             <div class="content-card">
@@ -66,18 +141,14 @@ function renderCards(categoryFilter) {
     });
 }
 
-// Set up click events for the category filter buttons
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Switch active button class
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
-        // Render matching cards
         const selectedCategory = btn.getAttribute('data-category');
         renderCards(selectedCategory);
     });
 });
 
-// Initial boot-up render to show all cards when app opens
+// Run default cards rendering on boot
 renderCards("all");
