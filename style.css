@@ -1,36 +1,278 @@
-/* Filter Buttons Row */
-.filter-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-    white-space: nowrap;
+/* --- GLOBAL CONFIGURATION & PALETTE --- */
+:root {
+    --sage-green: #8A9A86;
+    --sage-dark: #4A5548;
+    --sage-light: #F4F6F3;
+    --white: #FFFFFF;
+    --charcoal: #2C352E;
+    --accent-gold: #D4AF37;
+    --radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.filter-btn {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--sage-light);
+    color: var(--charcoal);
+    line-height: 1.6;
+    padding-bottom: 60px;
+}
+
+/* --- NAVIGATION LAYOUT --- */
+.navbar {
     background-color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 24px;
+    border-bottom: 1px solid rgba(138, 154, 134, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.logo-text {
+    font-weight: 700;
+    font-size: 1.2rem;
     color: var(--sage-dark);
-    border: 1px solid rgba(138, 154, 134, 0.3);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    letter-spacing: -0.5px;
+}
+
+.weight-light {
+    font-weight: 300;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--sage-dark);
+    font-size: 0.9rem;
     font-weight: 500;
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.nav-links a.active, .nav-links a:hover {
+    opacity: 1;
+    color: var(--sage-green);
+}
+
+/* --- MAIN APP LAYOUT --- */
+.app-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- HERO BANNER --- */
+.hero {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 10px 0;
+}
+
+.hero h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--sage-dark);
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.hero .highlight {
+    color: var(--sage-green);
+}
+
+.hero p {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* --- CARDS & PANELS --- */
+.tracker-card, .learn-hub {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(74, 85, 72, 0.04);
+    border: 1px solid rgba(138, 154, 134, 0.1);
+    margin-bottom: 24px;
+}
+
+h2 {
+    font-size: 1.3rem;
+    color: var(--sage-dark);
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* --- DYNAMIC INTERACTION ELEMENTS --- */
+.input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid rgba(138, 154, 134, 0.3);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+input[type="text"]:focus {
+    border-color: var(--sage-green);
+    box-shadow: 0 0 0 3px rgba(138, 154, 134, 0.15);
+}
+
+button {
+    background-color: var(--sage-green);
+    color: var(--white);
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
 }
 
-.filter-btn:hover, .filter-btn.active {
+button:hover {
+    background-color: var(--sage-dark);
+}
+
+/* --- CHART VISUALIZATION Area --- */
+.chart-container {
+    position: relative;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--sage-light);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.feedback-text {
+    font-size: 0.85rem;
+    color: var(--sage-dark);
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* --- DAY 2: DATABASE FILTER BUTTONS --- */
+.filter-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.filter-btn {
+    background-color: var(--sage-light);
+    color: var(--sage-dark);
+    border: 1px solid rgba(138, 154, 134, 0.2);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.filter-btn.active {
     background-color: var(--sage-green);
     color: var(--white);
     border-color: var(--sage-green);
 }
 
-/* Scrollbar adjustment for mobile row */
-.filter-container::-webkit-scrollbar {
-    height: 4px;
+/* --- DYNAMIC GRID CARDS --- */
+.articles-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
-.filter-container::-webkit-scrollbar-thumb {
-    background: var(--sage-green);
-    border-radius: 10px;
+
+.content-card {
+    background: var(--white);
+    border: 1px solid rgba(138, 154, 134, 0.15);
+    padding: 18px;
+    border-radius: 8px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.content-card h3 {
+    font-size: 1.1rem;
+    color: var(--sage-dark);
+    margin: 8px 0 6px 0;
+}
+
+.content-card p {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.badge-myth {
+    background-color: #FADBD8;
+    color: #78281F;
+}
+
+.badge-science {
+    background-color: #E8F8F5;
+    color: #117864;
+}
+
+.read-more {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sage-green);
+    text-decoration: none;
 }
