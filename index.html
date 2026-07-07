@@ -1,3 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derma Grow | Evidence-Based Skin Science</title>
+    <!-- Include Chart.js Library first so we can draw graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <!-- Unique Sage Green Sprout SVG Logo -->
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22V12M12 12C12 9 10 5 6 5C6 8 8 11 12 11ZM12 12C12 9 14 5 18 5C18 8 16 11 12 11Z" stroke="#8A9A86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="logo-text">Derma<span class="weight-light">Grow</span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" id="navDashboard">Dashboard</a></li>
+            <li><a href="#" id="navLearn">Learn</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content App Container -->
+    <main class="app-container">
+        
+        <!-- HEADER HERO SECTION -->
+        <header id="heroSection" class="hero">
+            <h1>Welcome to the Future of <span class="highlight">Skin Science</span></h1>
+            <p>Track your skin metrics, analyze biological data, and debunk trends with evidence-based analytics.</p>
+        </header>
+
+        <!-- DASHBOARD TAB: Interactive Lab Component -->
+        <section id="trackerCard" class="tracker-card">
+            <h2>Quick Lab Tracker</h2>
+            <p class="subtitle">Enter your experimental trial data or skin hydration metrics below:</p>
+            
+            <div class="input-group">
+                <input type="text" id="dataInput" placeholder="e.g., 45, 50, 62, 75">
+                <button id="plotBtn">Generate Chart</button>
+            </div>
+            
+            <!-- Graph Wrapper -->
+            <div class="chart-container">
+                <canvas id="dermaChart"></canvas>
+                <div id="chartFeedback" class="feedback-text">Your interactive scientific visualization will render here.</div>
+            </div>
+        </section>
+
         <!-- EDUCATIONAL SCIENCE HUB TAB -->
         <section id="learnSection" class="learn-hub hidden">
             <h2>Evidence-Based Skin Science</h2>
@@ -17,4 +70,8 @@
             </div>
         </section>
 
+    </main>
 
+    <script src="script.js"></script>
+</body>
+</html>
