@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derma Grow | Evidence-Based Skin Science</title>
     
-    <!-- Custom Scientific Favicon and Apple App Icon Links -->
+    <title>Derma Grow</title>
+    
+    <meta name="apple-mobile-web-app-title" content="Derma Grow">
+    <meta name="application-name" content="Derma Grow">
+    
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'><path d='M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z' stroke='%238A9A86' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5' stroke='%23D4AF37' stroke-width='1.5' stroke-linecap='round'/></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F4F6F3'><path d='M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z' stroke='%238A9A86' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5' stroke='%23D4AF37' stroke-width='1.5' stroke-linecap='round'/></svg>">
 
-    <!-- Include Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo-container">
-            <!-- Upgraded Bio-Shield Cellular Sprout Emblem -->
             <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="#8A9A86" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
@@ -31,33 +31,27 @@
         </ul>
     </nav>
 
-    <!-- Main Content App Container -->
     <main class="app-container">
         
-        <!-- HEADER HERO SECTION -->
         <header id="heroSection" class="hero">
             <h1>Welcome to the Future of <span class="highlight">Skin Science</span></h1>
             <p>Track your skin metrics, analyze biological data, and debunk trends with evidence-based analytics.</p>
         </header>
 
-        <!-- DASHBOARD TAB: Clinical Simulation Sandbox -->
         <section id="trackerCard" class="tracker-card">
             <h2>Epidermal Barrier Stress Simulator</h2>
             <p class="subtitle">Select a clinical track to simulate the real-time cellular impact of chemical ingredients on the stratum corneum.</p>
             
-            <!-- Interactive Simulator Tracks -->
             <div class="simulation-controls">
                 <button class="scenario-btn" data-scenario="lemon">🍋 DIY Lemon Destruction (7 Days)</button>
                 <button class="scenario-btn" data-scenario="repair">🌿 Niacinamide Recovery (14 Days)</button>
                 <button class="scenario-btn" data-scenario="overexfoliate">🧪 Excessive Acid Stripping (10 Days)</button>
             </div>
             
-            <!-- Graph Wrapper -->
             <div class="chart-container" style="margin-top: 20px;">
                 <canvas id="dermaChart"></canvas>
             </div>
 
-            <!-- Dynamic Scientific Lab Report -->
             <div id="labReportBox" class="lab-report hidden">
                 <div class="report-header">
                     <span class="pulse-dot"></span>
@@ -67,12 +61,10 @@
             </div>
         </section>
 
-        <!-- EDUCATIONAL SCIENCE HUB TAB -->
         <section id="learnSection" class="learn-hub hidden">
             <h2>Evidence-Based Skin Science</h2>
             <p class="subtitle">Biting back against superficial trends with peer-reviewed cellular biology.</p>
             
-            <!-- Dynamic Category Filters -->
             <div class="filter-container">
                 <button class="filter-btn active" data-category="all">All Resources</button>
                 <button class="filter-btn" data-category="myths">Trend Debunkers</button>
@@ -80,10 +72,8 @@
                 <button class="filter-btn" data-category="anatomy">Histology</button>
             </div>
             
-            <!-- The Dynamic Database Grid -->
             <div id="databaseGrid" class="articles-grid">
-                <!-- JavaScript will dynamically inject cards here -->
-            </div>
+                </div>
         </section>
 
     </main>
