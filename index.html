@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derma Grow | Evidence-Based Skin Science</title>
-    <!-- Include Chart.js Library first so we can draw graphs -->
+    
+    <!-- Custom Scientific Favicon and Apple App Icon Links -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'><path d='M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z' stroke='%238A9A86' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5' stroke='%23D4AF37' stroke-width='1.5' stroke-linecap='round'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F4F6F3'><path d='M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z' stroke='%238A9A86' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5' stroke='%23D4AF37' stroke-width='1.5' stroke-linecap='round'/></svg>">
+
+    <!-- Include Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,9 +18,10 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo-container">
-            <!-- Unique Sage Green Sprout SVG Logo -->
+            <!-- Upgraded Bio-Shield Cellular Sprout Emblem -->
             <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22V12M12 12C12 9 10 5 6 5C6 8 8 11 12 11ZM12 12C12 9 14 5 18 5C18 8 16 11 12 11Z" stroke="#8A9A86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="#8A9A86" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
             <span class="logo-text">Derma<span class="weight-light">Grow</span></span>
         </div>
@@ -34,20 +40,30 @@
             <p>Track your skin metrics, analyze biological data, and debunk trends with evidence-based analytics.</p>
         </header>
 
-        <!-- DASHBOARD TAB: Interactive Lab Component -->
+        <!-- DASHBOARD TAB: Clinical Simulation Sandbox -->
         <section id="trackerCard" class="tracker-card">
-            <h2>Quick Lab Tracker</h2>
-            <p class="subtitle">Enter your experimental trial data or skin hydration metrics below:</p>
+            <h2>Epidermal Barrier Stress Simulator</h2>
+            <p class="subtitle">Select a clinical track to simulate the real-time cellular impact of chemical ingredients on the stratum corneum.</p>
             
-            <div class="input-group">
-                <input type="text" id="dataInput" placeholder="e.g., 45, 50, 62, 75">
-                <button id="plotBtn">Generate Chart</button>
+            <!-- Interactive Simulator Tracks -->
+            <div class="simulation-controls">
+                <button class="scenario-btn" data-scenario="lemon">🍋 DIY Lemon Destruction (7 Days)</button>
+                <button class="scenario-btn" data-scenario="repair">🌿 Niacinamide Recovery (14 Days)</button>
+                <button class="scenario-btn" data-scenario="overexfoliate">🧪 Excessive Acid Stripping (10 Days)</button>
             </div>
             
             <!-- Graph Wrapper -->
-            <div class="chart-container">
+            <div class="chart-container" style="margin-top: 20px;">
                 <canvas id="dermaChart"></canvas>
-                <div id="chartFeedback" class="feedback-text">Your interactive scientific visualization will render here.</div>
+            </div>
+
+            <!-- Dynamic Scientific Lab Report -->
+            <div id="labReportBox" class="lab-report hidden">
+                <div class="report-header">
+                    <span class="pulse-dot"></span>
+                    <h4>Automated Clinical Diagnostic Report</h4>
+                </div>
+                <p id="reportContent">Select a simulation scenario above to initialize real-time cellular biometric tracking...</p>
             </div>
         </section>
 
