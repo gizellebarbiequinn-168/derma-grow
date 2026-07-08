@@ -2,6 +2,7 @@
 const navDashboard = document.getElementById('navDashboard');
 const navLearn = document.getElementById('navLearn');
 const heroSection = document.getElementById('heroSection');
+const impactMatrix = document.getElementById('impactMatrix');
 const trackerCard = document.getElementById('trackerCard');
 const learnSection = document.getElementById('learnSection');
 
@@ -10,6 +11,7 @@ navDashboard.addEventListener('click', (e) => {
     navDashboard.classList.add('active');
     navLearn.classList.remove('active');
     trackerCard.classList.remove('hidden');
+    impactMatrix.classList.remove('hidden');
     heroSection.classList.remove('hidden');
     learnSection.classList.add('hidden');
 });
@@ -19,6 +21,7 @@ navLearn.addEventListener('click', (e) => {
     navLearn.classList.add('active');
     navDashboard.classList.remove('active');
     trackerCard.classList.add('hidden');
+    impactMatrix.classList.add('hidden');
     heroSection.classList.add('hidden');
     learnSection.classList.remove('hidden');
 });
@@ -94,8 +97,30 @@ scenarioBtns.forEach(btn => {
         
         const chosenTrack = btn.getAttribute('data-scenario');
         runSimulation(chosenTrack);
+        updateImpactMatrix();
     });
 });
+
+
+// --- QUANTIFIABLE IMPACT METRICS ENGINE ---
+let totalSimulationsRun = 0;
+let sectionsFiltered = 0;
+
+function updateImpactMatrix() {
+    totalSimulationsRun++;
+    
+    // Convert simulator touches to derived consumer metrics
+    const noiseNeutralized = totalSimulationsRun * 4; 
+    const productsSaved = Math.floor(totalSimulationsRun * 1.5); 
+    
+    // Balanced equation for clarity metric progress
+    const clarityIndex = Math.min(100, Math.floor(((totalSimulationsRun * 12) / (sectionsFiltered + 2)) + 45));
+
+    // Inject to matrix components
+    document.getElementById('noiseCount').textContent = `${noiseNeutralized}h`;
+    document.getElementById('clutterCount').textContent = productsSaved;
+    document.getElementById('clarityScore').textContent = `${clarityIndex}%`;
+}
 
 
 // --- SCIENCE HUB DYNAMIC CARDS ---
@@ -128,8 +153,10 @@ filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        sectionsFiltered++;
         renderCards(btn.getAttribute('data-category'));
     });
 });
 
+// Primary generation initialization
 renderCards("all");
