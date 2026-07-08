@@ -41,11 +41,18 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
 }
 
 .logo-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
+    transition: var(--transition);
+    filter: drop-shadow(0px 2px 4px rgba(138, 154, 134, 0.15));
+}
+
+.logo-container:hover .logo-icon {
+    transform: scale(1.08) rotate(-3deg);
 }
 
 .logo-text {
@@ -136,48 +143,43 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* --- DYNAMIC INTERACTION ELEMENTS --- */
-.input-group {
+/* --- SIMULATOR TRACK CONTROLS --- */
+.simulation-controls {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-input[type="text"] {
-    flex: 1;
-    padding: 12px;
+.scenario-btn {
+    background-color: var(--sage-light);
+    color: var(--charcoal);
     border: 1px solid rgba(138, 154, 134, 0.3);
+    text-align: left;
+    padding: 14px 16px;
     border-radius: 8px;
-    font-size: 0.95rem;
-    outline: none;
-    transition: var(--transition);
-}
-
-input[type="text"]:focus {
-    border-color: var(--sage-green);
-    box-shadow: 0 0 0 3px rgba(138, 154, 134, 0.15);
-}
-
-button {
-    background-color: var(--sage-green);
-    color: var(--white);
-    border: none;
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.88rem;
+    font-weight: 500;
     cursor: pointer;
     transition: var(--transition);
 }
 
-button:hover {
-    background-color: var(--sage-dark);
+.scenario-btn:hover {
+    background-color: #E2E8E1;
+    border-color: var(--sage-green);
+}
+
+.scenario-btn.active-scenario {
+    background-color: var(--sage-green);
+    color: var(--white);
+    border-color: var(--sage-green);
+    box-shadow: 0 4px 10px rgba(138, 154, 134, 0.2);
 }
 
 /* --- CHART VISUALIZATION Area --- */
 .chart-container {
     position: relative;
-    min-height: 150px;
+    height: 220px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -187,11 +189,41 @@ button:hover {
     padding: 12px;
 }
 
-.feedback-text {
+/* --- LAB REPORT DIAGNOSTIC OUTPUT --- */
+.lab-report {
+    margin-top: 20px;
+    background-color: #F9FAF9;
+    border-left: 4px solid var(--sage-green);
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.report-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.report-header h4 {
     font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--sage-dark);
-    text-align: center;
-    opacity: 0.8;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #E74C3C;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#reportContent {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.5;
 }
 
 /* --- DAY 2: DATABASE FILTER BUTTONS --- */
