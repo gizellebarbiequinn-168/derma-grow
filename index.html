@@ -16,7 +16,6 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo-container">
             <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,20 +26,18 @@
         </div>
         <ul class="nav-links">
             <li><a href="#" class="active" id="navDashboard">Dashboard</a></li>
+            <li><a href="#" id="navQuiz">Diagnostic Quiz</a></li>
             <li><a href="#" id="navLearn">Learn</a></li>
         </ul>
     </nav>
 
-    <!-- Main Content Container -->
     <main class="app-container">
         
-        <!-- HERO BANNER -->
         <header id="heroSection" class="hero">
             <h1>Welcome to the Future of <span class="highlight">Skin Science</span></h1>
             <p>Distilling complex cellular biology into clear, evidence-based metrics.</p>
         </header>
 
-        <!-- IMPACT MATRIX -->
         <section id="impactMatrix" class="impact-matrix">
             <div class="matrix-grid">
                 <div class="matrix-item">
@@ -58,10 +55,9 @@
             </div>
         </section>
 
-        <!-- DASHBOARD TAB -->
         <section id="trackerCard" class="tracker-card">
             <h2>Budget-to-Barrier Optimizer</h2>
-            <p class="subtitle">Input your available resources below to dynamically project your skin barrier trajectory without overspending.</p>
+            <p class="subtitle">Input your configuration parameters below to calculate your dynamic 14-day lipid trajectory.</p>
             
             <div class="optimizer-controls">
                 <div class="control-group">
@@ -70,39 +66,48 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Current Accessible Products:</label>
+                    <label>Current Accessible Products (8-Tier Check-Grid):</label>
                     <div class="checkbox-grid">
                         <label class="check-container">
-                            <input type="checkbox" id="prodLotion" checked> Basic Occlusive (Body Lotion / Petrolatum Jelly)
+                            <input type="checkbox" id="prodLotion" checked> 🧴 Basic Body Lotion / Glycerin Humectant
                         </label>
                         <label class="check-container">
-                            <input type="checkbox" id="prodCleanser"> Gentle Low-pH Cleanser (Budget-Friendly)
+                            <input type="checkbox" id="prodCleanser"> 🧼 Gentle Low-pH Cleanser
                         </label>
                         <label class="check-container">
-                            <input type="checkbox" id="prodHandmeDown"> Gifted / Hand-me-down Active (Retinol / Strong Acid)
+                            <input type="checkbox" id="prodSunscreen"> ☀️ Broad-Spectrum Sunscreen (UV Shielding)
                         </label>
                         <label class="check-container">
-                            <input type="checkbox" id="prodLemonTrend"> DIY Remedies (Raw Lemon / Kitchen Scrubs)
+                            <input type="checkbox" id="prodToner"> 💧 Gentle Hydrating Toner (Beta-Glucan / Hyaluronic)
+                        </label>
+                        <label class="check-container">
+                            <input type="checkbox" id="prodNiacinamide"> 🧪 Niacinamide Serum (Barrier Fortification)
+                        </label>
+                        <label class="check-container">
+                            <input type="checkbox" id="prodHandmeDown"> ⚡ Gifted / High-Potency Active (Retinol / Pure Acid)
+                        </label>
+                        <label class="check-container">
+                            <input type="checkbox" id="prodLemonTrend"> 🍋 DIY Remedies (Raw Lemon / Acidic Stills)
+                        </label>
+                        <label class="check-container">
+                            <input type="checkbox" id="prodScrubs"> 🧽 High-Friction Physical Scrubs / Harsh Brushes
                         </label>
                     </div>
                 </div>
             </div>
             
-            <!-- Graph Visualization Wrapper -->
             <div class="chart-container">
                 <canvas id="dermaChart"></canvas>
             </div>
 
-            <!-- Dynamic Scientific Lab Report -->
             <div id="labReportBox" class="lab-report">
                 <div class="report-header">
                     <span class="pulse-dot"></span>
                     <h4>Personalized Barrier Efficiency Analysis</h4>
                 </div>
-                <p id="reportContent">Adjust your budget and product checklist to initialize our data projection models...</p>
+                <p id="reportContent">Select configuration parameters to deploy structural forecasting models...</p>
             </div>
 
-            <!-- DYNAMIC PRESCRIPTION PROTOCOL BLUEPRINT -->
             <div id="protocolBox" class="protocol-box hidden">
                 <div class="protocol-header">
                     <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,14 +130,33 @@
             </div>
         </section>
 
-        <!-- EDUCATIONAL SCIENCE HUB TAB -->
+        <section id="quizSection" class="quiz-card hidden">
+            <h2>Personalized Skin Type Diagnostic</h2>
+            <p class="subtitle">Determine your physical profile via sebum and hydration parameters.</p>
+            <div id="quizInterface">
+                <div id="questionBox">
+                    <h3 id="questionText" class="quiz-question">Loading parameter assessments...</h3>
+                    <div id="answerOptions" class="quiz-options-container"></div>
+                </div>
+                <div id="quizResultBox" class="hidden">
+                    <div class="result-banner">
+                        <h4>Your Scientific Skin Classification:</h4>
+                        <h3 id="skinTypeTitle" class="highlight-gold">Unknown Profile</h3>
+                    </div>
+                    <p id="skinTypeDescription"></p>
+                    <button id="resetQuizBtn" class="filter-btn active" style="margin-top:14px; width:100%;">Retake Evaluation Profile</button>
+                </div>
+            </div>
+        </section>
+
         <section id="learnSection" class="learn-hub hidden">
-            <h2>Evidence-Based Skin Science</h2>
-            <p class="subtitle">Biting back against superficial trends with peer-reviewed cellular biology.</p>
+            <h2>Skincare Academy & Clinical Hub</h2>
+            <p class="subtitle">Demystifying ingredient matrices and topical biology using peer-reviewed formulations.</p>
             
             <div class="filter-container">
                 <button class="filter-btn active" data-category="all">All Resources</button>
                 <button class="filter-btn" data-category="myths">Trend Debunkers</button>
+                <button class="filter-btn" data-category="classification">Product Categories</button>
                 <button class="filter-btn" data-category="actives">Biochemical Actives</button>
                 <button class="filter-btn" data-category="anatomy">Histology</button>
             </div>
