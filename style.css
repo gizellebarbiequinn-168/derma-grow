@@ -1,4 +1,3 @@
-/* --- GLOBAL CONFIGURATION & PALETTE --- */
 :root {
     --sage-green: #8A9A86;
     --sage-dark: #4A5548;
@@ -14,7 +13,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
@@ -24,7 +23,7 @@ body {
     padding-bottom: 60px;
 }
 
-/* --- NAVIGATION LAYOUT --- */
+/* --- NAVIGATION --- */
 .navbar {
     background-color: var(--white);
     display: flex;
@@ -41,18 +40,11 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
 }
 
 .logo-icon {
     width: 32px;
     height: 32px;
-    transition: var(--transition);
-    filter: drop-shadow(0px 2px 4px rgba(138, 154, 134, 0.15));
-}
-
-.logo-container:hover .logo-icon {
-    transform: scale(1.08) rotate(-3deg);
 }
 
 .logo-text {
@@ -86,7 +78,7 @@ body {
     color: var(--sage-green);
 }
 
-/* --- MAIN APP LAYOUT --- */
+/* --- CONTAINER & TABS --- */
 .app-container {
     max-width: 600px;
     margin: 0 auto;
@@ -97,18 +89,15 @@ body {
     display: none !important;
 }
 
-/* --- HERO BANNER --- */
 .hero {
     text-align: center;
     margin-bottom: 24px;
-    padding: 10px 0;
 }
 
 .hero h1 {
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--sage-dark);
-    line-height: 1.2;
     margin-bottom: 8px;
 }
 
@@ -121,27 +110,19 @@ body {
     color: #666;
 }
 
-/* --- QUANTIFIABLE IMPACT MATRIX --- */
+/* --- IMPACT METRICS MATRIX --- */
 .impact-matrix {
     background-color: var(--charcoal);
     color: var(--white);
     border-radius: var(--radius);
     padding: 18px 16px;
     margin-bottom: 24px;
-    box-shadow: 0 4px 15px rgba(44, 53, 46, 0.15);
 }
 
 .matrix-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     text-align: center;
-    gap: 8px;
-}
-
-.matrix-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .matrix-item:not(:last-child) {
@@ -151,9 +132,6 @@ body {
 .matrix-num {
     font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-    transition: var(--transition);
 }
 
 .highlight-gold {
@@ -163,13 +141,11 @@ body {
 .matrix-label {
     font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
     opacity: 0.75;
     margin-top: 6px;
-    padding: 0 2px;
 }
 
-/* --- CARDS & PANELS --- */
+/* --- OPTIMIZER CARD --- */
 .tracker-card, .learn-hub {
     background-color: var(--white);
     border-radius: var(--radius);
@@ -182,7 +158,6 @@ body {
 h2 {
     font-size: 1.3rem;
     color: var(--sage-dark);
-    margin-bottom: 4px;
 }
 
 .subtitle {
@@ -191,7 +166,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* --- OPTIMIZER SLIDER & CHECKBOX CONTROLS --- */
 .optimizer-controls {
     display: flex;
     flex-direction: column;
@@ -231,12 +205,6 @@ h2 {
     border-radius: 50%;
     background: var(--sage-green);
     cursor: pointer;
-    transition: var(--transition);
-}
-
-.slider::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
-    background: var(--sage-dark);
 }
 
 .checkbox-grid {
@@ -250,7 +218,6 @@ h2 {
     align-items: center;
     gap: 10px;
     font-size: 0.85rem;
-    color: var(--charcoal);
     cursor: pointer;
 }
 
@@ -260,20 +227,16 @@ h2 {
     height: 16px;
 }
 
-/* --- CHART VISUALIZATION AREA --- */
+/* --- CHART DISPLAY --- */
 .chart-container {
     position: relative;
     height: 220px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-color: var(--sage-light);
     border-radius: 8px;
     padding: 12px;
 }
 
-/* --- LAB REPORT DIAGNOSTIC OUTPUT --- */
+/* --- LAB ANALYSIS output --- */
 .lab-report {
     margin-top: 20px;
     background-color: #F9FAF9;
@@ -292,7 +255,6 @@ h2 {
 .report-header h4 {
     font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
     color: var(--sage-dark);
 }
 
@@ -301,23 +263,95 @@ h2 {
     height: 8px;
     background-color: #E74C3C;
     border-radius: 50%;
-    display: inline-block;
 }
 
 #reportContent {
     font-size: 0.88rem;
     color: #444;
-    line-height: 1.5;
 }
 
-/* --- DATABASE FILTER BUTTONS --- */
+/* --- DYNAMIC ACTIONABLE ROUTINE BLUEPRINTS --- */
+.protocol-box {
+    margin-top: 16px;
+    background-color: var(--white);
+    border: 1px dashed rgba(138, 154, 134, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.protocol-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(138, 154, 134, 0.1);
+    padding-bottom: 8px;
+}
+
+.protocol-header h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--sage-dark);
+}
+
+.protocol-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.routine-split {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media (min-width: 480px) {
+    .routine-split {
+        flex-direction: row;
+        gap: 20px;
+    }
+    .routine-phase {
+        flex: 1;
+    }
+}
+
+.routine-phase h5 {
+    font-size: 0.85rem;
+    color: var(--charcoal);
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.routine-phase ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.routine-phase li {
+    font-size: 0.8rem;
+    color: #555;
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.routine-phase li::before {
+    content: "•";
+    color: var(--sage-green);
+    font-weight: bold;
+    position: absolute;
+    left: 2px;
+    top: 0;
+}
+
+/* --- SCIENCE HUB ARTICLES --- */
 .filter-container {
     display: flex;
     gap: 8px;
     margin-bottom: 24px;
     overflow-x: auto;
-    padding-bottom: 8px;
-    -webkit-overflow-scrolling: touch;
 }
 
 .filter-btn {
@@ -328,9 +362,7 @@ h2 {
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
-    white-space: nowrap;
     cursor: pointer;
-    transition: var(--transition);
 }
 
 .filter-btn.active {
@@ -339,7 +371,6 @@ h2 {
     border-color: var(--sage-green);
 }
 
-/* --- DYNAMIC GRID CARDS --- */
 .articles-grid {
     display: flex;
     flex-direction: column;
@@ -351,8 +382,6 @@ h2 {
     border: 1px solid rgba(138, 154, 134, 0.15);
     padding: 18px;
     border-radius: 8px;
-    position: relative;
-    transition: var(--transition);
 }
 
 .content-card h3 {
@@ -364,10 +393,8 @@ h2 {
 .content-card p {
     font-size: 0.85rem;
     color: #555;
-    margin-bottom: 12px;
 }
 
-/* Badges */
 .badge {
     display: inline-block;
     font-size: 0.7rem;
@@ -375,18 +402,10 @@ h2 {
     text-transform: uppercase;
     padding: 3px 8px;
     border-radius: 4px;
-    letter-spacing: 0.5px;
 }
 
-.badge-myth {
-    background-color: #FADBD8;
-    color: #78281F;
-}
-
-.badge-science {
-    background-color: #E8F8F5;
-    color: #117864;
-}
+.badge-myth { background-color: #FADBD8; color: #78281F; }
+.badge-science { background-color: #E8F8F5; color: #117864; }
 
 .read-more {
     font-size: 0.8rem;
