@@ -54,22 +54,22 @@ body {
     letter-spacing: -0.5px;
 }
 
-.weight-light {
-    font-weight: 300;
-}
+.weight-light { font-weight: 300; }
 
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 14px;
     list-style: none;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--sage-dark);
-    font-size: 0.9rem;
-    font-weight: 500;
-    opacity: 0.7;
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     transition: var(--transition);
 }
 
@@ -78,16 +78,14 @@ body {
     color: var(--sage-green);
 }
 
-/* --- CONTAINER & TABS --- */
+/* --- CONTAINER & BLOCKS --- */
 .app-container {
     max-width: 600px;
     margin: 0 auto;
     padding: 24px 16px;
 }
 
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
 .hero {
     text-align: center;
@@ -95,22 +93,16 @@ body {
 }
 
 .hero h1 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     font-weight: 800;
     color: var(--sage-dark);
     margin-bottom: 8px;
 }
 
-.hero .highlight {
-    color: var(--sage-green);
-}
+.hero .highlight { color: var(--sage-green); }
+.hero p { font-size: 0.9rem; color: #666; }
 
-.hero p {
-    font-size: 0.95rem;
-    color: #666;
-}
-
-/* --- IMPACT METRICS MATRIX --- */
+/* --- IMPACT METRICS --- */
 .impact-matrix {
     background-color: var(--charcoal);
     color: var(--white);
@@ -129,63 +121,44 @@ body {
     border-right: 1px solid rgba(244, 246, 243, 0.15);
 }
 
-.matrix-num {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.highlight-gold {
-    color: var(--accent-gold);
-}
-
+.matrix-num { font-size: 1.5rem; font-weight: 700; }
 .matrix-label {
+    display: block;
     font-size: 0.65rem;
     text-transform: uppercase;
     opacity: 0.75;
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
-/* --- OPTIMIZER CARD --- */
-.tracker-card, .learn-hub {
+/* --- INTERACTIVE CARDS --- */
+.tracker-card, .learn-hub, .quiz-card {
     background-color: var(--white);
     border-radius: var(--radius);
-    padding: 24px;
+    padding: 20px;
     box-shadow: 0 4px 12px rgba(74, 85, 72, 0.04);
     border: 1px solid rgba(138, 154, 134, 0.1);
     margin-bottom: 24px;
 }
 
-h2 {
-    font-size: 1.3rem;
-    color: var(--sage-dark);
-}
-
-.subtitle {
-    font-size: 0.85rem;
-    color: #777;
-    margin-bottom: 20px;
-}
+h2 { font-size: 1.25rem; color: var(--sage-dark); }
+.subtitle { font-size: 0.82rem; color: #777; margin-bottom: 16px; }
 
 .optimizer-controls {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     background-color: var(--sage-light);
-    padding: 16px;
+    padding: 14px;
     border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.control-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .control-group label {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--sage-dark);
+    display: block;
+    margin-bottom: 6px;
 }
 
 .slider {
@@ -199,7 +172,6 @@ h2 {
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -217,7 +189,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     cursor: pointer;
 }
 
@@ -227,189 +199,79 @@ h2 {
     height: 16px;
 }
 
-/* --- CHART DISPLAY --- */
+/* --- VISUAL CHART DISPLAY --- */
 .chart-container {
     position: relative;
-    height: 220px;
+    height: 200px;
     background-color: var(--sage-light);
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px;
 }
 
-/* --- LAB ANALYSIS output --- */
+/* --- LAB AND ARCHITECTURE BLOCKS --- */
 .lab-report {
-    margin-top: 20px;
+    margin-top: 16px;
     background-color: #F9FAF9;
     border-left: 4px solid var(--sage-green);
     border-radius: 4px;
-    padding: 16px;
+    padding: 14px;
 }
 
-.report-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
+.report-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.report-header h4 { font-size: 0.8rem; text-transform: uppercase; color: var(--sage-dark); }
+.pulse-dot { width: 8px; height: 8px; background-color: #E74C3C; border-radius: 50%; }
+#reportContent { font-size: 0.85rem; color: #444; }
 
-.report-header h4 {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    color: var(--sage-dark);
-}
-
-.pulse-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #E74C3C;
-    border-radius: 50%;
-}
-
-#reportContent {
-    font-size: 0.88rem;
-    color: #444;
-}
-
-/* --- DYNAMIC ACTIONABLE ROUTINE BLUEPRINTS --- */
 .protocol-box {
     margin-top: 16px;
     background-color: var(--white);
     border: 1px dashed rgba(138, 154, 134, 0.4);
     border-radius: 8px;
-    padding: 16px;
+    padding: 14px;
 }
 
-.protocol-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 14px;
-    border-bottom: 1px solid rgba(138, 154, 134, 0.1);
-    padding-bottom: 8px;
-}
+.protocol-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(138, 154, 134, 0.1); padding-bottom: 6px; }
+.protocol-header h4 { font-size: 0.8rem; text-transform: uppercase; color: var(--sage-dark); }
+.protocol-icon { width: 18px; height: 18px; }
 
-.protocol-header h4 {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--sage-dark);
-}
-
-.protocol-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.routine-split {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
+.routine-split { display: flex; flex-direction: column; gap: 14px; }
 @media (min-width: 480px) {
-    .routine-split {
-        flex-direction: row;
-        gap: 20px;
-    }
-    .routine-phase {
-        flex: 1;
-    }
+    .routine-split { flex-direction: row; gap: 16px; }
+    .routine-phase { flex: 1; }
 }
 
-.routine-phase h5 {
-    font-size: 0.85rem;
-    color: var(--charcoal);
-    font-weight: 700;
-    margin-bottom: 6px;
-}
+.routine-phase h5 { font-size: 0.82rem; color: var(--charcoal); margin-bottom: 6px; }
+.routine-phase ul { list-style: none; }
+.routine-phase li { font-size: 0.78rem; color: #555; position: relative; padding-left: 12px; margin-bottom: 4px; line-height: 1.4; }
+.routine-phase li::before { content: "•"; color: var(--sage-green); position: absolute; left: 2px; top: 0; font-weight: bold; }
 
-.routine-phase ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.routine-phase li {
-    font-size: 0.8rem;
-    color: #555;
-    position: relative;
-    padding-left: 14px;
-    margin-bottom: 6px;
-    line-height: 1.4;
-}
-
-.routine-phase li::before {
-    content: "•";
-    color: var(--sage-green);
-    font-weight: bold;
-    position: absolute;
-    left: 2px;
-    top: 0;
-}
-
-/* --- SCIENCE HUB ARTICLES --- */
-.filter-container {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    overflow-x: auto;
-}
-
-.filter-btn {
+/* --- INTERACTIVE EVALUATION SYSTEM --- */
+.quiz-question { font-size: 1rem; color: var(--sage-dark); margin-bottom: 12px; font-weight: 700; }
+.quiz-options-container { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt-btn {
     background-color: var(--sage-light);
-    color: var(--sage-dark);
     border: 1px solid rgba(138, 154, 134, 0.2);
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.filter-btn.active {
-    background-color: var(--sage-green);
-    color: var(--white);
-    border-color: var(--sage-green);
-}
-
-.articles-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.content-card {
-    background: var(--white);
-    border: 1px solid rgba(138, 154, 134, 0.15);
-    padding: 18px;
-    border-radius: 8px;
-}
-
-.content-card h3 {
-    font-size: 1.1rem;
-    color: var(--sage-dark);
-    margin: 8px 0 6px 0;
-}
-
-.content-card p {
+    padding: 12px;
+    text-align: left;
+    border-radius: 6px;
     font-size: 0.85rem;
-    color: #555;
+    cursor: pointer;
+    transition: var(--transition);
 }
+.quiz-opt-btn:hover { background-color: rgba(138, 154, 134, 0.15); border-color: var(--sage-green); }
+.result-banner { background-color: var(--sage-light); padding: 12px; border-radius: 6px; text-align: center; margin-bottom: 12px; }
+#skinTypeDescription { font-size: 0.85rem; color: #444; line-height: 1.5; }
 
-.badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
-}
-
+/* --- SCIENTIFIC KNOWLEDGE INDEX --- */
+.filter-container { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+.filter-btn { background-color: var(--sage-light); color: var(--sage-dark); border: 1px solid rgba(138, 154, 134, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.filter-btn.active { background-color: var(--sage-green); color: var(--white); border-color: var(--sage-green); }
+.articles-grid { display: flex; flex-direction: column; gap: 12px; }
+.content-card { background: var(--white); border: 1px solid rgba(138, 154, 134, 0.15); padding: 14px; border-radius: 8px; }
+.content-card h3 { font-size: 1rem; color: var(--sage-dark); margin: 6px 0 4px 0; }
+.content-card p { font-size: 0.82rem; color: #555; margin-bottom: 8px; }
+.badge { display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; }
 .badge-myth { background-color: #FADBD8; color: #78281F; }
 .badge-science { background-color: #E8F8F5; color: #117864; }
-
-.read-more {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--sage-green);
-    text-decoration: none;
-}
+.badge-class { background-color: #EAECEE; color: #5D6D7E; }
+.read-more { font-size: 0.78rem; font-weight: 600; color: var(--sage-green); text-decoration: none; display: inline-block; }
