@@ -102,7 +102,7 @@ body {
 .hero .highlight { color: var(--sage-green); }
 .hero p { font-size: 0.9rem; color: #666; }
 
-/* --- LIVE IMPACT METRICS --- */
+/* --- HONEST METRIC MATRIX --- */
 .impact-matrix {
     background-color: var(--charcoal);
     color: var(--white);
@@ -131,6 +131,10 @@ body {
     letter-spacing: 0.3px;
 }
 
+.highlight-gold {
+    color: var(--accent-gold);
+}
+
 .live-indicator-container {
     display: flex;
     align-items: center;
@@ -144,14 +148,6 @@ body {
     background-color: #2ECC71;
     border-radius: 50%;
     display: inline-block;
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
-    animation: pulse-glow 1.8s infinite;
-}
-
-@keyframes pulse-glow {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
 }
 
 /* --- INTERACTIVE CARDS --- */
@@ -232,7 +228,7 @@ h2 { font-size: 1.25rem; color: var(--sage-dark); }
     padding: 10px;
 }
 
-/* --- LAB AND ARCHITECTURE BLOCKS --- */
+/* --- LAB REPORTS & ROUTINES --- */
 .lab-report {
     margin-top: 16px;
     background-color: #F9FAF9;
@@ -269,7 +265,7 @@ h2 { font-size: 1.25rem; color: var(--sage-dark); }
 .routine-phase li { font-size: 0.78rem; color: #555; position: relative; padding-left: 12px; margin-bottom: 4px; line-height: 1.4; }
 .routine-phase li::before { content: "•"; color: var(--sage-green); position: absolute; left: 2px; top: 0; font-weight: bold; }
 
-/* --- INTERACTIVE EVALUATION SYSTEM --- */
+/* --- INTERACTIVE QUIZ SYSTEM --- */
 .quiz-question { font-size: 1rem; color: var(--sage-dark); margin-bottom: 12px; font-weight: 700; }
 .quiz-options-container { display: flex; flex-direction: column; gap: 8px; }
 .quiz-opt-btn {
