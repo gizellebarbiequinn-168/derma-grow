@@ -78,7 +78,7 @@ body {
     color: var(--sage-green);
 }
 
-/* --- CONTAINER & BLOCKS --- */
+/* --- CONTAINER LAYOUT --- */
 .app-container {
     max-width: 600px;
     margin: 0 auto;
@@ -102,7 +102,7 @@ body {
 .hero .highlight { color: var(--sage-green); }
 .hero p { font-size: 0.9rem; color: #666; }
 
-/* --- HONEST METRIC MATRIX --- */
+/* --- REALTIME METRIC DISPLAY --- */
 .impact-matrix {
     background-color: var(--charcoal);
     color: var(--white);
@@ -131,9 +131,7 @@ body {
     letter-spacing: 0.3px;
 }
 
-.highlight-gold {
-    color: var(--accent-gold);
-}
+.highlight-gold { color: var(--accent-gold); }
 
 .live-indicator-container {
     display: flex;
@@ -150,7 +148,7 @@ body {
     display: inline-block;
 }
 
-/* --- INTERACTIVE CARDS --- */
+/* --- MODULE CONTENT CARDS --- */
 .tracker-card, .learn-hub, .quiz-card {
     background-color: var(--white);
     border-radius: var(--radius);
@@ -219,7 +217,7 @@ h2 { font-size: 1.25rem; color: var(--sage-dark); }
     height: 16px;
 }
 
-/* --- VISUAL CHART DISPLAY --- */
+/* --- DATA TRACKING CANVAS --- */
 .chart-container {
     position: relative;
     height: 200px;
@@ -228,9 +226,19 @@ h2 { font-size: 1.25rem; color: var(--sage-dark); }
     padding: 10px;
 }
 
-/* --- LAB REPORTS & ROUTINES --- */
+/* --- LAB REPORTS & ACHIEVEMENT MILESTONES --- */
+.impact-summary-badge {
+    margin-top: 14px;
+    background-color: #EBF5FB;
+    border: 1px solid #AED6F1;
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+.badge-title { font-size: 0.75rem; text-transform: uppercase; font-weight: bold; color: #2E86C1; display: block; }
+#impactSummaryText { font-size: 0.85rem; color: #21618C; font-weight: 600; }
+
 .lab-report {
-    margin-top: 16px;
+    margin-top: 14px;
     background-color: #F9FAF9;
     border-left: 4px solid var(--sage-green);
     border-radius: 4px;
@@ -243,7 +251,7 @@ h2 { font-size: 1.25rem; color: var(--sage-dark); }
 #reportContent { font-size: 0.85rem; color: #444; }
 
 .protocol-box {
-    margin-top: 16px;
+    margin-top: 14px;
     background-color: var(--white);
     border: 1px dashed rgba(138, 154, 134, 0.4);
     border-radius: 8px;
@@ -265,24 +273,47 @@ h2 { font-size: 1.25rem; color: var(--sage-dark); }
 .routine-phase li { font-size: 0.78rem; color: #555; position: relative; padding-left: 12px; margin-bottom: 4px; line-height: 1.4; }
 .routine-phase li::before { content: "•"; color: var(--sage-green); position: absolute; left: 2px; top: 0; font-weight: bold; }
 
-/* --- INTERACTIVE QUIZ SYSTEM --- */
-.quiz-question { font-size: 1rem; color: var(--sage-dark); margin-bottom: 12px; font-weight: 700; }
-.quiz-options-container { display: flex; flex-direction: column; gap: 8px; }
-.quiz-opt-btn {
-    background-color: var(--sage-light);
-    border: 1px solid rgba(138, 154, 134, 0.2);
-    padding: 12px;
-    text-align: left;
+/* --- FEEDBACK MECHANIC STYLING --- */
+.feedback-container-box {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(138, 154, 134, 0.2);
+}
+.feedback-container-box h4 { font-size: 0.95rem; color: var(--sage-dark); }
+.feedback-subtitle { font-size: 0.78rem; color: #666; margin-bottom: 10px; }
+.feedback-container-box textarea {
+    width: 100%;
+    height: 70px;
     border-radius: 6px;
+    border: 1px solid rgba(138, 154, 134, 0.3);
+    padding: 8px;
     font-size: 0.85rem;
+    outline: none;
+    resize: none;
+}
+.feedback-container-box textarea:focus { border-color: var(--sage-green); }
+.submit-feedback-btn {
+    margin-top: 8px;
+    background-color: var(--sage-green);
+    color: var(--white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
 }
+.submit-feedback-btn:hover { background-color: var(--sage-dark); }
+.feedback-success { margin-top: 10px; background-color: #E8F8F5; color: #117864; font-size: 0.8rem; padding: 8px; border-radius: 4px; border: 1px solid #A3E4D7; }
+
+/* --- DIAGNOSTIC QUIZ & CLASSIFICATIONS --- */
+.quiz-question { font-size: 1rem; color: var(--sage-dark); margin-bottom: 12px; font-weight: 700; }
+.quiz-options-container { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt-btn { background-color: var(--sage-light); border: 1px solid rgba(138, 154, 134, 0.2); padding: 12px; text-align: left; border-radius: 6px; font-size: 0.85rem; cursor: pointer; transition: var(--transition); }
 .quiz-opt-btn:hover { background-color: rgba(138, 154, 134, 0.15); border-color: var(--sage-green); }
 .result-banner { background-color: var(--sage-light); padding: 12px; border-radius: 6px; text-align: center; margin-bottom: 12px; }
 #skinTypeDescription { font-size: 0.85rem; color: #444; line-height: 1.5; }
-
-/* --- SCIENTIFIC KNOWLEDGE INDEX --- */
 .filter-container { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
 .filter-btn { background-color: var(--sage-light); color: var(--sage-dark); border: 1px solid rgba(138, 154, 134, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
 .filter-btn.active { background-color: var(--sage-green); color: var(--white); border-color: var(--sage-green); }
