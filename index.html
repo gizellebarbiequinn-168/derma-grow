@@ -40,7 +40,7 @@
             <p>Distilling complex cellular biology into clear, evidence-based metrics.</p>
         </header>
 
-        <!-- HONEST LOCAL IMPACT MATRIX -->
+        <!-- HONEST LOCAL METRICS MATRIX -->
         <section id="impactMatrix" class="impact-matrix">
             <div class="matrix-grid">
                 <div class="matrix-item">
@@ -107,6 +107,12 @@
                 <canvas id="dermaChart"></canvas>
             </div>
 
+            <!-- QUANTIFIED SESSION MILESTONE -->
+            <div id="impactSummaryBox" class="impact-summary-badge">
+                <span class="badge-title">Session Impact Achievement:</span>
+                <p id="impactSummaryText">Awaiting inputs to calculate routine optimization trajectory...</p>
+            </div>
+
             <div id="labReportBox" class="lab-report">
                 <div class="report-header">
                     <span class="pulse-dot"></span>
@@ -133,6 +139,19 @@
                         <h5>🌙 Evening Regime</h5>
                         <ul id="pmRoutineList"></ul>
                     </div>
+                </div>
+            </div>
+
+            <!-- SYSTEM FEEDBACK PIPELINE -->
+            <div class="feedback-container-box">
+                <h4>Help Improve DermaGrow</h4>
+                <p class="feedback-subtitle">Spotted a logical error or want to recommend features? Submit your user logs directly.</p>
+                <form id="feedbackForm">
+                    <textarea id="feedbackText" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
+                    <button type="submit" class="submit-feedback-btn">Submit System Log</button>
+                </form>
+                <div id="feedbackSuccessMessage" class="feedback-success hidden">
+                    ✓ Log recorded successfully. Thank you for refining our scientific frameworks!
                 </div>
             </div>
         </section>
