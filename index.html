@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Derma Grow</title>
     
     <meta name="apple-mobile-web-app-title" content="Derma Grow">
@@ -17,6 +16,7 @@
 </head>
 <body>
 
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo-container">
             <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,13 +31,16 @@
         </ul>
     </nav>
 
+    <!-- Main Content Container -->
     <main class="app-container">
         
+        <!-- HERO BANNER -->
         <header id="heroSection" class="hero">
             <h1>Welcome to the Future of <span class="highlight">Skin Science</span></h1>
             <p>Distilling complex cellular biology into clear, evidence-based metrics.</p>
         </header>
 
+        <!-- IMPACT MATRIX -->
         <section id="impactMatrix" class="impact-matrix">
             <div class="matrix-grid">
                 <div class="matrix-item">
@@ -55,6 +58,7 @@
             </div>
         </section>
 
+        <!-- DASHBOARD TAB -->
         <section id="trackerCard" class="tracker-card">
             <h2>Budget-to-Barrier Optimizer</h2>
             <p class="subtitle">Input your available resources below to dynamically project your skin barrier trajectory without overspending.</p>
@@ -84,10 +88,12 @@
                 </div>
             </div>
             
-            <div class="chart-container" style="margin-top: 20px;">
+            <!-- Graph Visualization Wrapper -->
+            <div class="chart-container">
                 <canvas id="dermaChart"></canvas>
             </div>
 
+            <!-- Dynamic Scientific Lab Report -->
             <div id="labReportBox" class="lab-report">
                 <div class="report-header">
                     <span class="pulse-dot"></span>
@@ -95,8 +101,31 @@
                 </div>
                 <p id="reportContent">Adjust your budget and product checklist to initialize our data projection models...</p>
             </div>
+
+            <!-- DYNAMIC PRESCRIPTION PROTOCOL BLUEPRINT -->
+            <div id="protocolBox" class="protocol-box hidden">
+                <div class="protocol-header">
+                    <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 5H7C5.89543 5 4 5.89543 4 7V19C4 20.1046 5.89543 21 7 21H17C18.1046 21 20 20.1046 20 19V7C20 5.89543 18.1046 5 17 5H15" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 12H16M12 16H16M8 12H8.01M8 16H8.01" stroke="#4A5548" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="9" y="3" width="6" height="4" rx="1" fill="#8A9A86" stroke="#4A5548" stroke-width="1.5"/>
+                    </svg>
+                    <h4>Targeted Routine Protocol (Rp 0 Cost Overhead)</h4>
+                </div>
+                <div class="routine-split">
+                    <div class="routine-phase">
+                        <h5>☀️ Morning Regime</h5>
+                        <ul id="amRoutineList"></ul>
+                    </div>
+                    <div class="routine-phase">
+                        <h5>🌙 Evening Regime</h5>
+                        <ul id="pmRoutineList"></ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- EDUCATIONAL SCIENCE HUB TAB -->
         <section id="learnSection" class="learn-hub hidden">
             <h2>Evidence-Based Skin Science</h2>
             <p class="subtitle">Biting back against superficial trends with peer-reviewed cellular biology.</p>
@@ -108,8 +137,7 @@
                 <button class="filter-btn" data-category="anatomy">Histology</button>
             </div>
 
-            <div id="databaseGrid" class="articles-grid">
-                </div>
+            <div id="databaseGrid" class="articles-grid"></div>
         </section>
 
     </main>
