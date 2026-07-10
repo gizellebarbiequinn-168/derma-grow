@@ -102,7 +102,7 @@ body {
 .hero .highlight { color: var(--sage-green); }
 .hero p { font-size: 0.9rem; color: #666; }
 
-/* --- IMPACT METRICS --- */
+/* --- LIVE IMPACT METRICS --- */
 .impact-matrix {
     background-color: var(--charcoal);
     color: var(--white);
@@ -121,13 +121,37 @@ body {
     border-right: 1px solid rgba(244, 246, 243, 0.15);
 }
 
-.matrix-num { font-size: 1.5rem; font-weight: 700; }
+.matrix-num { font-size: 1.25rem; font-weight: 700; }
 .matrix-label {
     display: block;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
     opacity: 0.75;
     margin-top: 4px;
+    letter-spacing: 0.3px;
+}
+
+.live-indicator-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.live-pulse {
+    width: 6px;
+    height: 6px;
+    background-color: #2ECC71;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    animation: pulse-glow 1.8s infinite;
+}
+
+@keyframes pulse-glow {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
 }
 
 /* --- INTERACTIVE CARDS --- */
