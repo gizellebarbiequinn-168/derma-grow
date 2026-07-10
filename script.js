@@ -9,11 +9,6 @@ const trackerCard = document.getElementById('trackerCard');
 const quizSection = document.getElementById('quizSection');
 const learnSection = document.getElementById('learnSection');
 
-// Selective Community Hotspot Display Core
-function updateTrendingHotspot(tabName) {
-    document.getElementById('trendingHub').textContent = tabName.toUpperCase();
-}
-
 function clearActiveTabs() {
     [navDashboard, navQuiz, navLearn].forEach(el => el.classList.remove('active'));
     [trackerCard, quizSection, learnSection].forEach(el => el.classList.add('hidden'));
@@ -23,18 +18,13 @@ navDashboard.addEventListener('click', (e) => {
     e.preventDefault(); clearActiveTabs();
     navDashboard.classList.add('active');
     trackerCard.classList.remove('hidden');
-    heroSection.classList.remove('hidden');
-    impactMatrix.classList.remove('hidden');
-    updateTrendingHotspot('Optimizer');
+    calculateSkinTrajectory();
 });
 
 navQuiz.addEventListener('click', (e) => {
     e.preventDefault(); clearActiveTabs();
     navQuiz.classList.add('active');
     quizSection.classList.remove('hidden');
-    heroSection.classList.remove('hidden'); // Keep matrix up to show community presence
-    impactMatrix.classList.remove('hidden');
-    updateTrendingHotspot('Diagnostic');
     initializeQuizEngine();
 });
 
@@ -42,29 +32,33 @@ navLearn.addEventListener('click', (e) => {
     e.preventDefault(); clearActiveTabs();
     navLearn.classList.add('active');
     learnSection.classList.remove('hidden');
-    heroSection.classList.remove('hidden');
-    impactMatrix.classList.remove('hidden');
-    updateTrendingHotspot('Academy Hub');
 });
 
 
-// --- REAL-TIME LIVE COMMUNITY ANALYTICS SIMULATION ENGINE ---
-let globalTimeCounter = 1248.4;
+// --- HONEST CALCULATOR FOR USER IMPROVEMENT QUANTITIES ---
+function updateHonestLocalMetrics(state, finalScore) {
+    // 1. Session confirmation: 100% accurate statement of localized session presence
+    document.getElementById('activeUsersCount').textContent = "1 Active";
 
-function simulateLiveMetrics() {
-    // Generates subtle realistic variances in active user counters
-    const currentPeers = 140 + Math.floor(Math.sin(Date.now() / 5000) * 8) + Math.floor(Math.random() * 3);
-    document.getElementById('activeUsersCount').textContent = currentPeers;
+    // 2. Halt/Saved Items Counter: Evaluates active mitigation of unnecessary/hazardous trends
+    let unsafeHaltedCount = 0;
+    if (state.prodLemonTrend) unsafeHaltedCount++;
+    if (state.prodScrubs) unsafeHaltedCount++;
+    if (state.prodHandmeDown && !state.prodLotion) unsafeHaltedCount++;
     
-    // Accumulates total time saved smoothly in background
-    globalTimeCounter += 0.02;
-    document.getElementById('collectiveHours').textContent = `${Math.floor(globalTimeCounter)}h`;
+    document.getElementById('itemsSavedCount').textContent = unsafeHaltedCount;
+
+    // 3. Routine Delta calculation: Difference from standard unconfigured base (50%)
+    const baselineDefaultScore = 50;
+    let delta = finalScore - baselineDefaultScore;
+    
+    // Format string nicely to display real improvement adjustments
+    let deltaText = delta >= 0 ? `+${delta}%` : `${delta}%`;
+    document.getElementById('optimizationDelta').textContent = deltaText;
 }
-// Run live community interval loops every 2.5 seconds
-setInterval(simulateLiveMetrics, 2500);
 
 
-// --- EXPANDED 8-PRODUCT COMBINATORIAL OPTIMIZER ---
+// --- 8-PRODUCT COMBINATORIAL TRAJECTORY OPTIMIZER ---
 const budgetSlider = document.getElementById('budgetSlider');
 const budgetValue = document.getElementById('budgetValue');
 const reportContent = document.getElementById('reportContent');
@@ -87,20 +81,24 @@ function calculateSkinTrajectory() {
     selectors.forEach(id => { state[id] = document.getElementById(id).checked; });
 
     const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
-    let metrics = [50, 51, 52, 53, 54, 55, 56]; 
+    let metrics = [50, 50, 50, 50, 50, 50, 50]; 
+    let currentEvaluatedScore = 50; 
     let summaryText = "STATIC SYSTEM: Add core building blocks (Cleanser/Lotion) to formulate projection curves.";
     
     let amSteps = ["Rinse skin with lukewarm water."];
     let pmSteps = ["Rinse away environmental impurities."];
 
+    // High disruption triggers override normal baseline calculations
     if (state.prodLemonTrend || state.prodScrubs) {
-        metrics = [65, 42, 25, 14, 8, 5, 4];
+        metrics = [50, 38, 25, 14, 8, 5, 4];
+        currentEvaluatedScore = 4;
         summaryText = "ACUTE STRATIFICATION DISRUPTION: Botanical chemistry or abrasive friction is stripping layers completely. Halt mechanics instantly at Rp 0 cost overhead.";
         amSteps = ["ABSOLUTELY NO REMEDIES/SCRUBS.", "Wash gently with cool plain water only to soothe underlying tissues."];
         pmSteps = ["Cease physical/chemical mechanical adjustments.", "Apply a layer of basic glycerin/lotion if available; otherwise leave bare."];
     } 
     else if (state.prodHandmeDown && !state.prodLotion) {
-        metrics = [55, 45, 36, 30, 25, 20, 15];
+        metrics = [50, 44, 36, 30, 25, 20, 15];
+        currentEvaluatedScore = 15;
         summaryText = "UNBUFFERED CELLULAR ACCELERATION: High-strength actives without lipid replenishment are forcing premature desquamation. Stop active until base is established.";
         amSteps = ["Suspend usage of high-potency active formulations.", "Splash face with cool water to protect structural equilibrium."];
         pmSteps = ["Do NOT apply active serum tonight.", "Apply an accessible emollient matrix if financial boundaries expand."];
@@ -111,12 +109,15 @@ function calculateSkinTrajectory() {
         amSteps = ["Wash with water or an ultra-mild splash.", "Apply your Hydrating Base/Lotion.", "Apply Broad-Spectrum Sunscreen (Crucial protection checkpoint)."];
         pmSteps = ["Deploy Gentle Low-pH Cleanser for 45 seconds to dissolve lipophilic UV structural filters.", "Re-apply basic occlusive moisture layer within 60 seconds of drying."];
 
-        if (state.prodNiacinamide) { score = 96; summaryText += " Niacinamide addition accelerates synthesis of ceramic lipids."; pmSteps.push("Integrate 2 drops of Niacinamide before your lotion layer."); }
-        if (state.prodToner) { score = 98; amSteps.splice(1, 0, "Pat Hydrating Toner over damp skin layer."); }
-        metrics = [50, 65, 78, 86, 92, 95, score];
+        if (state.prodNiacinamide) { score += 11; summaryText += " Niacinamide addition accelerates synthesis of ceramic lipids."; pmSteps.push("Integrate 2 drops of Niacinamide before your lotion layer."); }
+        if (state.prodToner) { score += 4; amSteps.splice(1, 0, "Pat Hydrating Toner over damp skin layer."); }
+        
+        currentEvaluatedScore = score;
+        metrics = [50, 60, 70, 78, 84, 87, score];
     }
     else if (state.prodLotion && state.prodCleanser) {
-        metrics = [50, 58, 67, 74, 80, 83, 85];
+        currentEvaluatedScore = 75;
+        metrics = [50, 55, 62, 68, 72, 74, 75];
         summaryText = "SECURE MINIMALIST HYDRATION: Solid baseline established. Barrier metrics are scaling safely up, but adding an interactive UV shield will complete the loop.";
         amSteps = ["Rinse face thoroughly with clean lukewarm water.", "Apply a thin layer of Basic Body Lotion / Glycerin."];
         pmSteps = ["Cleanse face using Gentle Low-pH Cleanser.", "Apply Basic Lotion over damp surface cells to minimize transepidermal loss."];
@@ -128,6 +129,9 @@ function calculateSkinTrajectory() {
     pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
     renderVisualThresholdChart(labels, metrics);
+    
+    // Dispatch state metrics into our honest calculator display
+    updateHonestLocalMetrics(state, currentEvaluatedScore);
 }
 
 function renderVisualThresholdChart(labels, metrics) {
@@ -159,7 +163,7 @@ budgetSlider.addEventListener('input', calculateSkinTrajectory);
 selectors.forEach(id => document.getElementById(id).addEventListener('change', calculateSkinTrajectory));
 
 
-// --- STATE-DRIVEN INTERACTIVE QUIZ ENGINE ---
+// --- STATE-DRIVEN QUIZ ENGINE ---
 const quizData = [
     { q: "How does your facial surface profile feel 60 minutes after clear water rinsing?", a: [ { text: "Tight, flaky, or visibly pulling rough textures", type: "Dry" }, { text: "Slick, shiny, with noticeable lipid production uniformly", type: "Oily" }, { text: "Slick along center nose/forehead, dry or tight on outer cheeks", type: "Combination" }, { text: "Supple, comfortable, showing minimal shine or dry texturing", type: "Normal" } ] },
     { q: "How frequently does your skin show reactive flushes, heat signs, or stinging patches?", a: [ { text: "Constantly when testing topical formulations", type: "Sensitive" }, { text: "Rarely or never, regardless of changing environments", type: "Resilient" } ] }
@@ -206,7 +210,6 @@ function evaluateQuizResults() {
 
     let primaryBase = quizAnswers[0]; 
     let reactivity = quizAnswers[1];
-
     let typeStr = `${primaryBase} Skin`;
     let descStr = "";
 
@@ -225,7 +228,7 @@ function evaluateQuizResults() {
 document.getElementById('resetQuizBtn').addEventListener('click', initializeQuizEngine);
 
 
-// --- SCIENTIFIC RESOURCE INDEX WITH PEER-REVIEWED CLINICAL EXTERNAL LINKS ---
+// --- SCIENTIFIC RESOURCE DATA INDEX ---
 const scienceDatabase = [
     { id: 1, category: "myths", badge: "Myth Buster", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying pure lemon juice destroys the skin's natural acid mantle (~4.5–5.5 pH) with its extreme acidity (2.0 pH). This results in severe chemical burns, barrier disruption, and post-inflammatory hyperpigmentation.", actionText: "NCBI PubChem pH Research Data →", link: "https://pubchem.ncbi.nlm.nih.gov/" },
     { id: 2, category: "myths", badge: "Myth Buster", badgeClass: "badge-myth", title: "Physical Scrubs vs Micro-tears", description: "Abrasive raw walnut shells or large sugar crystals break down soft protective lipid matrixes, generating jagged micro-fissures in cell walls.", actionText: "Dermatology Journal Reference →", link: "https://www.ncbi.nlm.nih.gov/pmc/" },
@@ -266,4 +269,3 @@ filterBtns.forEach(btn => {
 // App Startup Initializations
 calculateSkinTrajectory();
 renderCards("all");
-simulateLiveMetrics();
