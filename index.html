@@ -16,6 +16,7 @@
 </head>
 <body>
 
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo-container">
             <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,46 +34,49 @@
 
     <main class="app-container">
         
+        <!-- HERO BANNER -->
         <header id="heroSection" class="hero">
             <h1>Welcome to the Future of <span class="highlight">Skin Science</span></h1>
             <p>Distilling complex cellular biology into clear, evidence-based metrics.</p>
         </header>
 
+        <!-- HONEST LOCAL IMPACT MATRIX -->
         <section id="impactMatrix" class="impact-matrix">
             <div class="matrix-grid">
                 <div class="matrix-item">
                     <div class="live-indicator-container">
                         <span class="live-pulse"></span>
-                        <span class="matrix-num" id="activeUsersCount">142</span>
+                        <span class="matrix-num" id="activeUsersCount">1</span>
                     </div>
-                    <span class="matrix-label">Active Peers Online</span>
+                    <span class="matrix-label">Active Session</span>
                 </div>
                 <div class="matrix-item">
-                    <span class="matrix-num" id="collectiveHours">1,248h</span>
-                    <span class="matrix-label">Total Time Saved</span>
+                    <span class="matrix-num" id="itemsSavedCount">0</span>
+                    <span class="matrix-label">Halt/Saved Items</span>
                 </div>
                 <div class="matrix-item">
-                    <span class="matrix-num highlight-gold" id="trendingHub">DASHBOARD</span>
-                    <span class="matrix-label">Trending Hotspot</span>
+                    <span class="matrix-num highlight-gold" id="optimizationDelta">+0%</span>
+                    <span class="matrix-label">Routine Delta</span>
                 </div>
             </div>
         </section>
 
+        <!-- DASHBOARD TAB -->
         <section id="trackerCard" class="tracker-card">
             <h2>Budget-to-Barrier Optimizer</h2>
             <p class="subtitle">Input your configuration parameters below to calculate your dynamic 14-day lipid trajectory.</p>
             
             <div class="optimizer-controls">
                 <div class="control-group">
-                    <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" class="highlight-gold">Rp 50,000</span></label>
-                    <input type="range" id="budgetSlider" min="0" max="300000" step="10000" value="50000" class="slider">
+                    <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" class="highlight-gold">Rp 0</span></label>
+                    <input type="range" id="budgetSlider" min="0" max="300000" step="10000" value="0" class="slider">
                 </div>
 
                 <div class="control-group">
                     <label>Current Accessible Products (8-Tier Check-Grid):</label>
                     <div class="checkbox-grid">
                         <label class="check-container">
-                            <input type="checkbox" id="prodLotion" checked> 🧴 Basic Body Lotion / Glycerin Humectant
+                            <input type="checkbox" id="prodLotion"> 🧴 Basic Body Lotion / Glycerin Humectant
                         </label>
                         <label class="check-container">
                             <input type="checkbox" id="prodCleanser"> 🧼 Gentle Low-pH Cleanser
@@ -133,6 +137,7 @@
             </div>
         </section>
 
+        <!-- DIAGNOSTIC SKIN TYPE QUIZ -->
         <section id="quizSection" class="quiz-card hidden">
             <h2>Personalized Skin Type Diagnostic</h2>
             <p class="subtitle">Determine your physical profile via sebum and hydration parameters.</p>
@@ -152,6 +157,7 @@
             </div>
         </section>
 
+        <!-- EDUCATIONAL SCIENCE HUB & INGREDIENT CLASSIFICATION -->
         <section id="learnSection" class="learn-hub hidden">
             <h2>Skincare Academy & Clinical Hub</h2>
             <p class="subtitle">Demystifying ingredient matrices and topical biology using peer-reviewed formulations.</p>
