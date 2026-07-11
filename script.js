@@ -39,7 +39,7 @@ navLearn.addEventListener('click', (e) => {
 function updateHonestLocalMetrics(state, finalScore) {
     document.getElementById('activeUsersCount').textContent = "1 Active";
 
-    // Track active product mitigations
+    // Track when users drop or avoid unnecessary/irritating products
     let unsafeHaltedCount = 0;
     if (state.prodLemonTrend) unsafeHaltedCount++;
     if (state.prodScrubs) unsafeHaltedCount++;
@@ -55,22 +55,22 @@ function updateHonestLocalMetrics(state, finalScore) {
     // --- RENDER DYNAMIC QUANTITATIVE MILESTONES ---
     const summaryLabel = document.getElementById('impactSummaryText');
     if (unsafeHaltedCount > 0) {
-        summaryLabel.textContent = `🎉 Mitigation Logged: Dropping ${unsafeHaltedCount} aggressive trends saved your protective barrier layers. Avoided roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in redundant overhead costs.`;
+        summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive or irritating trends protects your skin barrier. You also saved roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in unnecessary product costs!`;
     } else if (finalScore >= 85) {
-        summaryLabel.textContent = `🎯 Optimal Target: Core defensive loop synchronized. Your forecasted barrier cohesion parameters are scaling at maximum biological efficiency.`;
+        summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine is complete. Your estimated skin-barrier protection baseline is at its highest rating.`;
     } else {
-        summaryLabel.textContent = `💡 Structural Testing: Playground active. Interact with checkboxes above to construct secure moisture arrays or filter harmful anomalies.`;
+        summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes above to see how skipping trends or adding affordable essentials impacts your score.`;
     }
 }
 
 
-// --- ACTIVE DEVELOPER LOGGING LOOP ---
+// --- USER FEEDBACK CAPTURE ---
 document.getElementById('feedbackForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const feedbackInput = document.getElementById('feedbackText');
     
-    // Log content to demonstrate functional state capturing
-    console.log("System Data Pipeline Dispatched:", feedbackInput.value);
+    // Simple console log to show form state capture is working
+    console.log("User Feedback Received:", feedbackInput.value);
     
     feedbackInput.value = "";
     const responseAlert = document.getElementById('feedbackSuccessMessage');
@@ -82,7 +82,7 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
 });
 
 
-// --- 8-PRODUCT COMBINATORIAL TRAJECTORY ENGINE ---
+// --- RULE-BASED BARRIER PROJECTION ENGINE ---
 const budgetSlider = document.getElementById('budgetSlider');
 const budgetValue = document.getElementById('budgetValue');
 const reportContent = document.getElementById('reportContent');
@@ -107,33 +107,33 @@ function calculateSkinTrajectory() {
     const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
     let metrics = [50, 50, 50, 50, 50, 50, 50]; 
     let currentEvaluatedScore = 50; 
-    let summaryText = "STATIC SYSTEM: Add core building blocks (Cleanser/Lotion) to formulate projection curves.";
+    let summaryText = "Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see estimated trendlines.";
     
-    let amSteps = ["Rinse skin with lukewarm water."];
-    let pmSteps = ["Rinse away environmental impurities."];
+    let amSteps = ["Rinse skin with clean, lukewarm water."];
+    let pmSteps = ["Rinse away daily environmental sweat or dust."];
 
     if (state.prodLemonTrend || state.prodScrubs) {
         metrics = [50, 38, 25, 14, 8, 5, 4];
         currentEvaluatedScore = 4;
-        summaryText = "ACUTE STRATIFICATION DISRUPTION: Botanical chemistry or abrasive friction is stripping layers completely. Halt mechanics instantly at Rp 0 cost overhead.";
-        amSteps = ["ABSOLUTELY NO REMEDIES/SCRUBS.", "Wash gently with cool plain water only to soothe underlying tissues."];
-        pmSteps = ["Cease physical/chemical mechanical adjustments.", "Apply a layer of basic glycerin/lotion if available; otherwise leave bare."];
+        summaryText = "BARRIER DAMAGE ALERT: High acidity or harsh friction from physical trends strips away moisture layers. Stop using these items immediately to let your skin rest.";
+        amSteps = ["SKIP UNNECESSARY REMEDIES AND SCRUBS.", "Wash gently with cool plain water only to minimize further irritation."];
+        pmSteps = ["Stop using harsh physical brushes or kitchen ingredients.", "Apply a layer of basic moisturizer or glycerin if available; otherwise leave skin bare to rest."];
     } 
     else if (state.prodHandmeDown && !state.prodLotion) {
         metrics = [50, 44, 36, 30, 25, 20, 15];
         currentEvaluatedScore = 15;
-        summaryText = "UNBUFFERED CELLULAR ACCELERATION: High-strength actives without lipid replenishment are forcing premature desquamation. Stop active until base is established.";
-        amSteps = ["Suspend usage of high-potency active formulations.", "Splash face with cool water to protect structural equilibrium."];
-        pmSteps = ["Do NOT apply active serum tonight.", "Apply an accessible emollient matrix if financial boundaries expand."];
+        summaryText = "UNBUFFERED ACTIVE IRRITATION: Using high-strength active ingredients without a basic moisturizer can cause dryness and flaking. Pause the active ingredient until a baseline routine is built.";
+        amSteps = ["Temporarily stop using high-potency active serums.", "Splash face with cool water to avoid striping native moisture."];
+        pmSteps = ["Skip the high-strength active product tonight.", "Focus on finding a simple, low-cost hydrating lotion when your budget allows."];
     }
     else if (state.prodLotion && state.prodCleanser && state.prodSunscreen) {
         let score = 85;
-        summaryText = "OPTIMIZED HOLISTIC ARCHITECTURE: Complete defense cycle established. Cellular moisture retention and UV protection metrics are hitting peak values.";
-        amSteps = ["Wash with water or an ultra-mild splash.", "Apply your Hydrating Base/Lotion.", "Apply Broad-Spectrum Sunscreen (Crucial protection checkpoint)."];
-        pmSteps = ["Deploy Gentle Low-pH Cleanser for 45 seconds to dissolve lipophilic UV structural filters.", "Re-apply basic occlusive moisture layer within 60 seconds of drying."];
+        summaryText = "COMPLETE PROTECTIVE ROUTINE: Your foundational loop is complete. Gentle cleansing, barrier hydration, and broad-spectrum UV protection work together for maximum safety.";
+        amSteps = ["Rinse with water or an ultra-mild splash.", "Apply your basic moisturizer/lotion.", "Apply Broad-Spectrum Sunscreen (Crucial daily protection)."];
+        pmSteps = ["Use your Gentle Low-pH Cleanser for 45 seconds to break down sunscreen and daily buildup.", "Apply your basic moisturizer to damp skin within 60 seconds of drying to seal in moisture."];
 
-        if (state.prodNiacinamide) { score += 11; summaryText += " Niacinamide addition accelerates synthesis of ceramic lipids."; pmSteps.push("Integrate 2 drops of Niacinamide before your lotion layer."); }
-        if (state.prodToner) { score += 4; amSteps.splice(1, 0, "Pat Hydrating Toner over damp skin layer."); }
+        if (state.prodNiacinamide) { score += 11; summaryText += " Niacinamide can help support natural lipid production to strengthen the barrier."; pmSteps.push("Optional: Apply a couple drops of Niacinamide serum before your moisturizer."); }
+        if (state.prodToner) { score += 4; amSteps.splice(1, 0, "Optional: Pat a gentle hydrating toner over damp skin."); }
         
         currentEvaluatedScore = score;
         metrics = [50, 60, 70, 78, 84, 87, score];
@@ -141,9 +141,9 @@ function calculateSkinTrajectory() {
     else if (state.prodLotion && state.prodCleanser) {
         currentEvaluatedScore = 75;
         metrics = [50, 55, 62, 68, 72, 74, 75];
-        summaryText = "SECURE MINIMALIST HYDRATION: Solid baseline established. Barrier metrics are scaling safely up, but adding an interactive UV shield will complete the loop.";
-        amSteps = ["Rinse face thoroughly with clean lukewarm water.", "Apply a thin layer of Basic Body Lotion / Glycerin."];
-        pmSteps = ["Cleanse face using Gentle Low-pH Cleanser.", "Apply Basic Lotion over damp surface cells to minimize transepidermal loss."];
+        summaryText = "ESSENTIAL MINIMALIST HYDRATION: Excellent low-cost baseline. Your barrier health is projected to steadily improve. Adding an affordable sunscreen will complete the loop.";
+        amSteps = ["Rinse face thoroughly with clean, lukewarm water.", "Apply a thin layer of basic moisturizer / glycerin."];
+        pmSteps = ["Cleanse face using your Gentle Low-pH Cleanser.", "Apply basic moisturizer over damp skin to minimize transepidermal water loss."];
     }
 
     reportContent.textContent = summaryText;
@@ -163,7 +163,7 @@ function renderVisualThresholdChart(labels, metrics) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Barrier Integrity Metric (%)',
+                label: 'Heuristic Barrier Projection (%)',
                 data: metrics,
                 borderColor: '#4A5548',
                 borderWidth: 3,
@@ -184,10 +184,10 @@ budgetSlider.addEventListener('input', calculateSkinTrajectory);
 selectors.forEach(id => document.getElementById(id).addEventListener('change', calculateSkinTrajectory));
 
 
-// --- IN-APP EVALUATION DIAGNOSTIC ---
+// --- IN-APP SKIN ASSESSMENT QUIZ ---
 const quizData = [
-    { q: "How does your facial surface profile feel 60 minutes after clear water rinsing?", a: [ { text: "Tight, flaky, or visibly pulling rough textures", type: "Dry" }, { text: "Slick, shiny, with noticeable lipid production uniformly", type: "Oily" }, { text: "Slick along center nose/forehead, dry or tight on outer cheeks", type: "Combination" }, { text: "Supple, comfortable, showing minimal shine or dry texturing", type: "Normal" } ] },
-    { q: "How frequently does your skin show reactive flushes, heat signs, or stinging patches?", a: [ { text: "Constantly when testing topical formulations", type: "Sensitive" }, { text: "Rarely or never, regardless of changing environments", type: "Resilient" } ] }
+    { q: "How does your skin feel about an hour after washing it with just plain water?", a: [ { text: "Tight, flaky, or visibly rough in some areas", type: "Dry" }, { text: "Slick, shiny, or greasy all over", type: "Oily" }, { text: "Oily down the center (forehead/nose), but tight or dry on the cheeks", type: "Combination" }, { text: "Comfortable, smooth, and neither too shiny nor dry", type: "Normal" } ] },
+    { q: "How often does your skin experience burning, redness, or stinging from basic products?", a: [ { text: "Frequently, especially when trying out new things", type: "Sensitive" }, { text: "Rarely or never, regardless of changing environments", type: "Resilient" } ] }
 ];
 
 let quizAnswers = [];
@@ -235,12 +235,12 @@ function evaluateQuizResults() {
     let descStr = "";
 
     if (reactivity === "Sensitive") {
-        typeStr = `Sensitive & ${primaryBase} Dynamic Profile`;
-        descStr = "Your epidermal structure features highly reactive nerve endings or micro-gaps in cell cohesion. Avoid complex multi-step chemical matrices, physical scrubs, and strong acids. Focus strictly on lipid replenishment.";
+        typeStr = `Sensitive & ${primaryBase} Profile`;
+        descStr = "Your skin profile indicates a highly reactive barrier. Avoid complicated multi-step routines, rough facial scrubs, and high-percentage harsh active acids. Focus on keeping your routine gentle, protective, and minimal.";
     } else {
-        if (primaryBase === "Oily") descStr = "Your sebaceous glands exhibit high structural activity. Prioritize lightweight formulations like humectant gels over heavy occlusive single-ingredient petrolatums.";
-        else if (primaryBase === "Dry") descStr = "Your skin displays an underlying deficiency in native lipid production. Prioritize rich occlusive moisturizers to seal in hydration.";
-        else descStr = "Your skin maintains an excellent, balanced structural matrix. Protect this state using minimal cleansers and an essential UV broad-spectrum shield.";
+        if (primaryBase === "Oily") descStr = "Your skin has active oil production. Prioritize lightweight formulas, like simple hydrating gels, over heavy or thick pore-clogging balms.";
+        else if (primaryBase === "Dry") descStr = "Your skin naturally produces fewer moisturizing lipids. Prioritize rich, nourishing moisturizers to seal in hydration and prevent water loss.";
+        else descStr = "Your skin profile is well-balanced. Protect this baseline by using a mild cleanser, a basic moisturizer, and a daily sunscreen shield.";
     }
 
     document.getElementById('skinTypeTitle').textContent = typeStr.toUpperCase();
@@ -249,16 +249,16 @@ function evaluateQuizResults() {
 document.getElementById('resetQuizBtn').addEventListener('click', initializeQuizEngine);
 
 
-// --- CLINICAL INGREDIENT LIBRARIES ---
+// --- PEER-REVIEWED RESEARCH INDEX ---
 const scienceDatabase = [
-    { id: 1, category: "myths", badge: "Myth Buster", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying pure lemon juice destroys the skin's natural acid mantle (~4.5–5.5 pH) with its extreme acidity (2.0 pH). This results in severe chemical burns, barrier disruption, and post-inflammatory hyperpigmentation.", actionText: "NCBI PubChem pH Research Data →", link: "https://pubchem.ncbi.nlm.nih.gov/" },
-    { id: 2, category: "myths", badge: "Myth Buster", badgeClass: "badge-myth", title: "Physical Scrubs vs Micro-tears", description: "Abrasive raw walnut shells or large sugar crystals break down soft protective lipid matrixes, generating jagged micro-fissures in cell walls.", actionText: "Dermatology Journal Reference →", link: "https://www.ncbi.nlm.nih.gov/pmc/" },
-    { id: 3, category: "classification", badge: "Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Understanding syndet bars and amphoteric surfactants. Keeping products matching structural pH limits stabilizes natural enzyme balances during washing intervals.", actionText: "Cosmetic Chemistry Formulation Basics →", link: "https://www.sciencedirect.com/" },
-    { id: 4, category: "classification", badge: "Category", badgeClass: "badge-class", title: "Moisturizers: Occlusives vs Humectants", description: "Humectants bind ambient moisture down into cells, while heavy occlusives form an impenetrable biological shield to arrest Trans-Epidermal Water Loss (TEWL).", actionText: "Harvard Health Science Index →", link: "https://www.health.harvard.edu/" },
-    { id: 5, category: "actives", badge: "Biochemical Active", badgeClass: "badge-science", title: "L-Ascorbic Acid (Vitamin C)", description: "A potent antioxidant that neutralizes reactive oxygen species (ROS) induced by UV radiation. It acts as an essential cofactor for lysyl hydroxylase, directly stimulating intracellular collagen synthesis.", actionText: "Clinical Biochemical Efficacy Sheet →", link: "https://www.cochrane.org/" },
-    { id: 6, category: "actives", badge: "Biochemical Active", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Precursor to NAD+/NADH coenzymes. Clinically proven to upregulate epidermal sphingolipid synthesis, strengthening the moisture barrier while downregulating melanosome transfer from melanocytes to keratinocytes.", actionText: "PubMed Actives Library →", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-    { id: 7, category: "anatomy", badge: "Skin Anatomy", badgeClass: "badge-science", title: "The Epidermal Barrier Structure", description: "Analysis of the stratum corneum's 'brick and mortar' framework. Corneocytes (bricks) and extracellular lipids (mortar) work in tandem to minimize trans-epidermal water loss (TEWL) and shield against micro-pathogens.", actionText: "Journal of Investigative Dermatology →", link: "https://www.jidonline.org/" },
-    { id: 8, category: "anatomy", badge: "Skin Anatomy", badgeClass: "badge-science", title: "The Acid Mantle & Sebum Composition", description: "Detailed look at how triglycerides, free fatty acids, and squalene create the structural surface layer that acts as the first line of cutaneous defense.", actionText: "Dermatological Anatomy Textbook →", link: "https://www.wiley.com/" }
+    { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying pure lemon juice strips the skin's natural acidic mantle (~4.5–5.5 pH) due to its high acidity (~2.0 pH). This can cause chemical irritation, barrier damage, and increased sensitivity to dark spots.", actionText: "View pH Scale Chemistry Data →", link: "https://pubchem.ncbi.nlm.nih.gov/" },
+    { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Surface Friction", description: "Abrasives like crushed walnut shells or coarse sugar crystals can disrupt soft, protective outer lipid layers, creating micro-fissures in the barrier surface.", actionText: "Read Barrier Disruption Lit →", link: "https://www.ncbi.nlm.nih.gov/pmc/" },
+    { id: 3, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Understanding the difference between soap bars and mild surfactants. Using washing agents that respect natural skin pH levels preserves essential cellular proteins during cleansing.", actionText: "Cleansing Agent Formulation Basics →", link: "https://www.sciencedirect.com/" },
+    { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Occlusives vs. Humectants", description: "Humectants bind moisture to surface cells, while protective occlusives create a surface shield that prevents Transepidermal Water Loss (TEWL).", actionText: "Harvard Health Skin Guide →", link: "https://www.health.harvard.edu/" },
+    { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "L-Ascorbic Acid (Vitamin C)", description: "A classic antioxidant studied for its ability to neutralize environmental free radicals caused by daily UV exposure while supporting structural proteins.", actionText: "Read Ingredient Efficacy Data →", link: "https://www.cochrane.org/" },
+    { id: 6, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "A widely researched vitamin shown to help support the synthesis of protective natural lipids, reducing overall moisture loss and evening out skin appearance.", actionText: "View Niacinamide Studies →", link: "https://pubmed.ncbi.nlm.nih.gov/" },
+    { id: 7, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An overview of the stratum corneum's 'brick and mortar' framework. Surface cells act as bricks, and natural lipids act as mortar to manage water loss (TEWL) and protect against particles.", actionText: "Skin Biology Literature Index →", link: "https://www.jidonline.org/" },
+    { id: 8, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Protective Acid Mantle", description: "A look at how skin lipids, fatty acids, and sweat combine on the surface to create a natural, slightly acidic shield that functions as a first line of defense.", actionText: "Skin Shield Anatomy Basics →", link: "https://www.wiley.com/" }
 ];
 
 const databaseGrid = document.getElementById('databaseGrid');
