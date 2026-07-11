@@ -136,4 +136,72 @@
                 </div>
             </div>
 
-            
+            <div class="right-panel">
+                <div class="content-card">
+                    <h2>Heuristic Barrier Projection</h2>
+                    <p class="text-muted">Tracking values over a simulated two-week cycle.</p>
+                    <div class="chart-container">
+                        <canvas id="dermaChart"></canvas>
+                    </div>
+                    <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
+                        💡 Routine Builder Active. Interact with the checkboxes above to see updates.
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h2>Help Improve Derma Grow</h2>
+                    <p class="text-muted">Spotted a bug or have recommendations? Send us text feedback directly.</p>
+                    <form id="feedbackForm">
+                        <div class="input-group">
+                            <textarea id="feedbackText" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Submit Feedback Note</button>
+                    </form>
+                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
+                        ✓ Feedback logged successfully. Thank you for helping refine the app!
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <section id="quizSection" class="view-section quiz-container hidden">
+            <div class="content-card">
+                <h2>Skin Profile Assessment</h2>
+                <p class="text-muted">Estimate your skin type based on underlying sebum patterns and reactivity traits.</p>
+                
+                <div id="questionBox">
+                    <p id="questionText" class="question-text">Loading profile questions...</p>
+                    <div id="answerOptions" class="answer-options-stack"></div>
+                </div>
+
+                <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
+                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL PROFILE</h3>
+                    <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
+                    <button id="resetQuizBtn" class="btn-primary" style="margin-top: 1rem;">Retake Skin Assessment</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="learnSection" class="view-section hidden">
+            <div class="content-card" style="margin-bottom: 1.5rem;">
+                <h2>Skincare Academy & Research Hub</h2>
+                <p class="text-muted">Evaluating common internet trends and topical ingredients using peer-reviewed dermatological concepts.</p>
+                
+                <div class="database-filter-bar">
+                    <button class="filter-btn active" data-category="all">All Resources</button>
+                    <button class="filter-btn" data-category="myths">Trend Debunkers</button>
+                    <button class="filter-btn" data-category="classification">Product Categories</button>
+                    <button class="filter-btn" data-category="actives">Skincare Ingredients</button>
+                    <button class="filter-btn" data-category="anatomy">Skin Biology</button>
+                </div>
+            </div>
+
+            <div id="databaseGrid" class="database-cards-grid"></div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
