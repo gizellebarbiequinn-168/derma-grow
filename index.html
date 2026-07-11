@@ -3,196 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derma Grow</title>
-    
-    <meta name="apple-mobile-web-app-title" content="Derma Grow">
-    <meta name="application-name" content="Derma Grow">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'><path d='M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z' stroke='%238A9A86' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5' stroke='%23D4AF37' stroke-width='1.5' stroke-linecap='round'/></svg>">
-    <link class="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F4F6F3'><path d='M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z' stroke='%238A9A86' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><path d='M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5' stroke='%23D4AF37' stroke-width='1.5' stroke-linecap='round'/></svg>">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Derma Grow — Evidence-Based Budget Skincare</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="logo-container">
-            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="#8A9A86" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span class="logo-text">Derma <span class="weight-light">Grow</span></span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#" class="active" id="navDashboard">Dashboard</a></li>
-            <li><a href="#" id="navQuiz">Skin Type Quiz</a></li>
-            <li><a href="#" id="navLearn">Science Hub</a></li>
-        </ul>
-    </nav>
-
-    <main class="app-container">
+    <div class="app-container">
         
-        <!-- HERO BANNER -->
-        <header id="heroSection" class="hero">
-            <h1>Smart Skincare on a <span class="highlight">Strict Budget</span></h1>
-            <p>Build an evidence-based routine around the essentials and protect your skin from viral trends.</p>
+        <header class="app-header">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                    <circle cx="50" cy="25" r="20" stroke="#c49a45" stroke-width="8" stroke-dasharray="30 10"/>
+                    <path d="M20 55C20 40 35 35 50 35C65 35 80 40 80 55C80 75 50 85 50 85C50 85 20 75 20 55Z" fill="#4a5548"/>
+                    <path d="M50 35V85" stroke="#fcfbfa" stroke-width="6"/>
+                </svg>
+                <span class="brand-heading">Derma Grow</span>
+            </div>
+            <nav class="app-nav">
+                <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
+                <a href="#" id="navQuiz" class="nav-link">Diagnostic Quiz</a>
+                <a href="#" id="navLearn" class="nav-link">Science Hub</a>
+            </nav>
         </header>
 
-        <!-- HONEST LOCAL METRICS MATRIX -->
-        <section id="impactMatrix" class="impact-matrix">
-            <div class="matrix-grid">
-                <div class="matrix-item">
-                    <div class="live-indicator-container">
-                        <span class="live-pulse"></span>
-                        <span class="matrix-num" id="activeUsersCount">1</span>
-                    </div>
-                    <span class="matrix-label">Active Session</span>
-                </div>
-                <div class="matrix-item">
-                    <span class="matrix-num" id="itemsSavedCount">0</span>
-                    <span class="matrix-label">Saved Items</span>
-                </div>
-                <div class="matrix-item">
-                    <span class="matrix-num highlight-gold" id="optimizationDelta">+0%</span>
-                    <span class="matrix-label">Routine Score</span>
-                </div>
-            </div>
+        <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2.5rem;">
+            <h1 style="color: var(--brand-primary); font-size: 2rem; margin-bottom: 0.5rem; font-weight: 700;">
+                Smart Skincare on a Strict Budget
+            </h1>
+            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+                Build an evidence-based routine around the essentials, skip expensive viral marketing trends, and safely track your barrier trajectory.
+            </p>
         </section>
 
-        <!-- DASHBOARD TAB -->
-        <section id="trackerCard" class="tracker-card">
-            <h2>Budget Routine Builder</h2>
-            <p class="subtitle">Select your budget and available products to see a rule-based projection of your skin barrier health over 14 days.</p>
+        <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); color: #ffffff; padding: 1.5rem; margin-bottom: 2rem;">
+            <div class="metrics-row" style="margin: 0;">
+                <div class="metric-stat-box" style="background: rgba(255,255,255,0.06); border: none;">
+                    <span id="activeUsersCount" class="metric-number" style="color: #ffffff;">1 Active</span>
+                    <span class="metric-label" style="color: rgba(255,255,255,0.7);">Active Session</span>
+                </div>
+                <div class="metric-stat-box" style="background: rgba(255,255,255,0.06); border: none;">
+                    <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">0</span>
+                    <span class="metric-label" style="color: rgba(255,255,255,0.7);">Halt/Saved Items</span>
+                </div>
+                <div class="metric-stat-box" style="background: rgba(255,255,255,0.06); border: none;">
+                    <span id="optimizationDelta" class="metric-number" style="color: var(--brand-accent);">+0%</span>
+                    <span class="metric-label" style="color: rgba(255,255,255,0.7);">Routine Delta</span>
+                </div>
+            </div>
+        </div>
+
+        <main id="trackerCard" class="view-section dashboard-grid">
             
-            <div class="optimizer-controls">
-                <div class="control-group">
-                    <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" class="highlight-gold">Rp 0</span></label>
-                    <input type="range" id="budgetSlider" min="0" max="300000" step="10000" value="0" class="slider">
-                </div>
+            <div class="left-panel">
+                <div class="content-card">
+                    <h2>Budget-to-Barrier Optimizer</h2>
+                    <p class="text-muted">Adjust configuration elements to calculate your predicted 14-day lipid routine trajectory.</p>
+                    
+                    <div class="input-group">
+                        <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
+                        <input type="range" id="budgetSlider" class="range-slider" min="0" max="500000" step="10000" value="0">
+                    </div>
 
-                <div class="control-group">
-                    <label>Current Available Products:</label>
-                    <div class="checkbox-grid">
-                        <label class="check-container">
-                            <input type="checkbox" id="prodLotion"> 🧴 Basic Body Lotion / Glycerin Humectant
+                    <label style="margin-top: 1.5rem;">Current Accessible Products (8-Tier Check-Grid):</label>
+                    <div class="selection-matrix-grid">
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodLotion">
+                            <div class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin
+                                <span class="checkbox-subtext">Protects surface cells from drying out</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodCleanser"> 🧼 Gentle Low-pH Cleanser
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodCleanser">
+                            <div class="checkbox-label-text">🧼 Gentle Low-pH Cleanser
+                                <span class="checkbox-subtext">Washes away grime without stripping lipids</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodSunscreen"> ☀️ Broad-Spectrum Sunscreen (UV Shielding)
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodSunscreen">
+                            <div class="checkbox-label-text">☀️ Broad-Spectrum Sunscreen
+                                <span class="checkbox-subtext">Crucial daily protective UV shield</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodToner"> 💧 Gentle Hydrating Toner (Beta-Glucan / Hyaluronic)
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodToner">
+                            <div class="checkbox-label-text">💧 Gentle Hydrating Toner
+                                <span class="checkbox-subtext">Adds extra surface-level hydration</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodNiacinamide"> 🧪 Niacinamide Serum (Barrier Fortification)
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodNiacinamide">
+                            <div class="checkbox-label-text">🧪 Niacinamide Serum
+                                <span class="checkbox-subtext">Supports barrier recovery metrics</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodHandmeDown"> ⚡ Gifted / High-Potency Active (Retinol / Pure Acid)
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodHandmeDown">
+                            <div class="checkbox-label-text">⚡ High-Potency Active Serums
+                                <span class="checkbox-subtext">Retinols or strong unbuffered acids</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodLemonTrend"> 🍋 DIY Remedies (Raw Lemon / Acidic Stills)
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodLemonTrend">
+                            <div class="checkbox-label-text">🍋 DIY Lemon Juice Remedies
+                                <span class="checkbox-subtext">Extreme acidic threat to natural skin pH</span>
+                            </div>
                         </label>
-                        <label class="check-container">
-                            <input type="checkbox" id="prodScrubs"> 🧽 High-Friction Physical Scrubs / Harsh Brushes
+                        <label class="checkbox-card">
+                            <input type="checkbox" id="prodScrubs">
+                            <div class="checkbox-label-text">🧽 Coarse Physical Face Scrubs
+                                <span class="checkbox-subtext">Abrasive mechanical barrier friction</span>
+                            </div>
                         </label>
                     </div>
                 </div>
-            </div>
-            
-            <div class="chart-container">
-                <canvas id="dermaChart"></canvas>
-            </div>
 
-            <!-- QUANTIFIED SESSION MILESTONE -->
-            <div id="impactSummaryBox" class="impact-summary-badge">
-                <span class="badge-title">Routine Impact Summary:</span>
-                <p id="impactSummaryText">Select your products above to evaluate your routine cost and estimated barrier trendlines...</p>
-            </div>
-
-            <div id="labReportBox" class="lab-report">
-                <div class="report-header">
-                    <span class="pulse-dot"></span>
-                    <h4>Estimated Skin Barrier Analysis</h4>
-                </div>
-                <p id="reportContent">Select products to calculate an estimated baseline comparison model derived from dermatological literature...</p>
-            </div>
-
-            <div id="protocolBox" class="protocol-box hidden">
-                <div class="protocol-header">
-                    <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 5H7C5.89543 5 4 5.89543 4 7V19C4 20.1046 5.89543 21 7 21H17C18.1046 21 20 20.1046 20 19V7C20 5.89543 18.1046 5 17 5H15" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M12 12H16M12 16H16M8 12H8.01M8 16H8.01" stroke="#4A5548" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <rect x="9" y="3" width="6" height="4" rx="1" fill="#8A9A86" stroke="#4A5548" stroke-width="1.5"/>
-                    </svg>
-                    <h4>Your Free Essential Routine</h4>
-                </div>
-                <div class="routine-split">
-                    <div class="routine-phase">
-                        <h5>☀️ Morning Regime</h5>
-                        <ul id="amRoutineList"></ul>
+                <div id="protocolBox" class="content-card hidden">
+                    <h3>Personalized Barrier Analysis</h3>
+                    <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
+                        STATIC SYSTEM: Add core building blocks (Cleanser/Lotion) to formulate projection curves.
                     </div>
-                    <div class="routine-phase">
-                        <h5>🌙 Evening Regime</h5>
-                        <ul id="pmRoutineList"></ul>
+                    
+                    <h3 style="margin-top: 1.5rem;">Target Routine Protocol</h3>
+                    <div class="routine-split-panel">
+                        <div class="routine-block">
+                            <h4>☀️ Morning Regime</h4>
+                            <ul id="amRoutineList" class="routine-list"></ul>
+                        </div>
+                        <div class="routine-block">
+                            <h4>🌙 Evening Regime</h4>
+                            <ul id="pmRoutineList" class="routine-list"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SYSTEM FEEDBACK PIPELINE -->
-            <div class="feedback-container-box">
-                <h4>Help Improve Derma Grow</h4>
-                <p class="feedback-subtitle">Spotted a bug or have a feature recommendation? Submit your feedback below to help improve the tool.</p>
-                <form id="feedbackForm">
-                    <textarea id="feedbackText" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
-                    <button type="submit" class="submit-feedback-btn">Submit Feedback Note</button>
-                </form>
-                <div id="feedbackSuccessMessage" class="feedback-success hidden">
-                    ✓ Feedback logged successfully. Thank you for helping refine the app!
+            <div class="right-panel">
+                <div class="content-card">
+                    <h2>Visual Barrier Projection</h2>
+                    <p class="text-muted">Heuristic tracking over a simulated two-week cycle.</p>
+                    <div class="chart-container">
+                        <canvas id="dermaChart"></canvas>
+                    </div>
+                    <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
+                        💡 Structural Testing: Playground active. Interact with checkboxes above to construct secure moisture arrays or filter harmful anomalies.
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h2>Help Improve DermaGrow</h2>
+                    <p class="text-muted">Spotted a bug or have recommendations? Send us anonymous text feedback directly.</p>
+                    <form id="feedbackForm">
+                        <div class="input-group">
+                            <textarea id="feedbackText" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Submit Feedback</button>
+                    </form>
+                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
+                        ✓ Feedback captured successfully in system data stream!
+                    </div>
                 </div>
             </div>
-        </section>
+        </main>
 
-        <!-- SKIN TYPE QUIZ -->
-        <section id="quizSection" class="quiz-card hidden">
-            <h2>Skin Profile Assessment</h2>
-            <p class="subtitle">Estimate your skin type based on underlying sebum patterns and reactivity traits.</p>
-            <div id="quizInterface">
+        <section id="quizSection" class="view-section quiz-container hidden">
+            <div class="content-card">
+                <h2>Skin Type Diagnostic</h2>
+                <p class="text-muted">Determine your underlying barrier baseline via simplified physical indicators.</p>
+                
                 <div id="questionBox">
-                    <h3 id="questionText" class="quiz-question">Loading profile questions...</h3>
-                    <div id="answerOptions" class="quiz-options-container"></div>
+                    <p id="questionText" class="question-text">Loading diagnostics...</p>
+                    <div id="answerOptions" class="answer-options-stack"></div>
                 </div>
-                <div id="quizResultBox" class="hidden">
-                    <div class="result-banner">
-                        <h4>Your Estimated Skin Profile:</h4>
-                        <h3 id="skinTypeTitle" class="highlight-gold">Unknown Profile</h3>
-                    </div>
-                    <p id="skinTypeDescription"></p>
-                    <button id="resetQuizBtn" class="filter-btn active" style="margin-top:14px; width:100%;">Retake Skin Assessment</button>
+
+                <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
+                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL PROFILE</h3>
+                    <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
+                    <button id="resetQuizBtn" class="btn-primary" style="margin-top: 1rem;">Retake Assessment</button>
                 </div>
             </div>
         </section>
 
-        <!-- EDUCATIONAL SCIENCE HUB -->
-        <section id="learnSection" class="learn-hub hidden">
-            <h2>Skincare Academy & Research Hub</h2>
-            <p class="subtitle">Evaluating common internet trends and topical ingredients using peer-reviewed dermatological concepts.</p>
-            
-            <div class="filter-container">
-                <button class="filter-btn active" data-category="all">All Resources</button>
-                <button class="filter-btn" data-category="myths">Trend Debunkers</button>
-                <button class="filter-btn" data-category="classification">Product Categories</button>
-                <button class="filter-btn" data-category="actives">Skincare Ingredients</button>
-                <button class="filter-btn" data-category="anatomy">Skin Biology</button>
+        <section id="learnSection" class="view-section hidden">
+            <div class="content-card" style="margin-bottom: 2rem;">
+                <h2>Skincare Academy & Clinical Hub</h2>
+                <p class="text-muted">Demystifying ingredient metrics and basic skin biology using open-source, peer-reviewed indices.</p>
+                
+                <div class="database-filter-bar">
+                    <button class="filter-btn active" data-category="all">All Resources</button>
+                    <button class="filter-btn" data-category="myths">Trend Debunkers</button>
+                    <button class="filter-btn" data-category="classification">Product Formulations</button>
+                    <button class="filter-btn" data-category="actives">Biochemical Actives</button>
+                    <button class="filter-btn" data-category="anatomy">Skin Biology</button>
+                </div>
             </div>
 
-            <div id="databaseGrid" class="articles-grid"></div>
+            <div id="databaseGrid" class="database-cards-grid"></div>
         </section>
 
-    </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
