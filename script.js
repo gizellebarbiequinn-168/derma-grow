@@ -71,17 +71,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- USER FEEDBACK CAPTURE ---
+    // --- PRIVACY-SHIELDED USER FEEDBACK PIPELINE ---
     const feedbackForm = document.getElementById('feedbackForm');
     if (feedbackForm) {
         feedbackForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('feedbackText').value = "";
+            e.preventDefault(); // Prevents page reload redirects
+            
+            const data = new FormData(e.target);
             const responseAlert = document.getElementById('feedbackSuccessMessage');
-            if (responseAlert) {
-                responseAlert.classList.remove('hidden');
-                setTimeout(() => responseAlert.classList.add('hidden'), 4000);
-            }
+            const feedbackTextarea = document.getElementById('feedbackText');
+
+            // Send payload silently to Formspree backend
+            fetch(feedbackForm.action, {
+                method: feedbackForm.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    if (feedbackTextarea) feedbackTextarea.value = ""; // Reset textarea text field
+                    
+                    if (responseAlert) {
+                        responseAlert.classList.remove('hidden');
+                        setTimeout(() => responseAlert.classList.add('hidden'), 4000);
+                    }
+                } else {
+                    alert("Oops! There was a problem submitting your form. Please try again.");
+                }
+            }).catch(error => {
+                alert("Oops! There was a network problem submitting your form.");
+            });
         });
     }
 
