@@ -23,12 +23,12 @@
                 <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="#8A9A86" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
-            <span class="logo-text">Derma<span class="weight-light">Grow</span></span>
+            <span class="logo-text">Derma <span class="weight-light">Grow</span></span>
         </div>
         <ul class="nav-links">
             <li><a href="#" class="active" id="navDashboard">Dashboard</a></li>
-            <li><a href="#" id="navQuiz">Diagnostic Quiz</a></li>
-            <li><a href="#" id="navLearn">Learn</a></li>
+            <li><a href="#" id="navQuiz">Skin Type Quiz</a></li>
+            <li><a href="#" id="navLearn">Science Hub</a></li>
         </ul>
     </nav>
 
@@ -36,8 +36,8 @@
         
         <!-- HERO BANNER -->
         <header id="heroSection" class="hero">
-            <h1>Welcome to the Future of <span class="highlight">Skin Science</span></h1>
-            <p>Distilling complex cellular biology into clear, evidence-based metrics.</p>
+            <h1>Smart Skincare on a <span class="highlight">Strict Budget</span></h1>
+            <p>Build an evidence-based routine around the essentials and protect your skin from viral trends.</p>
         </header>
 
         <!-- HONEST LOCAL METRICS MATRIX -->
@@ -52,19 +52,19 @@
                 </div>
                 <div class="matrix-item">
                     <span class="matrix-num" id="itemsSavedCount">0</span>
-                    <span class="matrix-label">Halt/Saved Items</span>
+                    <span class="matrix-label">Saved Items</span>
                 </div>
                 <div class="matrix-item">
                     <span class="matrix-num highlight-gold" id="optimizationDelta">+0%</span>
-                    <span class="matrix-label">Routine Delta</span>
+                    <span class="matrix-label">Routine Score</span>
                 </div>
             </div>
         </section>
 
         <!-- DASHBOARD TAB -->
         <section id="trackerCard" class="tracker-card">
-            <h2>Budget-to-Barrier Optimizer</h2>
-            <p class="subtitle">Input your configuration parameters below to calculate your dynamic 14-day lipid trajectory.</p>
+            <h2>Budget Routine Builder</h2>
+            <p class="subtitle">Select your budget and available products to see a rule-based projection of your skin barrier health over 14 days.</p>
             
             <div class="optimizer-controls">
                 <div class="control-group">
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Current Accessible Products (8-Tier Check-Grid):</label>
+                    <label>Current Available Products:</label>
                     <div class="checkbox-grid">
                         <label class="check-container">
                             <input type="checkbox" id="prodLotion"> 🧴 Basic Body Lotion / Glycerin Humectant
@@ -109,16 +109,16 @@
 
             <!-- QUANTIFIED SESSION MILESTONE -->
             <div id="impactSummaryBox" class="impact-summary-badge">
-                <span class="badge-title">Session Impact Achievement:</span>
-                <p id="impactSummaryText">Awaiting inputs to calculate routine optimization trajectory...</p>
+                <span class="badge-title">Routine Impact Summary:</span>
+                <p id="impactSummaryText">Select your products above to evaluate your routine cost and estimated barrier trendlines...</p>
             </div>
 
             <div id="labReportBox" class="lab-report">
                 <div class="report-header">
                     <span class="pulse-dot"></span>
-                    <h4>Personalized Barrier Efficiency Analysis</h4>
+                    <h4>Estimated Skin Barrier Analysis</h4>
                 </div>
-                <p id="reportContent">Select configuration parameters to deploy structural forecasting models...</p>
+                <p id="reportContent">Select products to calculate an estimated baseline comparison model derived from dermatological literature...</p>
             </div>
 
             <div id="protocolBox" class="protocol-box hidden">
@@ -128,7 +128,7 @@
                         <path d="M12 12H16M12 16H16M8 12H8.01M8 16H8.01" stroke="#4A5548" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="9" y="3" width="6" height="4" rx="1" fill="#8A9A86" stroke="#4A5548" stroke-width="1.5"/>
                     </svg>
-                    <h4>Targeted Routine Protocol (Rp 0 Cost Overhead)</h4>
+                    <h4>Your Free Essential Routine</h4>
                 </div>
                 <div class="routine-split">
                     <div class="routine-phase">
@@ -144,49 +144,49 @@
 
             <!-- SYSTEM FEEDBACK PIPELINE -->
             <div class="feedback-container-box">
-                <h4>Help Improve DermaGrow</h4>
-                <p class="feedback-subtitle">Spotted a logical error or want to recommend features? Submit your user logs directly.</p>
+                <h4>Help Improve Derma Grow</h4>
+                <p class="feedback-subtitle">Spotted a bug or have a feature recommendation? Submit your feedback below to help improve the tool.</p>
                 <form id="feedbackForm">
                     <textarea id="feedbackText" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
-                    <button type="submit" class="submit-feedback-btn">Submit System Log</button>
+                    <button type="submit" class="submit-feedback-btn">Submit Feedback Note</button>
                 </form>
                 <div id="feedbackSuccessMessage" class="feedback-success hidden">
-                    ✓ Log recorded successfully. Thank you for refining our scientific frameworks!
+                    ✓ Feedback logged successfully. Thank you for helping refine the app!
                 </div>
             </div>
         </section>
 
-        <!-- DIAGNOSTIC SKIN TYPE QUIZ -->
+        <!-- SKIN TYPE QUIZ -->
         <section id="quizSection" class="quiz-card hidden">
-            <h2>Personalized Skin Type Diagnostic</h2>
-            <p class="subtitle">Determine your physical profile via sebum and hydration parameters.</p>
+            <h2>Skin Profile Assessment</h2>
+            <p class="subtitle">Estimate your skin type based on underlying sebum patterns and reactivity traits.</p>
             <div id="quizInterface">
                 <div id="questionBox">
-                    <h3 id="questionText" class="quiz-question">Loading parameter assessments...</h3>
+                    <h3 id="questionText" class="quiz-question">Loading profile questions...</h3>
                     <div id="answerOptions" class="quiz-options-container"></div>
                 </div>
                 <div id="quizResultBox" class="hidden">
                     <div class="result-banner">
-                        <h4>Your Scientific Skin Classification:</h4>
+                        <h4>Your Estimated Skin Profile:</h4>
                         <h3 id="skinTypeTitle" class="highlight-gold">Unknown Profile</h3>
                     </div>
                     <p id="skinTypeDescription"></p>
-                    <button id="resetQuizBtn" class="filter-btn active" style="margin-top:14px; width:100%;">Retake Evaluation Profile</button>
+                    <button id="resetQuizBtn" class="filter-btn active" style="margin-top:14px; width:100%;">Retake Skin Assessment</button>
                 </div>
             </div>
         </section>
 
-        <!-- EDUCATIONAL SCIENCE HUB & INGREDIENT CLASSIFICATION -->
+        <!-- EDUCATIONAL SCIENCE HUB -->
         <section id="learnSection" class="learn-hub hidden">
-            <h2>Skincare Academy & Clinical Hub</h2>
-            <p class="subtitle">Demystifying ingredient matrices and topical biology using peer-reviewed formulations.</p>
+            <h2>Skincare Academy & Research Hub</h2>
+            <p class="subtitle">Evaluating common internet trends and topical ingredients using peer-reviewed dermatological concepts.</p>
             
             <div class="filter-container">
                 <button class="filter-btn active" data-category="all">All Resources</button>
                 <button class="filter-btn" data-category="myths">Trend Debunkers</button>
                 <button class="filter-btn" data-category="classification">Product Categories</button>
-                <button class="filter-btn" data-category="actives">Biochemical Actives</button>
-                <button class="filter-btn" data-category="anatomy">Histology</button>
+                <button class="filter-btn" data-category="actives">Skincare Ingredients</button>
+                <button class="filter-btn" data-category="anatomy">Skin Biology</button>
             </div>
 
             <div id="databaseGrid" class="articles-grid"></div>
