@@ -8,61 +8,81 @@ const quizSection = document.getElementById('quizSection');
 const learnSection = document.getElementById('learnSection');
 
 function clearActiveTabs() {
-    [navDashboard, navQuiz, navLearn].forEach(el => el.classList.remove('active'));
-    [trackerCard, quizSection, learnSection].forEach(el => el.classList.add('hidden'));
+    [navDashboard, navQuiz, navLearn].forEach(el => { if(el) el.classList.remove('active'); });
+    [trackerCard, quizSection, learnSection].forEach(el => { if(el) el.classList.add('hidden'); });
 }
 
-navDashboard.addEventListener('click', (e) => {
-    e.preventDefault(); clearActiveTabs();
-    navDashboard.classList.add('active');
-    trackerCard.classList.remove('hidden');
-    calculateSkinTrajectory();
-});
+if (navDashboard) {
+    navDashboard.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        clearActiveTabs();
+        navDashboard.classList.add('active');
+        if (trackerCard) trackerCard.classList.remove('hidden');
+        calculateSkinTrajectory();
+    });
+}
 
-navQuiz.addEventListener('click', (e) => {
-    e.preventDefault(); clearActiveTabs();
-    navQuiz.classList.add('active');
-    quizSection.classList.remove('hidden');
-    initializeQuizEngine();
-});
+if (navQuiz) {
+    navQuiz.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        clearActiveTabs();
+        navQuiz.classList.add('active');
+        if (quizSection) quizSection.classList.remove('hidden');
+        initializeQuizEngine();
+    });
+}
 
-navLearn.addEventListener('click', (e) => {
-    e.preventDefault(); clearActiveTabs();
-    navLearn.classList.add('active');
-    learnSection.classList.remove('hidden');
-});
+if (navLearn) {
+    navLearn.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        clearActiveTabs();
+        navLearn.classList.add('active');
+        if (learnSection) learnSection.classList.remove('hidden');
+        renderCards("all");
+    });
+}
 
 // --- STATE MANAGEMENT & COUNTERS ---
 function updateHonestLocalMetrics(state, finalScore) {
+    const itemsSavedCount = document.getElementById('itemsSavedCount');
+    const optimizationDelta = document.getElementById('optimizationDelta');
+    const summaryLabel = document.getElementById('impactSummaryText');
+
     let unsafeHaltedCount = 0;
     if (state.prodLemonTrend) unsafeHaltedCount++;
     if (state.prodScrubs) unsafeHaltedCount++;
     if (state.prodHandmeDown && !state.prodLotion) unsafeHaltedCount++;
     
-    document.getElementById('itemsSavedCount').textContent = unsafeHaltedCount;
+    if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
 
     const baselineDefaultScore = 50;
     let delta = finalScore - baselineDefaultScore;
-    document.getElementById('optimizationDelta').textContent = delta >= 0 ? `+${delta}%` : `${delta}%`;
+    if (optimizationDelta) optimizationDelta.textContent = delta >= 0 ? `+${delta}%` : `${delta}%`;
 
-    const summaryLabel = document.getElementById('impactSummaryText');
-    if (unsafeHaltedCount > 0) {
-        summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin barrier. You also saved roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in unnecessary product costs!`;
-    } else if (finalScore >= 85) {
-        summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine is complete. Your estimated skin-barrier protection baseline is at its highest rating.`;
-    } else {
-        summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes above to see how skipping trends or adding affordable essentials impacts your score.`;
+    if (summaryLabel) {
+        if (unsafeHaltedCount > 0) {
+            summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin barrier. You also saved roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in unnecessary product costs!`;
+        } else if (finalScore >= 85) {
+            summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine is complete. Your estimated skin-barrier protection baseline is at its highest rating.`;
+        } else {
+            summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes above to see how skipping trends or adding affordable essentials impacts your score.`;
+        }
     }
 }
 
 // --- USER FEEDBACK CAPTURE ---
-document.getElementById('feedbackForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('feedbackText').value = "";
-    const responseAlert = document.getElementById('feedbackSuccessMessage');
-    responseAlert.classList.remove('hidden');
-    setTimeout(() => responseAlert.classList.add('hidden'), 4000);
-});
+const feedbackForm = document.getElementById('feedbackForm');
+if (feedbackForm) {
+    feedbackForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('feedbackText').value = "";
+        const responseAlert = document.getElementById('feedbackSuccessMessage');
+        if (responseAlert) {
+            responseAlert.classList.remove('hidden');
+            setTimeout(() => responseAlert.classList.add('hidden'), 4000);
+        }
+    });
+}
 
 // --- RULE-BASED PROJECTION ENGINE ---
 const budgetSlider = document.getElementById('budgetSlider');
@@ -76,11 +96,16 @@ const selectors = ['prodLotion', 'prodCleanser', 'prodSunscreen', 'prodToner', '
 let dermaChart = null;
 
 function calculateSkinTrajectory() {
+    if (!budgetSlider) return; // Prevent breakdown if called when dashboard elements aren't parsed
+
     const budget = parseInt(budgetSlider.value);
-    budgetValue.textContent = `Rp ${budget.toLocaleString('id-ID')}`;
+    if (budgetValue) budgetValue.textContent = `Rp ${budget.toLocaleString('id-ID')}`;
 
     const state = {};
-    selectors.forEach(id => { state[id] = document.getElementById(id).checked; });
+    selectors.forEach(id => { 
+        const el = document.getElementById(id);
+        state[id] = el ? el.checked : false; 
+    });
 
     const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
     let metrics = [50, 50, 50, 50, 50, 50, 50]; 
@@ -106,7 +131,7 @@ function calculateSkinTrajectory() {
         let score = 85;
         summaryText = "COMPLETE PROTECTIVE ROUTINE: Your foundational loop is complete. Gentle cleansing, barrier hydration, and broad-spectrum UV protection work together for maximum safety.";
         amSteps = ["Rinse with water or an ultra-mild splash.", "Apply your basic moisturizer/lotion.", "Apply Broad-Spectrum Sunscreen (Crucial daily protection)."];
-        pmSteps = ["Use your Gentle Low-pH Cleanser to break down sunscreen and buildup.", "Apply basic moisturizer to damp skin within 60 seconds of drying."];
+        pmSteps = ["Use your Gentle Low-pH Cleanser to break down sunscreen and buildup.", "Apply basic moisturizer to damp skin within 600 seconds of drying."];
         if (state.prodNiacinamide) { score += 11; summaryText += " Niacinamide supports natural lipid production."; pmSteps.push("Optional: Apply Niacinamide serum before moisturizer."); }
         if (state.prodToner) { score += 4; amSteps.splice(1, 0, "Optional: Pat gentle hydrating toner over damp skin."); }
         currentEvaluatedScore = score; metrics = [50, 60, 70, 78, 84, 87, score];
@@ -118,17 +143,20 @@ function calculateSkinTrajectory() {
         pmSteps = ["Cleanse face using your Gentle Low-pH Cleanser.", "Apply basic moisturizer over damp skin to minimize transepidermal water loss."];
     }
 
-    reportContent.textContent = summaryText;
-    protocolBox.classList.remove('hidden');
-    amRoutineList.innerHTML = amSteps.map(s => `<li>${s}</li>`).join('');
-    pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
+    if (reportContent) reportContent.textContent = summaryText;
+    if (protocolBox) protocolBox.classList.remove('hidden');
+    if (amRoutineList) amRoutineList.innerHTML = amSteps.map(s => `<li>${s}</li>`).join('');
+    if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
     renderVisualThresholdChart(labels, metrics);
     updateHonestLocalMetrics(state, currentEvaluatedScore);
 }
 
 function renderVisualThresholdChart(labels, metrics) {
-    const ctx = document.getElementById('dermaChart').getContext('2d');
+    const chartCanvas = document.getElementById('dermaChart');
+    if (!chartCanvas) return;
+    
+    const ctx = chartCanvas.getContext('2d');
     if (dermaChart) { dermaChart.destroy(); }
     dermaChart = new Chart(ctx, {
         type: 'line',
@@ -140,8 +168,11 @@ function renderVisualThresholdChart(labels, metrics) {
     });
 }
 
-budgetSlider.addEventListener('input', calculateSkinTrajectory);
-selectors.forEach(id => document.getElementById(id).addEventListener('change', calculateSkinTrajectory));
+if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
+selectors.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', calculateSkinTrajectory);
+});
 
 // --- SKIN PROFILE QUIZ ENGINE ---
 const quizData = [
@@ -154,29 +185,36 @@ let currentQuestionIndex = 0;
 
 function initializeQuizEngine() {
     quizAnswers = []; currentQuestionIndex = 0;
-    document.getElementById('quizResultBox').classList.add('hidden');
-    document.getElementById('questionBox').classList.remove('hidden');
+    const quizResultBox = document.getElementById('quizResultBox');
+    const questionBox = document.getElementById('questionBox');
+    if (quizResultBox) quizResultBox.classList.add('hidden');
+    if (questionBox) questionBox.classList.remove('hidden');
     renderQuizQuestion();
 }
 
 function renderQuizQuestion() {
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('answerOptions');
+    
     if (currentQuestionIndex >= quizData.length) { evaluateQuizResults(); return; }
     const currentQ = quizData[currentQuestionIndex];
-    document.getElementById('questionText').textContent = currentQ.q;
-    const optionsContainer = document.getElementById('answerOptions');
-    optionsContainer.innerHTML = "";
-    
-    currentQ.a.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = "quiz-opt-btn"; btn.textContent = opt.text;
-        btn.addEventListener('click', () => { quizAnswers.push(opt.type); currentQuestionIndex++; renderQuizQuestion(); });
-        optionsContainer.appendChild(btn);
-    });
+    if (questionText) questionText.textContent = currentQ.q;
+    if (optionsContainer) {
+        optionsContainer.innerHTML = "";
+        currentQ.a.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = "quiz-opt-btn"; btn.textContent = opt.text;
+            btn.addEventListener('click', () => { quizAnswers.push(opt.type); currentQuestionIndex++; renderQuizQuestion(); });
+            optionsContainer.appendChild(btn);
+        });
+    }
 }
 
 function evaluateQuizResults() {
-    document.getElementById('questionBox').classList.add('hidden');
-    const resultBox = document.getElementById('quizResultBox'); resultBox.classList.remove('hidden');
+    const questionBox = document.getElementById('questionBox');
+    const resultBox = document.getElementById('quizResultBox');
+    if (questionBox) questionBox.classList.add('hidden');
+    if (resultBox) resultBox.classList.remove('hidden');
 
     let primaryBase = quizAnswers[0], reactivity = quizAnswers[1], typeStr = `${primaryBase} Skin`, descStr = "";
 
@@ -188,10 +226,15 @@ function evaluateQuizResults() {
         else if (primaryBase === "Dry") descStr = "Your skin naturally produces fewer moisturizing lipids. Prioritize rich, nourishing moisturizers to seal in hydration and prevent water loss.";
         else descStr = "Your skin profile is well-balanced. Protect this baseline by using a mild cleanser, a basic moisturizer, and a daily sunscreen shield.";
     }
-    document.getElementById('skinTypeTitle').textContent = typeStr.toUpperCase();
-    document.getElementById('skinTypeDescription').textContent = descStr;
+    
+    const titleEl = document.getElementById('skinTypeTitle');
+    const descEl = document.getElementById('skinTypeDescription');
+    if (titleEl) titleEl.textContent = typeStr.toUpperCase();
+    if (descEl) descEl.textContent = descStr;
 }
-document.getElementById('resetQuizBtn').addEventListener('click', initializeQuizEngine);
+
+const resetQuizBtn = document.getElementById('resetQuizBtn');
+if (resetQuizBtn) resetQuizBtn.addEventListener('click', initializeQuizEngine);
 
 // --- RESEARCH LIBRARIES DATABASE ---
 const scienceDatabase = [
@@ -209,6 +252,7 @@ const databaseGrid = document.getElementById('databaseGrid');
 const filterBtns = document.querySelectorAll('.filter-btn');
 
 function renderCards(categoryFilter) {
+    if (!databaseGrid) return;
     databaseGrid.innerHTML = scienceDatabase.filter(item => categoryFilter === "all" || item.category === categoryFilter).map(item => `
         <div class="content-card">
             <span class="badge ${item.badgeClass}">${item.badge}</span>
@@ -224,5 +268,8 @@ filterBtns.forEach(btn => btn.addEventListener('click', () => {
     renderCards(btn.getAttribute('data-category'));
 }));
 
-calculateSkinTrajectory();
-renderCards("all");
+// --- GLOBAL APPLICATION INITIALIZATION ---
+document.addEventListener("DOMContentLoaded", () => {
+    calculateSkinTrajectory();
+    renderCards("all");
+});
