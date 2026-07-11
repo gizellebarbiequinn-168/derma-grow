@@ -12,60 +12,58 @@
     <div class="app-container">
         
         <header class="app-header">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
-                    <circle cx="50" cy="25" r="20" stroke="#c49a45" stroke-width="8" stroke-dasharray="30 10"/>
-                    <path d="M20 55C20 40 35 35 50 35C65 35 80 40 80 55C80 75 50 85 50 85C50 85 20 75 20 55Z" fill="#4a5548"/>
-                    <path d="M50 35V85" stroke="#fcfbfa" stroke-width="6"/>
+            <div class="brand-container">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="#4a5548" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="#c49a45" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
                 <span class="brand-heading">Derma Grow</span>
             </div>
             <nav class="app-nav">
                 <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
-                <a href="#" id="navQuiz" class="nav-link">Diagnostic Quiz</a>
+                <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
                 <a href="#" id="navLearn" class="nav-link">Science Hub</a>
             </nav>
         </header>
 
-        <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2.5rem;">
-            <h1 style="color: var(--brand-primary); font-size: 2rem; margin-bottom: 0.5rem; font-weight: 700;">
+        <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="color: var(--brand-primary); font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
                 Smart Skincare on a Strict Budget
             </h1>
-            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
-                Build an evidence-based routine around the essentials, skip expensive viral marketing trends, and safely track your barrier trajectory.
+            <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
+                Build an evidence-based routine around the essentials, skip expensive viral trends, and track your projected skin barrier trajectory.
             </p>
         </section>
 
-        <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); color: #ffffff; padding: 1.5rem; margin-bottom: 2rem;">
-            <div class="metrics-row" style="margin: 0;">
-                <div class="metric-stat-box" style="background: rgba(255,255,255,0.06); border: none;">
+        <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); padding: 1rem; margin-bottom: 1.5rem;">
+            <div class="metrics-row">
+                <div class="metric-stat-box">
                     <span id="activeUsersCount" class="metric-number" style="color: #ffffff;">1 Active</span>
-                    <span class="metric-label" style="color: rgba(255,255,255,0.7);">Active Session</span>
+                    <span class="metric-label">Active Session</span>
                 </div>
-                <div class="metric-stat-box" style="background: rgba(255,255,255,0.06); border: none;">
+                <div class="metric-stat-box">
                     <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">0</span>
-                    <span class="metric-label" style="color: rgba(255,255,255,0.7);">Halt/Saved Items</span>
+                    <span class="metric-label">Saved Items</span>
                 </div>
-                <div class="metric-stat-box" style="background: rgba(255,255,255,0.06); border: none;">
+                <div class="metric-stat-box">
                     <span id="optimizationDelta" class="metric-number" style="color: var(--brand-accent);">+0%</span>
-                    <span class="metric-label" style="color: rgba(255,255,255,0.7);">Routine Delta</span>
+                    <span class="metric-label">Routine Score</span>
                 </div>
             </div>
         </div>
 
         <main id="trackerCard" class="view-section dashboard-grid">
-            
             <div class="left-panel">
                 <div class="content-card">
-                    <h2>Budget-to-Barrier Optimizer</h2>
-                    <p class="text-muted">Adjust configuration elements to calculate your predicted 14-day lipid routine trajectory.</p>
+                    <h2>Budget Routine Builder</h2>
+                    <p class="text-muted">Select your budget parameters and available products below to calculate your rule-based 14-day lipid trajectory.</p>
                     
                     <div class="input-group">
                         <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
-                        <input type="range" id="budgetSlider" class="range-slider" min="0" max="500000" step="10000" value="0">
+                        <input type="range" id="budgetSlider" class="range-slider" min="0" max="300000" step="10000" value="0">
                     </div>
 
-                    <label style="margin-top: 1.5rem;">Current Accessible Products (8-Tier Check-Grid):</label>
+                    <label style="margin-top: 1.2rem;">Current Available Products:</label>
                     <div class="selection-matrix-grid">
                         <label class="checkbox-card">
                             <input type="checkbox" id="prodLotion">
@@ -94,7 +92,7 @@
                         <label class="checkbox-card">
                             <input type="checkbox" id="prodNiacinamide">
                             <div class="checkbox-label-text">🧪 Niacinamide Serum
-                                <span class="checkbox-subtext">Supports barrier recovery metrics</span>
+                                <span class="checkbox-subtext">Supports natural barrier recovery metrics</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
@@ -119,12 +117,12 @@
                 </div>
 
                 <div id="protocolBox" class="content-card hidden">
-                    <h3>Personalized Barrier Analysis</h3>
+                    <h3>Estimated Skin Barrier Analysis</h3>
                     <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
-                        STATIC SYSTEM: Add core building blocks (Cleanser/Lotion) to formulate projection curves.
+                        Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see estimated trendlines.
                     </div>
                     
-                    <h3 style="margin-top: 1.5rem;">Target Routine Protocol</h3>
+                    <h3 style="margin-top: 1.5rem;">Your Free Essential Routine</h3>
                     <div class="routine-split-panel">
                         <div class="routine-block">
                             <h4>☀️ Morning Regime</h4>
@@ -138,72 +136,4 @@
                 </div>
             </div>
 
-            <div class="right-panel">
-                <div class="content-card">
-                    <h2>Visual Barrier Projection</h2>
-                    <p class="text-muted">Heuristic tracking over a simulated two-week cycle.</p>
-                    <div class="chart-container">
-                        <canvas id="dermaChart"></canvas>
-                    </div>
-                    <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
-                        💡 Structural Testing: Playground active. Interact with checkboxes above to construct secure moisture arrays or filter harmful anomalies.
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <h2>Help Improve DermaGrow</h2>
-                    <p class="text-muted">Spotted a bug or have recommendations? Send us anonymous text feedback directly.</p>
-                    <form id="feedbackForm">
-                        <div class="input-group">
-                            <textarea id="feedbackText" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary">Submit Feedback</button>
-                    </form>
-                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
-                        ✓ Feedback captured successfully in system data stream!
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <section id="quizSection" class="view-section quiz-container hidden">
-            <div class="content-card">
-                <h2>Skin Type Diagnostic</h2>
-                <p class="text-muted">Determine your underlying barrier baseline via simplified physical indicators.</p>
-                
-                <div id="questionBox">
-                    <p id="questionText" class="question-text">Loading diagnostics...</p>
-                    <div id="answerOptions" class="answer-options-stack"></div>
-                </div>
-
-                <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
-                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
-                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL PROFILE</h3>
-                    <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
-                    <button id="resetQuizBtn" class="btn-primary" style="margin-top: 1rem;">Retake Assessment</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="learnSection" class="view-section hidden">
-            <div class="content-card" style="margin-bottom: 2rem;">
-                <h2>Skincare Academy & Clinical Hub</h2>
-                <p class="text-muted">Demystifying ingredient metrics and basic skin biology using open-source, peer-reviewed indices.</p>
-                
-                <div class="database-filter-bar">
-                    <button class="filter-btn active" data-category="all">All Resources</button>
-                    <button class="filter-btn" data-category="myths">Trend Debunkers</button>
-                    <button class="filter-btn" data-category="classification">Product Formulations</button>
-                    <button class="filter-btn" data-category="actives">Biochemical Actives</button>
-                    <button class="filter-btn" data-category="anatomy">Skin Biology</button>
-                </div>
-            </div>
-
-            <div id="databaseGrid" class="database-cards-grid"></div>
-        </section>
-
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+            
