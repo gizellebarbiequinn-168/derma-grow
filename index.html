@@ -151,12 +151,14 @@
                 <div class="content-card">
                     <h2>Help Improve Derma Grow</h2>
                     <p class="text-muted">Spotted a bug or have recommendations? Send us text feedback directly.</p>
-                    <form id="feedbackForm">
+                    
+                    <form id="feedbackForm" action="https://formspree.io/f/mjgnbvoo" method="POST">
                         <div class="input-group">
-                            <textarea id="feedbackText" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
+                            <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
                         </div>
                         <button type="submit" class="btn-primary">Submit Feedback Note</button>
                     </form>
+                    
                     <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
                         ✓ Feedback logged successfully. Thank you for helping refine the app!
                     </div>
@@ -205,3 +207,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+                    
