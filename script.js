@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault(); clearActiveTabs();
             navPeer.classList.add('active');
             if (peerSection) peerSection.classList.remove('hidden');
-            renderPeerRegistry("all");
+            setupPeerSubViews();
         });
     }
 
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- STANDARD APP TEXT FEEDBACK SUBMISSION ---
+    // --- LIVE FEEDBACK BOX SUBMISSION LINKED TO YOUR FORMSPREE ---
     const feedbackForm = document.getElementById('feedbackForm');
     if (feedbackForm) {
         feedbackForm.addEventListener('submit', function(e) {
@@ -105,8 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         responseAlert.classList.remove('hidden');
                         setTimeout(() => responseAlert.classList.add('hidden'), 4000);
                     }
-                } else { alert("Oops! There was a problem submitting your feedback."); }
-            }).catch(() => { alert("Oops! There was a network problem."); });
+                } else { alert("Submission error. Please verify form connectivity."); }
+            }).catch(() => { alert("Network error. Please try again."); });
         });
     }
 
@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
     selectors.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calculateSkinTrajectory); });
 
-    // --- COMPREHENSIVE 9-SET SYSTEM SKIN ASSESSMENT MATRIX ---
+    // --- 9-SET DIAGNOSTIC QUIZ SYSTEM ---
     const quizData = [
         { q: "1. Sebum Production: How does your skin surface feel about an hour after washing with plain water?", a: [ { text: "Tight, flaky, or visibly matte all over", type: "base:Dry" }, { text: "Slick, shiny, or greasy completely", type: "base:Oily" }, { text: "Oily on forehead/nose but tight on outer cheeks", type: "base:Combination" }, { text: "Comfortable, smooth, and well balanced", type: "base:Normal" } ] },
         { q: "2. Barrier Reactivity: How often do you feel stinging, burning, or redness from basic skin essentials?", a: [ { text: "Frequently, especially when trying simple updates or weather shifts", type: "react:Sensitive" }, { text: "Rarely or never, skin easily tolerates active changes", type: "react:Resilient" } ] },
@@ -316,9 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
             else descStr = "Your skin profile is historically well-balanced across oil and moisture channels. Maintain and preserve this pristine health by skipping trends and shielding daily with basic sunscreen.";
         }
 
-        if (userSkinProfile.dehydrated) {
-            descStr += " Note: Your profile also indicates surface dehydration (lack of bound water inside cells). Adding an affordable gentle toner or applying moisturizer over damp skin will benefit your trajectory.";
-        }
+        if (userSkinProfile.dehydrated) descStr += " Note: Your profile also indicates surface dehydration (lack of bound water inside cells).";
         
         const titleEl = document.getElementById('skinTypeTitle');
         const descEl = document.getElementById('skinTypeDescription');
@@ -330,9 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (syncToRoutineBtn) {
         syncToRoutineBtn.addEventListener('click', () => {
             if (navDashboard && trackerCard) {
-                clearActiveTabs();
-                navDashboard.classList.add('active');
-                trackerCard.classList.remove('hidden');
+                clearActiveTabs(); navDashboard.classList.add('active'); trackerCard.classList.remove('hidden');
                 calculateSkinTrajectory();
                 window.scrollTo({ top: document.getElementById('impactMatrix').offsetTop - 20, behavior: 'smooth' });
             }
@@ -341,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetQuizBtn = document.getElementById('resetQuizBtn');
     if (resetQuizBtn) resetQuizBtn.addEventListener('click', initializeQuizEngine);
 
-    // --- SCIENCE DATABASE WITH DIRECT SPECIFIC RESEARCH DEEP-LINKS ---
+    // --- ACCADEMY SCIENCE CENTER DATA ---
     const scienceDatabase = [
         { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical contact dermatitis and hyperpigmentation.", actionText: "View PubChem pH & Irritation Profile Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid#section=Safety-and-Hazards" },
         { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause mechanical micro-tears in vulnerable corneal layers, disrupting crucial lipid pathways and inducing water loss.", actionText: "Read NCBI Skin Barrier Friction Study →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5608132/" },
@@ -373,15 +369,47 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCards(btn.getAttribute('data-category'));
     }));
 
-    // --- PEER-TO-PEER KNOWLEDGE REGISTRY DATABASE ---
+    // --- PEER SHARE SECTION ENGINE (SPLIT INTO DUO ARCHITECTURES) ---
     const peerRegistryDatabase = [
-        { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue (For Oily Skin)", price: "Rp 35.000", notes: "Completely oil-free formulation. Cleanses sweat and sunscreen effectively without leaving a heavy film layer that blocks overactive sebum glands." },
-        { id: 2, skinType: "Dry", product: "The Ordinary Natural Moisturizing Factors + HA", price: "Rp 120.000", notes: "Contains structural amino acids and ceramides. Implements the 'mortar' concept to lock water into flaky skin areas instantly." },
-        { id: 3, skinType: "Sensitive", product: "Cetaphil Gentle Skin Cleanser", price: "Rp 65.000", notes: "Soap-free, fragrance-free formula with a perfect non-alkaline pH. Does not cause stinging or physical flashing even on a broken skin barrier." },
-        { id: 4, skinType: "Normal", product: "Azarine Hydrasoothe Sunscreen Gel SPF 45", price: "Rp 65.000", notes: "Incredibly lightweight gel-like texture. Absorbs cleanly on balanced profiles without adding unnecessary greasy shine or leaving a chalky white cast." },
-        { id: 5, skinType: "Oily", product: "Hada Labo Shirojyun Ultimate Whitening Lotion", price: "Rp 45.000", notes: "Watery consistency. Provides deep cellular hydration using low-weight hyaluronic acid without using occlusive oils or heavy fatty alcohols." },
-        { id: 6, skinType: "Dry", product: "Viva Liquid Milk Cleanser & Face Tonic (Green Tea)", price: "Rp 12.000", notes: "An ultra-budget Indonesian holy grail. Emollient-rich milk emulsion lets dry profiles cleanse face fields gently without losing structural moisture surface levels." }
+        { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate, Poloxamer 184", usage: "Pour onto a cotton pad, wipe gently across dry face field until sunscreen layer clears.", definition: "An oil-free, water-based micellar solution structured specifically to separate sebum clogs and external skin grit cleanly." },
+        { id: 2, skinType: "Dry", product: "The Ordinary Moisturizing Factors + HA", cost: "Rp 120.000", ingredients: "Caprylic Triglyceride, Cetyl Alcohol, Sodium PCA, Hyaluronic Acid, Ceramides", usage: "Apply a pea-sized dot over damp skin right after your rinsing block.", definition: "A non-greasy topical cream framework built to mimic skin's natural moisturizing factors, protecting dry cell sheets from transepidermal loss." },
+        { id: 3, skinType: "Sensitive", product: "Cetaphil Gentle Skin Cleanser", cost: "Rp 65.000", ingredients: "Water, Cetyl Alcohol, Propylene Glycol, Sodium Lauryl Sulfate, Stearyl Alcohol", usage: "Massage lightly over face, then wash away with tepid water or wipe off with a soft cloth.", definition: "A soap-free, non-foaming cleansing cream designed to wipe away outer grime paths safely without breaking down structural skin barrier bounds." },
+        { id: 4, skinType: "Normal", product: "Azarine Hydrasoothe Sunscreen Gel SPF 45", cost: "Rp 65.000", ingredients: "Water, Aloe Barbadensis Leaf Juice, Green Tea Extract, Propolis, Niacinamide", usage: "Smooth two finger lengths across entire face area 15 minutes before stepping outside.", definition: "An organic, gel-based UV filter layer that sinks in rapidly without leaving chalky lines or grease pools on normal skin profiles." }
     ];
+
+    const skinDictionaryDatabase = [
+        { term: "Moisturizer", details: "A general skincare classification designed to lock water inside the stratum corneum, smooth skin texture, and reinforce the protective surface lipid layer.", category: "Product Type" },
+        { term: "Lotion", details: "A low-viscosity fluid emulsion that contains more water than heavy creams, absorbing rapidly into surface fields without leaving an occlusive oily film.", category: "Product Type" },
+        { term: "Ceramides", details: "Natural waxy lipid structures that form up to 50% of your skin barrier matrix. They hold skin cells together to prevent moisture evaporation and seal out irritants.", category: "Ingredient" },
+        { term: "Sebaceous Glands", details: "Microscopic glands within hair follicles that produce sebum, a natural complex of oils that lubricates and waterproofs your skin surface.", category: "Anatomy" },
+        { term: "Humectant", details: "Water-binding substances (like Glycerin or Hyaluronic Acid) that draw water upward from the dermis or out of ambient humidity directly into your upper skin cells.", category: "Ingredient" },
+        { term: "Occlusive", details: "Heavy, oil-rich barriers (such as Petrolatum) that create a physical seal on top of the skin to block moisture from escaping via ambient evaporation.", category: "Ingredient" },
+        { term: "Emollient", details: "Targeted conditioning agents that fill in microscopic gaps between peeling skin cells, softening rough patches to create a smooth, uniform surface layer.", category: "Ingredient" },
+        { term: "Stratum Corneum", details: "The outermost layer of the epidermis, acting as the primary protective shield against environmental pathogens, chemical exposures, and moisture loss.", category: "Anatomy" },
+        { term: "Transepidermal Water Loss (TEWL)", details: "The measurable metric of water that constantly evaporates through the epidermal layers into the air when the barrier framework is damaged.", category: "Metric" },
+        { term: "Surfactant", details: "Active washing agents found in cleansers that break down grease, dirt, and oil, letting them rinse away cleanly with water.", category: "Ingredient" }
+    ];
+
+    function setupPeerSubViews() {
+        const btnRegistry = document.getElementById('subTabRegistry');
+        const btnDictionary = document.getElementById('subTabDictionary');
+        const viewRegistry = document.getElementById('peerRegistrySubView');
+        const viewDictionary = document.getElementById('peerDictionarySubView');
+
+        if(btnRegistry && btnDictionary && viewRegistry && viewDictionary) {
+            btnRegistry.onclick = () => {
+                btnRegistry.classList.add('active'); btnDictionary.classList.remove('active');
+                viewRegistry.classList.remove('hidden'); viewDictionary.classList.add('hidden');
+                renderPeerRegistry("all");
+            };
+            btnDictionary.onclick = () => {
+                btnDictionary.classList.add('active'); btnRegistry.classList.remove('active');
+                viewRegistry.classList.add('hidden'); viewDictionary.classList.remove('hidden');
+                renderDictionaryList("");
+            };
+        }
+        renderPeerRegistry("all");
+    }
 
     const peerRegistryGrid = document.getElementById('peerRegistryGrid');
     const peerFilterBtns = document.querySelectorAll('.peer-filter-btn');
@@ -391,16 +419,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const filteredData = peerRegistryDatabase.filter(item => skinFilter === "all" || item.skinType === skinFilter);
         
         if (filteredData.length === 0) {
-            peerRegistryGrid.innerHTML = `<div class="content-card"><p class="text-muted">No peer recommendations logged yet for this category.</p></div>`;
+            peerRegistryGrid.innerHTML = `<div class="content-card"><p class="text-muted">No custom peer recommendations logged yet for this category.</p></div>`;
             return;
         }
 
         peerRegistryGrid.innerHTML = filteredData.map(item => `
             <div class="content-card tab-fade-animation" style="border-top: 3px solid var(--brand-accent);">
-                <span class="badge ${item.skinType === 'Oily' ? 'badge-science' : item.skinType === 'Dry' ? 'badge-myth' : 'badge-class'}">${item.skinType} Profile Favorite</span>
-                <h3 style="margin-top: 0.25rem; font-size: 1.1rem;">${item.product}</h3>
-                <p style="font-size: 0.85rem; font-weight: 700; color: var(--brand-primary); margin-bottom: 0.5rem;">Est. Price: ${item.price}</p>
-                <p style="font-size: 0.85rem; color: var(--color-text-main); line-height: 1.5;">"${item.notes}"</p>
+                <span class="badge ${item.skinType === 'Oily' ? 'badge-science' : item.skinType === 'Dry' ? 'badge-myth' : 'badge-class'}">${item.skinType} Profile</span>
+                <h3 style="margin-top: 0.25rem; font-size: 1.15rem; color: var(--brand-primary);">${item.product}</h3>
+                <p style="font-size: 0.85rem; font-weight: 700; color: var(--brand-accent); margin-bottom: 0.5rem;">Cost: ${item.cost}</p>
+                <p style="font-size: 0.85rem; color: var(--color-text-main); line-height: 1.5; margin-bottom: 0.75rem;"><strong>Definition:</strong> "${item.definition}"</p>
+                <div style="background: var(--bg-main); padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; border: 1px solid var(--border-subtle);">
+                    <p style="margin-bottom: 0.25rem;">🧪 <strong>Ingredients:</strong> ${item.ingredients}</p>
+                    <p>⚙️ <strong>Directions:</strong> ${item.usage}</p>
+                </div>
             </div>
         `).join('');
     }
@@ -410,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderPeerRegistry(btn.getAttribute('data-skin'));
     }));
 
-    // --- FORM INTERCEPTOR FOR COMMUNITY CONTRIBUTIONS ---
+    // --- FORM INTERCEPTOR FOR COMMUNTIY DATA PANEL ---
     const peerContributionForm = document.getElementById('peerContributionForm');
     if (peerContributionForm) {
         peerContributionForm.addEventListener('submit', function(e) {
@@ -420,6 +452,9 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const selectedSkin = document.getElementById('peerSkinType').value;
             const enteredProd = document.getElementById('peerProdName').value;
+            const enteredPrice = document.getElementById('peerPrice').value;
+            const enteredIngredients = document.getElementById('peerIngredients').value;
+            const enteredUsage = document.getElementById('peerUsage').value;
             const enteredNotes = document.getElementById('peerNotes').value;
 
             fetch(peerContributionForm.action, {
@@ -432,8 +467,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         id: Date.now(),
                         skinType: selectedSkin,
                         product: enteredProd,
-                        price: "Verified Community Share",
-                        notes: enteredNotes
+                        cost: enteredPrice,
+                        ingredients: enteredIngredients,
+                        usage: enteredUsage,
+                        definition: enteredNotes
                     });
                     renderPeerRegistry("all");
                     peerFilterBtns.forEach(b => b.classList.remove('active'));
@@ -443,13 +480,48 @@ document.addEventListener("DOMContentLoaded", () => {
                         responseAlert.classList.remove('hidden');
                         setTimeout(() => responseAlert.classList.add('hidden'), 5000);
                     }
-                } else { alert("Submission error. Please try again."); }
-            }).catch(() => { alert("Network error. Please try again."); });
+                } else { alert("Submission error. Please verify form connectivity."); }
+            }).catch(() => { alert("Network error. Please check your system connection."); });
         });
     }
 
-    // --- INTIALIZATION RUNTIME ---
+    // --- DICTIONARY RENDER CONTROL ---
+    const dictionaryListContainer = document.getElementById('dictionaryListContainer');
+    const dictionarySearchInput = document.getElementById('dictionarySearchInput');
+
+    function renderDictionaryList(searchTerm) {
+        if (!dictionaryListContainer) return;
+        const normalizedSearch = searchTerm.toLowerCase().trim();
+        
+        const filteredDict = skinDictionaryDatabase.filter(item => 
+            item.term.toLowerCase().includes(normalizedSearch) || 
+            item.details.toLowerCase().includes(normalizedSearch) ||
+            item.category.toLowerCase().includes(normalizedSearch)
+        );
+
+        if (filteredDict.length === 0) {
+            dictionaryListContainer.innerHTML = `<p class="text-muted" style="text-align: center; padding: 2rem 0;">No vocabulary terms match your search query.</p>`;
+            return;
+        }
+
+        dictionaryListContainer.innerHTML = filteredDict.map(item => `
+            <div class="dictionary-node-row" style="padding: 1rem 0; border-bottom: 1px dashed var(--border-subtle);">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                    <strong style="font-size: 1.1rem; color: var(--brand-primary);">${item.term}</strong>
+                    <span style="font-size: 0.7rem; background: var(--border-subtle); padding: 0.15rem 0.4rem; border-radius: 4px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">${item.category}</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-top: 0.3rem; line-height: 1.4;">${item.details}</p>
+            </div>
+        `).join('');
+    }
+
+    if (dictionarySearchInput) {
+        dictionarySearchInput.addEventListener('input', (e) => {
+            renderDictionaryList(e.target.value);
+        });
+    }
+
+    // --- INITIALIZATION RUNTIME ---
     calculateSkinTrajectory();
     renderCards("all");
-    renderPeerRegistry("all");
 });
