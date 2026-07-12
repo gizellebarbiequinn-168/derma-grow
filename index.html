@@ -11,7 +11,7 @@
 
     <div class="app-container">
         
-        <!-- HEADER & NAVIGATION -->
+        <!-- HEADER & NAVIGATION (5 MAIN SECTIONS) -->
         <header class="app-header">
             <div class="brand-container">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,8 @@
                 <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
                 <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
                 <a href="#" id="navLearn" class="nav-link">Science Hub</a>
-                <a href="#" id="navPeer" class="nav-link">Peer Share</a>
+                <a href="#" id="navRecommendations" class="nav-link">Product Recommendations</a>
+                <a href="#" id="navDictionary" class="nav-link">Skincare Dictionary</a>
             </nav>
         </header>
 
@@ -34,7 +35,7 @@
                 Smart Skincare on a Strict Budget
             </h1>
             <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
-                Build an evidence-based routine around the essentials, skip expensive viral trends, and collaborate directly with community peer recommendations.
+                Build an database-backed routine around core essentials, bypass expensive viral marketing trends, and analyze structured community formulations.
             </p>
         </section>
 
@@ -56,7 +57,7 @@
             </div>
         </div>
 
-        <!-- VIEW 1: DASHBOARD (ROUTINE BUILDER & GRAPH PANEL) -->
+        <!-- SECTION 1: DASHBOARD (ROUTINE BUILDER) -->
         <main id="trackerCard" class="view-section dashboard-grid">
             <div class="left-panel">
                 <div class="content-card">
@@ -172,7 +173,7 @@
             </div>
         </main>
 
-        <!-- VIEW 2: QUIZ SECTION (9 QUESTIONS MATRIX) -->
+        <!-- SECTION 2: SKIN TYPE QUIZ -->
         <section id="quizSection" class="view-section quiz-container hidden">
             <div class="content-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
@@ -203,7 +204,7 @@
             </div>
         </section>
 
-        <!-- VIEW 3: RESEARCH SCIENCE HUB -->
+        <!-- SECTION 3: SCIENCE HUB -->
         <section id="learnSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Skincare Academy & Research Hub</h2>
@@ -219,97 +220,88 @@
             <div id="databaseGrid" class="database-cards-grid"></div>
         </section>
 
-        <!-- VIEW 4: PEER-TO-PEER KNOWLEDGE SHARE (REWRITTEN IN DUAL SECTIONS) -->
-        <section id="peerSection" class="view-section hidden">
-            <!-- SECTION SELECTION TABS -->
-            <div class="peer-nav-sub-bar">
-                <button id="subTabRegistry" class="sub-tab-btn active">Product Recommendations</button>
-                <button id="subTabDictionary" class="sub-tab-btn">Skincare Vocabulary Dictionary</button>
-            </div>
-
-            <!-- SUB-VIEW A: PRODUCT RECOMMENDATION REGISTRY -->
-            <div id="peerRegistrySubView" class="tab-fade-animation">
-                <div class="content-card" style="margin-bottom: 1.5rem;">
-                    <h2>Peer Knowledge Registry</h2>
-                    <p class="text-muted">Filter community recommendations by profile to discover curated budget finds complete with ingredient breakdowns and directions.</p>
-                    
-                    <div class="database-filter-bar">
-                        <button class="peer-filter-btn active" data-skin="all">All Profiles</button>
-                        <button class="peer-filter-btn" data-skin="Normal">Normal Skin</button>
-                        <button class="peer-filter-btn" data-skin="Oily">Oily Skin</button>
-                        <button class="peer-filter-btn" data-skin="Dry">Dry Skin</button>
-                        <button class="peer-filter-btn" data-skin="Sensitive">Sensitive Skin</button>
-                    </div>
-                </div>
-
-                <div class="peer-split-grid">
-                    <div id="peerRegistryGrid" class="database-cards-grid"></div>
-
-                    <div class="content-card">
-                        <h3>Contribute a Product</h3>
-                        <p class="text-muted">Found a clean, affordable formula that fits your skin type profile flawlessly? Log it here.</p>
-                        
-                        <form id="peerContributionForm" action="https://formspree.io/f/xykrgnlq" method="POST">
-                            <input type="hidden" name="_subject" value="New Derma Grow Peer Product Contribution!">
-                            
-                            <div class="input-group" style="margin-bottom: 0.75rem;">
-                                <label for="peerSkinType">Target Skin Profile:</label>
-                                <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
-                                    <option value="Normal">Normal Skin</option>
-                                    <option value="Oily">Oily Skin</option>
-                                    <option value="Dry">Dry Skin</option>
-                                    <option value="Sensitive">Sensitive Skin</option>
-                                </select>
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 0.75rem;">
-                                <label for="peerProdName">Product Name & Class:</label>
-                                <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 0.75rem;">
-                                <label for="peerPrice">Estimated Retail Cost:</label>
-                                <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 35.000" required>
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 0.75rem;">
-                                <label for="peerIngredients">Key Ingredients:</label>
-                                <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Aloe Vera Extract, Glycerin, Provitamin B5" required>
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 0.75rem;">
-                                <label for="peerUsage">How to Use Safely:</label>
-                                <input type="text" id="peerUsage" name="Application Instructions" class="form-input-text" placeholder="e.g., Apply evenly to face and neck as morning moisturizer layer" required>
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 1rem;">
-                                <label for="peerNotes">Definition & Justification Note:</label>
-                                <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain what this product is and why it functions beautifully for this particular type..." required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn-primary" style="width: 100%;">Publish & Send Contribution</button>
-                        </form>
-
-                        <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; text-align: center;">
-                            ✓ Recommendation submitted to the moderator queue! Thank you for sharing your knowledge.
-                        </div>
-                    </div>
+        <!-- SECTION 4: PRODUCT RECOMMENDATIONS (INDEPENDENT) -->
+        <section id="recommendationsSection" class="view-section hidden">
+            <div class="content-card" style="margin-bottom: 1.5rem;">
+                <h2>Peer Knowledge Registry</h2>
+                <p class="text-muted">Filter community recommendations by profile to discover curated budget finds complete with ingredient breakdowns and directions.</p>
+                
+                <div class="database-filter-bar">
+                    <button class="peer-filter-btn active" data-skin="all">All Profiles</button>
+                    <button class="peer-filter-btn" data-skin="Normal">Normal Skin</button>
+                    <button class="peer-filter-btn" data-skin="Oily">Oily Skin</button>
+                    <button class="peer-filter-btn" data-skin="Dry">Dry Skin</button>
+                    <button class="peer-filter-btn" data-skin="Sensitive">Sensitive Skin</button>
                 </div>
             </div>
 
-            <!-- SUB-VIEW B: DERMATOLOGICAL DICTIONARY & VOCABULARY -->
-            <div id="peerDictionarySubView" class="tab-fade-animation hidden">
+            <div class="peer-split-grid">
+                <div id="peerRegistryGrid" class="database-cards-grid"></div>
+
                 <div class="content-card">
-                    <h2>Skincare Vocabulary Dictionary</h2>
-                    <p class="text-muted">A quick-reference guide decoding functional product configurations, anatomical terms, and basic formulation dynamics.</p>
+                    <h3>Contribute a Product</h3>
+                    <p class="text-muted">Found a clean, affordable formula that fits your skin type profile flawlessly? Log it here.</p>
                     
-                    <div class="dictionary-search-box">
-                        <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Ceramide, Sebaceous, Occlusive)...">
-                    </div>
+                    <form id="peerContributionForm" action="https://formspree.io/f/xykrgnlq" method="POST">
+                        <input type="hidden" name="_subject" value="New Derma Grow Peer Product Contribution!">
+                        
+                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                            <label for="peerSkinType">Target Skin Profile:</label>
+                            <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
+                                <option value="Normal">Normal Skin</option>
+                                <option value="Oily">Oily Skin</option>
+                                <option value="Dry">Dry Skin</option>
+                                <option value="Sensitive">Sensitive Skin</option>
+                            </select>
+                        </div>
 
-                    <div id="dictionaryListContainer" class="dictionary-list-stack" style="margin-top: 1.5rem;">
-                        <!-- Dictionary nodes inject dynamically -->
+                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                            <label for="peerProdName">Product Name & Class:</label>
+                            <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
+                        </div>
+
+                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                            <label for="peerPrice">Estimated Retail Cost:</label>
+                            <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 35.000" required>
+                        </div>
+
+                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                            <label for="peerIngredients">Key Ingredients:</label>
+                            <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Aloe Vera Extract, Glycerin, Provitamin B5" required>
+                        </div>
+
+                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                            <label for="peerUsage">How to Use Safely:</label>
+                            <input type="text" id="peerUsage" name="Application Instructions" class="form-input-text" placeholder="e.g., Apply evenly to face and neck as morning moisturizer layer" required>
+                        </div>
+
+                        <div class="input-group" style="margin-bottom: 1rem;">
+                            <label for="peerNotes">Definition & Justification Note:</label>
+                            <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain what this product is and why it functions beautifully for this particular type..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width: 100%;">Publish & Send Contribution</button>
+                    </form>
+
+                    <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; text-align: center;">
+                        ✓ Recommendation submitted to the moderator queue! Thank you for sharing your knowledge.
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SKINCARE DICTIONARY (INDEPENDENT) -->
+        <section id="dictionarySection" class="view-section hidden">
+            <div class="content-card">
+                <h2>Skincare Vocabulary Dictionary</h2>
+                <p class="text-muted">A comprehensive, expanded reference guide decoding functional product styles, anatomical systems, and critical active ingredients.</p>
+                
+                <div class="dictionary-search-box">
+                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Ceramide, Sebaceous, Occlusive)...">
+                </div>
+
+                <div id="dictionaryListContainer" class="dictionary-list-stack" style="margin-top: 1.5rem;">
+                    <!-- Expanded Dictionary items inject here -->
                 </div>
             </div>
         </section>
