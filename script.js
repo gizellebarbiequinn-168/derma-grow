@@ -512,6 +512,27 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- FEATURE 1: DARK MODE TOGGLE ENGINE ---
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    }
+
+    // --- FEATURE 2: BATHROOM MIRROR PRINT ENGINE ---
+    const printRoutineBtn = document.getElementById('printRoutineBtn');
+    if (printRoutineBtn) {
+        printRoutineBtn.addEventListener('click', () => {
+            window.print();
+        });
+    }
+
     // --- INITIALIZATION RUNTIME ---
     calculateSkinTrajectory();
     renderCards("all");
