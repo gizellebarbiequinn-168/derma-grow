@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const summaryLabel = document.getElementById('impactSummaryText');
 
         let unsafeHaltedCount = 0;
-        if (state.prodLemonTrend) unsafeHaltedCount++;
-        if (state.prodScrubs) unsafeHaltedCount++;
-        if (state.prodHandmeDown && !state.prodLotion) unsafeHaltedCount++;
+        if (state['chk-lemon']) unsafeHaltedCount++;
+        if (state['chk-scrubs']) unsafeHaltedCount++;
+        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
         
         if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
 
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (finalScore >= 85) {
                 summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine is complete. Your estimated skin-barrier protection baseline is at its highest rating.`;
             } else {
-                summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes above to see how skipping trends or adding affordable essentials impacts your score.`;
+                summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes or hit the Starter Pack button to see layout responses.`;
             }
         }
     }
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pmRoutineList = document.getElementById('pmRoutineList');
     const profileSyncBadge = document.getElementById('profileSyncBadge');
 
-    const selectors = ['prodLotion', 'prodCleanser', 'prodSunscreen', 'prodToner', 'prodNiacinamide', 'prodHandmeDown', 'prodLemonTrend', 'prodScrubs'];
+    const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs'];
     let dermaChart = null;
 
     function calculateSkinTrajectory() {
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let amSteps = ["Rinse skin with clean, lukewarm water."];
         let pmSteps = ["Rinse away daily environmental sweat or dust."];
 
-        if (state.prodLemonTrend || state.prodScrubs) {
+        if (state['chk-lemon'] || state['chk-scrubs']) {
             metrics = [50, 35, 22, 12, 6, 4, 3]; currentEvaluatedScore = 3;
             summaryText = "BARRIER DAMAGE ALERT: High acidity or harsh friction from physical trends strips away moisture layers. Stop using these items immediately to let your skin rest.";
             if (userSkinProfile.reactivity === "Sensitive") {
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
             amSteps = ["SKIP UNNECESSARY REMEDIES AND SCRUBS.", "Wash gently with cool plain water only to minimize further irritation."];
             pmSteps = ["Stop using harsh physical brushes or kitchen ingredients.", "Apply basic moisturizer or glycerin if available; otherwise leave bare."];
         } 
-        else if (state.prodHandmeDown && !state.prodLotion) {
+        else if (state['chk-actives'] && !state['chk-moisturizer']) {
             metrics = [50, 44, 36, 30, 25, 20, 15]; currentEvaluatedScore = 15;
             summaryText = "UNBUFFERED ACTIVE IRRITATION: Using high-strength active ingredients without a basic moisturizer can cause dryness and flaking. Pause the active ingredient until a baseline routine is built.";
             if (userSkinProfile.baseType === "Dry") {
@@ -180,41 +180,46 @@ document.addEventListener("DOMContentLoaded", () => {
             amSteps = ["Temporarily stop using high-potency active serums.", "Splash face with cool water to avoid stripping native moisture."];
             pmSteps = ["Skip the high-strength active product tonight.", "Focus on finding a simple, low-cost hydrating lotion when your budget allows."];
         }
-        else if (state.prodLotion && state.prodCleanser && state.prodSunscreen) {
+        else if (state['chk-moisturizer'] && state['chk-cleanser'] && state['chk-sunscreen']) {
             let score = 85;
             summaryText = "COMPLETE PROTECTIVE ROUTINE: Your foundational loop is complete. Gentle cleansing, barrier hydration, and broad-spectrum UV protection work together for maximum safety.";
             
             amSteps = ["Rinse with water or an ultra-mild splash.", "Apply your basic moisturizer/lotion.", "Apply Broad-Spectrum Sunscreen (Crucial daily protection)."];
             pmSteps = ["Use your Gentle Low-pH Cleanser to break down sunscreen and buildup.", "Apply basic moisturizer to damp skin within 600 seconds of drying."];
             
-            if (userSkinProfile.baseType === "Oily" && state.prodLotion) {
+            if (userSkinProfile.baseType === "Oily") {
                 summaryText += " Hint: Since your profile flags Oily, check that your lotion is a lightweight non-comedogenic fluid rather than a heavy wax balm.";
             }
-            if (userSkinProfile.dehydrated && state.prodToner) {
+            if (userSkinProfile.dehydrated && state['chk-toner']) {
                 score += 3;
                 summaryText += " Your custom profile hydration metric boosted due to Toner usage on dehydrated cells.";
             }
-            if (state.prodNiacinamide) { 
+            if (state['chk-niacinamide']) { 
                 score += 11; 
                 summaryText += " Niacinamide supports natural lipid production."; 
                 pmSteps.push("Optional: Apply Niacinamide serum before moisturizer."); 
             }
-            if (state.prodToner) { 
+            if (state['chk-toner']) { 
                 score += 4; 
                 amSteps.splice(1, 0, "Optional: Pat gentle hydrating toner over damp skin."); 
             }
             currentEvaluatedScore = Math.min(score, 100);
             metrics = [50, 62, 72, 80, 86, 90, currentEvaluatedScore];
         }
-        else if (state.prodLotion && state.prodCleanser) {
+        else if (state['chk-moisturizer'] && state['chk-cleanser']) {
             currentEvaluatedScore = 75; metrics = [50, 55, 62, 68, 72, 74, 75];
             summaryText = "ESSENTIAL MINIMALIST HYDRATION: Excellent low-cost baseline. Your barrier health is projected to steadily improve. Adding an affordable sunscreen will complete the loop.";
             amSteps = ["Rinse face thoroughly with clean, lukewarm water.", "Apply a thin layer of basic moisturizer / glycerin."];
             pmSteps = ["Cleanse face using your Gentle Low-pH Cleanser.", "Apply basic moisturizer over damp skin to minimize transepidermal water loss."];
         }
 
+        if (currentEvaluatedScore === 50 && !state['chk-moisturizer'] && !state['chk-cleanser']) {
+            if (protocolBox) protocolBox.classList.add('hidden');
+        } else {
+            if (protocolBox) protocolBox.classList.remove('hidden');
+        }
+
         if (reportContent) reportContent.textContent = summaryText;
-        if (protocolBox) protocolBox.classList.remove('hidden');
         if (amRoutineList) amRoutineList.innerHTML = amSteps.map(s => `<li>${s}</li>`).join('');
         if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
@@ -239,6 +244,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
     selectors.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calculateSkinTrajectory); });
+
+    // --- NEW: QUICK-ADD STARTER PACK PRESET ENGINE ---
+    const starterPackBtn = document.getElementById('starterPackBtn');
+    if (starterPackBtn) {
+        starterPackBtn.addEventListener('click', function() {
+            const chkCleanser = document.getElementById('chk-cleanser');
+            const chkMoisturizer = document.getElementById('chk-moisturizer');
+            const chkSunscreen = document.getElementById('chk-sunscreen');
+            
+            if (chkCleanser) chkCleanser.checked = true;
+            if (chkMoisturizer) chkMoisturizer.checked = true;
+            if (chkSunscreen) chkSunscreen.checked = true;
+            
+            if (budgetSlider) {
+                budgetSlider.value = 150000; 
+                budgetSlider.dispatchEvent(new Event('input')); 
+            }
+            
+            calculateSkinTrajectory();
+            
+            this.innerText = "✅ Starter Pack Applied!";
+            setTimeout(() => {
+                this.innerText = "✨ Apply 3-Step Instant Starter Pack";
+            }, 2000);
+        });
+    }
 
     // --- 9-SET DIAGNOSTIC QUIZ SYSTEM ---
     const quizData = [
@@ -461,47 +492,48 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- SECTION 5: SKINCARE DICTIONARY REPOSITORY ---
+    // --- NEW: HIGH-PERFORMANCE PRO-LEVEL DICTIONARY FILTER SYSTEM ---
     const skinDictionaryDatabase = [
-        { term: "Moisturizer", details: "A general skincare classification designed to lock water inside the stratum corneum, smooth skin texture, and reinforce the protective surface lipid layer.", category: "Product Type" },
-        { term: "Lotion", details: "A low-viscosity fluid emulsion that contains more water than heavy creams, absorbing rapidly into surface fields without leaving an occlusive oily film.", category: "Product Type" },
-        { term: "Ceramides", details: "Natural waxy lipid structures that form up to 50% of your skin barrier matrix. They hold skin cells together to prevent moisture evaporation and seal out irritants.", category: "Ingredient" },
-        { term: "Sebaceous Glands", details: "Microscopic glands within hair follicles that produce sebum, a natural complex of oils that lubricates and waterproofs your skin surface.", category: "Anatomy" },
-        { term: "Humectant", details: "Water-binding substances (like Glycerin or Hyaluronic Acid) that draw water upward from the dermis or out of ambient humidity directly into your upper skin cells.", category: "Ingredient" },
-        { term: "Occlusive", details: "Heavy, oil-rich barriers (such as Petrolatum) that create a physical seal on top of the skin to block moisture from escaping via ambient evaporation.", category: "Ingredient" },
-        { term: "Emollient", details: "Targeted conditioning agents that fill in microscopic gaps between peeling skin cells, softening rough patches to create a smooth, uniform surface layer.", category: "Ingredient" },
-        { term: "Stratum Corneum", details: "The outermost layer of the epidermis, acting as the primary protective shield against environmental pathogens, chemical exposures, and moisture loss.", category: "Anatomy" },
-        { term: "Transepidermal Water Loss (TEWL)", details: "The measurable metric of water that constantly evaporates through the epidermal layers into the air when the barrier framework is damaged.", category: "Metric" },
-        { term: "Surfactant", details: "Active washing agents found in cleansers that break down grease, dirt, and oil, letting them rinse away cleanly with water.", category: "Ingredient" },
-        { term: "Hyaluronic Acid", details: "A powerful humectant molecule naturally present in skin structure capable of holding up to 1000 times its weight in water molecules.", category: "Ingredient" },
-        { term: "Salicylic Acid (BHA)", details: "An oil-soluble chemical exfoliant capable of penetrating deep down inside pore pathways to dissolve sebum buildup and dead skin cell blocks.", category: "Ingredient" }
+        { term: "Moisturizer", details: "A general skincare classification designed to lock water inside the stratum corneum, smooth skin texture, and reinforce the protective surface lipid layer.", category: "Product Type", proTip: "Apply to damp skin within minutes of washing to map maximum moisture capture metrics." },
+        { term: "Lotion", details: "A low-viscosity fluid emulsion that contains more water than heavy creams, absorbing rapidly into surface fields without leaving an occlusive oily film.", category: "Product Type", proTip: "Ideal for combination or oily profiles who need cell protection without weight." },
+        { term: "Ceramides", details: "Natural waxy lipid structures that form up to 50% of your skin barrier matrix. They hold skin cells together to prevent moisture evaporation and seal out irritants.", category: "Active Chemical", proTip: "The ultimate foundational element to look for if your face feels dry or raw." },
+        { term: "Sebaceous Glands", details: "Microscopic glands within hair follicles that produce sebum, a natural complex of oils that lubricates and waterproofs your skin surface.", category: "Anatomy", proTip: "Over-washing triggers these cells into hyper-drive, generating extra grease pools." },
+        { term: "Humectant", details: "Water-binding substances (like Glycerin or Hyaluronic Acid) that draw water upward from the dermis or out of ambient humidity directly into your upper skin cells.", category: "Functional Style", proTip: "Always bind them with an emollient layer, or dry air will pull the moisture out." },
+        { term: "Occlusive", details: "Heavy, oil-rich barriers (such as Petrolatum) that create a physical seal on top of the skin to block moisture from escaping via ambient evaporation.", category: "Functional Style", proTip: "Best applied sparingly at night over compromised skin sections to eliminate high TEWL metrics." },
+        { term: "Emollient", details: "Targeted conditioning agents that fill in microscopic gaps between peeling skin cells, softening rough patches to create a smooth, uniform surface layer.", category: "Functional Style", proTip: "Acts like the cosmetic 'smoothing mortar' between cell bricks." },
+        { term: "Stratum Corneum", details: "The outermost layer of the epidermis, acting as the primary protective shield against environmental pathogens, chemical exposures, and moisture loss.", category: "Anatomy", proTip: "This is your actual skin barrier; protecting this configuration is your app's true target." },
+        { term: "Transepidermal Water Loss (TEWL)", details: "The measurable metric of water that constantly evaporates through the epidermal layers into the air when the barrier framework is damaged.", category: "Metric Check", proTip: "High TEWL leads directly to dehydration lines, cracking, and systemic cell stress." },
+        { term: "Surfactant", details: "Active washing agents found in cleansers that break down grease, dirt, and oil, letting them rinse away cleanly with water.", category: "Active Chemical", proTip: "Seek out low-pH, non-foaming versions to protect delicate cell walls from stripping." },
+        { term: "Hyaluronic Acid", details: "A powerful humectant molecule naturally present in skin structure capable of holding up to 1000 times its weight in water molecules.", category: "Active Chemical", proTip: "Pairs wonderfully under standard budget moisturizers for immediate visual replumping." },
+        { term: "Salicylic Acid (BHA)", details: "An oil-soluble chemical exfoliant capable of penetrating deep down inside pore pathways to dissolve sebum buildup and dead skin cell blocks.", category: "Active Chemical", proTip: "Because it is oil-soluble, it handles oily and acne channels dramatically better than water-soluble AHAs." }
     ];
 
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
     const dictionarySearchInput = document.getElementById('dictionarySearchInput');
 
-    function renderDictionaryList(searchTerm) {
+    function renderDictionaryList(searchTerm = "") {
         if (!dictionaryListContainer) return;
-        const normalizedSearch = searchTerm.toLowerCase().trim();
+        const cleanSearch = searchTerm.toLowerCase().trim();
         
         const filteredDict = skinDictionaryDatabase.filter(item => 
-            item.term.toLowerCase().includes(normalizedSearch) || 
-            item.details.toLowerCase().includes(normalizedSearch) ||
-            item.category.toLowerCase().includes(normalizedSearch)
+            item.term.toLowerCase().includes(cleanSearch) || 
+            item.details.toLowerCase().includes(cleanSearch) ||
+            item.category.toLowerCase().includes(cleanSearch)
         );
 
         if (filteredDict.length === 0) {
-            dictionaryListContainer.innerHTML = `<p class="text-muted" style="text-align: center; padding: 2rem 0;">No vocabulary terms match your search query.</p>`;
+            dictionaryListContainer.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 2rem 0;">No vocabulary terms match your search query.</p>`;
             return;
         }
 
         dictionaryListContainer.innerHTML = filteredDict.map(item => `
-            <div class="dictionary-node-row" style="padding: 1rem 0; border-bottom: 1px dashed var(--border-subtle);">
-                <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
-                    <strong style="font-size: 1.1rem; color: var(--brand-primary);">${item.term}</strong>
-                    <span style="font-size: 0.7rem; background: var(--border-subtle); padding: 0.15rem 0.4rem; border-radius: 4px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">${item.category}</span>
+            <div class="dict-card tab-fade-animation">
+                <div class="dict-header">
+                    <h3>${item.term}</h3>
+                    <span class="dict-tag">${item.category}</span>
                 </div>
-                <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-top: 0.3rem; line-height: 1.4;">${item.details}</p>
+                <p class="dict-def">${item.details}</p>
+                <div class="dict-protip"><strong>🧠 Pro Insight:</strong> ${item.proTip}</div>
             </div>
         `).join('');
     }
@@ -536,4 +568,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- INITIALIZATION RUNTIME ---
     calculateSkinTrajectory();
     renderCards("all");
+    renderDictionaryList("");
 });
