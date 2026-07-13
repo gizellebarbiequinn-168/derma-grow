@@ -16,6 +16,18 @@
     --shadow-subtle: 0 4px 20px rgba(74, 85, 72, 0.04);
 }
 
+/* DARK MODE COLOR MAP VARIABLES */
+[data-theme="dark"] {
+    --bg-main: #181a18;
+    --bg-card: #212421;
+    --color-text-main: #e2e4e1;
+    --color-text-muted: #a0a6a1;
+    --brand-primary: #8fa08c;
+    --brand-secondary: #cbd3cb;
+    --border-subtle: #323732;
+    --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -130,3 +142,28 @@ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4
 /* ANIMATION LIFTS */
 @keyframes viewSlideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .tab-fade-animation { animation: viewSlideUp 0.25s ease-in-out; }
+
+/* PRINT OUT STYLES SHEET (Strips page items when hitting print out) */
+@media print {
+    body { background: white !important; color: black !important; }
+    .app-header, .brand-container, #themeToggleBtn, .app-nav, #heroSection, #impactMatrix, 
+    .left-panel > .content-card:first-child, .right-panel, #printRoutineBtn, 
+    .database-filter-bar, form {
+        display: none !important;
+    }
+    .view-section, .dashboard-grid, .left-panel, #protocolBox {
+        display: block !important;
+        width: 100% !important;
+    }
+    .content-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    .routine-block {
+        border-left: 3px solid black !important;
+        background: #f5f5f5 !important;
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+}
