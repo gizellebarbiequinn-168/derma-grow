@@ -34,7 +34,7 @@
                 Smart Skincare on a Strict Budget
             </h1>
             <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
-                Build an database-backed routine around core essentials, bypass expensive viral marketing trends, and analyze structured community formulations.
+                Build a database-backed routine around core essentials, bypass expensive viral marketing trends, and analyze structured community formulations.
             </p>
         </section>
 
@@ -69,52 +69,56 @@
                         <input type="range" id="budgetSlider" class="range-slider" min="0" max="300000" step="10000" value="0">
                     </div>
 
+                    <div style="margin: 1rem 0 1.5rem 0;">
+                        <button type="button" id="starterPackBtn" class="btn-preset">✨ Apply 3-Step Instant Starter Pack</button>
+                    </div>
+
                     <label style="margin-top: 1.2rem;">Current Available Products:</label>
                     <div class="selection-matrix-grid">
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodLotion">
+                            <input type="checkbox" id="chk-moisturizer">
                             <div class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin
                                 <span class="checkbox-subtext">Protects surface cells from drying out</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodCleanser">
+                            <input type="checkbox" id="chk-cleanser">
                             <div class="checkbox-label-text">🧼 Gentle Low-pH Cleanser
                                 <span class="checkbox-subtext">Washes away grime without stripping lipids</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodSunscreen">
+                            <input type="checkbox" id="chk-sunscreen">
                             <div class="checkbox-label-text">☀️ Broad-Spectrum Sunscreen
                                 <span class="checkbox-subtext">Crucial daily protective UV shield</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodToner">
+                            <input type="checkbox" id="chk-toner">
                             <div class="checkbox-label-text">💧 Gentle Hydrating Toner
                                 <span class="checkbox-subtext">Adds extra surface-level hydration</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodNiacinamide">
+                            <input type="checkbox" id="chk-niacinamide">
                             <div class="checkbox-label-text">🧪 Niacinamide Serum
                                 <span class="checkbox-subtext">Supports natural barrier recovery metrics</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodHandmeDown">
+                            <input type="checkbox" id="chk-actives">
                             <div class="checkbox-label-text">⚡ High-Potency Active Serums
                                 <span class="checkbox-subtext">Retinols or strong unbuffered acids</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodLemonTrend">
+                            <input type="checkbox" id="chk-lemon">
                             <div class="checkbox-label-text">🍋 DIY Lemon Juice Remedies
                                 <span class="checkbox-subtext">Extreme acidic threat to natural skin pH</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
-                            <input type="checkbox" id="prodScrubs">
+                            <input type="checkbox" id="chk-scrubs">
                             <div class="checkbox-label-text">🧽 Coarse Physical Face Scrubs
                                 <span class="checkbox-subtext">Abrasive mechanical barrier friction</span>
                             </div>
@@ -290,14 +294,14 @@
 
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
-                <h2>Skincare Vocabulary Dictionary</h2>
-                <p class="text-muted">A comprehensive, expanded reference guide decoding functional product styles, anatomical systems, and critical active ingredients.</p>
+                <h2>🔬 Skincare Dictionary Pro</h2>
+                <p class="text-muted">Type any complex chemical formulation compound, architectural system, or active ingredient structure to see its full definition.</p>
                 
                 <div class="dictionary-search-box">
-                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Ceramide, Sebaceous, Occlusive)...">
+                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Sebaceous, Occlusive)...">
                 </div>
 
-                <div id="dictionaryListContainer" class="dictionary-list-stack" style="margin-top: 1.5rem;">
+                <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;">
                     </div>
             </div>
         </section>
