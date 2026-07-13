@@ -11,14 +11,14 @@
 
     <div class="app-container">
         
-        <!-- HEADER & NAVIGATION (5 MAIN SECTIONS) -->
         <header class="app-header">
             <div class="brand-container">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="#4a5548" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="#c49a45" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="var(--brand-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="var(--brand-accent)" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
                 <span class="brand-heading">Derma Grow</span>
+                <button id="themeToggleBtn" class="filter-btn" style="margin-left: 0.5rem; padding: 0.25rem 0.6rem; font-size: 0.75rem;">🌓 Toggle Theme</button>
             </div>
             <nav class="app-nav">
                 <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
@@ -29,7 +29,6 @@
             </nav>
         </header>
 
-        <!-- INTRO HERO BANNER -->
         <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2rem;">
             <h1 style="color: var(--brand-primary); font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
                 Smart Skincare on a Strict Budget
@@ -39,7 +38,6 @@
             </p>
         </section>
 
-        <!-- KPI SCOREBOARD -->
         <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); padding: 1rem; margin-bottom: 1.5rem;">
             <div class="metrics-row">
                 <div class="metric-stat-box">
@@ -57,7 +55,6 @@
             </div>
         </div>
 
-        <!-- SECTION 1: DASHBOARD (ROUTINE BUILDER) -->
         <main id="trackerCard" class="view-section dashboard-grid">
             <div class="left-panel">
                 <div class="content-card">
@@ -131,7 +128,11 @@
                         Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see estimated trendlines.
                     </div>
                     
-                    <h3 style="margin-top: 1.5rem;">Your Free Essential Routine</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                        <h3 style="margin: 0;">Your Free Essential Routine</h3>
+                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print for Bathroom Mirror</button>
+                    </div>
+                    
                     <div class="routine-split-panel">
                         <div class="routine-block">
                             <h4>☀️ Morning Regime</h4>
@@ -173,7 +174,6 @@
             </div>
         </main>
 
-        <!-- SECTION 2: SKIN TYPE QUIZ -->
         <section id="quizSection" class="view-section quiz-container hidden">
             <div class="content-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
@@ -204,7 +204,6 @@
             </div>
         </section>
 
-        <!-- SECTION 3: SCIENCE HUB -->
         <section id="learnSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Skincare Academy & Research Hub</h2>
@@ -220,7 +219,6 @@
             <div id="databaseGrid" class="database-cards-grid"></div>
         </section>
 
-        <!-- SECTION 4: PRODUCT RECOMMENDATIONS (INDEPENDENT) -->
         <section id="recommendationsSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Peer Knowledge Registry</h2>
@@ -290,7 +288,6 @@
             </div>
         </section>
 
-        <!-- SECTION 5: SKINCARE DICTIONARY (INDEPENDENT) -->
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
                 <h2>Skincare Vocabulary Dictionary</h2>
@@ -301,8 +298,7 @@
                 </div>
 
                 <div id="dictionaryListContainer" class="dictionary-list-stack" style="margin-top: 1.5rem;">
-                    <!-- Expanded Dictionary items inject here -->
-                </div>
+                    </div>
             </div>
         </section>
 
