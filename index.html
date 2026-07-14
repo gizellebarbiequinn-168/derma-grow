@@ -24,7 +24,7 @@
                 <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
                 <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
                 <a href="#" id="navLearn" class="nav-link">Science Hub</a>
-                <a href="#" id="navRecommendations" class="nav-link">Product Recommendations</a>
+                <a href="#" id="navRecommendations" class="nav-link">Shared Directory</a>
                 <a href="#" id="navDictionary" class="nav-link">Skincare Dictionary</a>
             </nav>
         </header>
@@ -34,7 +34,7 @@
                 Smart Skincare on a Strict Budget
             </h1>
             <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
-                Build a database-backed routine around core essentials, bypass expensive viral marketing trends, and analyze structured community formulations.
+                Build a database-backed routine around core essentials, bypass expensive marketing hype, and browse community product logs.
             </p>
         </section>
 
@@ -46,11 +46,11 @@
                 </div>
                 <div class="metric-stat-box">
                     <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">0</span>
-                    <span class="metric-label">Saved Items</span>
+                    <span class="metric-label">Trends Avoided</span>
                 </div>
                 <div class="metric-stat-box">
                     <span id="optimizationDelta" class="metric-number" style="color: var(--brand-accent);">+0%</span>
-                    <span class="metric-label">Routine Score</span>
+                    <span class="metric-label">Consistency Target</span>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                         <h2 style="margin-bottom: 0;">Budget Routine Builder</h2>
                         <span id="profileSyncBadge" style="font-size: 0.7rem; background-color: var(--border-subtle); color: var(--color-text-muted); padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 700; text-transform: uppercase;">Profile: Unlinked</span>
                     </div>
-                    <p class="text-muted">Select your budget parameters and available products below to calculate your rule-based 14-day lipid trajectory.</p>
+                    <p class="text-muted">Select your budget parameters and available products below to configure your rule-based 14-day starter routine.</p>
                     
                     <div class="input-group">
                         <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
@@ -102,7 +102,7 @@
                         <label class="checkbox-card">
                             <input type="checkbox" id="chk-niacinamide">
                             <div class="checkbox-label-text">🧪 Niacinamide Serum
-                                <span class="checkbox-subtext">Supports natural barrier recovery metrics</span>
+                                <span class="checkbox-subtext">Supports natural skin hydration paths</span>
                             </div>
                         </label>
                         <label class="checkbox-card">
@@ -120,16 +120,16 @@
                         <label class="checkbox-card">
                             <input type="checkbox" id="chk-scrubs">
                             <div class="checkbox-label-text">🧽 Coarse Physical Face Scrubs
-                                <span class="checkbox-subtext">Abrasive mechanical barrier friction</span>
+                                <span class="checkbox-subtext">Abrasive mechanical surface friction</span>
                             </div>
                         </label>
                     </div>
                 </div>
 
                 <div id="protocolBox" class="content-card hidden">
-                    <h3>Estimated Skin Barrier Analysis</h3>
+                    <h3>Your Custom Routine Guide</h3>
                     <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
-                        Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see estimated trendlines.
+                        Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.
                     </div>
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
@@ -152,8 +152,8 @@
 
             <div class="right-panel">
                 <div class="content-card">
-                    <h2>Heuristic Barrier Projection</h2>
-                    <p class="text-muted">Tracking values over a simulated two-week cycle.</p>
+                    <h2>Visual Consistency Timeline</h2>
+                    <p class="text-muted">An illustrative timeline showing the general conceptual logic behind why routine consistency matters over 14 days.</p>
                     <div class="chart-container">
                         <canvas id="dermaChart"></canvas>
                     </div>
@@ -181,28 +181,28 @@
         <section id="quizSection" class="view-section quiz-container hidden">
             <div class="content-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h2 style="margin: 0;">Skin Profile Assessment</h2>
+                    <h2 style="margin: 0;">Skin Type Quiz</h2>
                     <span id="quizProgressTracker" style="font-size: 0.8rem; font-weight: 700; color: var(--brand-accent);">Step 1 of 9</span>
                 </div>
-                <p class="text-muted" style="margin-bottom: 1.5rem;">Estimate your comprehensive skin blueprint based on sebum balance, integrity markers, and product performance indicators.</p>
+                <p class="text-muted" style="margin-bottom: 1.5rem;">Identify your general skin classification based on daily comfort levels and oil production symptoms.</p>
                 
                 <div style="width: 100%; height: 4px; background: var(--border-subtle); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden;">
                     <div id="quizProgressBar" style="width: 11.1%; height: 100%; background: var(--brand-accent); transition: width 0.3s ease;"></div>
                 </div>
 
                 <div id="questionBox">
-                    <p id="questionText" class="question-text">Loading profile questions...</p>
+                    <p id="questionText" class="question-text">Loading skin type questions...</p>
                     <div id="answerOptions" class="answer-options-stack"></div>
                 </div>
 
                 <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
                     <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
-                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL PROFILE</h3>
+                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL SKIN TYPE</h3>
                     <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
                     
                     <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
                         <button id="syncToRoutineBtn" class="btn-primary" style="background-color: var(--brand-primary);">Sync to Routine Builder</button>
-                        <button id="resetQuizBtn" class="btn-primary">Retake Skin Assessment</button>
+                        <button id="resetQuizBtn" class="btn-primary">Retake Skin Quiz</button>
                     </div>
                 </div>
             </div>
@@ -211,7 +211,7 @@
         <section id="learnSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Skincare Academy & Research Hub</h2>
-                <p class="text-muted">Evaluating common internet trends and topical ingredients using peer-reviewed dermatological concepts.</p>
+                <p class="text-muted">Evaluating common internet trends and topical ingredients using verified dermatological reference concepts.</p>
                 <div class="database-filter-bar">
                     <button class="filter-btn active" data-category="all">All Resources</button>
                     <button class="filter-btn" data-category="myths">Trend Debunkers</button>
@@ -225,8 +225,8 @@
 
         <section id="recommendationsSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
-                <h2>Peer Knowledge Registry</h2>
-                <p class="text-muted">Filter community recommendations by profile to discover curated budget finds complete with ingredient breakdowns and directions.</p>
+                <h2>Shared Product Directory</h2>
+                <p class="text-muted">Browse community recommendations sorted by skin type to discover affordable product matches complete with ingredient logs.</p>
                 
                 <div class="database-filter-bar">
                     <button class="peer-filter-btn active" data-skin="all">All Profiles</button>
@@ -241,14 +241,14 @@
                 <div id="peerRegistryGrid" class="database-cards-grid"></div>
 
                 <div class="content-card">
-                    <h3>Contribute a Product</h3>
-                    <p class="text-muted">Found a clean, affordable formula that fits your skin type profile flawlessly? Log it here.</p>
+                    <h3>Log a Budget Find</h3>
+                    <p class="text-muted">Found an affordable formula that fits your skin type cleanly? Log it here.</p>
                     
                     <form id="peerContributionForm" action="https://formspree.io/f/xykrgnlq" method="POST">
                         <input type="hidden" name="_subject" value="New Derma Grow Peer Product Contribution!">
                         
                         <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerSkinType">Target Skin Profile:</label>
+                            <label for="peerSkinType">Target Skin Type:</label>
                             <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
                                 <option value="Normal">Normal Skin</option>
                                 <option value="Oily">Oily Skin</option>
@@ -258,7 +258,7 @@
                         </div>
 
                         <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerProdName">Product Name & Class:</label>
+                            <label for="peerProdName">Product Name:</label>
                             <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
                         </div>
 
@@ -278,8 +278,8 @@
                         </div>
 
                         <div class="input-group" style="margin-bottom: 1rem;">
-                            <label for="peerNotes">Definition & Justification Note:</label>
-                            <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain what this product is and why it functions beautifully for this particular type..." required></textarea>
+                            <label for="peerNotes">Description & Simple Notes:</label>
+                            <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain what this product is and how it helps this skin type..." required></textarea>
                         </div>
 
                         <button type="submit" class="btn-primary" style="width: 100%;">Publish & Send Contribution</button>
@@ -295,7 +295,7 @@
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
                 <h2>🔬 Skincare Dictionary Pro</h2>
-                <p class="text-muted">Type any complex chemical formulation compound, architectural system, or active ingredient structure to see its full definition.</p>
+                <p class="text-muted">Type any common ingredient, compound, or term to see its simple, plain-English explanation.</p>
                 
                 <div class="dictionary-search-box">
                     <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Sebaceous, Occlusive)...">
