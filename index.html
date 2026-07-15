@@ -3,311 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derma Grow — Evidence-Based Budget Skincare</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Derma Grow - Skincare Dictionary Pro</title>
+    <!-- Tailwind CSS CDN for styling matching your screenshots -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkGreen: '#3D4A3E',
+                            lightBg: '#F9F9F8',
+                            gold: '#C59A48',
+                            cardBg: '#FFFFFF',
+                            tagBg: '#F3F4F3',
+                            insightBg: '#FFF5F5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="bg-brand-lightBg font-sans text-gray-800 antialiased min-h-screen pb-12">
 
-    <div class="app-container">
-        
-        <header class="app-header">
-            <div class="brand-container">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 21V11M12 11C10 7.5 5.5 7.5 5.5 11C5.5 15 12 16 12 16C12 16 18.5 15 18.5 11C18.5 7.5 14 7.5 12 11Z" stroke="var(--brand-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="var(--brand-accent)" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span class="brand-heading">Derma Grow</span>
-                <button id="themeToggleBtn" class="filter-btn" style="margin-left: 0.5rem; padding: 0.25rem 0.6rem; font-size: 0.75rem;">🌓 Toggle Theme</button>
+    <!-- Top Navigation Bar Header Layer -->
+    <header class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50">
+        <div class="max-w-md mx-auto flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🌱</span>
+                    <h1 class="text-xl font-semibold text-brand-darkGreen tracking-tight">Derma Grow</h1>
+                </div>
+                <button class="text-xs bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200 font-medium text-gray-600 flex items-center gap-1.5">
+                    <span>🌗</span> Toggle Theme
+                </button>
             </div>
-            <nav class="app-nav">
-                <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
-                <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
-                <a href="#" id="navLearn" class="nav-link">Science Hub</a>
-                <a href="#" id="navRecommendations" class="nav-link">Shared Directory</a>
-                <a href="#" id="navDictionary" class="nav-link">Skincare Dictionary</a>
+            
+            <!-- Navigation Layout Tabs -->
+            <nav class="flex overflow-x-auto gap-2 no-scrollbar py-0.5 text-sm font-medium text-gray-600">
+                <a href="#" class="px-3 py-1.5 rounded-full whitespace-nowrap bg-gray-100">Dashboard</a>
+                <a href="#" class="px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100">Skin Type Quiz</a>
+                <a href="#" class="px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100">Science Hub</a>
+                <a href="#" class="px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100">Shared Directory</a>
+                <a href="#" class="px-3 py-1.5 rounded-full whitespace-nowrap bg-brand-darkGreen text-white">Skincare Dictionary</a>
             </nav>
-        </header>
-
-        <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2rem;">
-            <h1 style="color: var(--brand-primary); font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
-                Smart Skincare on a Strict Budget
-            </h1>
-            <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
-                Build a database-backed routine around core essentials, bypass expensive marketing hype, and browse community product logs.
-            </p>
-        </section>
-
-        <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); padding: 1rem; margin-bottom: 1.5rem;">
-            <div class="metrics-row">
-                <div class="metric-stat-box">
-                    <span id="activeUsersCount" class="metric-number" style="color: #ffffff;">1 Active</span>
-                    <span class="metric-label">Active Session</span>
-                </div>
-                <div class="metric-stat-box">
-                    <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">0</span>
-                    <span class="metric-label">Trends Avoided</span>
-                </div>
-                <div class="metric-stat-box">
-                    <span id="optimizationDelta" class="metric-number" style="color: var(--brand-accent);">+0%</span>
-                    <span class="metric-label">Consistency Target</span>
-                </div>
-            </div>
         </div>
+    </header>
 
-        <main id="trackerCard" class="view-section dashboard-grid">
-            <div class="left-panel">
-                <div class="content-card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
-                        <h2 style="margin-bottom: 0;">Budget Routine Builder</h2>
-                        <span id="profileSyncBadge" style="font-size: 0.7rem; background-color: var(--border-subtle); color: var(--color-text-muted); padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 700; text-transform: uppercase;">Profile: Unlinked</span>
-                    </div>
-                    <p class="text-muted">Select your budget parameters and available products below to configure your rule-based 14-day starter routine.</p>
-                    
-                    <div class="input-group">
-                        <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
-                        <input type="range" id="budgetSlider" class="range-slider" min="0" max="300000" step="10000" value="0">
-                    </div>
+    <!-- Main Section Box Setup -->
+    <main class="max-w-md mx-auto px-4 mt-6">
+        
+        <!-- App Metric Dashboard Layout -->
+        <section class="bg-brand-darkGreen text-white rounded-xl p-4 grid grid-cols-3 gap-2 text-center shadow-sm mb-6">
+            <div class="bg-white/10 p-2 rounded-lg">
+                <div class="text-lg font-bold">1 Active</div>
+                <div class="text-[10px] tracking-wider uppercase opacity-80 mt-0.5">Active Session</div>
+            </div>
+            <div class="bg-white/10 p-2 rounded-lg">
+                <div class="text-lg font-bold">0</div>
+                <div class="text-[10px] tracking-wider uppercase opacity-80 mt-0.5">Trends Avoided</div>
+            </div>
+            <div class="bg-white/10 p-2 rounded-lg">
+                <div class="text-lg font-bold text-brand-gold">+0%</div>
+                <div class="text-[10px] tracking-wider uppercase opacity-80 mt-0.5">Consistency Target</div>
+            </div>
+        </section>
 
-                    <div style="margin: 1rem 0 1.5rem 0;">
-                        <button type="button" id="starterPackBtn" class="btn-preset">✨ Apply 3-Step Instant Starter Pack</button>
-                    </div>
+        <!-- Dictionary Module Workspace Component -->
+        <section class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <div class="flex items-center gap-2.5 mb-2">
+                <span class="text-2xl">🔬</span>
+                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Skincare Dictionary Pro</h2>
+            </div>
+            <p class="text-sm text-gray-500 leading-relaxed mb-5">
+                Type any common ingredient, compound, or term to see its simple, plain-English explanation.
+            </p>
 
-                    <label style="margin-top: 1.2rem;">Current Available Products:</label>
-                    <div class="selection-matrix-grid">
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-moisturizer">
-                            <div class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin
-                                <span class="checkbox-subtext">Protects surface cells from drying out</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-cleanser">
-                            <div class="checkbox-label-text">🧼 Gentle Low-pH Cleanser
-                                <span class="checkbox-subtext">Washes away grime without stripping lipids</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-sunscreen">
-                            <div class="checkbox-label-text">☀️ Broad-Spectrum Sunscreen
-                                <span class="checkbox-subtext">Crucial daily protective UV shield</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-toner">
-                            <div class="checkbox-label-text">💧 Gentle Hydrating Toner
-                                <span class="checkbox-subtext">Adds extra surface-level hydration</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-niacinamide">
-                            <div class="checkbox-label-text">🧪 Niacinamide Serum
-                                <span class="checkbox-subtext">Supports natural skin hydration paths</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-actives">
-                            <div class="checkbox-label-text">⚡ High-Potency Active Serums
-                                <span class="checkbox-subtext">Retinols or strong unbuffered acids</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-lemon">
-                            <div class="checkbox-label-text">🍋 DIY Lemon Juice Remedies
-                                <span class="checkbox-subtext">Extreme acidic threat to natural skin pH</span>
-                            </div>
-                        </label>
-                        <label class="checkbox-card">
-                            <input type="checkbox" id="chk-scrubs">
-                            <div class="checkbox-label-text">🧽 Coarse Physical Face Scrubs
-                                <span class="checkbox-subtext">Abrasive mechanical surface friction</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="protocolBox" class="content-card hidden">
-                    <h3>Your Custom Routine Guide</h3>
-                    <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
-                        Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
-                        <h3 style="margin: 0;">Your Free Essential Routine</h3>
-                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print for Bathroom Mirror</button>
-                    </div>
-                    
-                    <div class="routine-split-panel">
-                        <div class="routine-block">
-                            <h4>☀️ Morning Regime</h4>
-                            <ul id="amRoutineList" class="routine-list"></ul>
-                        </div>
-                        <div class="routine-block">
-                            <h4>🌙 Evening Regime</h4>
-                            <ul id="pmRoutineList" class="routine-list"></ul>
-                        </div>
-                    </div>
-                </div>
+            <!-- Interactive Dynamic Input Bar -->
+            <div class="relative mb-6">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
+                <input 
+                    type="text" 
+                    id="dictionarySearch" 
+                    placeholder="Search vocabulary terms (e.g., Niacinamide...)" 
+                    class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-darkGreen focus:bg-white transition-all placeholder:text-gray-400"
+                >
             </div>
 
-            <div class="right-panel">
-                <div class="content-card">
-                    <h2>Visual Consistency Timeline</h2>
-                    <p class="text-muted">An illustrative timeline showing the general conceptual logic behind why routine consistency matters over 14 days.</p>
-                    <div class="chart-container">
-                        <canvas id="dermaChart"></canvas>
-                    </div>
-                    <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
-                        💡 Routine Builder Active. Interact with the checkboxes above to see updates.
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <h2>Help Improve Derma Grow</h2>
-                    <p class="text-muted">Spotted a bug or have recommendations? Send us text feedback directly.</p>
-                    <form id="feedbackForm" action="https://formspree.io/f/xykrgnlq" method="POST">
-                        <div class="input-group">
-                            <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary">Submit Feedback Note</button>
-                    </form>
-                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
-                        ✓ Feedback logged successfully. Thank you for helping refine the app!
-                    </div>
-                </div>
+            <!-- Dynamic Output Inject Layout Block -->
+            <div id="dictionaryContainer" class="space-y-4">
+                <!-- JavaScript handles programmatic population here cleanly -->
             </div>
-        </main>
 
-        <section id="quizSection" class="view-section quiz-container hidden">
-            <div class="content-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h2 style="margin: 0;">Skin Type Quiz</h2>
-                    <span id="quizProgressTracker" style="font-size: 0.8rem; font-weight: 700; color: var(--brand-accent);">Step 1 of 9</span>
-                </div>
-                <p class="text-muted" style="margin-bottom: 1.5rem;">Identify your general skin classification based on daily comfort levels and oil production symptoms.</p>
+            <!-- Fallback Blank State Structure -->
+            <div id="emptyState" class="hidden text-center py-12 text-gray-400 text-sm font-medium">
+                No matching dynamic skincare terms found. Try another query!
+            </div>
+        </section>
+    </main>
+
+    <!-- Data Array & Filtering Module Architecture Logic -->
+    <script>
+        // Production dictionary matrix array containing the target 19 entries
+        const skincareDictionary = [
+            {
+                term: "Hyaluronic Acid",
+                category: "ACTIVE COMPONENT",
+                definition: "A powerful moisture-binding molecule naturally found in the skin that can hold up to 1,000 times its weight in water to temporarily plump the skin.",
+                insight: "Always apply this to a damp face to give the molecule water to pull into the skin, rather than drawing moisture out from the deeper layers."
+            },
+            {
+                term: "Niacinamide (Vitamin B3)",
+                category: "ACTIVE COMPONENT",
+                definition: "A versatile water-soluble vitamin that helps visibly minimize enlarged pores, tighten lax pores, improve uneven skin tone, and support the skin barrier.",
+                insight: "It plays exceptionally well with almost every other ingredient, making it a safe choice for soothing skin when starting a retinoid."
+            },
+            {
+                term: "Retinol",
+                category: "ACTIVE COMPONENT",
+                definition: "A derivative of Vitamin A that speeds up skin cell turnover and boosts collagen production to improve texture, fine lines, and acne.",
+                insight: "Highly unstable when exposed to light and air. Only use it in your nighttime routine and ensure you wear sunscreen the following morning."
+            },
+            {
+                term: "Salicylic Acid (BHA)",
+                category: "ACTIVE COMPONENT",
+                definition: "An oil-soluble chemical exfoliant that penetrates deep into pores to dissolve sebum, dead skin cells, and debris, effectively treating blackheads and breakouts.",
+                insight: "Because it is oil-soluble, it is uniquely suited for oily and acne-prone skin types compared to water-soluble acids."
+            },
+            {
+                term: "Glycolic Acid (AHA)",
+                category: "ACTIVE COMPONENT",
+                definition: "A water-soluble chemical exfoliant derived from sugar cane with the smallest molecular size among AHAs, allowing it to efficiently shed dead skin on the surface.",
+                insight: "Excellent for dry skin or hyperpigmentation, but its small molecular size means it can cause tingling or irritation if used too frequently."
+            },
+            {
+                term: "Tocopherol (Vitamin E)",
+                category: "ACTIVE COMPONENT",
+                definition: "A lipid-soluble antioxidant that protects surface cells from environmental oxidative stress and aids in skin healing and barrier stabilization.",
+                insight: "Often paired with Vitamin C in formulas because the two ingredients synergistically regenerate each other, amplifying their antioxidant strength."
+            },
+            {
+                term: "Centella Asiatica (Cica)",
+                category: "ACTIVE COMPONENT",
+                definition: "A botanical herb rich in amino acids and fatty acids, widely used to calm inflammation, accelerate wound healing, and soothe compromised skin barriers.",
+                insight: "Look for this if your skin is experiencing redness, stinging, or peeling from over-exfoliation."
+            },
+            {
+                term: "Squalane",
+                category: "ACTIVE COMPONENT",
+                definition: "A stable, saturated structural oil derived from plants that mimics skin’s natural sebum to deeply moisturize, soften texture, and prevent moisture loss.",
+                insight: "Lightweight and non-comedogenic, making it an excellent facial oil alternative for oily or acne-prone skin that still experiences dryness."
+            },
+            {
+                term: "Benzoyl Peroxide",
+                category: "ACTIVE COMPONENT",
+                definition: "An antimicrobial ingredient that introduces oxygen into pores to target and kill acne-causing bacteria, while simultaneously clearing away dead skin cells.",
+                insight: "Can bleach colored fabrics, pillowcases, and towels upon contact. Consider using it in a wash-off cleanser formulation rather than a leave-on cream."
+            },
+            {
+                term: "Titanium Dioxide",
+                category: "ACTIVE COMPONENT",
+                definition: "A naturally occurring physical mineral that sits on top of the skin barrier to physically deflect both UVA and UVB ultraviolet radiation.",
+                insight: "An ideal choice for highly sensitive or rosacea-prone skin types, though it requires thorough cleansing at night to prevent buildup."
+            },
+            {
+                term: "Humectant",
+                category: "PRODUCT FUNCTION",
+                definition: "A class of water-loving moisturizing substances that attract hydration from the atmosphere or deeper skin layers and bind it to the surface.",
+                insight: "Common examples include glycerin, urea, and panthenol. They require an occlusive or emollient over them in dry climates to lock that moisture in."
+            },
+            {
+                term: "Emollient",
+                category: "PRODUCT FUNCTION",
+                definition: "Biocompatible conditioning agents, such as plant oils and lipids, that fill in the microscopic gaps between shedding skin cells to smooth and soften texture.",
+                insight: "Essential for repairing a dry, rough, or flaky skin surface layout by restoring flexible surface lipids."
+            },
+            {
+                term: "Occlusive",
+                category: "PRODUCT FUNCTION",
+                definition: "Heavy moisturizing agents that form a physical, hydrophobic barrier over the stratum corneum to actively block water from escaping into the air.",
+                insight: "Ingredients like petrolatum or dimethicone are powerful occlusives. Use them as the final step in a nighttime routine to combat severe dryness."
+            },
+            {
+                term: "Epidermis",
+                category: "ANATOMY",
+                definition: "The outermost layer of the skin structure that acts as the body's primary physical shield against external pathogens, pollution, and water loss.",
+                insight: "Most over-the-counter cosmetic skincare products are structurally designed to work solely within this upper layer."
+            },
+            {
+                term: "Stratum Corneum",
+                category: "ANATOMY",
+                definition: "The very top layer of the epidermis, composed of hardened, dead skin cells bound tightly together by a brick-and-mortar matrix of native lipids.",
+                insight: "Often referred to as the 'moisture barrier.' When this specific layer is compromised, skin experiences rapid dehydration and irritation."
+            },
+            {
+                term: "Melanin",
+                category: "BIOLOGY",
+                definition: "Biological pigments produced by specialized cells called melanocytes that determine skin tone and serve as a natural biological defense against UV damage.",
+                insight: "Irritation, acne, and UV exposure can trigger overproduction of melanin, leading to post-inflammatory hyperpigmentation (dark spots)."
+            },
+            {
+                term: "Sebum",
+                category: "BIOLOGY",
+                definition: "An oily substance produced by the sebaceous glands to lubricate, waterproof, and protect the overall skin surface layout.",
+                insight: "While overproduction causes an oily skin profile and potential acne, an optimal amount is critical for natural anti-aging defenses."
+            },
+            {
+                term: "Transepidermal Water Loss (TEWL)",
+                category: "SKIN METRIC",
+                definition: "The continuous, natural process where water evaporates from inside the body through the epidermis and into the surrounding atmosphere.",
+                insight: "High TEWL numbers indicate a compromised skin barrier, which presents clinically as dry, irritated, flaky, or tight-feeling skin."
+            },
+            {
+                term: "Non-Comedogenic",
+                category: "PRODUCT PROPERTY",
+                definition: "A term indicating that a specific product or ingredient formulation has been designed to minimize the likelihood of clogging pores.",
+                insight: "This is a helpful guideline for oily or acne-prone skin, though individual reactions can still vary depending on the overall formulation layout."
+            }
+        ];
+
+        const container = document.getElementById('dictionaryContainer');
+        const searchInput = document.getElementById('dictionarySearch');
+        const emptyState = document.getElementById('emptyState');
+
+        // Render Function implementing your specific border and element styling cards
+        function renderDictionary(items) {
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-xl border-l-4 border-brand-darkGreen shadow-[0_2px_8px_rgba(0,0,0,0.04)] border-y border-r border-gray-100 flex flex-col gap-2";
                 
-                <div style="width: 100%; height: 4px; background: var(--border-subtle); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden;">
-                    <div id="quizProgressBar" style="width: 11.1%; height: 100%; background: var(--brand-accent); transition: width 0.3s ease;"></div>
-                </div>
-
-                <div id="questionBox">
-                    <p id="questionText" class="question-text">Loading skin type questions...</p>
-                    <div id="answerOptions" class="answer-options-stack"></div>
-                </div>
-
-                <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
-                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
-                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL SKIN TYPE</h3>
-                    <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
-                    
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
-                        <button id="syncToRoutineBtn" class="btn-primary" style="background-color: var(--brand-primary);">Sync to Routine Builder</button>
-                        <button id="resetQuizBtn" class="btn-primary">Retake Skin Quiz</button>
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-4">
+                        <h3 class="font-bold text-gray-800 text-base leading-snug">${item.term}</h3>
+                        <span class="text-[9px] font-bold tracking-wider text-gray-500 bg-brand-tagBg px-2 py-0.5 rounded uppercase whitespace-nowrap">
+                            ${item.category}
+                        </span>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="learnSection" class="view-section hidden">
-            <div class="content-card" style="margin-bottom: 1.5rem;">
-                <h2>Skincare Academy & Research Hub</h2>
-                <p class="text-muted">Evaluating common internet trends and topical ingredients using verified dermatological reference concepts.</p>
-                <div class="database-filter-bar">
-                    <button class="filter-btn active" data-category="all">All Resources</button>
-                    <button class="filter-btn" data-category="myths">Trend Debunkers</button>
-                    <button class="filter-btn" data-category="classification">Product Categories</button>
-                    <button class="filter-btn" data-category="actives">Skincare Ingredients</button>
-                    <button class="filter-btn" data-category="anatomy">Skin Biology</button>
-                </div>
-            </div>
-            <div id="databaseGrid" class="database-cards-grid"></div>
-        </section>
-
-        <section id="recommendationsSection" class="view-section hidden">
-            <div class="content-card" style="margin-bottom: 1.5rem;">
-                <h2>Shared Product Directory</h2>
-                <p class="text-muted">Browse community recommendations sorted by skin type to discover affordable product matches complete with ingredient logs.</p>
-                
-                <div class="database-filter-bar">
-                    <button class="peer-filter-btn active" data-skin="all">All Profiles</button>
-                    <button class="peer-filter-btn" data-skin="Normal">Normal Skin</button>
-                    <button class="peer-filter-btn" data-skin="Oily">Oily Skin</button>
-                    <button class="peer-filter-btn" data-skin="Dry">Dry Skin</button>
-                    <button class="peer-filter-btn" data-skin="Sensitive">Sensitive Skin</button>
-                </div>
-            </div>
-
-            <div class="peer-split-grid">
-                <div id="peerRegistryGrid" class="database-cards-grid"></div>
-
-                <div class="content-card">
-                    <h3>Log a Budget Find</h3>
-                    <p class="text-muted">Found an affordable formula that fits your skin type cleanly? Log it here.</p>
-                    
-                    <form id="peerContributionForm" action="https://formspree.io/f/xykrgnlq" method="POST">
-                        <input type="hidden" name="_subject" value="New Derma Grow Peer Product Contribution!">
-                        
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerSkinType">Target Skin Type:</label>
-                            <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
-                                <option value="Normal">Normal Skin</option>
-                                <option value="Oily">Oily Skin</option>
-                                <option value="Dry">Dry Skin</option>
-                                <option value="Sensitive">Sensitive Skin</option>
-                            </select>
-                        </div>
-
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerProdName">Product Name:</label>
-                            <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
-                        </div>
-
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerPrice">Estimated Retail Cost:</label>
-                            <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 35.000" required>
-                        </div>
-
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerIngredients">Key Ingredients:</label>
-                            <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Aloe Vera Extract, Glycerin, Provitamin B5" required>
-                        </div>
-
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerUsage">How to Use Safely:</label>
-                            <input type="text" id="peerUsage" name="Application Instructions" class="form-input-text" placeholder="e.g., Apply evenly to face and neck as morning moisturizer layer" required>
-                        </div>
-
-                        <div class="input-group" style="margin-bottom: 1rem;">
-                            <label for="peerNotes">Description & Simple Notes:</label>
-                            <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain what this product is and how it helps this skin type..." required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-primary" style="width: 100%;">Publish & Send Contribution</button>
-                    </form>
-
-                    <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; text-align: center;">
-                        ✓ Recommendation submitted to the moderator queue! Thank you for sharing your knowledge.
+                    <p class="text-sm text-gray-600 leading-relaxed">${item.definition}</p>
+                    <div class="mt-1 bg-red-50/50 rounded-lg p-2.5 border border-red-100/40 flex gap-2 items-start">
+                        <span class="text-xs shrink-0 mt-0.5">🧠</span>
+                        <p class="text-xs text-red-900/90 leading-relaxed font-medium">
+                            <span class="font-bold text-red-900">Pro Insight:</span> ${item.insight}
+                        </p>
                     </div>
-                </div>
-            </div>
-        </section>
+                `;
+                container.appendChild(card);
+            });
+        }
 
-        <section id="dictionarySection" class="view-section hidden">
-            <div class="content-card">
-                <h2>🔬 Skincare Dictionary Pro</h2>
-                <p class="text-muted">Type any common ingredient, compound, or term to see its simple, plain-English explanation.</p>
-                
-                <div class="dictionary-search-box">
-                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Sebaceous, Occlusive)...">
-                </div>
+        // Live filtration engine matching lowercase searches instantly
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const filtered = skincareDictionary.filter(item => 
+                item.term.toLowerCase().includes(query) || 
+                item.category.toLowerCase().includes(query) || 
+                item.definition.toLowerCase().includes(query)
+            );
+            renderDictionary(filtered);
+        });
 
-                <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;">
-                    </div>
-            </div>
-        </section>
-
-    </div>
-
-    <script src="script.js"></script>
+        // Initial paint execution sequence
+        renderDictionary(skincareDictionary);
+    </script>
 </body>
 </html>
