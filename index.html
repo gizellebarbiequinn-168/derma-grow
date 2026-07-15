@@ -3,283 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derma Grow — Budget-Friendly Skincare Companion</title>
-    <!-- Tailwind CSS for modern, clean styling -->
+    <title>Derma Grow — Smart Skincare on a Strict Budget</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js for lightweight, zero-overhead interactivity -->
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#141613',       /* Deep dark charcoal-green background */
+                        brandCardDark: '#20231e',   /* Dark card background */
+                        brandSage: '#7e967a',       /* Earthy Sage green */
+                        brandSageLight: '#99b095',  /* Lighter Sage accent */
+                        brandGold: '#c29c53',       /* Warm gold accent */
+                        brandGoldLight: '#dfbe7e',  /* Warm gold accent light */
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Custom scrollbar tweaks for our virtualized glossary list */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        /* Hide scrollbar utility for mobile navigation tab scroll */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen" x-data="appState()">
+<body class="transition-colors duration-200" :class="darkMode ? 'bg-brandDark text-slate-300' : 'bg-slate-50 text-slate-800'" x-data="appState()">
 
     <!-- HEADER / NAVIGATION -->
-    <header class="bg-white border-b border-slate-100 sticky top-0 z-50 shadow-sm">
-        <!-- Prevent vertical squeeze and wrap on mobile -->
-        <div class="max-w-4xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <!-- App Logo Area -->
-            <div class="flex items-center space-x-2.5 shrink-0">
-                <div class="bg-emerald-500 text-white p-2 rounded-xl flex items-center justify-center shadow-sm">
-                    <!-- Vector Leaf Logo Concept -->
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
-                    </svg>
-                </div>
-                <span class="font-extrabold text-lg text-slate-900 tracking-tight whitespace-nowrap">Derma Grow</span>
-            </div>
+    <header class="border-b transition-colors" :class="darkMode ? 'bg-brandDark border-neutral-800' : 'bg-white border-slate-200'">
+        <div class="max-w-xl mx-auto px-4 py-4 space-y-4">
             
-            <!-- Horizontal Scrollable Navigation for Mobile -->
-            <nav class="flex items-center space-x-1 text-xs font-semibold overflow-x-auto no-scrollbar pb-1 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
-                <button @click="currentTab = 'routine'" :class="currentTab === 'routine' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'" class="px-3.5 py-2 rounded-lg transition whitespace-nowrap">Routine</button>
-                <button @click="currentTab = 'trends'" :class="currentTab === 'trends' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'" class="px-3.5 py-2 rounded-lg transition whitespace-nowrap">Trends</button>
-                <button @click="currentTab = 'quiz'" :class="currentTab === 'quiz' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'" class="px-3.5 py-2 rounded-lg transition whitespace-nowrap">Quiz</button>
-                <button @click="currentTab = 'directory'" :class="currentTab === 'directory' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'" class="px-3.5 py-2 rounded-lg transition whitespace-nowrap">Directory</button>
-                <button @click="currentTab = 'glossary'" :class="currentTab === 'glossary' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'" class="px-3.5 py-2 rounded-lg transition whitespace-nowrap">Glossary</button>
-            </nav>
+            <!-- App Bar with Logo and Toggle -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2.5">
+                    <!-- Brand Logo -->
+                    <span class="text-2xl" :class="darkMode ? 'text-brandGold' : 'text-emerald-700'">
+                        <svg class="w-7 h-7 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" stroke="none" fill="currentColor" />
+                            <!-- Custom leaf/abstract loop as seen in the photo -->
+                            <path d="M12 4a8 8 0 0 1 8 8c0 4-5 8-8 8s-8-4-8-8a8 8 0 0 1 8-8z" stroke-width="1.5" />
+                            <circle cx="12" cy="11" r="3" stroke-width="1.5" />
+                        </svg>
+                    </span>
+                    <span class="font-semibold text-xl tracking-tight" :class="darkMode ? 'text-slate-200' : 'text-slate-900'">Derma Grow</span>
+                </div>
+                
+                <!-- Toggle Theme Button -->
+                <button @click="toggleTheme()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition"
+                        :class="darkMode ? 'bg-neutral-800 text-slate-300 border border-neutral-700' : 'bg-slate-200 text-slate-700 border border-slate-300'">
+                    <span>🌓</span>
+                    <span>Toggle Theme</span>
+                </button>
+            </div>
+
+            <!-- Double-row Mobile Friendly Navigation Tabs -->
+            <div class="flex flex-col space-y-2">
+                <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar">
+                    <button @click="currentTab = 'dashboard'" :class="tabStyle('dashboard')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Dashboard</button>
+                    <button @click="currentTab = 'quiz'" :class="tabStyle('quiz')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Skin Type Quiz</button>
+                    <button @click="currentTab = 'science'" :class="tabStyle('science')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Science Hub</button>
+                </div>
+                <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar">
+                    <button @click="currentTab = 'directory'" :class="tabStyle('directory')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Shared Directory</button>
+                    <button @click="currentTab = 'glossary'" :class="tabStyle('glossary')" class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Skincare Dictionary</button>
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-6 md:py-8">
-        
-        <!-- HERO / INTRODUCTION -->
-        <section class="mb-8 text-center md:text-left bg-gradient-to-br from-emerald-50/50 to-teal-50/20 p-5 md:p-8 rounded-2xl border border-emerald-100/50">
-            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">Your budget-friendly skincare companion.</h1>
-            <p class="mt-3 text-xs md:text-sm text-slate-600 leading-relaxed max-w-2xl">
-                Derma Grow helps you build a simple, effective daily routine focused on the essential basics: gentle cleansing, hydration, and sun protection. By cutting through the marketing hype, we guide you toward consistent habits that support your skin without breaking the bank.
-            </p>
-        </section>
+    <!-- MAIN CONTAINER (Constrained to match mobile screenshot proportions) -->
+    <main class="max-w-xl mx-auto px-4 py-6 space-y-6">
 
-        <!-- ==================== TAB 1: INTERACTIVE ROUTINE BUILDER ==================== -->
-        <div x-show="currentTab === 'routine'" class="space-y-6" x-transition>
-            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h2 class="text-lg md:text-xl font-bold text-slate-900 mb-1">Interactive Routine Builder</h2>
-                <p class="text-xs text-slate-500 mb-6">Build your basic lineup and see an educational, illustrative visual showing how consistent habits compound over time.</p>
+        <!-- ==================== TAB: DASHBOARD ==================== -->
+        <div x-show="currentTab === 'dashboard'" class="space-y-6" x-transition>
+            
+            <!-- HERO DESCRIPTION -->
+            <div class="text-center py-4 space-y-3">
+                <h1 class="text-2xl font-extrabold tracking-tight" :class="darkMode ? 'text-brandSage' : 'text-emerald-800'">
+                    Smart Skincare on a Strict Budget
+                </h1>
+                <p class="text-xs leading-relaxed max-w-sm mx-auto" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
+                    Build a database-backed routine around core essentials, bypass expensive marketing hype, and browse community product logs.
+                </p>
+            </div>
+
+            <!-- DYNAMIC STATS ROW CARD -->
+            <div class="p-4 rounded-xl grid grid-cols-3 gap-2 text-center" :class="darkMode ? 'bg-brandSage/30' : 'bg-emerald-100/50'">
+                <div class="space-y-0.5">
+                    <p class="text-base font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'">1 Active</p>
+                    <p class="text-[9px] font-bold tracking-wider opacity-70">ACTIVE SESSION</p>
+                </div>
+                <div class="space-y-0.5 border-x" :class="darkMode ? 'border-brandSage/20' : 'border-emerald-200'">
+                    <p class="text-base font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'" x-text="trendsAvoided"></p>
+                    <p class="text-[9px] font-bold tracking-wider opacity-70">TRENDS AVOIDED</p>
+                </div>
+                <div class="space-y-0.5">
+                    <p class="text-base font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'" x-text="`+${consistencyTarget}%`"></p>
+                    <p class="text-[9px] font-bold tracking-wider opacity-70">CONSISTENCY TARGET</p>
+                </div>
+            </div>
+
+            <!-- BUDGET ROUTINE BUILDER CARD -->
+            <div class="p-5 rounded-2xl space-y-4" :class="darkMode ? 'bg-brandCardDark' : 'bg-white shadow-sm border border-slate-100'">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'">Budget Routine Builder</h2>
+                    <span class="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded" 
+                          :class="darkMode ? 'bg-brandSage/20 text-brandGold' : 'bg-emerald-50 text-emerald-700'"
+                          x-text="`Synced: ${skinType}`">
+                    </span>
+                </div>
                 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Builder Form Inputs -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">1. Morning Cleanser</label>
-                            <input type="text" x-model="routine.cleanserAM" placeholder="e.g., Hydrating Gentle Cleanser" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">2. Moisturizer (AM/PM)</label>
-                            <input type="text" x-model="routine.moisturizer" placeholder="e.g., Lightweight Ceramides Cream" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">3. Sun Protection (AM Only)</label>
-                            <input type="text" x-model="routine.spf" placeholder="e.g., Broad Spectrum SPF 30 or 50" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">4. Night Cleanser (PM Only)</label>
-                            <input type="text" x-model="routine.cleanserPM" placeholder="e.g., Foaming Gentle Wash" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
-                        </div>
-                        
-                        <div class="pt-4 border-t border-slate-100">
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Set Days of Routine Consistency: <span x-text="routineDays" class="text-emerald-600 font-bold"></span></label>
-                            <input type="range" min="1" max="14" x-model="routineDays" class="w-full accent-emerald-500 cursor-pointer">
-                        </div>
+                <p class="text-xs leading-normal" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
+                    Select your budget parameters and available products below to configure your rule-based 14-day starter routine.
+                </p>
+
+                <!-- Interactive Rupiah Budget Slider -->
+                <div class="space-y-2 pt-2">
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span>Monthly Skincare Budget:</span>
+                        <span :class="darkMode ? 'text-brandGold' : 'text-emerald-700'" x-text="formatRupiah(budget)"></span>
                     </div>
+                    <input type="range" min="0" max="1000000" step="50000" x-model="budget" 
+                           class="w-full accent-brandSage cursor-pointer">
+                </div>
 
-                    <!-- Compounding Visualizer Area -->
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 flex flex-col justify-between">
-                        <div>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">Habit Engine</span>
-                            <h3 class="text-base font-bold text-slate-900 mt-3">Compounding Progress</h3>
-                            
-                            <!-- Graph representation -->
-                            <div class="mt-4 space-y-2">
-                                <div class="flex justify-between text-[11px] text-slate-500 font-medium">
-                                    <span>Consistency: Day <span x-text="routineDays"></span>/14</span>
-                                    <span>Focus Level: <span x-text="Math.round((routineDays / 14) * 100)"></span>%</span>
-                                </div>
-                                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                                    <div class="bg-emerald-500 h-full transition-all duration-500" :style="`width: ${(routineDays / 14) * 100}%`"></div>
-                                </div>
-                                <p class="text-[10px] text-slate-400 italic pt-1 leading-normal">
-                                    *This graph displays an illustrative index of how daily consistency reinforces strong skincare habit formation.
-                                </p>
-                            </div>
-                        </div>
+                <!-- Live Selection Checklist -->
+                <div class="space-y-3 pt-3 border-t" :class="darkMode ? 'border-neutral-800' : 'border-slate-100'">
+                    <p class="text-[10px] font-bold tracking-wider uppercase" :class="darkMode ? 'text-brandSage' : 'text-emerald-800'">Your Routine Elements</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="checkbox" x-model="routineItems.cleanser" @change="updateConsistency()" class="rounded accent-brandSage">
+                            <span>Gentle Cleanser</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="checkbox" x-model="routineItems.moisturizer" @change="updateConsistency()" class="rounded accent-brandSage">
+                            <span>Hydrating Cream</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="checkbox" x-model="routineItems.spf" @change="updateConsistency()" class="rounded accent-brandSage">
+                            <span>Sunscreen (SPF 30+)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="checkbox" x-model="routineItems.exfoliator" @change="updateConsistency()" class="rounded accent-brandSage">
+                            <span>BHA Exfoliant</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- On-Screen step-by-step display -->
-                        <div class="mt-6 pt-4 border-t border-slate-200 space-y-2 text-xs">
-                            <p class="font-bold text-slate-800">Your Action Guide:</p>
-                            <p class="text-slate-600">☀️ <strong class="text-slate-700">Morning:</strong> Cleanse with <span x-text="routine.cleanserAM || 'your Cleanser'"></span>, apply <span x-text="routine.moisturizer || 'your Moisturizer'"></span>, and shield with <span x-text="routine.spf || 'your SPF'"></span>.</p>
-                            <p class="text-slate-600">🌙 <strong class="text-slate-700">Night:</strong> Cleanse with <span x-text="routine.cleanserPM || 'your PM Cleanser'"></span> and lock in moisture with <span x-text="routine.moisturizer || 'your Moisturizer'"></span>.</p>
-                        </div>
+        </div>
+
+        <!-- ==================== TAB: SKIN TYPE QUIZ ==================== -->
+        <div x-show="currentTab === 'quiz'" class="space-y-4" x-transition>
+            <div class="p-5 rounded-2xl space-y-4" :class="darkMode ? 'bg-brandCardDark' : 'bg-white shadow-sm border border-slate-100'">
+                <h2 class="text-lg font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'">Skin Type Quiz</h2>
+                <p class="text-xs" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Complete the profile evaluation to automatically sync your parameters with the dashboard routine engine.</p>
+                
+                <div class="space-y-4 pt-2">
+                    <p class="text-xs font-semibold">How does your skin look and feel mid-day?</p>
+                    <div class="space-y-2">
+                        <button @click="setSkinType('Dry')" class="w-full text-left p-3 rounded-xl text-xs border transition"
+                                :class="skinType === 'Dry' ? (darkMode ? 'border-brandGold bg-brandSage/10 text-brandGold' : 'border-emerald-600 bg-emerald-50 text-emerald-800') : (darkMode ? 'border-neutral-800 hover:bg-neutral-800' : 'border-slate-200 hover:bg-slate-50')">
+                            🍂 Uncomfortably dry, tight, or has visible flaking
+                        </button>
+                        <button @click="setSkinType('Oily')" class="w-full text-left p-3 rounded-xl text-xs border transition"
+                                :class="skinType === 'Oily' ? (darkMode ? 'border-brandGold bg-brandSage/10 text-brandGold' : 'border-emerald-600 bg-emerald-50 text-emerald-800') : (darkMode ? 'border-neutral-800 hover:bg-neutral-800' : 'border-slate-200 hover:bg-slate-50')">
+                            ✨ Very shiny with excess oils appearing across the face
+                        </button>
+                        <button @click="setSkinType('Sensitive')" class="w-full text-left p-3 rounded-xl text-xs border transition"
+                                :class="skinType === 'Sensitive' ? (darkMode ? 'border-brandGold bg-brandSage/10 text-brandGold' : 'border-emerald-600 bg-emerald-50 text-emerald-800') : (darkMode ? 'border-neutral-800 hover:bg-neutral-800' : 'border-slate-200 hover:bg-slate-50')">
+                            ⚡ Easily irritated, turns red or stings with common ingredients
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ==================== TAB 2: TREND-ALERT SYSTEM ==================== -->
-        <div x-show="currentTab === 'trends'" class="space-y-6" x-transition>
-            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h2 class="text-lg md:text-xl font-bold text-slate-900 mb-1">Trend-Alert System</h2>
-                <p class="text-sm text-slate-500 mb-6">Evidence-informed insights outlining why viral DIY beauty routines can harm, rather than help, your skin barrier structure.</p>
+        <!-- ==================== TAB: SCIENCE HUB ==================== -->
+        <div x-show="currentTab === 'science'" class="space-y-4" x-transition>
+            <div class="p-5 rounded-2xl space-y-4" :class="darkMode ? 'bg-brandCardDark' : 'bg-white shadow-sm border border-slate-100'">
+                <h2 class="text-lg font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'">Science Hub</h2>
+                <p class="text-xs" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Compare verified research explanations against common high-risk beauty trends.</p>
 
-                <div class="grid md:grid-cols-2 gap-4">
-                    <!-- Trend Card 1 -->
-                    <div class="p-4 bg-rose-50/50 rounded-xl border border-rose-100 flex flex-col justify-between">
-                        <div>
-                            <span class="inline-block text-[9px] font-bold text-rose-700 uppercase tracking-widest bg-rose-100 px-2 py-0.5 rounded">High Risk DIY</span>
-                            <h3 class="text-sm font-bold text-slate-900 mt-2">Raw Lemon Juice Treatments</h3>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                                Applying raw lemons directly to hyperpigmentation introduces a dangerously low pH levels (~2) and psoralens. Under UV rays, this triggers severe phytophotodermatitis (chemical blistering burns).
-                            </p>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-rose-200/40 text-[11px] text-rose-700 font-semibold">
-                          💡 Alternative: Look for stable, pH-balanced Niacinamide or Vitamin C formulations.
-                        </div>
-                    </div>
-
-                    <!-- Trend Card 2 -->
-                    <div class="p-4 bg-rose-50/50 rounded-xl border border-rose-100 flex flex-col justify-between">
-                        <div>
-                            <span class="inline-block text-[9px] font-bold text-rose-700 uppercase tracking-widest bg-rose-100 px-2.5 py-0.5 rounded">High Risk DIY</span>
-                            <h3 class="text-sm font-bold text-slate-900 mt-2">Coarse Baking Soda Scrubs</h3>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                                Baking soda is alkaline (pH ~9), which strips your acid mantle—the skin’s natural lipid defense. Using its rough particles causes microscopic tearing and dehydrates surface layers.
-                            </p>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-rose-200/40 text-[11px] text-rose-700 font-semibold">
-                          💡 Alternative: Utilize gentle liquid chemical exfoliants (like Salicylic Acid or Lactic Acid).
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ==================== TAB 3: SKIN PROFILE QUIZ ==================== -->
-        <div x-show="currentTab === 'quiz'" class="space-y-6" x-transition>
-            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h2 class="text-lg md:text-xl font-bold text-slate-900 mb-1">Skin Profile Quiz</h2>
-                <p class="text-sm text-slate-500 mb-6">A quick, 9-question self-assessment tool designed to discover your natural profile parameters without demanding private diagnostic data.</p>
-
-                <!-- Start / Intro Screen -->
-                <div x-show="quizStep === 0" class="text-center py-6 space-y-4">
-                    <p class="text-slate-600 text-xs md:text-sm max-w-md mx-auto">This questionnaire evaluates surface-level patterns (dryness, oily tendencies, reactive properties) to guide product texture decisions.</p>
-                    <button @click="startQuiz()" class="bg-emerald-600 text-white text-xs font-semibold px-5 py-2.5 rounded-lg shadow-sm hover:bg-emerald-700 transition">Start Profile Quiz</button>
-                </div>
-
-                <!-- Active Quiz Step -->
-                <div x-show="quizStep > 0 && quizStep <= questions.length" class="space-y-5">
-                    <div class="flex justify-between items-center text-[10px] text-slate-400 font-semibold">
-                        <span>Question <span x-text="quizStep"></span> of <span x-text="questions.length"></span></span>
-                        <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded" x-text="`Category: ${questions[quizStep-1]?.category}`"></span>
-                    </div>
-                    
-                    <h3 class="text-sm font-semibold text-slate-800" x-text="questions[quizStep-1]?.text"></h3>
-                    
-                    <div class="space-y-2.5">
-                        <template x-for="(option, idx) in questions[quizStep-1]?.options" :key="idx">
-                            <button @click="selectAnswer(option.weight)" class="w-full text-left text-xs p-3.5 border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-emerald-300 transition focus:outline-none bg-white">
-                                <span x-text="option.text"></span>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Results Screen -->
-                <div x-show="quizStep > questions.length" class="p-5 bg-emerald-50/50 border border-emerald-100 rounded-xl space-y-4" x-transition>
-                    <h3 class="text-base font-bold text-slate-900">Your Skin Profile Analysis</h3>
-                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed" x-text="quizResultText"></p>
-                    <p class="text-[10px] text-emerald-700 font-medium">*Always consult a board-certified dermatologist for clinical skin conditions or persistent flare-ups.</p>
-                    <button @click="resetQuiz()" class="mt-2 text-[10px] font-semibold text-slate-600 underline block">Retake Quiz</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ==================== TAB 4: COMMUNITY-SUBMITTED DIRECTORY ==================== -->
-        <div x-show="currentTab === 'directory'" class="space-y-6" x-transition>
-            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h2 class="text-lg md:text-xl font-bold text-slate-900 mb-1">Community-Submitted Directory</h2>
-                <p class="text-sm text-slate-500 mb-6">A shared space where budget-conscious users log and share affordable, real-world product recommendations, complete with clear ingredient list breakdowns.</p>
-
-                <!-- Input Submissions Form -->
-                <form @submit.prevent="submitProduct()" class="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6 space-y-3">
-                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-700">Log a Budget Find</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <input type="text" x-model="newProduct.name" required placeholder="Product Name" class="px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none bg-white">
-                        <input type="text" x-model="newProduct.cost" required placeholder="Estimated Cost (e.g. $12)" class="px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none bg-white">
-                        <input type="text" x-model="newProduct.ingredients" required placeholder="Core Ingredients (comma list)" class="px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none bg-white">
-                    </div>
-                    <button type="submit" class="bg-slate-900 text-white text-[11px] font-semibold px-4 py-2 rounded-lg hover:bg-slate-800 transition">Submit to Directory</button>
-                </form>
-
-                <!-- Live Submissions Directory Log -->
                 <div class="space-y-3">
-                    <template x-for="item in directory" :key="item.id">
-                        <div class="p-4 border border-slate-100 rounded-xl bg-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm" x-text="item.name"></h4>
-                                <p class="text-xs text-slate-500 mt-1">
-                                    <strong class="text-slate-600">Key Ingredients:</strong> <span x-text="item.ingredients"></span>
-                                </p>
-                            </div>
-                            <div class="flex items-center space-x-3 self-start md:self-auto">
-                                <span class="bg-slate-100 text-slate-800 font-bold text-xs px-2.5 py-1 rounded-full" x-text="item.cost"></span>
-                            </div>
+                    <div class="p-4 rounded-xl border flex justify-between items-start" :class="darkMode ? 'border-neutral-800 bg-neutral-900/50' : 'border-slate-200 bg-slate-50'">
+                        <div class="space-y-1">
+                            <h4 class="text-xs font-bold" :class="darkMode ? 'text-brandGold' : 'text-emerald-800'">Trend: Lemon & Acids</h4>
+                            <p class="text-[11px]" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Raw lemons disrupt natural skin pH levels and provoke chemical phytophotodermatitis.</p>
+                        </div>
+                        <button @click="avoidTrend()" class="text-[10px] font-bold px-2 py-1 rounded shrink-0 uppercase tracking-wider bg-emerald-500/20 text-emerald-400">Avoid</button>
+                    </div>
+                    <div class="p-4 rounded-xl border flex justify-between items-start" :class="darkMode ? 'border-neutral-800 bg-neutral-900/50' : 'border-slate-200 bg-slate-50'">
+                        <div class="space-y-1">
+                            <h4 class="text-xs font-bold" :class="darkMode ? 'text-brandGold' : 'text-emerald-800'">Trend: Baking Soda Exfoliation</h4>
+                            <p class="text-[11px]" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">High alkalinity strips essential natural lipids and induces microscopic skin tearing.</p>
+                        </div>
+                        <button @click="avoidTrend()" class="text-[10px] font-bold px-2 py-1 rounded shrink-0 uppercase tracking-wider bg-emerald-500/20 text-emerald-400">Avoid</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: SHARED DIRECTORY ==================== -->
+        <div x-show="currentTab === 'directory'" class="space-y-4" x-transition>
+            <div class="p-5 rounded-2xl space-y-4" :class="darkMode ? 'bg-brandCardDark' : 'bg-white shadow-sm border border-slate-100'">
+                <h2 class="text-lg font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'">Shared Directory</h2>
+                <p class="text-xs" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Community submissions for highly efficient, budget products.</p>
+
+                <div class="space-y-3">
+                    <div class="p-3.5 rounded-xl border flex justify-between items-center" :class="darkMode ? 'border-neutral-800 bg-neutral-900/50' : 'border-slate-200 bg-slate-50'">
+                        <div>
+                            <h4 class="text-xs font-bold">Gentle Hydrating Cleanser</h4>
+                            <p class="text-[10px] opacity-70">Core components: Glycerin, Hydrating Ceramides</p>
+                        </div>
+                        <span class="text-xs font-bold" :class="darkMode ? 'text-brandGold' : 'text-emerald-700'">Rp 89.000</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl border flex justify-between items-center" :class="darkMode ? 'border-neutral-800 bg-neutral-900/50' : 'border-slate-200 bg-slate-50'">
+                        <div>
+                            <h4 class="text-xs font-bold">Barrier Defense Cream</h4>
+                            <p class="text-[10px] opacity-70">Core components: Squalane, Panthenol</p>
+                        </div>
+                        <span class="text-xs font-bold" :class="darkMode ? 'text-brandGold' : 'text-emerald-700'">Rp 120.000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: GLOSSARY ==================== -->
+        <div x-show="currentTab === 'glossary'" class="space-y-4" x-transition>
+            <div class="p-5 rounded-2xl space-y-4" :class="darkMode ? 'bg-brandCardDark' : 'bg-white shadow-sm border border-slate-100'">
+                <h2 class="text-lg font-bold" :class="darkMode ? 'text-slate-100' : 'text-slate-900'">Skincare Dictionary</h2>
+                <p class="text-xs" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Instantly translate scientific formulas and compounds into direct explanations.</p>
+
+                <input type="text" placeholder="Search dictionary..." x-model="search" class="w-full px-3 py-2 text-xs border rounded-lg focus:outline-none focus:ring-2" :class="darkMode ? 'bg-neutral-900 border-neutral-800 focus:ring-brandSage text-slate-200' : 'bg-white border-slate-200 focus:ring-emerald-600'">
+
+                <div class="space-y-2">
+                    <template x-for="item in filteredDictionary" :key="item.name">
+                        <div class="p-3 rounded-lg border" :class="darkMode ? 'border-neutral-800/80 bg-neutral-900/30' : 'border-slate-200 bg-slate-50/50'">
+                            <h4 class="text-xs font-bold" :class="darkMode ? 'text-brandGold' : 'text-emerald-800'" x-text="item.name"></h4>
+                            <p class="text-[11px] mt-1" :class="darkMode ? 'text-slate-400' : 'text-slate-600'" x-text="item.meaning"></p>
                         </div>
                     </template>
-                </div>
-            </div>
-        </div>
-
-        <!-- ==================== TAB 5: PLAIN-ENGLISH SKINCARE GLOSSARY ==================== -->
-        <div x-show="currentTab === 'glossary'" class="space-y-6" x-transition>
-            <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-100 shadow-sm">
-                <h2 class="text-lg md:text-xl font-bold text-slate-900 mb-1">Plain-English Skincare Glossary</h2>
-                <p class="text-sm text-slate-500 mb-4">A virtualized reference index that translates complex cosmetic ingredients and skin biology terms into simple, everyday language.</p>
-
-                <!-- Search Glossary Input -->
-                <div class="relative mb-4">
-                    <input type="text" x-model="searchQuery" @input="onSearchChange()" placeholder="Search terms (e.g., Niacinamide, Squalane...)" class="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 pl-9 bg-white">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Virtual Scrolling Viewport -->
-                <div id="glossary-viewport" class="custom-scrollbar relative border border-slate-100 rounded-xl bg-slate-50"
-                     style="height: 320px; overflow-y: auto;" @scroll="renderVirtualList()">
-                    
-                    <!-- Simulates total data size container height -->
-                    <div :style="`height: ${totalHeight}px; position: absolute; width: 100%; top:0; left:0;`"></div>
-
-                    <!-- Actively rendered cards slice -->
-                    <div :style="`transform: translateY(${translateY}px); position: absolute; width: 100%; top:0; left:0;`">
-                        <template x-for="(item, idx) in visibleList" :key="item.index">
-                            <div class="p-4 border-b border-slate-100 bg-white flex flex-col justify-center transition hover:bg-slate-50/50"
-                                 style="height: 80px;">
-                                <strong class="text-xs text-emerald-800" x-text="item.term"></strong>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-normal" x-text="item.definition"></p>
-                            </div>
-                        </template>
-                    </div>
                 </div>
             </div>
         </div>
@@ -287,160 +255,76 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-slate-200 bg-white py-8 mt-12">
-        <div class="max-w-4xl mx-auto px-4 text-center space-y-2">
-            <p class="text-xs text-slate-400">&copy; 2026 Derma Grow. Developed for health-science translation and accessible education.</p>
-            <p class="text-[9px] text-slate-400 italic">This application provides educational resources and self-assessment indicators only. It does not provide medical diagnostics, prescriptions, or clinical treatments.</p>
-        </div>
+    <footer class="py-10 text-center" :class="darkMode ? 'border-t border-neutral-800' : 'border-t border-slate-200'">
+        <p class="text-[10px]" :class="darkMode ? 'text-slate-600' : 'text-slate-400'">&copy; 2026 Derma Grow. All health science data is illustrative.</p>
     </footer>
 
-    <!-- ALPINE ENGINE INITIALIZATION AND DATA -->
+    <!-- ENGINE STATE -->
     <script>
         function appState() {
-            // Seed Database of Terms
-            const baseGlossary = [
-                { term: "Niacinamide", definition: "A form of Vitamin B3 that helps calm reactive skin and support our skin's natural moisture retention." },
-                { term: "Centella Asiatica", definition: "A soothing plant extract used to ease surface redness and skin irritation." },
-                { term: "Squalane", definition: "A highly stable, plant-derived hydrating oil that mimics our skin's natural sebum." },
-                { term: "Hyaluronic Acid", definition: "A powerful humectant molecule that holds surface water onto the skin to alleviate dehydration." },
-                { term: "Ceramides", definition: "Natural fatty lipids that act like mortar to bond skin cells into a cohesive protective barrier." },
-                { term: "Salicylic Acid (BHA)", definition: "An oil-soluble acid that penetrates deep inside pores to clear built-up dead surface layers." },
-                { term: "Glycerin", definition: "A classic, incredibly effective, and inexpensive skin-hydrating humectant ingredient." },
-                { term: "Broad-Spectrum Sunscreen", definition: "Protective layer guarding skin cells from both aging UVA and burning UVB radiation." },
-                { term: "Lactic Acid (AHA)", definition: "A gentle exfoliating acid that hydrates as it sheds dead skin layers." },
-                { term: "Panthenol (Provitamin B5)", definition: "A soothing skin protectant that helps lock in essential barrier hydration." },
-                { term: "Zinc Oxide", definition: "A natural mineral shield providing broad defense against harmful UV sun exposure." },
-                { term: "Allantoin", definition: "An ingredient synthesized or sourced from plants that helps calm easily irritated skin patches." }
-            ];
-
             return {
-                currentTab: 'routine',
-                routine: {
-                    cleanserAM: '',
-                    moisturizer: '',
-                    spf: '',
-                    cleanserPM: ''
+                darkMode: true,
+                currentTab: 'dashboard',
+                skinType: 'DRY',
+                budget: 0,
+                trendsAvoided: 0,
+                consistencyTarget: 0,
+                search: '',
+                
+                routineItems: {
+                    cleanser: false,
+                    moisturizer: false,
+                    spf: false,
+                    exfoliator: false
                 },
-                routineDays: 7,
 
-                // Quiz Questions Pool
-                questions: [
-                    { id: 1, category: "Oily vs Dry", text: "How does your skin feel around midday if you do not use creams?", options: [
-                        { text: "Uncomfortably tight, dry, or dull looking", weight: "dry" },
-                        { text: "Noticeably greasy, wet, or shiny across the T-zone", weight: "oily" },
-                        { text: "Mostly comfortable with a mild shine", weight: "normal" }
-                    ]},
-                    { id: 2, category: "Sensitivity", text: "How does your skin respond when trying completely new cosmetics?", options: [
-                        { text: "Frequently stings, burns, or breaks out into redness", weight: "sensitive" },
-                        { text: "Rarely reacts or experiences irritation", weight: "normal" }
-                    ]},
-                    { id: 3, category: "Texture Needs", text: "What is your main daily skin challenge?", options: [
-                        { text: "Flaking and rough patches of skin", weight: "dry" },
-                        { text: "Excessive pore clogging and oil shine", weight: "oily" }
-                    ]}
+                dictionary: [
+                    { name: 'Niacinamide', meaning: 'Vitamin B3 compound used to stabilize barrier lipids and minimize redness.' },
+                    { name: 'Squalane', meaning: 'An extremely stable hydrating oil that locks moisture into cell gaps.' },
+                    { name: 'Centella Asiatica', meaning: 'Herbal extract proven to ease sensitive and highly irritated epidermal layers.' },
+                    { name: 'Ceramides', meaning: 'Waxy fat lipids maintaining cellular bonds to defense moisture from escaping.' }
                 ],
-                quizStep: 0,
-                quizAnswers: [],
-                quizResultText: '',
 
-                // Directory Submissions Storage
-                directory: [
-                    { id: 1, name: "Gentle Hydrating Cleanser", cost: "$9.50", ingredients: "Glycerin, Ceramides" },
-                    { id: 2, name: "Daily Relief Moisturizing Gel", cost: "$11.00", ingredients: "Squalane, Panthenol" },
-                    { id: 3, name: "Mineral Defense Broad-Spectrum SPF 30", cost: "$14.00", ingredients: "Zinc Oxide, Allantoin" }
-                ],
-                newProduct: { name: '', cost: '', ingredients: '' },
-
-                // Virtualized Scroll State
-                glossary: [...baseGlossary],
-                filteredGlossary: [...baseGlossary],
-                searchQuery: '',
-                visibleList: [],
-                totalHeight: baseGlossary.length * 80,
-                translateY: 0,
-                itemHeight: 80,
-                viewportHeight: 320,
-
-                init() {
-                    this.$nextTick(() => {
-                        this.renderVirtualList();
-                    });
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
                 },
 
-                // Quiz Actions
-                startQuiz() {
-                    this.quizStep = 1;
-                    this.quizAnswers = [];
-                },
-                selectAnswer(weight) {
-                    this.quizAnswers.push(weight);
-                    if (this.quizStep < this.questions.length) {
-                        this.quizStep++;
-                    } else {
-                        this.quizStep++;
-                        this.evaluateQuizResult();
+                tabStyle(tab) {
+                    if (this.currentTab === tab) {
+                        return this.darkMode 
+                            ? 'bg-brandSage/30 text-brandSageLight border border-brandSage/30' 
+                            : 'bg-emerald-600 text-white';
                     }
-                },
-                evaluateQuizResult() {
-                    const occurrences = this.quizAnswers.reduce((acc, weight) => {
-                        acc[weight] = (acc[weight] || 0) + 1;
-                        return acc;
-                    }, {});
-
-                    const dominantProfile = Object.keys(occurrences).reduce((a, b) => occurrences[a] > occurrences[b] ? a : b);
-
-                    const adviceMap = {
-                        dry: "Your profile leans towards dry, meaning your skin barrier needs formulas rich in ceramides and humectants (like glycerin) to prevent moisture loss.",
-                        oily: "Your profile leans towards oily, which benefits from lightweight gel-moisturizers and gentle, balancing cleansers to manage sebum output.",
-                        sensitive: "Your profile indicates a sensitive baseline, meaning you should opt for simple, fragrance-free products with calming agents like Centella Asiatica.",
-                        normal: "Your profile leans towards normal, requiring only baseline hydration support and regular daily UV protection to maintain consistency."
-                    };
-
-                    this.quizResultText = adviceMap[dominantProfile] || adviceMap['normal'];
-                },
-                resetQuiz() {
-                    this.quizStep = 0;
-                    this.quizResultText = '';
+                    return this.darkMode 
+                        ? 'text-slate-400 hover:text-slate-200 bg-neutral-900/50 hover:bg-neutral-800/80' 
+                        : 'text-slate-600 hover:text-slate-900 bg-slate-200/60 hover:bg-slate-200';
                 },
 
-                // Directory Actions
-                submitProduct() {
-                    this.directory.push({
-                        id: Date.now(),
-                        name: this.newProduct.name,
-                        cost: this.newProduct.cost.startsWith('$') ? this.newProduct.cost : `$${this.newProduct.cost}`,
-                        ingredients: this.newProduct.ingredients
-                    });
-                    this.newProduct = { name: '', cost: '', ingredients: '' };
+                formatRupiah(value) {
+                    return 'Rp ' + Number(value).toLocaleString('id-ID');
                 },
 
-                // Virtualized Scrolling Calculations
-                onSearchChange() {
-                    const query = this.searchQuery.toLowerCase().trim();
-                    this.filteredGlossary = this.glossary.filter(item => 
-                        item.term.toLowerCase().includes(query) || 
-                        item.definition.toLowerCase().includes(query)
+                setSkinType(type) {
+                    this.skinType = type.toUpperCase();
+                    this.currentTab = 'dashboard';
+                },
+
+                avoidTrend() {
+                    this.trendsAvoided++;
+                    alert('Trend Avoided logged to active session profile!');
+                },
+
+                updateConsistency() {
+                    const totalSelected = Object.values(this.routineItems).filter(Boolean).length;
+                    this.consistencyTarget = Math.round((totalSelected / 4) * 100);
+                },
+
+                get filteredDictionary() {
+                    if (!this.search) return this.dictionary;
+                    return this.dictionary.filter(item => 
+                        item.name.toLowerCase().includes(this.search.toLowerCase()) || 
+                        item.meaning.toLowerCase().includes(this.search.toLowerCase())
                     );
-                    this.totalHeight = this.filteredGlossary.length * this.itemHeight;
-                    
-                    const el = document.getElementById('glossary-viewport');
-                    if (el) el.scrollTop = 0;
-                    
-                    this.renderVirtualList();
-                },
-                renderVirtualList() {
-                    const el = document.getElementById('glossary-viewport');
-                    if (!el) return;
-
-                    const scrollTop = el.scrollTop;
-                    const startIndex = Math.max(0, Math.floor(scrollTop / this.itemHeight) - 1);
-                    const endIndex = Math.min(this.filteredGlossary.length - 1, Math.floor((scrollTop + this.viewportHeight) / this.itemHeight) + 1);
-
-                    this.translateY = startIndex * this.itemHeight;
-                    this.visibleList = this.filteredGlossary.slice(startIndex, endIndex + 1).map((item, i) => ({
-                        ...item,
-                        index: startIndex + i
-                    }));
                 }
             }
         }
