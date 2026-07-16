@@ -1,579 +1,597 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // --- GLOBAL SYNCHRONIZED STATE ENGINE ---
-    let userSkinProfile = {
-        baseType: "Normal",     
-        reactivity: "Resilient", 
-        acneProne: false,
-        dehydrated: false,
-        isCalculated: false
+    
+    // ==========================================
+    // === 1. NAVIGATION ENGINE =================
+    // ==========================================
+    const navLinks = {
+        navDashboard: document.getElementById("trackerCard"),
+        navQuiz: document.getElementById("quizSection"),
+        navLearn: document.getElementById("learnSection"),
+        navRecommendations: document.getElementById("recommendationsSection"),
+        navDictionary: document.getElementById("dictionarySection")
     };
+    const heroSection = document.getElementById("heroSection");
+    const impactMatrix = document.getElementById("impactMatrix");
 
-    // --- APPLICATION NAVIGATION ROUTING (5 MAIN NODES) ---
-    const navDashboard = document.getElementById('navDashboard');
-    const navQuiz = document.getElementById('navQuiz');
-    const navLearn = document.getElementById('navLearn');
-    const navRecommendations = document.getElementById('navRecommendations');
-    const navDictionary = document.getElementById('navDictionary');
+    Object.keys(navLinks).forEach(clickedId => {
+        const linkEl = document.getElementById(clickedId);
+        if (linkEl) {
+            linkEl.addEventListener("click", (e) => {
+                e.preventDefault();
+                
+                // Switch Active Navigation Tabs
+                Object.keys(navLinks).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.remove("active");
+                });
+                linkEl.classList.add("active");
 
-    const trackerCard = document.getElementById('trackerCard');
-    const quizSection = document.getElementById('quizSection');
-    const learnSection = document.getElementById('learnSection');
-    const recommendationsSection = document.getElementById('recommendationsSection');
-    const dictionarySection = document.getElementById('dictionarySection');
+                // Toggle Main Element Visibilities
+                Object.values(navLinks).forEach(section => {
+                    if (section) section.classList.add("hidden");
+                });
 
-    function clearActiveTabs() {
-        [navDashboard, navQuiz, navLearn, navRecommendations, navDictionary].forEach(el => { if(el) el.classList.remove('active'); });
-        [trackerCard, quizSection, learnSection, recommendationsSection, dictionarySection].forEach(el => { if(el) el.classList.add('hidden'); });
-    }
+                if (clickedId === "navDashboard") {
+                    navLinks.navDashboard.classList.remove("hidden");
+                    if (heroSection) heroSection.classList.remove("hidden");
+                    if (impactMatrix) impactMatrix.classList.remove("hidden");
+                } else {
+                    navLinks[clickedId].classList.remove("hidden");
+                    if (heroSection) heroSection.classList.add("hidden");
+                    if (impactMatrix) impactMatrix.classList.add("hidden");
+                }
+            });
+        }
+    });
 
-    if (navDashboard) {
-        navDashboard.addEventListener('click', (e) => {
-            e.preventDefault(); clearActiveTabs();
-            navDashboard.classList.add('active');
-            if (trackerCard) trackerCard.classList.remove('hidden');
-            calculateSkinTrajectory();
-        });
-    }
-    if (navQuiz) {
-        navQuiz.addEventListener('click', (e) => {
-            e.preventDefault(); clearActiveTabs();
-            navQuiz.classList.add('active');
-            if (quizSection) quizSection.classList.remove('hidden');
-            initializeQuizEngine();
-        });
-    }
-    if (navLearn) {
-        navLearn.addEventListener('click', (e) => {
-            e.preventDefault(); clearActiveTabs();
-            navLearn.classList.add('active');
-            if (learnSection) learnSection.classList.remove('hidden');
-            renderCards("all");
-        });
-    }
-    if (navRecommendations) {
-        navRecommendations.addEventListener('click', (e) => {
-            e.preventDefault(); clearActiveTabs();
-            navRecommendations.classList.add('active');
-            if (recommendationsSection) recommendationsSection.classList.remove('hidden');
-            renderPeerRegistry("all");
-        });
-    }
-    if (navDictionary) {
-        navDictionary.addEventListener('click', (e) => {
-            e.preventDefault(); clearActiveTabs();
-            navDictionary.classList.add('active');
-            if (dictionarySection) dictionarySection.classList.remove('hidden');
-            renderDictionaryList("");
-        });
-    }
-
-    // --- LOCAL SAVED METRICS ---
-    function updateHonestLocalMetrics(state, finalScore) {
-        const itemsSavedCount = document.getElementById('itemsSavedCount');
-        const optimizationDelta = document.getElementById('optimizationDelta');
-        const summaryLabel = document.getElementById('impactSummaryText');
-
-        let unsafeHaltedCount = 0;
-        if (state['chk-lemon']) unsafeHaltedCount++;
-        if (state['chk-scrubs']) unsafeHaltedCount++;
-        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
-        
-        if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
-
-        const baselineDefaultScore = 50;
-        let delta = finalScore - baselineDefaultScore;
-        if (optimizationDelta) optimizationDelta.textContent = delta >= 0 ? `+${delta}%` : `${delta}%`;
-
-        if (summaryLabel) {
-            if (unsafeHaltedCount > 0) {
-                summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in unnecessary product costs!`;
-            } else if (finalScore >= 85) {
-                summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine layout is complete. Keep up the daily consistency!`;
+    // ==========================================
+    // === 2. CSS CUSTOM VARIABLE THEME ENGINE ===
+    // ==========================================
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    let isDarkTheme = false;
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            isDarkTheme = !isDarkTheme;
+            if (isDarkTheme) {
+                document.documentElement.style.setProperty('--bg-main', '#1a1f1c');
+                document.documentElement.style.setProperty('--bg-card', '#222824');
+                document.documentElement.style.setProperty('--color-text-main', '#e2e8e4');
+                document.documentElement.style.setProperty('--color-text-muted', '#a0aba3');
+                document.documentElement.style.setProperty('--border-subtle', '#333b36');
             } else {
-                summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes or hit the Starter Pack button to see layout responses.`;
+                document.documentElement.style.setProperty('--bg-main', '#fbfcfa');
+                document.documentElement.style.setProperty('--bg-card', '#ffffff');
+                document.documentElement.style.setProperty('--color-text-main', '#2d3631');
+                document.documentElement.style.setProperty('--color-text-muted', '#68776e');
+                document.documentElement.style.setProperty('--border-subtle', '#e6ebe7');
             }
-        }
-    }
-
-    // --- LIVE FEEDBACK BOX SUBMISSION LINKED TO FORMSPREE ---
-    const feedbackForm = document.getElementById('feedbackForm');
-    if (feedbackForm) {
-        feedbackForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const data = new FormData(e.target);
-            const responseAlert = document.getElementById('feedbackSuccessMessage');
-            const feedbackTextarea = document.getElementById('feedbackText');
-
-            fetch(feedbackForm.action, {
-                method: feedbackForm.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                if (response.ok) {
-                    if (feedbackTextarea) feedbackTextarea.value = "";
-                    if (responseAlert) {
-                        responseAlert.classList.remove('hidden');
-                        setTimeout(() => responseAlert.classList.add('hidden'), 4000);
-                    }
-                } else { alert("Submission error. Please verify form connectivity."); }
-            }).catch(() => { alert("Network error. Please try again."); });
         });
     }
 
-    // --- HABIT VISUALIZATION AND TIMELINE LOGIC ENGINE ---
-    const budgetSlider = document.getElementById('budgetSlider');
-    const budgetValue = document.getElementById('budgetValue');
-    const reportContent = document.getElementById('reportContent');
-    const protocolBox = document.getElementById('protocolBox');
-    const amRoutineList = document.getElementById('amRoutineList');
-    const pmRoutineList = document.getElementById('pmRoutineList');
-    const profileSyncBadge = document.getElementById('profileSyncBadge');
+    // ==========================================
+    // === 3. BUDGET ROUTINE CONFIGURATION ======
+    // ==========================================
+    const budgetSlider = document.getElementById("budgetSlider");
+    const budgetValue = document.getElementById("budgetValue");
+    const chkMoisturizer = document.getElementById("chk-moisturizer");
+    const chkCleanser = document.getElementById("chk-cleanser");
+    const chkSunscreen = document.getElementById("chk-sunscreen");
+    const chkToner = document.getElementById("chk-toner");
+    const chkNiacinamide = document.getElementById("chk-niacinamide");
+    const chkActives = document.getElementById("chk-actives");
+    const chkLemon = document.getElementById("chk-lemon");
+    const chkScrubs = document.getElementById("chk-scrubs");
 
-    const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs'];
-    let dermaChart = null;
+    const protocolBox = document.getElementById("protocolBox");
+    const reportContent = document.getElementById("reportContent");
+    const amRoutineList = document.getElementById("amRoutineList");
+    const pmRoutineList = document.getElementById("pmRoutineList");
+    const itemsSavedCount = document.getElementById("itemsSavedCount");
+    const optimizationDelta = document.getElementById("optimizationDelta");
+    const impactSummaryText = document.getElementById("impactSummaryText");
 
-    function calculateSkinTrajectory() {
-        if (!budgetSlider) return;
-        const budget = parseInt(budgetSlider.value);
-        if (budgetValue) budgetValue.textContent = `Rp ${budget.toLocaleString('id-ID')}`;
+    const checkboxes = [chkMoisturizer, chkCleanser, chkSunscreen, chkToner, chkNiacinamide, chkActives, chkLemon, chkScrubs];
 
-        if (profileSyncBadge) {
-            if (userSkinProfile.isCalculated) {
-                profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()}`;
-                profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
-                profileSyncBadge.style.color = "var(--brand-accent)";
-            } else {
-                profileSyncBadge.textContent = "Profile: Unlinked";
-                profileSyncBadge.style.backgroundColor = "var(--border-subtle)";
-                profileSyncBadge.style.color = "var(--color-text-muted)";
-            }
-        }
-
-        const state = {};
-        selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
-
-        const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
-        let metrics = [50, 50, 50, 50, 50, 50, 50];
-        let currentEvaluatedScore = 50;
-        let summaryText = "Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.";
+    function calculateRoutineGrid() {
+        let currentSelections = 0;
+        let trendScore = 0;
+        let dangerAlerts = [];
         
-        let amSteps = ["Rinse skin with clean, lukewarm water."];
-        let pmSteps = ["Rinse away daily environmental sweat or dust."];
+        let amArr = [];
+        let pmArr = [];
 
-        if (state['chk-lemon'] || state['chk-scrubs']) {
-            metrics = [50, 35, 22, 12, 6, 4, 3]; currentEvaluatedScore = 3;
-            summaryText = "ROUTINE WARNING: High acidity or harsh friction from physical trends strips away moisture layers. Stop using these items immediately to let your skin rest.";
-            if (userSkinProfile.reactivity === "Sensitive") {
-                metrics = [50, 25, 12, 5, 2, 1, 1]; currentEvaluatedScore = 1;
-                summaryText += " Because your quiz responses showed sensitive traits, irritation risks are heavily elevated.";
-            }
-            amSteps = ["SKIP UNNECESSARY REMEDIES AND SCRUBS.", "Wash gently with cool plain water only to minimize further irritation."];
-            pmSteps = ["Stop using harsh physical brushes or kitchen ingredients.", "Apply basic moisturizer or glycerin if available; otherwise leave bare."];
-        } 
-        else if (state['chk-actives'] && !state['chk-moisturizer']) {
-            metrics = [50, 44, 36, 30, 25, 20, 15]; currentEvaluatedScore = 15;
-            summaryText = "ACTIVE INGREDIENT IRRITATION: Using high-strength active ingredients without a basic moisturizer can cause dryness and flaking. Pause the active ingredient until a baseline routine is built.";
-            if (userSkinProfile.baseType === "Dry") {
-                metrics = [50, 38, 28, 20, 15, 10, 8]; currentEvaluatedScore = 8;
-                summaryText += " Having a dry skin type increases the likelihood of active irritation and cracking.";
-            }
-            amSteps = ["Temporarily stop using high-potency active serums.", "Splash face with cool water to avoid stripping native moisture."];
-            pmSteps = ["Skip the high-strength active product tonight.", "Focus on finding a simple, low-cost hydrating lotion when your budget allows."];
+        if (chkCleanser && chkCleanser.checked) {
+            currentSelections++;
+            amArr.push("Splash clean with lukewarm water or use Gentle Low-pH Cleanser.");
+            pmArr.push("Massage Gentle Low-pH Cleanser over damp skin for 60 seconds to clear surface waste.");
         }
-        else if (state['chk-moisturizer'] && state['chk-cleanser'] && state['chk-sunscreen']) {
-            let score = 85;
-            summaryText = "COMPLETE BASELINE ROUTINE: Your foundational loop is complete. Gentle cleansing, basic hydration, and broad-spectrum UV protection work together for maximum safety.";
-            
-            amSteps = ["Rinse with water or an ultra-mild splash.", "Apply your basic moisturizer/lotion.", "Apply Broad-Spectrum Sunscreen (Crucial daily protection)."];
-            pmSteps = ["Use your Gentle Low-pH Cleanser to break down sunscreen and buildup.", "Apply basic moisturizer to damp skin within a few minutes of drying."];
-            
-            if (userSkinProfile.baseType === "Oily") {
-                summaryText += " Hint: Since your skin type is Oily, check that your lotion is a lightweight fluid rather than a heavy wax cream.";
-            }
-            if (userSkinProfile.dehydrated && state['chk-toner']) {
-                score += 3;
-                summaryText += " Adding a toner helps soothe surface-level dehydration lines.";
-            }
-            if (state['chk-niacinamide']) { 
-                score += 11; 
-                summaryText += " Niacinamide supports natural skin hydration paths."; 
-                pmSteps.push("Optional: Apply Niacinamide serum before moisturizer."); 
-            }
-            if (state['chk-toner']) { 
-                score += 4; 
-                amSteps.splice(1, 0, "Optional: Pat gentle hydrating toner over damp skin."); 
-            }
-            currentEvaluatedScore = Math.min(score, 100);
-            metrics = [50, 62, 72, 80, 86, 90, currentEvaluatedScore];
+        if (chkToner && chkToner.checked) {
+            currentSelections++;
+            amArr.push("Pat Gentle Hydrating Toner down to prep absorption paths.");
+            pmArr.push("Pat Gentle Hydrating Toner down for instant water-layer delivery.");
         }
-        else if (state['chk-moisturizer'] && state['chk-cleanser']) {
-            currentEvaluatedScore = 75; metrics = [50, 55, 62, 68, 72, 74, 75];
-            summaryText = "ESSENTIAL MINIMALIST HYDRATION: Excellent low-cost baseline. Your routine consistency is projected to show steady benefits. Adding an affordable sunscreen will complete the loop.";
-            amSteps = ["Rinse face thoroughly with clean, lukewarm water.", "Apply a thin layer of basic moisturizer / glycerin."];
-            pmSteps = ["Cleanse face using your Gentle Low-pH Cleanser.", "Apply basic moisturizer over damp skin to prevent surface moisture loss."];
+        if (chkNiacinamide && chkNiacinamide.checked) {
+            currentSelections++;
+            amArr.push("Apply 2-3 drops of Niacinamide Serum to support environmental barrier shielding.");
+            pmArr.push("Apply Niacinamide Serum to assist skin barrier lipid synthesis overnight.");
+        }
+        if (chkMoisturizer && chkMoisturizer.checked) {
+            currentSelections++;
+            amArr.push("Apply thin layer of Basic Moisturizer / Glycerin mix to lock structural fluids.");
+            pmArr.push("Apply generous layer of Basic Moisturizer / Glycerin to prevent trans-epidermal water loss.");
+        }
+        if (chkSunscreen && chkSunscreen.checked) {
+            currentSelections++;
+            amArr.push("Apply a uniform layer of Broad-Spectrum Sunscreen (SPF 30+) as the vital final shield.");
         }
 
-        if (currentEvaluatedScore === 50 && !state['chk-moisturizer'] && !state['chk-cleanser']) {
-            if (protocolBox) protocolBox.classList.add('hidden');
+        // Catch Active Ingredients / Hype Trends
+        if (chkActives && chkActives.checked) {
+            trendScore++;
+            pmArr.push("⚠️ Apply Active Serum (Retinols/Acids) cautiously. Do not apply on broken surface layers.");
+        }
+        if (chkLemon && chkLemon.checked) {
+            trendScore++;
+            dangerAlerts.push("CRITICAL HAZARD: Raw lemon application features a highly acidic pH level (~2) that risks severe chemical burns and blistering UV phytophotodermatitis.");
+        }
+        if (chkScrubs && chkScrubs.checked) {
+            trendScore++;
+            dangerAlerts.push("BARRIER THREAT: Coarse abrasive face scrubs generate physical micro-tears across delicate cell networks, causing inflammation.");
+        }
+
+        // Display Routine Output Box
+        if (currentSelections > 0 || trendScore > 0) {
+            if (protocolBox) protocolBox.classList.remove("hidden");
         } else {
-            if (protocolBox) protocolBox.classList.remove('hidden');
+            if (protocolBox) protocolBox.classList.add("hidden");
         }
 
-        if (reportContent) reportContent.textContent = summaryText;
-        if (amRoutineList) amRoutineList.innerHTML = amSteps.map(s => `<li>${s}</li>`).join('');
-        if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
+        // Print Warning Notices
+        if (reportContent) {
+            if (dangerAlerts.length > 0) {
+                reportContent.innerHTML = dangerAlerts.map(msg => `<div style="color:#c94c4c; font-weight:700; margin-bottom:0.5rem;">${msg}</div>`).join("");
+                reportContent.style.borderColor = "#c94c4c";
+            } else if (currentSelections >= 3 && chkSunscreen && chkSunscreen.checked && chkCleanser && chkCleanser.checked && chkMoisturizer && chkMoisturizer.checked) {
+                reportContent.innerHTML = "✨ Optimal core structure achieved! Your clean routine balance targets essential functions smoothly.";
+                reportContent.style.borderColor = "var(--brand-accent)";
+            } else {
+                reportContent.innerHTML = "Routine dynamic system online. Add a Cleanser, Moisturizer, and Sunscreen to lock your core framework protection.";
+                reportContent.style.borderColor = "var(--border-subtle)";
+            }
+        }
 
-        renderVisualThresholdChart(labels, metrics);
-        updateHonestLocalMetrics(state, currentEvaluatedScore);
+        // Hydrate DOM lists
+        if (amRoutineList) amRoutineList.innerHTML = amArr.map(li => `<li>${li}</li>`).join("");
+        if (pmRoutineList) pmRoutineList.innerHTML = pmArr.map(li => `<li>${li}</li>`).join("");
+
+        // Update Matrix Counts
+        if (itemsSavedCount) itemsSavedCount.innerText = trendScore;
+        
+        let percentage = 0;
+        if (chkCleanser && chkCleanser.checked) percentage += 30;
+        if (chkMoisturizer && chkMoisturizer.checked) percentage += 30;
+        if (chkSunscreen && chkSunscreen.checked) percentage += 40;
+        if (chkLemon && chkLemon.checked) percentage -= 50;
+        if (chkScrubs && chkScrubs.checked) percentage -= 30;
+        if (percentage < 0) percentage = 0;
+
+        if (optimizationDelta) optimizationDelta.innerText = `+${percentage}%`;
+
+        if (impactSummaryText) {
+            if (percentage >= 100) {
+                impactSummaryText.innerHTML = "🎉 Excellent! Your target consistency rating is maxed out with perfect core protection elements.";
+            } else if (dangerAlerts.length > 0) {
+                impactSummaryText.innerHTML = "⚠️ Warning: Selected DIY remedies or harsh methods are reducing your overall structural target.";
+            } else {
+                impactSummaryText.innerHTML = "💡 Balancing your routine with core basics helps prevent long-term moisture loss.";
+            }
+        }
+
+        updateChartData(percentage);
     }
 
-    function renderVisualThresholdChart(labels, metrics) {
-        const chartCanvas = document.getElementById('dermaChart');
-        if (!chartCanvas) return;
-        const ctx = chartCanvas.getContext('2d');
-        if (dermaChart) { dermaChart.destroy(); }
-        dermaChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{ label: 'Illustrative Habit Track (%)', data: metrics, borderColor: '#4A5548', borderWidth: 2.5, pointBackgroundColor: '#D4AF37', tension: 0.1, fill: false }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+    if (budgetSlider && budgetValue) {
+        budgetSlider.addEventListener("input", (e) => {
+            budgetValue.innerText = `Rp ${Number(e.target.value).toLocaleString('id-ID')}`;
         });
     }
 
-    if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
-    selectors.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calculateSkinTrajectory); });
-
-    // --- QUICK-ADD STARTER PACK PRESET ENGINE ---
-    const starterPackBtn = document.getElementById('starterPackBtn');
+    const starterPackBtn = document.getElementById("starterPackBtn");
     if (starterPackBtn) {
-        starterPackBtn.addEventListener('click', function() {
-            const chkCleanser = document.getElementById('chk-cleanser');
-            const chkMoisturizer = document.getElementById('chk-moisturizer');
-            const chkSunscreen = document.getElementById('chk-sunscreen');
-            
+        starterPackBtn.addEventListener("click", () => {
             if (chkCleanser) chkCleanser.checked = true;
             if (chkMoisturizer) chkMoisturizer.checked = true;
             if (chkSunscreen) chkSunscreen.checked = true;
-            
-            if (budgetSlider) {
-                budgetSlider.value = 150000; 
-                budgetSlider.dispatchEvent(new Event('input')); 
-            }
-            
-            calculateSkinTrajectory();
-            
-            this.innerText = "✅ Starter Pack Applied!";
-            setTimeout(() => {
-                this.innerText = "✨ Apply 3-Step Instant Starter Pack";
-            }, 2000);
+            calculateRoutineGrid();
         });
     }
 
-    // --- 9-STEP SKIN TYPE QUIZ SYSTEM ---
-    const quizData = [
-        { q: "1. Surface Oil: How does your skin surface feel about an hour after washing with plain water?", a: [ { text: "Tight, flaky, or visibly matte all over", type: "base:Dry" }, { text: "Slick, shiny, or greasy completely", type: "base:Oily" }, { text: "Oily on forehead/nose but tight on outer cheeks", type: "base:Combination" }, { text: "Comfortable, smooth, and well balanced", type: "base:Normal" } ] },
-        { q: "2. Comfort Sensitivity: How often do you feel stinging, burning, or redness from basic skin essentials?", a: [ { text: "Frequently, especially when trying simple products or weather shifts", type: "react:Sensitive" }, { text: "Rarely or never, skin easily handles adjustments", type: "react:Resilient" } ] },
-        { q: "3. Breakout Tendencies: Do you experience frequent breakouts, bumps, or blackheads in high-oil zones?", a: [ { text: "Yes, standard clogged cycles occur regularly", type: "acne:true" }, { text: "No, blemishes are quite rare or heal rapidly", type: "acne:false" } ] },
-        { q: "4. Surface Tightness: Does your skin feel tight underneath, even if there is visible grease or oil on top?", a: [ { text: "Yes, it feels pulled or crinkled but stays slick on top", type: "dehyd:true" }, { text: "No, skin comfort matches the surface oil level", type: "dehyd:false" } ] },
-        { q: "5. Temporary Marks: When you get a minor skin blemish, how long do dark marks or red spots remain?", a: [ { text: "Weeks or months, marking takes a while to disappear", type: "none" }, { text: "Just a few days, marks clear away efficiently", type: "none" } ] },
-        { q: "6. Dry Environments: How does your skin layer behave when staying inside air-conditioned rooms or dry climates?", a: [ { text: "Dries out quickly, develops rough localized tight spots", type: "dehyd:true" }, { text: "Maintains its current texture comfortably", type: "none" } ] },
-        { q: "7. Mechanical Friction: Rubbing your face with a standard towel or rough washcloth causes what immediate symptom?", a: [ { text: "Flashing redness, irritation, or clear stinging", type: "react:Sensitive" }, { text: "No significant color change or irritation", type: "react:Resilient" } ] },
-        { q: "8. Visible Pores: When examining your skin path in the mirror, how visible are your pore layouts?", a: [ { text: "Highly visible, wider across cheeks and center regions", type: "base:Oily" }, { text: "Virtually invisible, smooth uniform layout", type: "base:Dry" } ] },
-        { q: "9. Active Acid Adaptation: What occurs if you use a strong over-the-counter retinol or peeling product?", a: [ { text: "Immediate burning, clear peeling, or compromised raw skin", type: "react:Sensitive" }, { text: "Slight temporary dry phase, but skin handles it fine", type: "react:Resilient" } ] }
-    ];
+    checkboxes.forEach(chk => {
+        if (chk) chk.addEventListener("change", calculateRoutineGrid);
+    });
 
-    let quizAnswers = []; let currentQuestionIndex = 0;
-
-    function initializeQuizEngine() {
-        quizAnswers = []; currentQuestionIndex = 0;
-        const quizResultBox = document.getElementById('quizResultBox');
-        const questionBox = document.getElementById('questionBox');
-        if (quizResultBox) quizResultBox.classList.add('hidden');
-        if (questionBox) questionBox.classList.remove('hidden');
-        renderQuizQuestion();
-    }
-
-    function renderQuizQuestion() {
-        const questionText = document.getElementById('questionText');
-        const optionsContainer = document.getElementById('answerOptions');
-        const progressTracker = document.getElementById('quizProgressTracker');
-        const progressBar = document.getElementById('quizProgressBar');
-        
-        if (currentQuestionIndex >= quizData.length) { evaluateQuizResults(); return; }
-        
-        const stepNum = currentQuestionIndex + 1;
-        if (progressTracker) progressTracker.textContent = `Step ${stepNum} of 9`;
-        if (progressBar) progressBar.style.width = `${(stepNum / 9) * 100}%`;
-
-        const currentQ = quizData[currentQuestionIndex];
-        if (questionText) questionText.textContent = currentQ.q;
-        if (optionsContainer) {
-            optionsContainer.innerHTML = "";
-            currentQ.a.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "quiz-opt-btn"; btn.textContent = opt.text;
-                btn.addEventListener('click', () => { quizAnswers.push(opt.type); currentQuestionIndex++; renderQuizQuestion(); });
-                optionsContainer.appendChild(btn);
-            });
-        }
-    }
-
-    function evaluateQuizResults() {
-        const questionBox = document.getElementById('questionBox');
-        const resultBox = document.getElementById('quizResultBox');
-        if (questionBox) questionBox.classList.add('hidden');
-        if (resultBox) resultBox.classList.remove('hidden');
-
-        let baseTypes = { Normal: 0, Oily: 0, Dry: 0, Combination: 0 };
-        let reactTypes = { Sensitive: 0, Resilient: 0 };
-        let acneCount = 0; let dehydCount = 0;
-
-        quizAnswers.forEach(ans => {
-            if (ans.startsWith("base:")) baseTypes[ans.split(":")[1]]++;
-            if (ans.startsWith("react:")) reactTypes[ans.split(":")[1]]++;
-            if (ans === "acne:true") acneCount++;
-            if (ans === "dehyd:true") dehydCount++;
-        });
-
-        let determinedBase = Object.keys(baseTypes).reduce((a, b) => baseTypes[a] > baseTypes[b] ? a : b);
-        let determinedReact = reactTypes.Sensitive >= reactTypes.Resilient ? "Sensitive" : "Resilient";
-
-        userSkinProfile.baseType = determinedBase;
-        userSkinProfile.reactivity = determinedReact;
-        userSkinProfile.acneProne = acneCount > 0;
-        userSkinProfile.dehydrated = dehydCount > 0;
-        userSkinProfile.isCalculated = true;
-
-        let typeStr = `${determinedBase} Skin Type`; let descStr = "";
-
-        if (determinedReact === "Sensitive") {
-            typeStr = `Sensitive & ${determinedBase} Skin`;
-            descStr = "Your quiz choices point to a highly reactive skin surface. Avoid complicated multi-step layering patterns, physical abrasives, and strong unbuffered acids. Focus entirely on low-pH gentle cleansing and simple hydration options.";
-        } else {
-            if (determinedBase === "Oily") descStr = "Your choices show active surface oil production. Prioritize water-based lightweight hydration elements (like simple humectants or gel lotions) and avoid heavy, thick wax-based formulations.";
-            else if (determinedBase === "Dry") descStr = "Your choices track limited natural surface oil production. Focus on rich moisturizers applied directly to damp skin to prevent environmental moisture loss.";
-            else descStr = "Your skin type is historically well-balanced across oil and moisture levels. Maintain this balance by skipping heavy trend items and shielding daily with basic sunscreen.";
-        }
-
-        if (userSkinProfile.dehydrated) descStr += " Note: Your quiz answers also suggest surface dehydration (a lack of bound water in the outer cell layers).";
-        
-        const titleEl = document.getElementById('skinTypeTitle');
-        const descEl = document.getElementById('skinTypeDescription');
-        if (titleEl) titleEl.textContent = typeStr.toUpperCase();
-        if (descEl) descEl.textContent = descStr;
-    }
-
-    const syncToRoutineBtn = document.getElementById('syncToRoutineBtn');
-    if (syncToRoutineBtn) {
-        syncToRoutineBtn.addEventListener('click', () => {
-            if (navDashboard && trackerCard) {
-                clearActiveTabs(); navDashboard.classList.add('active'); trackerCard.classList.remove('hidden');
-                calculateSkinTrajectory();
-                window.scrollTo({ top: document.getElementById('impactMatrix').offsetTop - 20, behavior: 'smooth' });
-            }
-        });
-    }
-    const resetQuizBtn = document.getElementById('resetQuizBtn');
-    if (resetQuizBtn) resetQuizBtn.addEventListener('click', initializeQuizEngine);
-
-    // --- ACADEMY SCIENCE HUB REPOSITORY ---
-    const scienceDatabase = [
-        { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Reference Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid#section=Safety-and-Hazards" },
-        { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read NCBI Skin Friction Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5608132/" },
-        { id: 3, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Traditional soaps feature alkaline pH profiles (>9.0) that strip structural skin components. Low-pH alternatives clean effectively without depleting native lipids.", actionText: "Read PMC Surfactant Formulation Science →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3088928/" },
-        { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Essential Types", description: "Humectants bind moisture inside epidermal layers, while occlusives form a physical surface layout that lowers Transepidermal Water Loss (TEWL).", actionText: "Read Harvard Health Dermatological Guide →", link: "https://www.health.harvard.edu/staying-healthy/the-hype-over-skin-care-ingredients" },
-        { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "L-Ascorbic Acid (Vitamin C)", description: "A well-studied antioxidant that neutralizes environmental free radicals caused by daily UV exposure while supporting structural cell preservation.", actionText: "Read Cochrane Antioxidant Efficacy Review →", link: "https://www.cochrane.org/CD004135/SKIN_antioxidants-for-preventing-skin-ageing-caused-by-the-sun" },
-        { id: 6, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Extensively researched molecule shown to boost ceramide production, lower baseline TEWL values, and balance surface sebum metrics.", actionText: "View PubMed Niacinamide Trial Data →", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
-        { id: 7, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read JID Barrier Function Literature →", link: "https://www.jidonline.org/article/S0022-202X(15)34551-7/fulltext" },
-        { id: 8, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Protective Acid Mantle", description: "An interactive analysis of how native free fatty acids lower human surface pH to safeguard against environmental stressors and support optimal cell shedding.", actionText: "Read Wiley Hydrophilic Film Analysis →", link: "https://onlinelibrary.wiley.com/doi/10.1111/ics.12745" }
-    ];
-
-    const databaseGrid = document.getElementById('databaseGrid');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-
-    function renderCards(categoryFilter) {
-        if (!databaseGrid) return;
-        databaseGrid.innerHTML = scienceDatabase.filter(item => categoryFilter === "all" || item.category === categoryFilter).map(item => `
-            <div class="content-card tab-fade-animation">
-                <span class="badge ${item.badgeClass}">${item.badge}</span>
-                <h3>${item.title}</h3>
-                <p>${item.description}</p>
-                <a href="${item.link}" target="_blank" class="read-more" rel="noopener noreferrer">${item.actionText}</a>
-            </div>
-        `).join('');
-    }
-
-    filterBtns.forEach(btn => btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
-        renderCards(btn.getAttribute('data-category'));
-    }));
-
-    // --- PRODUCT RECOMMENDATIONS LOG DIRECTORY ---
-    const peerRegistryDatabase = [
-        { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate, Poloxamer 184", usage: "Pour onto a cotton pad, wipe gently across dry face field until sunscreen layer clears.", definition: "An oil-free, water-based micellar solution structured specifically to clean away surface skin oils and daily grit cleanly." },
-        { id: 2, skinType: "Dry", product: "The Ordinary Moisturizing Factors + HA", cost: "Rp 120.000", ingredients: "Caprylic Triglyceride, Cetyl Alcohol, Sodium PCA, Hyaluronic Acid, Ceramides", usage: "Apply a pea-sized dot over damp skin right after your rinsing block.", definition: "A light cream setup built to match skin's natural moisturizing factors, protecting dry cell structures from daily moisture loss." },
-        { id: 3, skinType: "Sensitive", product: "Cetaphil Gentle Skin Cleanser", cost: "Rp 65.000", ingredients: "Water, Cetyl Alcohol, Propylene Glycol, Sodium Lauryl Sulfate, Stearyl Alcohol", usage: "Massage lightly over face, then wash away with tepid water or wipe off with a soft cloth.", definition: "A soap-free, non-foaming cleansing lotion designed to wipe away outer grime safely without breaking down sensitive skin boundaries." },
-        { id: 4, skinType: "Normal", product: "Azarine Hydrasoothe Sunscreen Gel SPF 45", cost: "Rp 65.000", ingredients: "Water, Aloe Barbadensis Leaf Juice, Green Tea Extract, Propolis, Niacinamide", usage: "Smooth two finger lengths across entire face area 15 minutes before stepping outside.", definition: "An organic, gel-based UV filter layer that sinks in rapidly without leaving chalky lines or heavy grease layers on normal skin profiles." }
-    ];
-
-    const peerRegistryGrid = document.getElementById('peerRegistryGrid');
-    const peerFilterBtns = document.querySelectorAll('.peer-filter-btn');
-
-    function renderPeerRegistry(skinFilter) {
-        if (!peerRegistryGrid) return;
-        const filteredData = peerRegistryDatabase.filter(item => skinFilter === "all" || item.skinType === skinFilter);
-        
-        if (filteredData.length === 0) {
-            peerRegistryGrid.innerHTML = `<div class="content-card"><p class="text-muted">No community recommendations logged yet for this category.</p></div>`;
-            return;
-        }
-
-        peerRegistryGrid.innerHTML = filteredData.map(item => `
-            <div class="content-card tab-fade-animation" style="border-top: 3px solid var(--brand-accent);">
-                <span class="badge ${item.skinType === 'Oily' ? 'badge-science' : item.skinType === 'Dry' ? 'badge-myth' : 'badge-class'}">${item.skinType} Skin</span>
-                <h3 style="margin-top: 0.25rem; font-size: 1.15rem; color: var(--brand-primary);">${item.product}</h3>
-                <p style="font-size: 0.85rem; font-weight: 700; color: var(--brand-accent); margin-bottom: 0.5rem;">Cost: ${item.cost}</p>
-                <p style="font-size: 0.85rem; color: var(--color-text-main); line-height: 1.5; margin-bottom: 0.75rem;"><strong>Notes:</strong> "${item.definition}"</p>
-                <div style="background: var(--bg-main); padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; border: 1px solid var(--border-subtle);">
-                    <p style="margin-bottom: 0.25rem;">🧪 <strong>Ingredients:</strong> ${item.ingredients}</p>
-                    <p>⚙️ <strong>Directions:</strong> ${item.usage}</p>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    peerFilterBtns.forEach(btn => btn.addEventListener('click', () => {
-        peerFilterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
-        renderPeerRegistry(btn.getAttribute('data-skin'));
-    }));
-
-    // --- RECOMMENDATIONS FORM SUBMISSION ROUTED TO FORMSPREE ---
-    const peerContributionForm = document.getElementById('peerContributionForm');
-    if (peerContributionForm) {
-        peerContributionForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const data = new FormData(e.target);
-            const responseAlert = document.getElementById('peerSuccessMessage');
-            
-            const selectedSkin = document.getElementById('peerSkinType').value;
-            const enteredProd = document.getElementById('peerProdName').value;
-            const enteredPrice = document.getElementById('peerPrice').value;
-            const enteredIngredients = document.getElementById('peerIngredients').value;
-            const enteredUsage = document.getElementById('peerUsage').value;
-            const enteredNotes = document.getElementById('peerNotes').value;
-
-            fetch(peerContributionForm.action, {
-                method: peerContributionForm.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                if (response.ok) {
-                    peerRegistryDatabase.unshift({
-                        id: Date.now(),
-                        skinType: selectedSkin,
-                        product: enteredProd,
-                        cost: enteredPrice,
-                        ingredients: enteredIngredients,
-                        usage: enteredUsage,
-                        definition: enteredNotes
-                    });
-                    renderPeerRegistry("all");
-                    peerFilterBtns.forEach(b => b.classList.remove('active'));
-                    if (peerFilterBtns[0]) peerFilterBtns[0].classList.add('active');
-                    peerContributionForm.reset();
-                    if (responseAlert) {
-                        responseAlert.classList.remove('hidden');
-                        setTimeout(() => responseAlert.classList.add('hidden'), 5000);
-                    }
-                } else { alert("Submission error. Please verify form connectivity."); }
-            }).catch(() => { alert("Network error. Please check your system connection."); });
-        });
-    }
-
-    // --- EXTENDED SKINCARE DICTIONARY PRO DATA SET (19 TOTAL REASSESSED WORDS) ---
-    const skinDictionaryDatabase = [
-        { term: "Hyaluronic Acid", details: "A powerful moisture-binding molecule naturally found in the skin that can hold up to 1,000 times its weight in water to temporarily plump the skin.", category: "Active Component", proTip: "Always apply this to a damp face to give the molecule water to pull into the skin." },
-        { term: "Niacinamide (Vitamin B3)", details: "A versatile water-soluble vitamin that helps visibly minimize enlarged pores, tighten lax pores, improve uneven skin tone, and support the skin barrier.", category: "Active Component", proTip: "It plays exceptionally well with almost every other ingredient, making it ideal for soothing skin." },
-        { term: "Retinol", details: "A derivative of Vitamin A that speeds up skin cell turnover and boosts collagen production to improve texture, fine lines, and acne.", category: "Active Component", proTip: "Highly unstable when exposed to light. Only use it in your nighttime routine." },
-        { term: "Salicylic Acid (BHA)", details: "An oil-soluble chemical exfoliant that penetrates deep into pores to dissolve sebum, dead skin cells, and debris, effectively treating blackheads.", category: "Active Component", proTip: "Because it is oil-soluble, it handles clogged pore channels much better than water-soluble AHAs." },
-        { term: "Glycolic Acid (AHA)", details: "A water-soluble chemical exfoliant derived from sugar cane with the smallest molecular size among AHAs, allowing it to efficiently shed dead surface skin cells.", category: "Active Component", proTip: "Excellent for dry skin or hyperpigmentation, but use sparingly to avoid surface tingling." },
-        { term: "Tocopherol (Vitamin E)", details: "A lipid-soluble antioxidant that protects surface cells from environmental oxidative stress and aids in skin healing and barrier stabilization.", category: "Active Component", proTip: "Often paired with Vitamin C to synergistically regenerate and boost overall antioxidant defenses." },
-        { term: "Centella Asiatica (Cica)", details: "A botanical herb rich in amino acids and fatty acids, widely used to calm inflammation, accelerate wound healing, and soothe compromised barriers.", category: "Active Component", proTip: "Look for this if your skin is experiencing redness, stinging, or peeling from over-exfoliation." },
-        { term: "Squalane", details: "A stable, saturated structural oil derived from plants that mimics skin’s natural sebum to deeply moisturize, soften texture, and prevent moisture loss.", category: "Active Component", proTip: "Lightweight and non-comedogenic, making it an excellent oil choice for acne-prone skin profiles." },
-        { term: "Benzoyl Peroxide", details: "An antimicrobial ingredient that introduces oxygen into pores to target and kill acne-causing bacteria, while clearing away dead skin cells.", category: "Active Component", proTip: "Can bleach colored fabrics. Consider using it in a wash-off cleanser formulation." },
-        { term: "Titanium Dioxide", details: "A naturally occurring physical mineral that sits on top of the skin barrier to physically deflect both UVA and UVB ultraviolet radiation.", category: "Active Component", proTip: "An ideal choice for highly sensitive skin types, though it requires thorough cleansing at night." },
-        { term: "Humectant", details: "A class of water-loving moisturizing substances (like Glycerin or Urea) that attract hydration from the atmosphere or deeper skin layers into upper cells.", category: "Product Function", proTip: "They require an occlusive layer over them in dry climates to prevent moisture from evaporating back out." },
-        { term: "Emollient", details: "Biocompatible conditioning agents, such as plant oils and lipids, that fill in the microscopic gaps between shedding cells to smooth and soften texture.", category: "Product Function", proTip: "Essential for repairing dry, rough, or flaky skin layouts by restoring flexible surface lipids." },
-        { term: "Occlusive", details: "Heavy moisturizing protectants (such as Petrolatum or Dimethicone) that form a physical, hydrophobic barrier over the stratum corneum to block water loss.", category: "Product Function", proTip: "Best applied sparingly at night over dry or peeling spots to lower overnight moisture evaporation." },
-        { term: "Lotion", details: "A thin, fluid emulsion that contains more water than heavy creams, absorbing quickly into the skin surface without leaving a thick oily layer.", category: "Product Type", proTip: "Ideal for combination or oily skin profiles who want lightweight skin hydration." },
-        { term: "Moisturizer", details: "A general product category designed to lock water inside the stratum corneum, smooth surface texture, and support the skin's surface layers.", category: "Product Type", proTip: "Apply to damp skin within minutes of washing to capture maximum hydration." },
-        { term: "Epidermis", details: "The outermost layer of the skin structure that acts as the body's primary physical shield against external pathogens, pollution, and water loss.", category: "Anatomy", proTip: "Most over-the-counter cosmetic skincare products are structurally designed to work solely within this upper layer." },
-        { term: "Stratum Corneum", details: "The very top layer of the epidermis, composed of hardened, dead skin cells bound tightly together by a brick-and-mortar matrix of native lipids.", category: "Anatomy", proTip: "This is your actual moisture barrier; protecting it is this app's main goal." },
-        { term: "Melanin", details: "Biological pigments produced by specialized cells called melanocytes that determine skin tone and serve as a natural biological defense against UV damage.", category: "Biology", proTip: "Irritation can trigger an overproduction of melanin, leading to post-inflammatory dark spots." },
-        { term: "Sebum", details: "An oily substance produced by the sebaceous glands to lubricate, waterproof, and protect the overall skin surface layout.", category: "Biology", proTip: "Over-washing can cause these glands to produce extra oil to compensate." }
-    ];
-
-    const dictionaryListContainer = document.getElementById('dictionaryListContainer');
-    const dictionarySearchInput = document.getElementById('dictionarySearchInput');
-
-    function renderDictionaryList(searchTerm = "") {
-        if (!dictionaryListContainer) return;
-        const cleanSearch = searchTerm.toLowerCase().trim();
-        
-        const filteredDict = skinDictionaryDatabase.filter(item => 
-            item.term.toLowerCase().includes(cleanSearch) || 
-            item.details.toLowerCase().includes(cleanSearch) ||
-            item.category.toLowerCase().includes(cleanSearch)
-        );
-
-        if (filteredDict.length === 0) {
-            dictionaryListContainer.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 2rem 0;">No vocabulary terms match your search query.</p>`;
-            return;
-        }
-
-        dictionaryListContainer.innerHTML = filteredDict.map(item => `
-            <div class="dict-card tab-fade-animation">
-                <div class="dict-header">
-                    <h3>${item.term}</h3>
-                    <span class="dict-tag">${item.category}</span>
-                </div>
-                <p class="dict-def">${item.details}</p>
-                <div class="dict-protip"><strong>🧠 Pro Insight:</strong> ${item.proTip}</div>
-            </div>
-        `).join('');
-    }
-
-    if (dictionarySearchInput) {
-        dictionarySearchInput.addEventListener('input', (e) => {
-            renderDictionaryList(e.target.value);
-        });
-    }
-
-    // --- DARK MODE TOGGLE ENGINE ---
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        });
-    }
-
-    // --- BATHROOM MIRROR PRINT ENGINE ---
-    const printRoutineBtn = document.getElementById('printRoutineBtn');
+    const printRoutineBtn = document.getElementById("printRoutineBtn");
     if (printRoutineBtn) {
-        printRoutineBtn.addEventListener('click', () => {
+        printRoutineBtn.addEventListener("click", () => {
             window.print();
         });
     }
 
-    // --- INITIALIZATION RUNTIME ---
-    calculateSkinTrajectory();
-    renderCards("all");
-    renderDictionaryList("");
+    // ==========================================
+    // === 4. TIMELINE LOGIC CHART DATA =========
+    // ==========================================
+    const ctx = document.getElementById('dermaChart');
+    let dermaChartInstance = null;
+
+    if (ctx) {
+        dermaChartInstance = new Chart(ctx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Day 0', 'Day 2', 'Day 4', 'Day 6', 'Day 8', 'Day 10', 'Day 12', 'Day 14'],
+                datasets: [{
+                    label: 'Conceptual Skin Barrier Health',
+                    data: [40, 40, 40, 40, 40, 40, 40, 40],
+                    borderColor: '#5b7065',
+                    backgroundColor: 'rgba(91, 112, 101, 0.05)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.03)' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    function updateChartData(score) {
+        if (!dermaChartInstance) return;
+        let baseline = 40;
+        let finalTarget = baseline + (score * 0.5); 
+        
+        let dynamicPoints = [
+            baseline,
+            baseline + (finalTarget - baseline) * 0.15,
+            baseline + (finalTarget - baseline) * 0.35,
+            baseline + (finalTarget - baseline) * 0.55,
+            baseline + (finalTarget - baseline) * 0.75,
+            baseline + (finalTarget - baseline) * 0.90,
+            finalTarget,
+            finalTarget
+        ];
+
+        dermaChartInstance.data.datasets[0].data = dynamicPoints;
+        dermaChartInstance.data.datasets[0].borderColor = score >= 100 ? '#7d9c87' : (score <= 30 ? '#c94c4c' : '#5b7065');
+        dermaChartInstance.update();
+    }
+
+    // ==========================================
+    // === 5. FORM MANAGEMENT & FEEDBACK NOTES ==
+    // ==========================================
+    const feedbackForm = document.getElementById("feedbackForm");
+    const feedbackSuccessMessage = document.getElementById("feedbackSuccessMessage");
+
+    if (feedbackForm) {
+        feedbackForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const data = new FormData(feedbackForm);
+            
+            try {
+                const response = await fetch(feedbackForm.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    if (feedbackSuccessMessage) feedbackSuccessMessage.classList.remove("hidden");
+                    feedbackForm.reset();
+                    setTimeout(() => {
+                        if (feedbackSuccessMessage) feedbackSuccessMessage.classList.add("hidden");
+                    }, 4000);
+                } else {
+                    alert("Submission error encountered. Please verify active networks.");
+                }
+            } catch (error) {
+                alert("Critical transmission failure occurred processing feedback.");
+            }
+        });
+    }
+
+    // ==========================================
+    // === 6. 9-STEP DYNAMIC SKIN QUIZ ENGINE ===
+    // ==========================================
+    const skinQuizData = [
+        { q: "How does your face surface feel 1 hour after washing with a standard soap?", a: [{t:"Tight, rough, or showing visible micro-flakes", s:"Dry"}, {t:"Shiny, slick with noticeable oil transfer", s:"Oily"}, {t:"Comfortable, flexible without excessive shine", s:"Normal"}, {t:"Prickling, itchy, or developing blotchy red patches", s:"Sensitive"}] },
+        { q: "How frequently do you observe noticeable enlarged pores across your nose and inner cheeks?", a: [{t:"Rarely visible or entirely closed", s:"Dry"}, {t:"Highly visible, large, and easily clogged", s:"Oily"}, {t:"Mildly visible strictly within the central T-zone", s:"Normal"}, {t:"Unpredictable or easily inflamed by environmental shifts", s:"Sensitive"}] },
+        { q: "What happens when you apply a thick, heavy protective winter moisture cream?", a: [{t:"It absorbs instantly without leaving a sticky trace", s:"Dry"}, {t:"It sits like a heavy, suffocating oil layer that spawns breakouts", s:"Oily"}, {t:"It feels hydrating but slightly excessive for daily wear", s:"Normal"}, {t:"It sometimes causes burning or instant sensory flushing", s:"Sensitive"}] },
+        { q: "Under direct mid-day heat, how does your forehead layer present itself?", a: [{t:"Tight, paper-dry, and intensely dehydrated", s:"Dry"}, {t:"Completely slick with reflective surface sweat and oil", s:"Oily"}, {t:"Slightly warm but regular balanced parameters", s:"Normal"}, {t:"Easily flushed, breaking into hot patches", s:"Sensitive"}] },
+        { q: "Describe your current frequency of dynamic acne breakouts or whitehead congestion clusters:", a: [{t:"Almost never, though dry patches surface frequently", s:"Dry"}, {t:"Consistent, widespread inflammatory cycles or blackheads", s:"Oily"}, {t:"Occasional isolated spot around periods of heavy stress", s:"Normal"}, {t:"Mainly small, surface bumps following new product tests", s:"Sensitive"}] },
+        { q: "How does your skin profile interact with regular changes in climate or wind?", a: [{t:"Becomes rough, chapped, and severely depleted", s:"Dry"}, {t:"Produces extra protective surface oils to counter dry air", s:"Oily"}, {t:"Adapts seamlessly without radical comfort adjustments", s:"Normal"}, {t:"Becomes highly irritated, raw, or burns when windblown", s:"Sensitive"}] },
+        { q: "When you wake up in the morning, what is the first baseline parameter you feel?", a: [{t:"Parched tightness prompting immediate lotion needs", s:"Dry"}, {t:"A clear layer of heavy surface oil all over the face", s:"Oily"}, {t:"A balanced, rested texture without specific problems", s:"Normal"}, {t:"Mild redness or sensitivity depending on fabric friction", s:"Sensitive"}] },
+        { q: "How easily does your skin develop redness when rubbed lightly with a towel?", a: [{t:"Rarely red, but can feel more irritated or flaky", s:"Dry"}, {t:"Resilient, showing no real flush response", s:"Oily"}, {t:"Brief temporary flush that settles inside 60 seconds", s:"Normal"}, {t:"Instantly turns bright red, feeling hot for several minutes", s:"Sensitive"}] },
+        { q: "What is your main structural objective regarding daily skincare adjustments?", a: [{t:"Replenishing deep surface cellular lipids and moisture", s:"Dry"}, {t:"Controlling excess oil slick and breaking acne cycles", s:"Oily"}, {t:"Maintaining steady, trouble-free longevity optimization", s:"Normal"}, {t:"Calming immediate irritation networks and protecting the barrier", s:"Sensitive"}] }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScoreTracker = { Normal: 0, Oily: 0, Dry: 0, Sensitive: 0 };
+
+    const questionText = document.getElementById("questionText");
+    const answerOptions = document.getElementById("answerOptions");
+    const quizProgressTracker = document.getElementById("quizProgressTracker");
+    const quizProgressBar = document.getElementById("quizProgressBar");
+    const quizResultBox = document.getElementById("quizResultBox");
+    const questionBox = document.getElementById("questionBox");
+    const skinTypeTitle = document.getElementById("skinTypeTitle");
+    const skinTypeDescription = document.getElementById("skinTypeDescription");
+    const resetQuizBtn = document.getElementById("resetQuizBtn");
+    const syncToRoutineBtn = document.getElementById("syncToRoutineBtn");
+    const profileSyncBadge = document.getElementById("profileSyncBadge");
+
+    let finalAssessedType = "Normal";
+
+    function launchStep() {
+        if (!questionText || !answerOptions) return;
+        
+        if (currentQuizIndex >= skinQuizData.length) {
+            tallyQuizResults();
+            return;
+        }
+
+        if (quizProgressTracker) quizProgressTracker.innerText = `Step ${currentQuizIndex + 1} of 9`;
+        if (quizProgressBar) quizProgressBar.style.width = `${((currentQuizIndex + 1) / 9) * 100}%`;
+
+        const activeStep = skinQuizData[currentQuizIndex];
+        questionText.innerText = activeStep.q;
+        answerOptions.innerHTML = "";
+
+        activeStep.a.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.className = "answer-option-btn";
+            btn.innerText = opt.t;
+            btn.addEventListener("click", () => {
+                quizScoreTracker[opt.s]++;
+                currentQuizIndex++;
+                launchStep();
+            });
+            answerOptions.appendChild(btn);
+        });
+    }
+
+    function tallyQuizResults() {
+        if (questionBox) questionBox.classList.add("hidden");
+        if (quizResultBox) quizResultBox.classList.remove("hidden");
+        if (quizProgressTracker) quizProgressTracker.innerText = "Assessment Finalized";
+        if (quizProgressBar) quizProgressBar.style.width = "100%";
+
+        let calculatedType = "Normal";
+        let highestValue = -1;
+
+        Object.keys(quizScoreTracker).forEach(key => {
+            if (quizScoreTracker[key] > highestValue) {
+                highestValue = quizScoreTracker[key];
+                calculatedType = key;
+            }
+        });
+
+        finalAssessedType = calculatedType;
+        if (skinTypeTitle) skinTypeTitle.innerText = `${calculatedType.toUpperCase()} SKIN TYPE`;
+
+        let descriptionMap = {
+            Normal: "Your skin barrier profile features a balanced moisture-to-lipid ratio. Pores are small, reactivity is extremely low, and it responds beautifully to simple core maintenance routines without requiring heavy oil controls.",
+            Oily: "Your sebaceous glands display increased activity, resulting in elevated surface sebum production. This profile requires lightweight hydration configurations (like toners or gels) to avoid deep follicular congestion cycles.",
+            Dry: "Your skin matrix demonstrates decreased lipid production levels, leaving the outer stratum corneum vulnerable to fast evaporation. Prioritize deep emollient moisturizers and humectants to lock down vital internal hydration.",
+            Sensitive: "Your skin possesses a delicate, hyper-reactive outer defense layer. It experiences accelerated reactions to fragrance, harsh chemical compounds, and rapid environmental transitions. Avoid raw elements and keep your routine minimal."
+        };
+
+        if (skinTypeDescription) skinTypeDescription.innerText = descriptionMap[calculatedType];
+    }
+
+    if (resetQuizBtn) {
+        resetQuizBtn.addEventListener("click", () => {
+            currentQuizIndex = 0;
+            quizScoreTracker = { Normal: 0, Oily: 0, Dry: 0, Sensitive: 0 };
+            if (questionBox) questionBox.classList.remove("hidden");
+            if (quizResultBox) quizResultBox.classList.add("hidden");
+            launchStep();
+        });
+    }
+
+    if (syncToRoutineBtn) {
+        syncToRoutineBtn.addEventListener("click", () => {
+            if (profileSyncBadge) {
+                profileSyncBadge.innerText = `Profile: ${finalAssessedType}`;
+                profileSyncBadge.style.backgroundColor = "var(--brand-accent)";
+                profileSyncBadge.style.color = "#ffffff";
+            }
+            alert(`Skin profile successfully calibrated to: ${finalAssessedType}. Your parameters have updated.`);
+            
+            const navDashboard = document.getElementById("navDashboard");
+            if (navDashboard) navDashboard.click();
+        });
+    }
+
+    launchStep();
+
+    // ==========================================
+    // === 6b. SCIENCE HUB ARTICLE DATABASE ====
+    // ==========================================
+    const originalArticles = [
+        { title: "The pH Blueprint: Why DIY Remedies Destroy Cells", excerpt: "Evaluating how high-acidity kitchen elements disrupt the delicate acid mantle, leading to opportunistic bacterial infections.", category: "myths" },
+        { title: "Glycerin vs Hyaluronic Acid: Real Cost Comparison", excerpt: "An evidence-based look at cost-effective moisture matrices proving why basic humectants regularly equal premium serum complexes.", category: "actives" },
+        { title: "Decoding Your Stratum Corneum Wall Dynamics", excerpt: "Analyzing the dead cellular bricks and lipid mortar architecture keeping essential fluids sealed safe inside.", category: "anatomy" },
+        { title: "The Sunscreen Mandate: UV Damage Minimization", excerpt: "Explaining why omitting protective daily shields invalidates your entire routine budget investment over time.", category: "classification" }
+    ];
+
+    const databaseGrid = document.getElementById("databaseGrid");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+
+    function renderArticles(filter = "all") {
+        if (!databaseGrid) return;
+        databaseGrid.innerHTML = "";
+        
+        const filtered = originalArticles.filter(art => filter === "all" || art.category === filter);
+        
+        filtered.forEach(art => {
+            databaseGrid.innerHTML += `
+                <div class="content-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size:0.65rem; background:var(--border-subtle); color:var(--color-text-muted); padding:0.25rem 0.5rem; border-radius:4px; font-weight:700; text-transform:uppercase;">${art.category}</span>
+                        <h3 style="margin: 0.5rem 0 0.3rem 0; font-size:1.1rem; color:var(--brand-primary);">${art.title}</h3>
+                        <p class="text-muted" style="font-size:0.8rem; line-height:1.4;">${art.excerpt}</p>
+                    </div>
+                    <button class="filter-btn" style="width:100%; margin-top:1rem; text-align:center;">Read Full Article Research</button>
+                </div>`;
+        });
+    }
+    renderArticles();
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            if(e.target.id === "themeToggleBtn") return; 
+            filterButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            renderArticles(btn.getAttribute("data-category"));
+        });
+    });
+
+    // ==========================================
+    // === 6c. PEER PRODUCT DIRECTORY LOGS =====
+    // ==========================================
+    const originalPeerRegistry = [
+        { name: "Wardah Aloe Hydramild Gel", skin: "Normal", cost: "Rp 32.000", ingredients: "Aloe Vera Extract, Glycerin, Panthenol", usage: "Apply thin layer as a light daytime fluid base", notes: "Very clean baseline option for humid climates. Absorbs cleanly without clogging pores." },
+        { name: "Sebamed Clear Face Gel", skin: "Oily", cost: "Rp 120.000", ingredients: "Aloe Barbadensis, Allantoin, Hyaluronic Acid", usage: "Apply night and morning to dry areas", notes: "Extremely minimal composition built with zero lipid oils. Perfect option for highly sensitive, acne-prone networks." },
+        { name: "Ceramedx Ultra Moisturizing Cream", skin: "Dry", cost: "Rp 240.000", ingredients: "Plant Ceramides, Glycerin, Safflower Seed Oil", usage: "Smooth down after evening toner adjustments", notes: "Thick emollient system that beautifully mimics natural skin matrix mortar cells." }
+    ];
+
+    const peerRegistryGrid = document.getElementById("peerRegistryGrid");
+    const peerFilterButtons = document.querySelectorAll(".peer-filter-btn");
+    const peerContributionForm = document.getElementById("peerContributionForm");
+    const peerSuccessMessage = document.getElementById("peerSuccessMessage");
+
+    function renderPeerRegistry(filter = "all") {
+        if (!peerRegistryGrid) return;
+        peerRegistryGrid.innerHTML = "";
+
+        const filtered = originalPeerRegistry.filter(p => filter === "all" || p.skin === filter);
+
+        filtered.forEach(p => {
+            peerRegistryGrid.innerHTML += `
+                <div class="content-card" style="border-top: 3px solid var(--brand-accent);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                        <h4 style="margin:0; color:var(--brand-primary); font-size:1.05rem;">${p.name}</h4>
+                        <span style="font-size:0.65rem; font-weight:700; background:var(--border-subtle); padding:0.2rem 0.4rem; border-radius:4px;">${p.skin} Profile</span>
+                    </div>
+                    <div style="font-size:0.8rem; font-weight:600; color:var(--brand-accent); margin-bottom:0.5rem;">Estimated Cost: ${p.cost}</div>
+                    <p style="font-size:0.75rem; margin:0 0 0.3rem 0;"><strong>Active Mix:</strong> ${p.ingredients}</p>
+                    <p style="font-size:0.75rem; margin:0 0 0.5rem 0; font-style:italic; color:var(--color-text-muted);"><strong>Safe Use:</strong> ${p.usage}</p>
+                    <p style="font-size:0.75rem; margin:0; line-height:1.4; background:var(--bg-main); padding:0.5rem; border-radius:4px;">${p.notes}</p>
+                </div>`;
+        });
+    }
+    renderPeerRegistry();
+
+    peerFilterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            peerFilterButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            renderPeerRegistry(btn.getAttribute("data-skin"));
+        });
+    });
+
+    if (peerContributionForm) {
+        peerContributionForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const data = new FormData(peerContributionForm);
+
+            try {
+                const response = await fetch(peerContributionForm.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    if (peerSuccessMessage) peerSuccessMessage.classList.remove("hidden");
+                    peerContributionForm.reset();
+                    setTimeout(() => {
+                        if (peerSuccessMessage) peerSuccessMessage.classList.add("hidden");
+                    }, 4000);
+                } else {
+                    alert("Submission error encountered. Please verify active networks.");
+                }
+            } catch (error) {
+                alert("Critical transmission failure occurred processing feedback.");
+            }
+        });
+    }
+
+    // ==================================================
+    // === 7. LIVE SPECIALIZED COSMETIC DICTIONARY API ===
+    // ==================================================
+    const searchField = document.getElementById("dictionarySearchInput");
+    const listField = document.getElementById("dictionaryListContainer");
+
+    // Comprehensive clinical cosmetic database
+    const skincareGlossary = [
+        { word: "Niacinamide", category: "Vitamins / Antioxidants", text: "A multi-tasking form of Vitamin B3. Strengthens skin barrier lipids, regulates excess sebum production, calms redness, and visibly fades hyperpigmentation spots." },
+        { word: "Hyaluronic Acid", category: "Humectants", text: "A powerhouse structural moisture binder capable of holding up to 1,000 times its own weight in water. Plumps the stratum corneum surface layer instantly." },
+        { word: "Salicylic Acid (BHA)", category: "Chemical Exfoliants", text: "An oil-soluble acid that penetrates deep within the pore lining to dissolve dead cell buildup and oxidized sebum plugs. Primary defense against blackheads." },
+        { word: "Glycolic Acid (AHA)", category: "Chemical Exfoliants", text: "The smallest alpha hydroxy acid molecule. Dissolves the intercellular glue holding dead cells to the skin surface to reveal smoother, brighter skin texture." },
+        { word: "Ceramides", category: "Barrier Repair / Emollients", text: "Essential lipid molecules making up roughly 50% of the natural skin barrier mortar. Repairs compromised, dry, or over-stripped skin profiles." },
+        { word: "Glycerin", category: "Humectants", text: "The gold-standard cosmetic humectant. Draws ambient water into surface layers, accelerates barrier healing, and prevents trans-epidermal water loss." },
+        { word: "Retinol", category: "Retinoids", text: "A powerful Vitamin A derivative that communicates directly with cells to accelerate skin turnover rates, clear deep congestion, and boost natural collagen networks." },
+        { word: "Squalane", category: "Emollients / Oils", text: "A stable, saturated emollient oil that closely mimics the skin's natural sebum composition. Softens rough textures without feeling heavy or blocking pores." },
+        { word: "Centella Asiatica (Cica)", category: "Botanical Extracts", text: "Rich in saponins and antioxidants. Highly praised for its intense wound-healing, anti-inflammatory, and skin-soothing properties on angry or sensitive surfaces." },
+        { word: "Comedogenic", category: "Terminology", text: "A classification system measuring how likely a specific cosmetic compound or oil is to cause physical blockages, microcomedones, and subsequent acne breakouts." },
+        { word: "Benzoyl Peroxide", category: "Acne Treatments", text: "An oxygenating antibacterial agent that targets acne-causing bacteria deep inside the hair follicle. Highly effective for red inflammatory pustules." },
+        { word: "Sebaceous Glands", category: "Skin Anatomy", text: "Microscopic exocrine glands located in the dermis layer that naturally secrete protective, lipid-rich oils (sebum) to maintain elasticity and coating." },
+        { word: "Azelaic Acid", category: "Dicarboxylic Acids", text: "A gentle, naturally occurring active that clears breakouts, manages rosacea redness, and blocks tyrosine pathways to lighten stubborn post-acne marks." },
+        { word: "Panthenol (Vitamin B5)", category: "Humectants / Soothing Agents", text: "An excellent skin protectant with anti-inflammatory properties. Deeply hydrates, reduces redness, and helps calm skin under active chemical stress." },
+        { word: "Dimethicone", category: "Silicones / Occlusives", text: "A smooth polymer that creates a breathable, silky barrier layer on the skin surface. Seals in internal moisture matrix layers while smoothing surface imperfections." }
+    ];
+
+    function renderDictionary(term = "") {
+        if (!listField) return;
+        listField.innerHTML = "";
+        
+        const matched = skincareGlossary.filter(i => 
+            i.word.toLowerCase().includes(term.toLowerCase()) || 
+            i.category.toLowerCase().includes(term.toLowerCase())
+        );
+        
+        if (matched.length === 0) {
+            listField.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--color-text-muted);">
+                    <p style="font-size: 0.85rem; margin: 0;">ℹ️ Term not found in database.</p>
+                    <p style="font-size: 0.75rem; margin: 0.25rem 0 0 0;">Try searching basic keys like "Acid", "Barrier", "Vitamin", or "Oil".</p>
+                </div>`;
+            return;
+        }
+        
+        matched.forEach(i => {
+            listField.innerHTML += `
+                <div class="content-card" style="padding: 1rem; border-left: 3px solid var(--brand-accent); background: var(--bg-card); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="font-size: 0.65rem; background: var(--border-subtle); color: var(--color-text-muted); padding: 0.2/0.4rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;">${i.category}</span>
+                        <h4 style="color: var(--brand-primary); font-size: 1.05rem; margin: 0.4rem 0 0.3rem 0; font-weight: 700;">${i.word}</h4>
+                        <p style="font-size: 0.8rem; margin: 0; line-height: 1.45; color: var(--color-text-main); font-weight: 400;">${i.text}</p>
+                    </div>
+                </div>`;
+        });
+    }
+
+    // Initialize full glossary view
+    renderDictionary();
+
+    if (searchField) {
+        searchField.addEventListener("input", (e) => {
+            renderDictionary(e.target.value.trim());
+        });
+    }
+
 });
