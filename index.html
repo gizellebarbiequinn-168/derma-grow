@@ -4,8 +4,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derma Grow — Evidence-Based Budget Skincare</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-main: #141613;
+            --bg-card: #20231e;
+            --brand-primary: #7e967a;
+            --brand-accent: #c29c53;
+            --color-text-main: #d1d5db;
+            --color-text-muted: #9ca3af;
+            --border-subtle: #2d312a;
+        }
+
+        body.light-theme {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --brand-primary: #047857;
+            --brand-accent: #b45309;
+            --color-text-main: #1e293b;
+            --color-text-muted: #64748b;
+            --border-subtle: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--color-text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem 1rem 3rem 1rem;
+        }
+
+        .app-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 1rem;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .brand-heading {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .app-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .app-nav-row-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.4rem;
+        }
+
+        .app-nav a, .app-nav-row-2 a {
+            display: block;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .app-nav a.active, .app-nav-row-2 a.active {
+            background-color: rgba(126, 150, 122, 0.2);
+            color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+
+        .content-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+        }
+
+        .metric-stat-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .metric-stat-box:not(:last-child) {
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        .metric-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .selection-matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .checkbox-card {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.01);
+            align-items: flex-start;
+        }
+
+        .checkbox-card input[type="checkbox"] {
+            accent-color: var(--brand-primary);
+            margin-top: 0.2rem;
+        }
+
+        .checkbox-label-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .checkbox-subtext {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--color-text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .input-group {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .range-slider {
+            width: 100%;
+            accent-color: var(--brand-primary);
+            cursor: pointer;
+        }
+
+        .form-input-text, select {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 0.6rem;
+            color: var(--color-text-main);
+            font-size: 0.8rem;
+            outline: none;
+        }
+
+        .form-input-text:focus {
+            border-color: var(--brand-primary);
+        }
+
+        .btn-preset, .btn-primary, .filter-btn {
+            background-color: var(--brand-primary);
+            color: #fff;
+            border: 1px solid transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .filter-btn {
+            background: none;
+            border-color: var(--border-subtle);
+            color: var(--color-text-muted);
+            width: auto;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+        }
+
+        .filter-btn.active {
+            background-color: rgba(126, 150, 122, 0.2);
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .database-filter-bar {
+            display: flex;
+            gap: 0.35rem;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+        }
+
+        .answer-options-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--color-text-main);
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .quiz-option-btn:hover {
+            border-color: var(--brand-accent);
+        }
+
+        .routine-split-panel {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        @media(min-width: 480px) {
+            .routine-split-panel { grid-template-columns: 1fr 1fr; }
+        }
+
+        .routine-block {
+            background: rgba(0,0,0,0.15);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .routine-block h4 {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--brand-accent);
+        }
+
+        .routine-list {
+            font-size: 0.75rem;
+            padding-left: 1.25rem;
+            color: var(--color-text-main);
+        }
+
+        .alert-notice {
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            margin-top: 0.75rem;
+        }
+
+        .hidden { display: none !important; }
+        .text-muted { color: var(--color-text-muted); font-size: 0.8rem; }
+    </style>
 </head>
 <body>
 
@@ -18,45 +324,47 @@
                     <path d="M12 2C17.5 2 19 6.5 19 6.5M12 2C6.5 2 5 6.5 5 6.5" stroke="var(--brand-accent)" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
                 <span class="brand-heading">Derma Grow</span>
-                <button id="themeToggleBtn" class="filter-btn" style="margin-left: 0.5rem; padding: 0.25rem 0.6rem; font-size: 0.75rem;">🌓 Toggle Theme</button>
+                <button id="themeToggleBtn" class="filter-btn" style="margin-left: auto; padding: 0.25rem 0.6rem; font-size: 0.75rem;">🌓 Toggle Theme</button>
             </div>
             <nav class="app-nav">
                 <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
                 <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
                 <a href="#" id="navLearn" class="nav-link">Science Hub</a>
+            </nav>
+            <nav class="app-nav-row-2" style="margin-top: 0.4rem;">
                 <a href="#" id="navRecommendations" class="nav-link">Shared Directory</a>
                 <a href="#" id="navDictionary" class="nav-link">Skincare Dictionary</a>
             </nav>
         </header>
 
-        <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2rem;">
-            <h1 style="color: var(--brand-primary); font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
-                Smart Skincare on a Strict Budget
-            </h1>
-            <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 0.9rem;">
-                Build a database-backed routine around core essentials, bypass expensive marketing hype, and browse community product logs.
-            </p>
-        </section>
+        <div id="dashboardView">
+            <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2rem;">
+                <h1 style="color: var(--brand-primary); font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 700;">
+                    Smart Skincare on a Strict Budget
+                </h1>
+                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+                    Build a database-backed routine around core essentials, bypass expensive marketing hype, and browse community product logs.
+                </p>
+            </section>
 
-        <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); padding: 1rem; margin-bottom: 1.5rem;">
-            <div class="metrics-row">
-                <div class="metric-stat-box">
-                    <span id="activeUsersCount" class="metric-number" style="color: #ffffff;">1 Active</span>
-                    <span class="metric-label">Active Session</span>
-                </div>
-                <div class="metric-stat-box">
-                    <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">0</span>
-                    <span class="metric-label">Trends Avoided</span>
-                </div>
-                <div class="metric-stat-box">
-                    <span id="optimizationDelta" class="metric-number" style="color: var(--brand-accent);">+0%</span>
-                    <span class="metric-label">Consistency Target</span>
+            <div id="impactMatrix" class="content-card" style="padding: 1rem; margin-bottom: 1.5rem;">
+                <div class="metrics-row">
+                    <div class="metric-stat-box">
+                        <span id="activeUsersCount" class="metric-number">1 Active</span>
+                        <span class="metric-label">Active Session</span>
+                    </div>
+                    <div class="metric-stat-box">
+                        <span id="itemsSavedCount" class="metric-number">0</span>
+                        <span class="metric-label">Trends Avoided</span>
+                    </div>
+                    <div class="metric-stat-box">
+                        <span id="optimizationDelta" class="metric-number" style="color: var(--brand-accent);">+0%</span>
+                        <span class="metric-label">Consistency Target</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <main id="trackerCard" class="view-section dashboard-grid">
-            <div class="left-panel">
+            <main id="trackerCard" class="view-section">
                 <div class="content-card">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
                         <h2 style="margin-bottom: 0;">Budget Routine Builder</h2>
@@ -73,11 +381,11 @@
                         <button type="button" id="starterPackBtn" class="btn-preset">✨ Apply 3-Step Instant Starter Pack</button>
                     </div>
 
-                    <label style="margin-top: 1.2rem;">Current Available Products:</label>
+                    <label style="margin-top: 1.2rem; font-size: 0.8rem; font-weight: 600;">Current Available Products:</label>
                     <div class="selection-matrix-grid">
                         <label class="checkbox-card">
                             <input type="checkbox" id="chk-moisturizer">
-                            <div class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin
+                            <div class="checkbox-label-text">盒 Basic Moisturizer / Glycerin
                                 <span class="checkbox-subtext">Protects surface cells from drying out</span>
                             </div>
                         </label>
@@ -126,38 +434,38 @@
                     </div>
                 </div>
 
-                <div id="protocolBox" class="content-card hidden">
+                <div id="protocolBox" class="content-card">
                     <h3>Your Custom Routine Guide</h3>
-                    <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
+                    <div id="reportContent" class="alert-notice">
                         Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
-                        <h3 style="margin: 0;">Your Free Essential Routine</h3>
-                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print for Bathroom Mirror</button>
-                    </div>
-                    
-                    <div class="routine-split-panel">
-                        <div class="routine-block">
-                            <h4>☀️ Morning Regime</h4>
-                            <ul id="amRoutineList" class="routine-list"></ul>
+                    <div id="routineGuideSub" class="hidden">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                            <h3 style="margin: 0; font-size: 0.95rem;">Your Free Essential Routine</h3>
+                            <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print Mirror View</button>
                         </div>
-                        <div class="routine-block">
-                            <h4>🌙 Evening Regime</h4>
-                            <ul id="pmRoutineList" class="routine-list"></ul>
+                        
+                        <div class="routine-split-panel">
+                            <div class="routine-block">
+                                <h4>☀️ Morning Regime</h4>
+                                <ul id="amRoutineList" class="routine-list"></ul>
+                            </div>
+                            <div class="routine-block">
+                                <h4>🌙 Evening Regime</h4>
+                                <ul id="pmRoutineList" class="routine-list"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="right-panel">
                 <div class="content-card">
                     <h2>Visual Consistency Timeline</h2>
                     <p class="text-muted">An illustrative timeline showing the general conceptual logic behind why routine consistency matters over 14 days.</p>
                     <div class="chart-container">
                         <canvas id="dermaChart"></canvas>
                     </div>
-                    <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
+                    <div id="impactSummaryText" style="font-size: 0.8rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: rgba(0,0,0,0.1); border: 1px solid var(--border-subtle);">
                         💡 Routine Builder Active. Interact with the checkboxes above to see updates.
                     </div>
                 </div>
@@ -165,18 +473,18 @@
                 <div class="content-card">
                     <h2>Help Improve Derma Grow</h2>
                     <p class="text-muted">Spotted a bug or have recommendations? Send us text feedback directly.</p>
-                    <form id="feedbackForm" action="https://formspree.io/f/xykrgnlq" method="POST">
+                    <form id="feedbackForm" onsubmit="handleMockSubmit(event, 'feedbackSuccessMessage')">
                         <div class="input-group">
                             <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-primary">Submit Feedback Note</button>
+                        <button type="submit" class="btn-primary" style="margin-top: 0.75rem;">Submit Feedback Note</button>
                     </form>
-                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
+                    <div id="feedbackSuccessMessage" class="hidden alert-notice" style="color: #a7f3d0; background: #064e3b; border-color: #047857;">
                         ✓ Feedback logged successfully. Thank you for helping refine the app!
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
 
         <section id="quizSection" class="view-section quiz-container hidden">
             <div class="content-card">
@@ -191,18 +499,18 @@
                 </div>
 
                 <div id="questionBox">
-                    <p id="questionText" class="question-text">Loading skin type questions...</p>
+                    <p id="questionText" class="question-text" style="font-weight: 600; font-size: 0.9rem;"></p>
                     <div id="answerOptions" class="answer-options-stack"></div>
                 </div>
 
                 <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
                     <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
-                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL SKIN TYPE</h3>
-                    <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
+                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0; color: var(--brand-accent);">NORMAL SKIN TYPE</h3>
+                    <p id="skinTypeDescription" class="alert-notice" style="text-align: left;"></p>
                     
                     <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
-                        <button id="syncToRoutineBtn" class="btn-primary" style="background-color: var(--brand-primary);">Sync to Routine Builder</button>
-                        <button id="resetQuizBtn" class="btn-primary">Retake Skin Quiz</button>
+                        <button id="syncToRoutineBtn" class="btn-primary" style="width: auto;">Sync to Routine Builder</button>
+                        <button id="resetQuizBtn" class="btn-primary" style="width: auto; background: none; border-color: var(--border-subtle); color: var(--color-text-main);">Retake Skin Quiz</button>
                     </div>
                 </div>
             </div>
@@ -212,15 +520,14 @@
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Skincare Academy & Research Hub</h2>
                 <p class="text-muted">Evaluating common internet trends and topical ingredients using verified dermatological reference concepts.</p>
-                <div class="database-filter-bar">
+                <div class="database-filter-bar" id="academyFilterBar">
                     <button class="filter-btn active" data-category="all">All Resources</button>
                     <button class="filter-btn" data-category="myths">Trend Debunkers</button>
                     <button class="filter-btn" data-category="classification">Product Categories</button>
                     <button class="filter-btn" data-category="actives">Skincare Ingredients</button>
-                    <button class="filter-btn" data-category="anatomy">Skin Biology</button>
                 </div>
             </div>
-            <div id="databaseGrid" class="database-cards-grid"></div>
+            <div id="databaseGrid" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
         </section>
 
         <section id="recommendationsSection" class="view-section hidden">
@@ -228,28 +535,26 @@
                 <h2>Shared Product Directory</h2>
                 <p class="text-muted">Browse community recommendations sorted by skin type to discover affordable product matches complete with ingredient logs.</p>
                 
-                <div class="database-filter-bar">
-                    <button class="peer-filter-btn active" data-skin="all">All Profiles</button>
-                    <button class="peer-filter-btn" data-skin="Normal">Normal Skin</button>
-                    <button class="peer-filter-btn" data-skin="Oily">Oily Skin</button>
-                    <button class="peer-filter-btn" data-skin="Dry">Dry Skin</button>
-                    <button class="peer-filter-btn" data-skin="Sensitive">Sensitive Skin</button>
+                <div class="database-filter-bar" id="directoryFilterBar">
+                    <button class="filter-btn active" data-skin="all">All Profiles</button>
+                    <button class="filter-btn" data-skin="Normal">Normal Skin</button>
+                    <button class="filter-btn" data-skin="Oily">Oily Skin</button>
+                    <button class="filter-btn" data-skin="Dry">Dry Skin</button>
+                    <button class="filter-btn" data-skin="Sensitive">Sensitive Skin</button>
                 </div>
             </div>
 
-            <div class="peer-split-grid">
-                <div id="peerRegistryGrid" class="database-cards-grid"></div>
+            <div class="peer-split-grid" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div id="peerRegistryGrid" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
 
                 <div class="content-card">
                     <h3>Log a Budget Find</h3>
                     <p class="text-muted">Found an affordable formula that fits your skin type cleanly? Log it here.</p>
                     
-                    <form id="peerContributionForm" action="https://formspree.io/f/xykrgnlq" method="POST">
-                        <input type="hidden" name="_subject" value="New Derma Grow Peer Product Contribution!">
-                        
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                    <form id="peerContributionForm" onsubmit="handleMockSubmit(event, 'peerSuccessMessage')">
+                        <div class="input-group">
                             <label for="peerSkinType">Target Skin Type:</label>
-                            <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
+                            <select id="peerSkinType" required>
                                 <option value="Normal">Normal Skin</option>
                                 <option value="Oily">Oily Skin</option>
                                 <option value="Dry">Dry Skin</option>
@@ -257,36 +562,26 @@
                             </select>
                         </div>
 
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                        <div class="input-group">
                             <label for="peerProdName">Product Name:</label>
-                            <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
+                            <input type="text" id="peerProdName" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
                         </div>
 
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                        <div class="input-group">
                             <label for="peerPrice">Estimated Retail Cost:</label>
-                            <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 35.000" required>
+                            <input type="text" id="peerPrice" class="form-input-text" placeholder="e.g., Rp 35.000" required>
                         </div>
 
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
+                        <div class="input-group">
                             <label for="peerIngredients">Key Ingredients:</label>
-                            <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Aloe Vera Extract, Glycerin, Provitamin B5" required>
+                            <input type="text" id="peerIngredients" class="form-input-text" placeholder="e.g., Glycerin, Provitamin B5" required>
                         </div>
 
-                        <div class="input-group" style="margin-bottom: 0.75rem;">
-                            <label for="peerUsage">How to Use Safely:</label>
-                            <input type="text" id="peerUsage" name="Application Instructions" class="form-input-text" placeholder="e.g., Apply evenly to face and neck as morning moisturizer layer" required>
-                        </div>
-
-                        <div class="input-group" style="margin-bottom: 1rem;">
-                            <label for="peerNotes">Description & Simple Notes:</label>
-                            <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain what this product is and how it helps this skin type..." required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-primary" style="width: 100%;">Publish & Send Contribution</button>
+                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Publish & Send Contribution</button>
                     </form>
 
-                    <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; text-align: center;">
-                        ✓ Recommendation submitted to the moderator queue! Thank you for sharing your knowledge.
+                    <div id="peerSuccessMessage" class="hidden alert-notice" style="color: #a7f3d0; background: #064e3b; border-color: #047857; text-align: center;">
+                        ✓ Recommendation submitted to the moderator queue!
                     </div>
                 </div>
             </div>
@@ -295,19 +590,453 @@
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
                 <h2>🔬 Skincare Dictionary Pro</h2>
-                <p class="text-muted">Type any common ingredient, compound, or term to see its simple, plain-English explanation.</p>
+                <p class="text-muted">Type any ingredient or compound to translate it into simple, plain English definitions dynamically via global network systems.</p>
                 
-                <div class="dictionary-search-box">
-                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Sebaceous, Occlusive)...">
+                <div class="dictionary-search-box" style="margin-bottom: 1rem;">
+                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Squalane, Alcohol)...">
                 </div>
 
-                <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;">
-                </div>
+                <div id="dictionaryListContainer" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
             </div>
         </section>
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Data Structures
+        const quizQuestions = [
+            { text: "How does your skin feel an hour after cleansing without applying creams?", options: [{t:"Tight, rough or peeling", w:"Dry"}, {t:"Slick, wet or highly reflective", w:"Oily"}, {t:"Comfortable, balanced, normal", w:"Normal"}] },
+            { text: "How frequently do skincare products cause dynamic stinging or red flush reactions?", options: [{t:"Constantly with new formulas", w:"Sensitive"}, {t:"Rarely or never encountered", w:"Normal"}] },
+            { text: "What is the physical size profile of your facial skin pores?", options: [{t:"Large and visible across the T-zone", w:"Oily"}, {t:"Completely invisible or very small", w:"Dry"}] },
+            { text: "How does your skin handle cold, windy winter conditions?", options: [{t:"Chaps, cracks, or flakes severely", w:"Dry"}, {t:"Stays balanced with standard oil barriers", w:"Normal"}] },
+            { text: "If you blot your forehead right now, what is left on the napkin?", options: [{t:"A visible circle of clear oily grease", w:"Oily"}, {t:"Absolutely nothing or pure dry paper", w:"Dry"}] },
+            { text: "How does your skin respond to fragranced facial washes?", options: [{t:"Becomes instantly bumpy or itchy", w:"Sensitive"}, {t:"Cleanses normally with zero issues", w:"Normal"}] },
+            { text: "What is your primary surface skincare goal right now?", options: [{t:"To stop heavy shine and pimple logs", w:"Oily"}, {t:"To eliminate dry tightness and scales", w:"Dry"}] },
+            { text: "Does your skin break out easily when switching laundry detergents?", options: [{t:"Yes, body and face layers react", w:"Sensitive"}, {t:"No structural changes noted", w:"Normal"}] },
+            { text: "Where does dynamic oil production happen on your face?", options: [{t:"Every single zone evenly", w:"Oily"}, {t:"Only on the nose tip, or nowhere", w:"Normal"}] }
+        ];
+
+        const defaultDictionary = [
+            { term: "Niacinamide", desc: "Vitamin B3 compound used to stabilize barrier lipids and minimize redness." },
+            { term: "Squalane", desc: "An extremely stable hydrating oil that locks moisture into cell gaps safely." },
+            { term: "Centella Asiatica", desc: "Herbal extract proven to ease sensitive and highly irritated epidermal layers." },
+            { term: "Ceramides", desc: "Waxy fat lipids maintaining cellular bonds to defend moisture from escaping." }
+        ];
+
+        const academyResources = [
+            { title: "DIY Raw Lemon Pitfalls", desc: "Raw lemon juice contains high acidity metrics (pH ~2) that strips biological cells and provokes phytophotodermatitis severe skin blistering when hit by sun rays.", cat: "myths" },
+            { title: "Coarse Baking Soda Abrasions", desc: "Alkaline profiles break cellular mortar layout bonds, causing extreme moisture evaporation paths.", cat: "myths" },
+            { title: "Humectants vs Occlusives", desc: "Humectants bind moisture matrices onto target layers, while occlusives lock that structure down.", cat: "classification" },
+            { title: "Salicylic Acid Breakdown", desc: "An oil-soluble chemical exfoliant capable of clearing down excess skin debris inside pore channels.", cat: "actives" }
+        ];
+
+        const peerProducts = [
+            { name: "Wardah Aloe Hydramild Gel", cost: "Rp 35.000", ing: "Aloe Vera, Glycerin", skin: "Normal" },
+            { name: "Sebamed Clear Face Gel", cost: "Rp 140.000", ing: "Aloe, Hyaluronic Acid", skin: "Oily" },
+            { name: "CeraVe Moisturizing Lotion", cost: "Rp 190.000", ing: "Ceramides, Glycerin", skin: "Dry" }
+        ];
+
+        // Global Variable State
+        let activeTab = "dashboard";
+        let currentQuestionIdx = 0;
+        let quizAnswers = [];
+        let trendAvoidCount = 0;
+        let chartInstance = null;
+        let debounceTimer = null;
+
+        // View Management Function
+        function navigateTo(targetId, activeLink) {
+            document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+            activeLink.classList.add("active");
+
+            const containers = ["dashboardView", "quizSection", "learnSection", "recommendationsSection", "dictionarySection"];
+            containers.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === targetId) el.classList.remove("hidden");
+                    else el.classList.add("hidden");
+                }
+            });
+            if (targetId === "dashboardView") updateChart();
+        }
+
+        // Initialize App Operations
+        document.addEventListener("DOMContentLoaded", () => {
+            // Navigation Links Wiring
+            document.getElementById("navDashboard").onclick = (e) => navigateTo("dashboardView", e.target);
+            document.getElementById("navQuiz").onclick = (e) => { navigateTo("quizSection", e.target); startQuiz(); };
+            document.getElementById("navLearn").onclick = (e) => { navigateTo("learnSection", e.target); renderAcademy("all"); };
+            document.getElementById("navRecommendations").onclick = (e) => { navigateTo("recommendationsSection", e.target); renderDirectory("all"); };
+            document.getElementById("navDictionary").onclick = (e) => { navigateTo("dictionarySection", e.target); renderDict(); };
+
+            // Theme Switcher Logic
+            document.getElementById("themeToggleBtn").onclick = () => document.body.classList.toggle("light-theme");
+
+            // Budget Slider System
+            const slider = document.getElementById("budgetSlider");
+            slider.oninput = (e) => {
+                document.getElementById("budgetValue").textContent = `Rp ${Number(e.target.value).toLocaleString("id-ID")}`;
+            };
+
+            // Routine Elements Checkbox Logic listeners
+            document.querySelectorAll(".selection-matrix-grid input").forEach(input => {
+                input.onchange = evaluateRoutineLayout;
+            });
+
+            // Preset Quick Button Action
+            document.getElementById("starterPackBtn").onclick = () => {
+                document.getElementById("chk-moisturizer").checked = true;
+                document.getElementById("chk-cleanser").checked = true;
+                document.getElementById("chk-sunscreen").checked = true;
+                slider.value = 150000;
+                slider.dispatchEvent(new Event("input"));
+                evaluateRoutineLayout();
+            };
+
+            // Dictionary Search Input Event with Debounce
+            document.getElementById("dictionarySearchInput").oninput = (e) => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => fetchUnlimitedDictionary(e.target.value), 400);
+            };
+
+            // Academy Filter Bar Wiring
+            document.querySelectorAll("#academyFilterBar .filter-btn").forEach(btn => {
+                btn.onclick = (e) => {
+                    document.querySelectorAll("#academyFilterBar .filter-btn").forEach(b => b.classList.remove("active"));
+                    e.target.classList.add("active");
+                    renderAcademy(e.target.dataset.category);
+                };
+            });
+
+            // Directory Filter Bar Wiring
+            document.querySelectorAll("#directoryFilterBar .filter-btn").forEach(btn => {
+                btn.onclick = (e) => {
+                    document.querySelectorAll("#directoryFilterBar .filter-btn").forEach(b => b.classList.remove("active"));
+                    e.target.classList.add("active");
+                    renderDirectory(e.target.dataset.skin);
+                };
+            });
+
+            // Print Action Mock setup
+            document.getElementById("printRoutineBtn").onclick = () => alert("Layout scaled! Ready to print out for bathroom reference mirror.");
+            document.getElementById("syncToRoutineBtn").onclick = syncProfileResult;
+            document.getElementById("resetQuizBtn").onclick = startQuiz;
+
+            initChart();
+            evaluateRoutineLayout();
+        });
+
+        // Routine Evaluator and Matrix Update Engine
+        function evaluateRoutineLayout() {
+            const chkM = document.getElementById("chk-moisturizer").checked;
+            const chkC = document.getElementById("chk-cleanser").checked;
+            const chkS = document.getElementById("chk-sunscreen").checked;
+            const chkT = document.getElementById("chk-toner").checked;
+            const chkN = document.getElementById("chk-niacinamide").checked;
+            const chkA = document.getElementById("chk-actives").checked;
+            const chkL = document.getElementById("chk-lemon").checked;
+            const chkSc = document.getElementById("chk-scrubs").checked;
+
+            // Trend Hype Checker Alerts
+            let trendsAvoidedCountLocal = 0;
+            if (!chkL) trendsAvoidedCountLocal++;
+            if (!chkSc) trendsAvoidedCountLocal++;
+            document.getElementById("itemsSavedCount").textContent = trendsAvoidedCountLocal;
+
+            const checks = [chkM, chkC, chkS, chkT, chkN, chkA];
+            const checkedTotal = checks.filter(Boolean).length;
+            const perc = Math.round((checkedTotal / 6) * 100);
+            document.getElementById("optimizationDelta").textContent = `+${perc}%`;
+
+            const report = document.getElementById("reportContent");
+            const sub = document.getElementById("routineGuideSub");
+            const amList = document.getElementById("amRoutineList");
+            const pmList = document.getElementById("pmRoutineList");
+
+            amList.innerHTML = "";
+            pmList.innerHTML = "";
+
+            if (chkL || chkSc) {
+                report.style.color = "#ef4444";
+                report.innerHTML = "🚨 <strong>Barrier Alert:</strong> High pH alkaline textures or low acidic juice mixes detected. Natural recovery lines halted.";
+                sub.classList.add("hidden");
+                return;
+            }
+
+            if (!chkM && !chkC) {
+                report.style.color = "var(--color-text-muted)";
+                report.innerHTML = "Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.";
+                sub.classList.add("hidden");
+                return;
+            }
+
+            report.style.color = "var(--brand-primary)";
+            report.innerHTML = "✓ Dynamic routine matrix compiled effectively. Core basic barrier structures locked down.";
+            sub.classList.remove("hidden");
+
+            if (chkC) {
+                amList.innerHTML += "<li>Splash face with warm water or Gentle Cleanser if oily.</li>";
+                pmList.innerHTML += "<li>Massage Gentle Low-pH Cleanser for 60 seconds to strip grime.</li>";
+            }
+            if (chkT) amList.innerHTML += "<li>Pat Hydrating Toner into damp layer fields.</li>";
+            if (chkN) amList.innerHTML += "<li>Apply 3 drops of Niacinamide Serum to reduce excess surface redness.</li>";
+            if (chkM) {
+                amList.innerHTML += "<li>Layer a small pea-sized amount of Basic Moisturizer.</li>";
+                pmList.innerHTML += "<li>Apply a generous layout layer of Glycerin cream to support overnight repair.</li>";
+            }
+            if (chkA) pmList.innerHTML += "<li>Apply thin layer of Active Serum (Use maximum 2 nights per week).</li>";
+            if (chkS) amList.innerHTML += "<li><strong>Finish:</strong> Apply two fingers length of Broad-Spectrum Sunscreen.</li>";
+            
+            updateChart();
+        }
+
+        // 9-Step Quiz Flow Engine
+        function startQuiz() {
+            currentQuestionIdx = 0;
+            quizAnswers = [];
+            document.getElementById("quizResultBox").classList.add("hidden");
+            document.getElementById("questionBox").classList.remove("hidden");
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            const q = quizQuestions[currentQuestionIdx];
+            document.getElementById("quizProgressTracker").textContent = `Step ${currentQuestionIdx + 1} of 9`;
+            document.getElementById("quizProgressBar").style.width = `${((currentQuestionIdx + 1) / 9) * 100}%`;
+            document.getElementById("questionText").textContent = q.text;
+
+            const container = document.getElementById("answerOptions");
+            container.innerHTML = "";
+            q.options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.className = "quiz-option-btn";
+                btn.textContent = opt.t;
+                btn.onclick = () => recordQuizAnswer(opt.w);
+                container.appendChild(btn);
+            });
+        }
+
+        function recordQuizAnswer(weight) {
+            quizAnswers.push(weight);
+            currentQuestionIdx++;
+            if (currentQuestionIdx < quizQuestions.length) {
+                showQuizQuestion();
+            } else {
+                displayQuizResults();
+            }
+        }
+
+        function displayQuizResults() {
+            document.getElementById("questionBox").classList.add("hidden");
+            const resultBox = document.getElementById("quizResultBox");
+            resultBox.classList.remove("hidden");
+
+            // Calculate dominant skin classification category via counts mapping
+            const counts = {};
+            let dominant = "Normal";
+            quizAnswers.forEach(ans => counts[ans] = (counts[ans] || 0) + 1);
+            
+            let max = 0;
+            for (const type in counts) {
+                if (counts[type] > max) { max = counts[type]; dominant = type; }
+            }
+
+            const title = document.getElementById("skinTypeTitle");
+            const desc = document.getElementById("skinTypeDescription");
+            title.textContent = `${dominant.toUpperCase()} SKIN TYPE`;
+
+            const advices = {
+                Dry: "Your surface profile parameters display persistent lack of natural lipids. Prioritize protective occlusive creams, thick glycerin-based steps, and absolute exclusion of rough face scrub items.",
+                Oily: "Your profile indicates regular active sebum production rates. Look out for lightweight fluid gels, low-pH foaming washes, and gentle chemical BHA components over oily heavy balms.",
+                Sensitive: "Your tissue barriers display high sensitivity indexes to modern formulations. Keep elements minimal, remove synthetic masking fragrances completely, and implement soothing Centella routes.",
+                Normal: "Your profile parameters exhibit healthy internal moisture layout balances. Continue applying standard protective hydration locks and crucial daily UV shields."
+            };
+            desc.textContent = advices[dominant] || advices["Normal"];
+            resultBox.dataset.computedType = dominant;
+        }
+
+        function syncProfileResult() {
+            const type = document.getElementById("quizResultBox").dataset.computedType || "Normal";
+            const badge = document.getElementById("profileSyncBadge");
+            badge.textContent = `Profile: ${type}`;
+            badge.style.backgroundColor = "var(--brand-primary)";
+            badge.style.color = "#fff";
+            navigateTo("dashboardView", document.getElementById("navDashboard"));
+        }
+
+        // Science Academy Rendering Engine
+        function renderAcademy(cat) {
+            const container = document.getElementById("databaseGrid");
+            container.innerHTML = "";
+            const filtered = academyResources.filter(r => cat === "all" || r.cat === cat);
+            filtered.forEach(r => {
+                const item = document.createElement("div");
+                item.className = "content-card";
+                item.style.padding = "0.75rem";
+                item.innerHTML = `<h4 style="color:var(--brand-primary); font-size:0.85rem; margin-bottom:0.2rem;">${r.title}</h4><p style="font-size:0.75rem; margin:0;">${r.desc}</p>`;
+                container.appendChild(item);
+            });
+        }
+
+        // Shared Directory Rendering Engine
+        function renderDirectory(skinFilter) {
+            const container = document.getElementById("peerRegistryGrid");
+            container.innerHTML = "";
+            const filtered = peerProducts.filter(p => skinFilter === "all" || p.skin === skinFilter);
+            filtered.forEach(p => {
+                const div = document.createElement("div");
+                div.className = "content-card";
+                div.style.padding = "0.75rem";
+                div.style.display = "flex";
+                div.style.justifyContent = "space-between";
+                div.style.alignItems = "center";
+                div.innerHTML = `<div><h4 style="font-size:0.8rem; margin:0;">${p.name}</h4><p style="font-size:0.65rem; color:var(--color-text-muted); margin:0;">Target: ${p.skin} Skin | Core: ${p.ing}</p></div><span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent);">${p.cost}</span>`;
+                container.appendChild(div);
+            });
+        }
+
+        // UNLIMITED COSMETIC DICTIONARY SYSTEM (API Integration)
+        async function fetchUnlimitedDictionary(query) {
+            const container = document.getElementById("dictionaryListContainer");
+            const cleanedQuery = query.trim().toLowerCase();
+
+            if (!cleanedQuery) {
+                renderDict(); // Show fallback terms if search text input is clear
+                return;
+            }
+
+            container.innerHTML = "<p class='text-muted' style='text-align:center;'>Searching global medical databases...</p>";
+
+            try {
+                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanedQuery)}`);
+                if (!response.ok) throw new Error("Term not resolved");
+                
+                const data = await response.json();
+                container.innerHTML = "";
+
+                // Display dictionary card layouts
+                data.slice(0, 2).forEach(entry => {
+                    const word = entry.word;
+                    let definitionText = "No direct operational breakdown found.";
+                    
+                    if (entry.meanings && entry.meanings[0] && entry.meanings[0].definitions[0]) {
+                        definitionText = entry.meanings[0].definitions[0].definition;
+                    }
+
+                    const card = document.createElement("div");
+                    card.className = "content-card";
+                    card.style.padding = "0.75rem";
+                    card.innerHTML = `
+                        <h4 style="color: var(--brand-accent); font-size: 0.85rem; margin-bottom: 0.25rem; text-transform: capitalize;">${word}</h4>
+                        <p style="font-size: 0.75rem; margin: 0; line-height:1.4;">${definitionText}</p>
+                        <span style="font-size: 0.6rem; color: var(--brand-primary); display:block; margin-top:0.4rem;">Source: Global Open-API System</span>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                // Skincare fallback search if API does not match exactly
+                container.innerHTML = "";
+                const matchedFallbacks = defaultDictionary.filter(item => 
+                    item.term.toLowerCase().includes(cleanedQuery) || 
+                    item.desc.toLowerCase().includes(cleanedQuery)
+                );
+
+                if (matchedFallbacks.length > 0) {
+                    matchedFallbacks.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "content-card";
+                        card.style.padding = "0.75rem";
+                        card.innerHTML = `
+                            <h4 style="color: var(--brand-accent); font-size: 0.85rem; margin-bottom: 0.25rem;">${item.term}</h4>
+                            <p style="font-size: 0.75rem; margin: 0;">${item.desc}</p>
+                        `;
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = `<div class='alert-notice' style='text-align:center; color: var(--color-text-muted);'>🔍 Term could not be automatically found. Try broad roots like 'Acid', 'Alcohol', or 'Oil'.</div>`;
+                }
+            }
+        }
+
+        function renderDict() {
+            const container = document.getElementById("dictionaryListContainer");
+            container.innerHTML = "";
+            defaultDictionary.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "content-card";
+                card.style.padding = "0.75rem";
+                card.innerHTML = `<h4 style="color: var(--brand-accent); font-size: 0.85rem; margin-bottom: 0.25rem;">${item.term}</h4><p style="font-size: 0.75rem; margin: 0;">${item.desc}</p>`;
+                container.appendChild(card);
+            });
+        }
+
+        // Form Submit Simulation Logic
+        function handleMockSubmit(e, targetMsgId) {
+            e.preventDefault();
+            const msg = document.getElementById(targetMsgId);
+            msg.classList.remove("hidden");
+            e.target.reset();
+            setTimeout(() => msg.classList.add("hidden"), 4000);
+        }
+
+        // Chart.js Consistency Timeline Initialization
+        function initChart() {
+            const ctx = document.getElementById("dermaChart").getContext("2d");
+            
+            // Get styling tokens to match visual design palette
+            const textMain = getComputedStyle(document.body).getPropertyValue("--color-text-muted").trim() || "#9ca3af";
+            const gridColor = getComputedStyle(document.body).getPropertyValue("--border-subtle").trim() || "#2d312a";
+
+            chartInstance = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: Array.from({length: 14}, (_, i) => `D${i+1}`),
+                    datasets: [{
+                        label: "Barrier Hydration Index",
+                        data: [20, 22, 25, 24, 28, 35, 38, 42, 45, 52, 58, 63, 68, 75],
+                        borderColor: "#7e967a",
+                        backgroundColor: "rgba(126, 150, 122, 0.1)",
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: gridColor }, ticks: { color: textMain, font: { size: 9 } } },
+                        y: { min: 0, max: 100, grid: { color: gridColor }, ticks: { color: textMain, font: { size: 9 } } }
+                    }
+                }
+            });
+        }
+
+        function updateChart() {
+            if (!chartInstance) return;
+            const chkM = document.getElementById("chk-moisturizer").checked;
+            const chkC = document.getElementById("chk-cleanser").checked;
+            const chkS = document.getElementById("chk-sunscreen").checked;
+            
+            // Baseline arrays mimicking physiological compound trajectories
+            let multi = 1;
+            if (chkC && chkM && chkS) multi = 1.6;
+            else if (chkC || chkM) multi = 1.2;
+
+            const baseData = [20, 22, 25, 24, 28, 35, 38, 42, 45, 52, 58, 63, 68, 75];
+            chartInstance.data.datasets[0].data = baseData.map(val => Math.min(100, Math.round(val * multi)));
+            
+            // Re-fetch global layout styles to adapt axis grid coloring dynamically on toggle
+            const textMain = getComputedStyle(document.body).getPropertyValue("--color-text-muted").trim();
+            const gridColor = getComputedStyle(document.body).getPropertyValue("--border-subtle").trim();
+            chartInstance.options.scales.x.grid.color = gridColor;
+            chartInstance.options.scales.x.ticks.color = textMain;
+            chartInstance.options.scales.y.grid.color = gridColor;
+            chartInstance.options.scales.y.ticks.color = textMain;
+            
+            chartInstance.update();
+        }
+    </script>
 </body>
 </html>
