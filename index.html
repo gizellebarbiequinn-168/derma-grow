@@ -308,7 +308,6 @@
 
     </div>
 
-    <!-- REWRITTEN INTEGRATION CODE ONLY INTERCEPTING CONTROLLER SCRIPT -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // === 1. TABS MANAGEMENT ENGINE ===
@@ -362,31 +361,31 @@
                 });
             }
 
-            // === 3. SCIENCE ACADEMY DATA LAYER ===
+            // === 3. SCIENCE ACADEMY DATA LAYER (DIRECT CLINICAL REFS) ===
             const scienceItems = [
                 { 
                     title: "The pH Factor Explained", 
                     category: "anatomy", 
                     excerpt: "Healthy skin micro-environments hold a baseline value around 5.5. Stripping this defense triggers lipid reduction.", 
-                    url: "https://explore.dermcoll.edu.au/topics/skin-ph" 
+                    url: "https://dermcoll.edu.au/explore-dermatology/topics/skin-ph/" 
                 },
                 { 
                     title: "DIY Lemon Juice Threat Vectors", 
                     category: "myths", 
                     excerpt: "Pure lemons offer a raw pH of 2. Applying this damages active surface cell walls instantly.", 
-                    url: "https://scienceitems.dermcoll.edu.au/threats/citrus-ph" 
+                    url: "https://dermcoll.edu.au/explore-dermatology/topics/contact-dermatitis/" 
                 },
                 { 
                     title: "Cleanser Classifications", 
                     category: "classification", 
                     excerpt: "Low-foaming surfactants pull away surface grime matrices without dry stripping natural barrier fats.", 
-                    url: "https://sciencehub.dermcoll.edu.au/education/surfactant-matrix" 
+                    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3997205/" 
                 },
                 { 
                     title: "Niacinamide Integration Pathways", 
                     category: "actives", 
                     excerpt: "Vitamin B3 operates as a multitasking compound to ease redness indices and regulate sebum production.", 
-                    url: "https://sciencehub.dermcoll.edu.au/actives/niacinamide-path" 
+                    url: "https://pubmed.ncbi.nlm.nih.gov/16029679/" 
                 }
             ];
 
@@ -400,7 +399,7 @@
                         <div class="content-card" style="margin-top:0.5rem; padding: 1rem;">
                             <h4 style="color:var(--brand-accent); font-size:0.95rem; margin-bottom:0.25rem;">${item.title}</h4>
                             <p style="font-size:0.75rem; margin:0 0 0.5rem 0; line-height:1.4;">${item.excerpt}</p>
-                            <a href="${item.url}" target="_blank" style="font-size:0.7rem; color:var(--brand-primary); font-weight:600; text-decoration:underline;">Read Full Reference Resource →</a>
+                            <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="font-size:0.7rem; color:var(--brand-primary); font-weight:600; text-decoration:underline;">Read Full Reference Resource →</a>
                         </div>`;
                 });
             }
@@ -432,7 +431,7 @@
                             <span style="font-size:0.65rem; text-transform:uppercase; color:var(--brand-accent); font-weight:700;">Profile: ${p.skin} Skin</span>
                             <h4 style="margin: 0.15rem 0; font-size:0.95rem;">${p.name}</h4>
                             <p style="font-size:0.75rem; margin:0.1rem 0;">Cost: <b>${p.cost}</b> | Ingredients: <i>${p.ingredients}</i></p>
-                            <p style="font-size:0.7r; color:var(--color-text-muted); margin:0;">Application: ${p.usage}</p>
+                            <p style="font-size:0.7rem; color:var(--color-text-muted); margin:0;">Application: ${p.usage}</p>
                         </div>`;
                 });
             }
@@ -446,6 +445,7 @@
                 });
             });
 
+            // Peer submission hookup
             const contributionForm = document.getElementById("peerContributionForm");
             if (contributionForm) {
                 contributionForm.addEventListener("submit", (e) => {
@@ -604,53 +604,81 @@
                 displayQuizState();
             });
 
-            // === 7. ROBUST LOCALIZED CLINICAL DICTIONARY SYSTEM ===
+            // === 7. SKINCARE DICTIONARY ENGINE ===
             const searchField = document.getElementById("dictionarySearchInput");
             const listField = document.getElementById("dictionaryListContainer");
 
-            // Built-in medical dataset ensuring flawless instant filtering response
-            const localDictionaryDb = [
-                { word: "Niacinamide", text: "A vital form of Vitamin B3 that strengthens biological skin barrier integration parameters, regulates ambient sebum production, and calms redness markers." },
-                { word: "Sebaceous Glands", text: "Microscopic exocrine skin glands responsible for rendering and distributing natural lipid sebum blends across the stratum corneum matrix." },
-                { word: "Occlusive", text: "Dense, hydrophobic structural layers (like petrolatum or heavy lipids) designed to lock moisture pools down by physically blocking trans-epidermal water loss." },
-                { word: "Hyaluronic Acid", text: "A powerful humectant compound that acts like a structural water-binding sponge, pulling ambient moisture into dehydrated epidermal tissue blocks." },
-                { word: "Salicylic Acid", text: "A oil-soluble Beta Hydroxy Acid (BHA) capable of penetrating deeply inside porous lipid pools to break up trapped cellular debris and dead cells." },
-                { word: "Glycerin", text: "An exceptionally safe, cost-effective humectant alcohol that mimics the skin's natural moisturizing factors to pull deep moisture directly up to surface layers." },
-                { word: "Ceramides", text: "Crucial waxy lipid families making up roughly 50% of the natural intercellular skin barrier cement matrix, critical for holding cell structures tight together." },
-                { word: "Stratum Corneum", text: "The outermost primary layout layer of the epidermis, functioning as the vital protective brick-and-mortar shield against systemic ambient friction." },
-                { word: "Humectant", text: "Water-binding molecular compounds that attract moisture out of the air or deep skin strata, binding it directly onto local cell walls." },
-                { word: "Surfactant", text: "Surface-active chemical compounds that decrease fluid tension to pull away dirt and surface grease matrices without dismantling cell fats." }
+            const localBackup = [
+                { word: "Niacinamide", text: "Vitamin B3 derivative that strengthens barrier integration parameters, regulates sebum, and balances skin tone." },
+                { word: "Sebaceous", text: "Microscopic exocrine glands in the skin that secrete oily/waxy sebum to lubricate and waterproof the skin and hair." },
+                { word: "Occlusive", text: "Moisturizing agents that create a physical barrier on top of the skin layer to physically lock in structural moisture." },
+                { word: "Hyaluronic Acid", text: "A powerful humectant capable of holding up to 1000 times its weight in water, helping to hydrate surface cells." },
+                { word: "Salicylic Acid", text: "A oil-soluble Beta Hydroxy Acid (BHA) that penetrates deep into pores to exfoliate, dissolve sebum, and combat breakouts." },
+                { word: "Glycerin", text: "A classic humectant and skin-identical ingredient that draws hydration deep into the stratum corneum." },
+                { word: "Ceramides", text: "Lipid molecules found naturally within the cell membranes of the epidermis, vital for maintaining barrier cohesion." }
             ];
 
-            function filterDictionary(term = "") {
+            function fillLocalDictionary(term = "") {
                 if (!listField) return;
                 listField.innerHTML = "";
                 
-                const matched = localDictionaryDb.filter(i => 
-                    i.word.toLowerCase().includes(term.toLowerCase()) || 
-                    i.text.toLowerCase().includes(term.toLowerCase())
-                );
+                const matched = localBackup.filter(i => i.word.toLowerCase().includes(term.toLowerCase()));
                 
-                if (matched.length === 0) {
-                    listField.innerHTML = `<p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.4rem;">ℹ️ Term not found in index. Try searching common words like "Acid", "Glycerin", "Ceramides", "Sebaceous", or "Barrier".</p>`;
-                    return;
+                if (matched.length > 0) {
+                    matched.forEach(i => {
+                        listField.innerHTML += `
+                            <div class="content-card" style="padding:0.75rem; margin-top:0.4rem; border-left:3px solid var(--brand-accent);">
+                                <h4 style="color:var(--brand-accent); font-size:0.95rem; margin:0 0 0.15rem 0; font-weight: 700;">${i.word}</h4>
+                                <p style="font-size:0.8rem; margin:0; line-height: 1.4;">${i.text}</p>
+                            </div>`;
+                    });
+                } else if (term.trim() !== "") {
+                    // Placeholder status to show we are falling back to the external query sequence
+                    listField.innerHTML = `<p style="font-size:0.75rem; color:var(--brand-accent); padding: 0.25rem;">🔍 Searching global databases for "${term}"...</p>`;
+                } else {
+                    listField.innerHTML = `<p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.25rem;">Type an ingredient name above to inspect clinical properties...</p>`;
                 }
-
-                matched.forEach(i => {
-                    listField.innerHTML += `
-                        <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-accent); margin-top:0.5rem;">
-                            <h4 style="color:var(--brand-accent); text-transform:capitalize; margin:0 0 0.2rem 0; font-size:1rem;">${i.word}</h4>
-                            <p style="font-size:0.75rem; line-height:1.4; margin:0;">${i.text}</p>
-                        </div>`;
-                });
             }
+            
+            // Initialize with default suggestions on boot
+            fillLocalDictionary("");
 
-            // Initial baseline draw
-            filterDictionary();
-
+            let delayCall;
             if (searchField) {
                 searchField.addEventListener("input", (e) => {
-                    filterDictionary(e.target.value.trim());
+                    const typed = e.target.value.trim();
+                    clearTimeout(delayCall);
+
+                    if (!typed) {
+                        fillLocalDictionary("");
+                        return;
+                    }
+
+                    // Render matching local results immediately
+                    fillLocalDictionary(typed);
+
+                    // If no local items match, debounce fallback query to the dictionary API
+                    const hasLocalMatches = localBackup.some(i => i.word.toLowerCase().includes(typed.toLowerCase()));
+                    if (!hasLocalMatches) {
+                        delayCall = setTimeout(async () => {
+                            try {
+                                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${typed}`);
+                                if (!res.ok) throw new Error();
+                                const output = await res.json();
+                                const primary = output[0];
+                                const def = primary.meanings[0].definitions[0].definition;
+
+                                listField.innerHTML = `
+                                    <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-primary); margin-top:0.5rem;">
+                                        <h4 style="color:var(--brand-primary); text-transform:capitalize; margin:0 0 0.2rem 0; font-size:1rem; font-weight: 700;">${primary.word}</h4>
+                                        <p style="font-size:0.7rem; font-style:italic; color:var(--color-text-muted); margin-bottom:0.4rem;">Part of Speech: ${primary.meanings[0].partOfSpeech}</p>
+                                        <p style="font-size:0.8rem; line-height:1.4; margin:0;">${def}</p>
+                                    </div>`;
+                            } catch (err) {
+                                listField.innerHTML = `<p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.4rem;">ℹ️ Term not found. Try search keywords like "Acid", "Lipids", "Moisture", or "Glycerin".</p>`;
+                            }
+                        }, 500);
+                    }
                 });
             }
 
