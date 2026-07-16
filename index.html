@@ -310,7 +310,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // === 1. TABS MANAGEMENT ENGINE ===
+            // === 1. TABS NAVIGATION ENGINE ===
             const links = {
                 dashboard: document.getElementById("navDashboard"),
                 quiz: document.getElementById("navQuiz"),
@@ -361,7 +361,7 @@
                 });
             }
 
-            // === 3. SCIENCE ACADEMY DATA LAYER (DIRECT CLINICAL REFS) ===
+            // === 3. SCIENCE ACADEMY DATA LAYER ===
             const scienceItems = [
                 { 
                     title: "The pH Factor Explained", 
@@ -608,40 +608,51 @@
             const searchField = document.getElementById("dictionarySearchInput");
             const listField = document.getElementById("dictionaryListContainer");
 
+            // Curated offline skincare-specific database
             const localBackup = [
-                { word: "Niacinamide", text: "Vitamin B3 derivative that strengthens barrier integration parameters, regulates sebum, and balances skin tone." },
-                { word: "Sebaceous", text: "Microscopic exocrine glands in the skin that secrete oily/waxy sebum to lubricate and waterproof the skin and hair." },
-                { word: "Occlusive", text: "Moisturizing agents that create a physical barrier on top of the skin layer to physically lock in structural moisture." },
-                { word: "Hyaluronic Acid", text: "A powerful humectant capable of holding up to 1000 times its weight in water, helping to hydrate surface cells." },
-                { word: "Salicylic Acid", text: "A oil-soluble Beta Hydroxy Acid (BHA) that penetrates deep into pores to exfoliate, dissolve sebum, and combat breakouts." },
-                { word: "Glycerin", text: "A classic humectant and skin-identical ingredient that draws hydration deep into the stratum corneum." },
-                { word: "Ceramides", text: "Lipid molecules found naturally within the cell membranes of the epidermis, vital for maintaining barrier cohesion." }
+                { word: "Niacinamide", text: "A form of Vitamin B3 that works to visibly minimize enlarged pores, tighten lax pores, improve uneven skin tone, soften fine lines, and strengthen a weakened surface barrier." },
+                { word: "Sebaceous", text: "Relating to oil-producing glands in the skin. These microscopic exocrine glands secrete sebum, a lipid mixture that naturally waterproofs and lubricates our skin layers." },
+                { word: "Occlusive", text: "Moisturizing agents (like petrolatum, squalane, or heavy oils) that physically block water loss by forming a protective hydrophobic barrier over the outermost layer of skin." },
+                { word: "Glycerin", text: "A superstar, budget-friendly humectant. It draws moisture from the atmosphere or deeper skin layers directly into the stratum corneum to keep hydration levels stable." },
+                { word: "Hyaluronic Acid", text: "A natural structural compound capable of binding up to 1000 times its own dry weight in water, helping to instantly plump and hydrate dried skin cells." },
+                { word: "Salicylic Acid", text: "An oil-soluble Beta Hydroxy Acid (BHA) that easily penetrates deep inside lipid pores to dissolve dead cells and debris, making it ideal for clearing out blackheads." },
+                { word: "Retinol", text: "A gentle Vitamin A derivative that accelerates cellular turnover, prompting skin to regenerate faster, fade hyperpigmentation, and stimulate underlying collagen structures." },
+                { word: "Ceramides", text: "Essential waxy lipid molecules that act as the structural 'mortar' holding our skin cells ('bricks') tightly together to keep vital moisture in and environmental irritants out." },
+                { word: "Humectant", text: "Hydrating ingredients (like glycerin, urea, or hyaluronic acid) that act like moisture magnets, pulling water up into the superficial layers of the skin." },
+                { word: "Emollient", text: "Skin-softening agents that fill in microscopic cracks and dry gaps between skin cells, smoothing out rough textures and making the skin feel supple." }
             ];
 
             function fillLocalDictionary(term = "") {
                 if (!listField) return;
                 listField.innerHTML = "";
-                
                 const matched = localBackup.filter(i => i.word.toLowerCase().includes(term.toLowerCase()));
                 
                 if (matched.length > 0) {
                     matched.forEach(i => {
                         listField.innerHTML += `
-                            <div class="content-card" style="padding:0.75rem; margin-top:0.4rem; border-left:3px solid var(--brand-accent);">
-                                <h4 style="color:var(--brand-accent); font-size:0.95rem; margin:0 0 0.15rem 0; font-weight: 700;">${i.word}</h4>
-                                <p style="font-size:0.8rem; margin:0; line-height: 1.4;">${i.text}</p>
+                            <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-accent); margin-top:0.4rem;">
+                                <h4 style="color:var(--brand-accent); font-size:0.95rem; margin:0 0 0.35rem 0; font-weight:700;">${i.word}</h4>
+                                <p style="font-size:0.75rem; margin:0; line-height:1.4;">${i.text}</p>
                             </div>`;
                     });
                 } else if (term.trim() !== "") {
-                    // Placeholder status to show we are falling back to the external query sequence
-                    listField.innerHTML = `<p style="font-size:0.75rem; color:var(--brand-accent); padding: 0.25rem;">🔍 Searching global databases for "${term}"...</p>`;
+                    // Show a query option if it's not in the curated set
+                    listField.innerHTML = `
+                        <p style="font-size:0.75rem; color:var(--brand-accent);">
+                            🔍 Scanning global clinical dictionary endpoints for "${term}"...
+                        </p>`;
                 } else {
-                    listField.innerHTML = `<p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.25rem;">Type an ingredient name above to inspect clinical properties...</p>`;
+                    // Standard empty view shows everything
+                    localBackup.forEach(i => {
+                        listField.innerHTML += `
+                            <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-accent); margin-top:0.4rem;">
+                                <h4 style="color:var(--brand-accent); font-size:0.95rem; margin:0 0 0.35rem 0; font-weight:700;">${i.word}</h4>
+                                <p style="font-size:0.75rem; margin:0; line-height:1.4;">${i.text}</p>
+                            </div>`;
+                    });
                 }
             }
-            
-            // Initialize with default suggestions on boot
-            fillLocalDictionary("");
+            fillLocalDictionary();
 
             let delayCall;
             if (searchField) {
@@ -650,16 +661,17 @@
                     clearTimeout(delayCall);
 
                     if (!typed) {
-                        fillLocalDictionary("");
+                        fillLocalDictionary();
                         return;
                     }
 
-                    // Render matching local results immediately
-                    fillLocalDictionary(typed);
-
-                    // If no local items match, debounce fallback query to the dictionary API
-                    const hasLocalMatches = localBackup.some(i => i.word.toLowerCase().includes(typed.toLowerCase()));
-                    if (!hasLocalMatches) {
+                    // Check if we already have it locally
+                    const locallyMatched = localBackup.filter(i => i.word.toLowerCase().includes(typed.toLowerCase()));
+                    if (locallyMatched.length > 0) {
+                        fillLocalDictionary(typed);
+                    } else {
+                        // Delay execution of API calls slightly (debounce) to preserve speed
+                        listField.innerHTML = `<p style="font-size:0.75rem; color:var(--brand-accent);">🔍 Scanning clinical endpoints for "${typed}"...</p>`;
                         delayCall = setTimeout(async () => {
                             try {
                                 const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${typed}`);
@@ -669,15 +681,18 @@
                                 const def = primary.meanings[0].definitions[0].definition;
 
                                 listField.innerHTML = `
-                                    <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-primary); margin-top:0.5rem;">
-                                        <h4 style="color:var(--brand-primary); text-transform:capitalize; margin:0 0 0.2rem 0; font-size:1rem; font-weight: 700;">${primary.word}</h4>
+                                    <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-accent); margin-top:0.5rem;">
+                                        <h4 style="color:var(--brand-accent); text-transform:capitalize; margin:0 0 0.2rem 0; font-size:1rem; font-weight:700;">${primary.word}</h4>
                                         <p style="font-size:0.7rem; font-style:italic; color:var(--color-text-muted); margin-bottom:0.4rem;">Part of Speech: ${primary.meanings[0].partOfSpeech}</p>
-                                        <p style="font-size:0.8rem; line-height:1.4; margin:0;">${def}</p>
+                                        <p style="font-size:0.75rem; line-height:1.4; margin:0;">${def}</p>
                                     </div>`;
                             } catch (err) {
-                                listField.innerHTML = `<p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.4rem;">ℹ️ Term not found. Try search keywords like "Acid", "Lipids", "Moisture", or "Glycerin".</p>`;
+                                listField.innerHTML = `
+                                    <p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.4rem;">
+                                        ℹ️ Term not found in index. Try searches like "Acid", "Zinc", "Oil", "Gel", or "Lotion".
+                                    </p>`;
                             }
-                        }, 500);
+                        }, 400);
                     }
                 });
             }
