@@ -4,278 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derma Grow — Evidence-Based Budget Skincare</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --bg-main: #141613;          /* Dark charcoal background */
-            --bg-card: #20231e;          /* Earthy card background */
-            --brand-primary: #7e967a;   /* Sage green */
-            --brand-accent: #c29c53;    /* Warm gold */
-            --color-text-main: #d1d5db;  /* Light slate text */
-            --color-text-muted: #9ca3af;/* Dimmed text */
-            --border-subtle: #2d312a;    /* Muted border */
-        }
-
-        body.light-theme {
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --brand-primary: #047857;
-            --brand-accent: #b45309;
-            --color-text-main: #1e293b;
-            --color-text-muted: #64748b;
-            --border-subtle: #e2e8f0;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--color-text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            line-height: 1.5;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .app-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 1rem 1rem 3rem 1rem;
-        }
-
-        .app-header {
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 1rem;
-        }
-
-        .brand-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .brand-heading {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .app-nav {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.4rem;
-        }
-
-        .app-nav a {
-            display: block;
-            text-align: center;
-            padding: 0.4rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            color: var(--color-text-muted);
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-subtle);
-            border-radius: 9999px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: pointer;
-        }
-
-        .app-nav a.active {
-            background-color: rgba(126, 150, 122, 0.2);
-            color: var(--brand-primary);
-            border-color: var(--brand-primary);
-        }
-
-        .content-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1rem;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .metrics-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            text-align: center;
-        }
-
-        .metric-stat-box {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .metric-number {
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .metric-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 0.25rem;
-        }
-
-        .dashboard-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .selection-matrix-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .checkbox-card {
-            display: flex;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.01);
-        }
-
-        .checkbox-card input[type="checkbox"] {
-            accent-color: var(--brand-primary);
-            transform: scale(1.1);
-        }
-
-        .checkbox-label-text {
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .checkbox-subtext {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 400;
-            color: var(--color-text-muted);
-            margin-top: 0.15rem;
-        }
-
-        .input-group {
-            margin-top: 1rem;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .range-slider {
-            width: 100%;
-            accent-color: var(--brand-primary);
-            cursor: pointer;
-        }
-
-        .btn-preset, .btn-primary, .filter-btn, .peer-filter-btn {
-            background-color: var(--brand-primary);
-            color: #fff;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            text-align: center;
-        }
-
-        .filter-btn, .peer-filter-btn {
-            width: auto;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-subtle);
-            color: var(--color-text-muted);
-            padding: 0.4rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-        }
-
-        .filter-btn.active, .peer-filter-btn.active {
-            background-color: rgba(126, 150, 122, 0.2);
-            border-color: var(--brand-primary);
-            color: var(--brand-primary);
-        }
-
-        .form-input-text {
-            width: 100%;
-            background-color: rgba(0,0,0,0.2);
-            border: 1px solid var(--border-subtle);
-            border-radius: 6px;
-            padding: 0.5rem;
-            color: var(--color-text-main);
-            font-size: 0.8rem;
-        }
-
-        .database-filter-bar {
-            display: flex;
-            gap: 0.4rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-
-        .answer-options-stack button {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 0.75rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            color: var(--color-text-main);
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .answer-options-stack button:hover {
-            border-color: var(--brand-primary);
-            background: rgba(126, 150, 122, 0.05);
-        }
-
-        .routine-split-panel {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        @media(min-width: 480px) {
-            .routine-split-panel { grid-template-columns: 1fr 1fr; }
-            .app-nav { grid-template-columns: repeat(5, 1fr); }
-        }
-
-        .routine-block {
-            background: rgba(0,0,0,0.15);
-            padding: 0.75rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .routine-block h4 { font-size: 0.8rem; color: var(--brand-accent); margin-bottom: 0.4rem; }
-        .routine-list { font-size: 0.75rem; padding-left: 1.2rem; color: var(--color-text-main); }
-
-        .chart-container { position: relative; width: 100%; height: 180px; }
-        .hidden { display: none !important; }
-        .text-muted { color: var(--color-text-muted); font-size: 0.75rem; }
-        .alert-notice { padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-subtle); font-size: 0.75rem; }
-    </style>
 </head>
 <body>
 
@@ -291,11 +21,11 @@
                 <button id="themeToggleBtn" class="filter-btn" style="margin-left: 0.5rem; padding: 0.25rem 0.6rem; font-size: 0.75rem;">🌓 Toggle Theme</button>
             </div>
             <nav class="app-nav">
-                <a id="navDashboard" class="nav-link active">Dashboard</a>
-                <a id="navQuiz" class="nav-link">Skin Type Quiz</a>
-                <a id="navLearn" class="nav-link">Science Hub</a>
-                <a id="navRecommendations" class="nav-link">Shared Directory</a>
-                <a id="navDictionary" class="nav-link">Skincare Dictionary</a>
+                <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
+                <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
+                <a href="#" id="navLearn" class="nav-link">Science Hub</a>
+                <a href="#" id="navRecommendations" class="nav-link">Shared Directory</a>
+                <a href="#" id="navDictionary" class="nav-link">Skincare Dictionary</a>
             </nav>
         </header>
 
@@ -396,25 +126,25 @@
                     </div>
                 </div>
 
-                <div id="protocolBox" class="content-card">
+                <div id="protocolBox" class="content-card hidden">
                     <h3>Your Custom Routine Guide</h3>
-                    <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); margin-top: 0.5rem; margin-bottom: 1rem;">
-                        Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to unlock setup details.
+                    <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
+                        Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                        <h3 style="margin: 0; font-size: 0.9rem;">Your Free Essential Routine</h3>
-                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent); padding: 0.25rem 0.5rem;">🖨️ Print Mirror View</button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                        <h3 style="margin: 0;">Your Free Essential Routine</h3>
+                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print for Bathroom Mirror</button>
                     </div>
                     
                     <div class="routine-split-panel">
                         <div class="routine-block">
                             <h4>☀️ Morning Regime</h4>
-                            <ul id="amRoutineList" class="routine-list"><li>Awaiting setup selections...</li></ul>
+                            <ul id="amRoutineList" class="routine-list"></ul>
                         </div>
                         <div class="routine-block">
                             <h4>🌙 Evening Regime</h4>
-                            <ul id="pmRoutineList" class="routine-list"><li>Awaiting setup selections...</li></ul>
+                            <ul id="pmRoutineList" class="routine-list"></ul>
                         </div>
                     </div>
                 </div>
@@ -439,7 +169,7 @@
                         <div class="input-group">
                             <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-primary" style="margin-top: 0.5rem;">Submit Feedback Note</button>
+                        <button type="submit" class="btn-primary">Submit Feedback Note</button>
                     </form>
                     <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
                         ✓ Feedback logged successfully. Thank you for helping refine the app!
@@ -467,12 +197,12 @@
 
                 <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
                     <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Assessed Classification:</span>
-                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0; font-size: 1.4rem;">NORMAL SKIN TYPE</h3>
+                    <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL SKIN TYPE</h3>
                     <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
                     
                     <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
-                        <button id="syncToRoutineBtn" class="btn-primary" style="background-color: var(--brand-primary); width: auto;">Sync to Routine Builder</button>
-                        <button id="resetQuizBtn" class="btn-primary" style="width: auto;">Retake Skin Quiz</button>
+                        <button id="syncToRoutineBtn" class="btn-primary" style="background-color: var(--brand-primary);">Sync to Routine Builder</button>
+                        <button id="resetQuizBtn" class="btn-primary">Retake Skin Quiz</button>
                     </div>
                 </div>
             </div>
@@ -507,7 +237,7 @@
                 </div>
             </div>
 
-            <div class="peer-split-grid" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="peer-split-grid">
                 <div id="peerRegistryGrid" class="database-cards-grid"></div>
 
                 <div class="content-card">
@@ -565,14 +295,14 @@
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
                 <h2>🔬 Skincare Dictionary Pro</h2>
-                <p class="text-muted">Type any common ingredient, compound, or medical term to see its live dynamic explanation fetched globally.</p>
+                <p class="text-muted">Type any common ingredient, compound, or term to see its simple, plain-English explanation.</p>
                 
                 <div class="dictionary-search-box">
-                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Glycerin, Acid, Water)...">
+                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Sebaceous, Occlusive)...">
                 </div>
 
                 <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;">
-                    </div>
+                </div>
             </div>
         </section>
 
@@ -580,15 +310,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // ==================== STATE MANAGEMENT ====================
-            let currentTab = "dashboard";
-            let budgetValue = 0;
-            let trendsAvoidedCount = 0;
-            let userSkinType = "Unlinked";
-            let chartInstance = null;
-
-            // ==================== DOM ELEMENTS MAP ====================
-            const navLinks = {
+            // === 1. TABS MANAGEMENT ENGINE ===
+            const links = {
                 dashboard: document.getElementById("navDashboard"),
                 quiz: document.getElementById("navQuiz"),
                 learn: document.getElementById("navLearn"),
@@ -596,7 +319,7 @@
                 dictionary: document.getElementById("navDictionary")
             };
 
-            const viewSections = {
+            const targets = {
                 dashboard: [document.getElementById("heroSection"), document.getElementById("trackerCard")],
                 quiz: [document.getElementById("quizSection")],
                 learn: [document.getElementById("learnSection")],
@@ -604,290 +327,364 @@
                 dictionary: [document.getElementById("dictionarySection")]
             };
 
-            // ==================== TAB NAVIGATION ENGINE ====================
-            function showTab(targetTab) {
-                currentTab = targetTab;
-                Object.keys(navLinks).forEach(key => {
-                    if(navLinks[key]) {
-                        if(key === targetTab) navLinks[key].classList.add("active");
-                        else navLinks[key].classList.remove("active");
+            function changeTab(chosenKey) {
+                Object.keys(links).forEach(key => {
+                    if (links[key]) {
+                        if (key === chosenKey) links[key].classList.add("active");
+                        else links[key].classList.remove("active");
                     }
                 });
-
-                Object.keys(viewSections).forEach(key => {
-                    viewSections[key].forEach(sec => {
-                        if(sec) {
-                            if(key === targetTab) sec.classList.remove("hidden");
-                            else sec.classList.add("hidden");
+                Object.keys(targets).forEach(key => {
+                    targets[key].forEach(element => {
+                        if (element) {
+                            if (key === chosenKey) element.classList.remove("hidden");
+                            else element.classList.add("hidden");
                         }
                     });
                 });
             }
 
-            Object.keys(navLinks).forEach(key => {
-                if(navLinks[key]) {
-                    navLinks[key].addEventListener("click", () => showTab(key));
+            Object.keys(links).forEach(key => {
+                if (links[key]) {
+                    links[key].addEventListener("click", (e) => {
+                        e.preventDefault();
+                        changeTab(key);
+                    });
                 }
             });
 
-            // ==================== THEME TOGGLER ====================
-            document.getElementById("themeToggleBtn").addEventListener("click", () => {
-                document.body.classList.toggle("light-theme");
+            // === 2. LIGHT / DARK CLASS TOGGLER ===
+            const themeBtn = document.getElementById("themeToggleBtn");
+            if (themeBtn) {
+                themeBtn.addEventListener("click", () => {
+                    document.body.classList.toggle("light-theme");
+                });
+            }
+
+            // === 3. SCIENCE ACADEMY DATA LAYER ===
+            const scienceItems = [
+                { title: "The pH Factor Explained", category: "anatomy", excerpt: "Healthy skin micro-environments hold a baseline value around 5.5. Stripping this defense triggers lipid reduction." },
+                { title: "DIY Lemon Juice Threat Vectors", category: "myths", excerpt: "Pure lemons offer a raw pH of 2. Applying this damages active surface cell walls instantly." },
+                { title: "Cleanser Classifications", category: "classification", excerpt: "Low-foaming surfactants pull away surface grime matrices without dry stripping natural barrier fats." },
+                { title: "Niacinamide Integration Pathways", category: "actives", excerpt: "Vitamin B3 operates as a multitasking compound to ease redness indices and regulate sebum production." }
+            ];
+
+            const dbGrid = document.getElementById("databaseGrid");
+            function buildScienceHub(categoryFilter = "all") {
+                if (!dbGrid) return;
+                dbGrid.innerHTML = "";
+                const matches = scienceItems.filter(i => categoryFilter === "all" || i.category === categoryFilter);
+                matches.forEach(item => {
+                    dbGrid.innerHTML += `
+                        <div class="content-card" style="margin-top:0.5rem; padding: 1rem;">
+                            <h4 style="color:var(--brand-accent); font-size:0.95rem; margin-bottom:0.25rem;">${item.title}</h4>
+                            <p style="font-size:0.75rem; margin:0; line-height:1.4;">${item.excerpt}</p>
+                        </div>`;
+                });
+            }
+            buildScienceHub();
+
+            document.querySelectorAll(".database-filter-bar .filter-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    document.querySelectorAll(".database-filter-bar .filter-btn").forEach(b => b.classList.remove("active"));
+                    e.target.classList.add("active");
+                    buildScienceHub(e.target.getAttribute("data-category"));
+                });
             });
 
-            // ==================== BUDGET ROUTINE ENGINE ====================
+            // === 4. SHARED DIRECTORY USER REGISTRY ===
+            const sampleProducts = [
+                { name: "Wardah Aloe Hydramild Gel", skin: "Normal", cost: "Rp 35.000", ingredients: "Aloe, Glycerin", usage: "Morning layer" },
+                { name: "Hadabalance Gentle Fluid", skin: "Sensitive", cost: "Rp 68.000", ingredients: "Hyaluronic Acid, Panthenol", usage: "Night sealing layer" },
+                { name: "Sensatia Botanicals Cleanser", skin: "Oily", cost: "Rp 130.000", ingredients: "Tea Tree, Chamomile Extract", usage: "Baseline double wash" }
+            ];
+
+            const peerGrid = document.getElementById("peerRegistryGrid");
+            function buildProductDirectory(skinFilter = "all") {
+                if (!peerGrid) return;
+                peerGrid.innerHTML = "";
+                const filtered = sampleProducts.filter(p => skinFilter === "all" || p.skin === skinFilter);
+                filtered.forEach(p => {
+                    peerGrid.innerHTML += `
+                        <div class="content-card" style="margin-bottom:0.75rem; border-left:3px solid var(--brand-primary); padding:1rem;">
+                            <span style="font-size:0.65rem; text-transform:uppercase; color:var(--brand-accent); font-weight:700;">Profile: ${p.skin} Skin</span>
+                            <h4 style="margin: 0.15rem 0; font-size:0.95rem;">${p.name}</h4>
+                            <p style="font-size:0.75rem; margin:0.1rem 0;">Cost: <b>${p.cost}</b> | Ingredients: <i>${p.ingredients}</i></p>
+                            <p style="font-size:0.7rem; color:var(--color-text-muted); margin:0;">Application: ${p.usage}</p>
+                        </div>`;
+                });
+            }
+            buildProductDirectory();
+
+            document.querySelectorAll(".database-filter-bar .peer-filter-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    document.querySelectorAll(".database-filter-bar .peer-filter-btn").forEach(b => b.classList.remove("active"));
+                    e.target.classList.add("active");
+                    buildProductDirectory(e.target.getAttribute("data-skin"));
+                });
+            });
+
+            // Peer submission hookup
+            const contributionForm = document.getElementById("peerContributionForm");
+            if (contributionForm) {
+                contributionForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    document.getElementById("peerSuccessMessage").classList.remove("hidden");
+                    contributionForm.reset();
+                });
+            }
+
+            // === 5. ROUTINE & PARAMETERS CALCULATION ===
+            let totalTrendsAvoided = 0;
             const slider = document.getElementById("budgetSlider");
-            const sliderDisplay = document.getElementById("budgetValue");
-            
-            slider.addEventListener("input", (e) => {
-                budgetValue = parseInt(e.target.value);
-                sliderDisplay.textContent = `Rp ${budgetValue.toLocaleString("id-ID")}`;
-                evaluateRoutineRules();
-            });
+            const sliderValue = document.getElementById("budgetValue");
+            const optDelta = document.getElementById("optimizationDelta");
+            const protocolBox = document.getElementById("protocolBox");
 
-            const checkboxes = document.querySelectorAll(".selection-matrix-grid input[type='checkbox']");
-            checkboxes.forEach(chk => chk.addEventListener("change", () => {
-                evaluateRoutineRules();
-                updateChartData();
+            if (slider && sliderValue) {
+                slider.addEventListener("input", (e) => {
+                    sliderValue.textContent = `Rp ${parseInt(e.target.value).toLocaleString("id-ID")}`;
+                    evaluateRoutineLogic();
+                });
+            }
+
+            const checks = document.querySelectorAll(".selection-matrix-grid input[type='checkbox']");
+            checks.forEach(c => c.addEventListener("change", () => {
+                evaluateRoutineLogic();
+                updateVisualTimeline();
             }));
 
-            function evaluateRoutineRules() {
-                const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
-                const optDelta = document.getElementById("optimizationDelta");
-                
-                // Rules Calculation
-                let score = Math.round((checkedCount / checkboxes.length) * 100);
-                optDelta.textContent = `+${score}%`;
+            function evaluateRoutineLogic() {
+                const checked = Array.from(checks).filter(cb => cb.checked);
+                if (checked.length > 0 && protocolBox) protocolBox.classList.remove("hidden");
 
-                const isLemon = document.getElementById("chk-lemon").checked;
-                const isScrubs = document.getElementById("chk-scrubs").checked;
-                
-                if (isLemon || isScrubs) {
-                    optDelta.textContent = "❌ Hype Alert";
-                    if(isLemon) trendsAvoidedCount++;
-                    document.getElementById("itemsSavedCount").textContent = trendsAvoidedCount;
+                let rawScore = Math.round((checked.length / checks.length) * 100);
+                if (optDelta) optDelta.textContent = `+${rawScore}%`;
+
+                if (document.getElementById("chk-lemon")?.checked || document.getElementById("chk-scrubs")?.checked) {
+                    if (optDelta) optDelta.textContent = "❌ Hype Alert";
+                    totalTrendsAvoided++;
+                    const savedDisplay = document.getElementById("itemsSavedCount");
+                    if (savedDisplay) savedDisplay.textContent = totalTrendsAvoided;
                 }
 
-                // Render lists items dynamically
                 const amList = document.getElementById("amRoutineList");
                 const pmList = document.getElementById("pmRoutineList");
                 const report = document.getElementById("reportContent");
 
-                amList.innerHTML = "";
-                pmList.innerHTML = "";
+                if (amList && pmList) {
+                    amList.innerHTML = "";
+                    pmList.innerHTML = "";
 
-                if (checkedCount === 0) {
-                    report.textContent = "Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.";
-                    amList.innerHTML = "<li>Awaiting setup selections...</li>";
-                    pmList.innerHTML = "<li>Awaiting setup selections...</li>";
-                    return;
-                }
+                    if (checked.length === 0) {
+                        if (report) report.textContent = "Awaiting selections: Add affordable core essentials (Cleanser/Lotion) to see layout response visualizers.";
+                        return;
+                    }
 
-                report.textContent = `Routine Engine Verified. Budget space constraints calculated smoothly inside ${sliderDisplay.textContent}.`;
-                
-                if(document.getElementById("chk-cleanser").checked) {
-                    amList.innerHTML += "<li>Gentle Low-pH Cleanser wash</li>";
-                    pmList.innerHTML += "<li>Gentle Low-pH Cleanser deep wash</li>";
-                }
-                if(document.getElementById("chk-moisturizer").checked) {
-                    amList.innerHTML += "<li>Apply Hydrating Glycerin layer</li>";
-                    pmList.innerHTML += "<li>Lock down with Moisturizer layer</li>";
-                }
-                if(document.getElementById("chk-sunscreen").checked) {
-                    amList.innerHTML += "<li>☀️ Apply Broad-Spectrum Shield</li>";
-                }
-                if(document.getElementById("chk-niacinamide").checked) {
-                    pmList.innerHTML += "<li>Apply Niacinamide Serum</li>";
+                    if (report) report.textContent = "Routine verified using database rules safely.";
+                    if (document.getElementById("chk-cleanser")?.checked) {
+                        amList.innerHTML += "<li>Wipe face with gentle low-pH cleanser</li>";
+                        pmList.innerHTML += "<li>Wash away urban surface particulates</li>";
+                    }
+                    if (document.getElementById("chk-moisturizer")?.checked) {
+                        amList.innerHTML += "<li>Apply micro Glycerin layer</li>";
+                        pmList.innerHTML += "<li>Lock surface cells with lipid barrier</li>";
+                    }
+                    if (document.getElementById("chk-sunscreen")?.checked) {
+                        amList.innerHTML += "<li>☀️ Shield surface completely</li>";
+                    }
                 }
             }
 
-            document.getElementById("starterPackBtn").addEventListener("click", () => {
-                document.getElementById("chk-moisturizer").checked = true;
-                document.getElementById("chk-cleanser").checked = true;
-                document.getElementById("chk-sunscreen").checked = true;
-                slider.value = 120000;
-                slider.dispatchEvent(new Event("input"));
-            });
-
-            // ==================== 9-STEP SKIN TYPE QUIZ ENGINE ====================
-            const quizQuestions = [
-                { q: "How does your skin feel 1 hour after baseline washing without products?", options: [{t:"Tight, dry, or peeling slightly", w:"Dry"}, {t:"Slick, shiny, or greasy all over", w:"Oily"}, {t:"Comfortable, balanced, normal surface", w:"Normal"}] },
-                { q: "How frequently do you experience redness or immediate stinging sensations?", options: [{t:"Constantly with most store cosmetics", w:"Sensitive"}, {t:"Rarely unless using hard scrubs", w:"Normal"}] },
-                { q: "What is your primary surface layer appearance concern?", options: [{t:"Visible flakes and micro-lines", w:"Dry"}, {t:"Enlarged visible pores and daily blackheads", w:"Oily"}] },
-                { q: "How does your skin respond to strong direct tropical sun exposure?", options: [{t:"Burns immediately into severe redness", w:"Sensitive"}, {t:"Tans gradually without instant pain", w:"Normal"}] },
-                { q: "What thickness profile do you prefer for cream textures?", options: [{t:"Rich heavy oils to offset skin tightness", w:"Dry"}, {t:"Ultra-light fluids or watery clear gels", w:"Oily"}] },
-                { q: "How does your forehead look under direct bathroom lighting mid-day?", options: [{t:"Extremely shiny and mirror-like reflecting light", w:"Oily"}, {t:"Dull, matte, with tiny dry lines", w:"Dry"}] },
-                { q: "Have you ever broken out in itchy bumps from artificial fragrances?", options: [{t:"Yes, regularly happens", w:"Sensitive"}, {t:"No, skin accepts it cleanly", w:"Normal"}] },
-                { q: "How does your skin feel inside heavily air-conditioned environments?", options: [{t:"Extremely parched, cracking, tight", w:"Dry"}, {t:"Slightly less oily, mostly fine", w:"Normal"}] },
-                { q: "What is your main goal for integrating simple basic formulas?", options: [{t:"Calming immediate dynamic irritation vectors", w:"Sensitive"}, {t:"Reducing excess surface sebum pools", w:"Oily"}, {t:"Adding baseline structural hydration layers", w:"Dry"}] }
-            ];
-
-            let quizIndex = 0;
-            let quizScores = { Dry: 0, Oily: 0, Sensitive: 0, Normal: 0 };
-
-            function loadQuizQuestion() {
-                const progressTracker = document.getElementById("quizProgressTracker");
-                const progressBar = document.getElementById("quizProgressBar");
-                const questionText = document.getElementById("questionText");
-                const optionsBox = document.getElementById("answerOptions");
-
-                if (quizIndex < quizQuestions.length) {
-                    progressTracker.textContent = `Step ${quizIndex + 1} of 9`;
-                    progressBar.style.width = `${((quizIndex + 1) / 9) * 100}%`;
-                    questionText.textContent = quizQuestions[quizIndex].q;
-                    optionsBox.innerHTML = "";
-
-                    quizQuestions[quizIndex].options.forEach(opt => {
-                        const btn = document.createElement("button");
-                        btn.textContent = opt.t;
-                        btn.addEventListener("click", () => {
-                            quizScores[opt.w]++;
-                            quizIndex++;
-                            loadQuizQuestion();
-                        });
-                        optionsBox.appendChild(btn);
-                    });
-                } else {
-                    // Render Final Quiz Result Breakdown
-                    document.getElementById("questionBox").classList.add("hidden");
-                    const resBox = document.getElementById("quizResultBox");
-                    resBox.classList.remove("hidden");
-
-                    let dominantType = Object.keys(quizScores).reduce((a, b) => quizScores[a] > quizScores[b] ? a : b);
-                    userSkinType = dominantType.toUpperCase();
-                    
-                    document.getElementById("skinTypeTitle").textContent = `${userSkinType} SKIN PROFILE ASSEMBLED`;
-                    
-                    const descMap = {
-                        DRY: "Your answers indicate reduced moisture barriers. Focus tightly on thick lipid moisturizers, gentle non-foaming cleansers, and avoid stripping chemical agents entirely.",
-                        OILY: "Your answers suggest elevated sebum gland output. Utilize light gel lotions, mild low-pH cleansers, and safe chemical chemical adjusters like Niacinamide.",
-                        SENSITIVE: "Your answers present strong reactivity indices. Completely restrict artificial fragrances, severe acids, and abrasive mechanics.",
-                        NORMAL: "Your skin presents balanced baseline parameters. Protect daily via broad spectrum sunscreen and maintain standard hydration consistency."
-                    };
-                    document.getElementById("skinTypeDescription").textContent = descMap[userSkinType];
-                }
-            }
-
-            document.getElementById("syncToRoutineBtn").addEventListener("click", () => {
-                document.getElementById("profileSyncBadge").textContent = `Profile: ${userSkinType}`;
-                showTab("dashboard");
-            });
-
-            document.getElementById("resetQuizBtn").addEventListener("click", () => {
-                quizIndex = 0;
-                quizScores = { Dry: 0, Oily: 0, Sensitive: 0, Normal: 0 };
-                document.getElementById("questionBox").classList.remove("hidden");
-                document.getElementById("quizResultBox").classList.add("hidden");
-                loadQuizQuestion();
-            });
-
-            loadQuizQuestion();
-
-            // ==================== GLOBAL UNLIMITED DICTIONARY ENGINE ====================
-            const searchInput = document.getElementById("dictionarySearchInput");
-            const dictContainer = document.getElementById("dictionaryListContainer");
-
-            // Local fallback database to render instantly on blank loads
-            const fallbackDict = [
-                { term: "Niacinamide", desc: "Vitamin B3 compound used to stabilize barrier lipids and minimize redness." },
-                { term: "Squalane", desc: "An extremely stable hydrating oil that locks moisture into cell gaps." },
-                { term: "Centella Asiatica", desc: "Herbal extract proven to ease sensitive and highly irritated epidermal layers." },
-                { term: "Ceramides", desc: "Waxy fat lipids maintaining cellular bonds to defense moisture from escaping." }
-            ];
-
-            function renderLocalFallback(filterText = "") {
-                dictContainer.innerHTML = "";
-                const matched = fallbackDict.filter(i => i.term.toLowerCase().includes(filterText.toLowerCase()));
-                matched.forEach(item => {
-                    dictContainer.innerHTML += `
-                        <div class="content-card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
-                            <h4 style="color: var(--brand-accent); font-size: 0.9rem; margin-bottom: 0.25rem;">${item.term}</h4>
-                            <p style="font-size: 0.75rem; margin: 0;">${item.desc}</p>
-                        </div>`;
+            const starterBtn = document.getElementById("starterPackBtn");
+            if (starterBtn) {
+                starterBtn.addEventListener("click", () => {
+                    if (document.getElementById("chk-moisturizer")) document.getElementById("chk-moisturizer").checked = true;
+                    if (document.getElementById("chk-cleanser")) document.getElementById("chk-cleanser").checked = true;
+                    if (document.getElementById("chk-sunscreen")) document.getElementById("chk-sunscreen").checked = true;
+                    if (slider) {
+                        slider.value = 140000;
+                        slider.dispatchEvent(new Event("input"));
+                    }
                 });
             }
 
-            // High-efficiency live fetch execution with debounce functionality
-            let debounceTimer;
-            searchInput.addEventListener("input", (e) => {
-                const query = e.target.value.trim();
-                clearTimeout(debounceTimer);
+            // === 6. 9-STEP DYNAMIC QUIZ SYSTEM ===
+            const questions = [
+                { q: "How does skin layer surface respond 1 hour after plain washing?", options: ["Feels parchment-tight and flakey", "Highly reflective slick coating", "Clean, highly comfortable index"] },
+                { q: "How frequently does your face skin break out in stinging patch responses?", options: ["Constantly from commercial textures", "Extremely rarely / never"] },
+                { q: "What primary visual trait stands out under clinical mirror magnification?", options: ["Micro cracks / scaling lines", "Enlarged clogged pores pools"] },
+                { q: "How does skin handle immediate direct tropical UV sunlight vectors?", options: ["Burns instantly into raw swelling", "Tans down smoothly without irritation"] },
+                { q: "What lipid delivery viscosity density matches your preference pattern?", options: ["Rich dense dense balms", "Water-light clear matrix drops"] },
+                { q: "Identify mid-day forehead shine output performance indexes:", options: ["Highly dynamic glossy appearance", "Matte surface layout structure"] },
+                { q: "Have you ever generated contact bumps from typical masking perfumes?", options: ["Yes, surface layer reacts fast", "No, completely immune to standard oils"] },
+                { q: "How behaves your external surface layer within dry air-conditioned spaces?", options: ["Cracks and pulls tight aggressively", "Remains fully supple and stable"] },
+                { q: "What targeted core vector optimization represents your current roadmap?", options: ["Calming active cellular inflammation indicators", "Balancing excess sebum output lines"] }
+            ];
 
-                if (!query) {
-                    renderLocalFallback();
-                    return;
+            let qIndex = 0;
+            let profileTallies = { Dry: 0, Oily: 0, Sensitive: 0, Normal: 0 };
+
+            function displayQuizState() {
+                const tracker = document.getElementById("quizProgressTracker");
+                const progress = document.getElementById("quizProgressBar");
+                const textElem = document.getElementById("questionText");
+                const optsElem = document.getElementById("answerOptions");
+
+                if (!tracker || !textElem || !optsElem) return;
+
+                if (qIndex < questions.length) {
+                    tracker.textContent = `Step ${qIndex + 1} of 9`;
+                    if (progress) progress.style.width = `${((qIndex + 1) / 9) * 100}%`;
+                    textElem.textContent = questions[qIndex].q;
+                    optsElem.innerHTML = "";
+
+                    questions[qIndex].options.forEach((opt, idx) => {
+                        const b = document.createElement("button");
+                        b.textContent = opt;
+                        b.style.display = "block"; b.style.width = "100%"; b.style.textAlign = "left";
+                        b.style.padding = "0.6rem"; b.style.margin = "0.3rem 0"; b.style.cursor = "pointer";
+                        b.addEventListener("click", () => {
+                            if (idx === 0) profileTallies.Dry++;
+                            else if (idx === 1) profileTallies.Oily++;
+                            else profileTallies.Sensitive++;
+
+                            qIndex++;
+                            displayQuizState();
+                        });
+                        optsElem.appendChild(b);
+                    });
+                } else {
+                    document.getElementById("questionBox").classList.add("hidden");
+                    const resBox = document.getElementById("quizResultBox");
+                    if (resBox) resBox.classList.remove("hidden");
+
+                    let pickedProfile = Object.keys(profileTallies).reduce((x, y) => profileTallies[x] > profileTallies[y] ? x : y);
+                    const titleNode = document.getElementById("skinTypeTitle");
+                    const descNode = document.getElementById("skinTypeDescription");
+
+                    if (titleNode) titleNode.textContent = `${pickedProfile.toUpperCase()} SKIN TYPE ASSESSED`;
+                    if (descNode) descNode.textContent = `Analysis confirms a dominant ${pickedProfile} barrier layout configuration. Focus optimization on custom matched non-stripping base compounds inside the builder screen.`;
                 }
+            }
+            displayQuizState();
 
-                debounceTimer = setTimeout(async () => {
-                    dictContainer.innerHTML = `<p style="font-size:0.75rem; color:var(--brand-accent);">🔍 Scanning global medical indices for "${query}"...</p>`;
-                    try {
-                        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query}`);
-                        if (!response.ok) throw new Error("Term not found");
-                        
-                        const data = await response.mix ? await response.mix() : await response.json();
-                        const wordData = data[0];
-                        const definition = wordData.meanings[0].definitions[0].definition;
-
-                        dictContainer.innerHTML = `
-                            <div class="content-card" style="padding: 1rem; border-left: 3px solid var(--brand-accent);">
-                                <h4 style="color: var(--brand-accent); font-size: 1rem; text-transform: capitalize; margin-bottom: 0.25rem;">${wordData.word}</h4>
-                                <p style="font-size: 0.75rem; font-style: italic; color: var(--color-text-muted); margin-bottom: 0.5rem;">Classification: ${wordData.meanings[0].partOfSpeech}</p>
-                                <p style="font-size: 0.8rem; margin: 0; line-height: 1.4;">${definition}</p>
-                            </div>`;
-                    } catch (err) {
-                        dictContainer.innerHTML = `
-                            <p style="font-size:0.75rem; color: var(--color-text-muted); padding: 0.5rem;">
-                                ℹ️ No explicit matches for "${query}" inside standard dictionary indices. Try standard items like "Acid", "Water", "Oil", "Glycerin", or "Zinc".
-                            </p>`;
-                    }
-                }, 500);
+            document.getElementById("syncToRoutineBtn")?.addEventListener("click", () => {
+                let currentAssessed = document.getElementById("skinTypeTitle").textContent.split(" ")[0];
+                document.getElementById("profileSyncBadge").textContent = `Profile: ${currentAssessed}`;
+                changeTab("dashboard");
             });
 
-            renderLocalFallback();
-
-            // ==================== CHART.JS INITIALIZER ====================
-            const ctx = document.getElementById("dermaChart").getContext("2d");
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 9', 'Day 11', 'Day 14'],
-                    datasets: [{
-                        label: 'Barrier Structural Retention',
-                        data: [10, 15, 20, 35, 40, 55, 70],
-                        borderColor: '#7e967a',
-                        backgroundColor: 'rgba(126, 150, 122, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 9 } } },
-                        y: { grid: { color: '#2d312a' }, ticks: { color: '#9ca3af', font: { size: 9 } } }
-                    }
-                }
+            document.getElementById("resetQuizBtn")?.addEventListener("click", () => {
+                qIndex = 0;
+                profileTallies = { Dry: 0, Oily: 0, Sensitive: 0, Normal: 0 };
+                document.getElementById("questionBox").classList.remove("hidden");
+                document.getElementById("quizResultBox").classList.add("hidden");
+                displayQuizState();
             });
 
-            function updateChartData() {
-                if(!chartInstance) return;
-                const checked = Array.from(checkboxes).filter(c => c.checked).length;
-                let scaleMultiplier = checked > 0 ? checked : 1;
-                
-                // Animate graph progress depending on active selection patterns
-                chartInstance.data.datasets[0].data = [
-                    10 * scaleMultiplier, 
-                    12 * scaleMultiplier, 
-                    18 * scaleMultiplier, 
-                    25 * scaleMultiplier, 
-                    32 * scaleMultiplier, 
-                    45 * scaleMultiplier, 
-                    60 * scaleMultiplier
-                ];
-                chartInstance.update();
+            // === 7. LIVE UNLIMITED DICTIONARY API ===
+            const searchField = document.getElementById("dictionarySearchInput");
+            const listField = document.getElementById("dictionaryListContainer");
+
+            const localBackup = [
+                { word: "Niacinamide", text: "Vitamin B3 derivative that strengthens barrier integration parameters." },
+                { word: "Sebaceous", text: "Microscopic exocrine glands responsible for rendering natural lipid sebum blends." },
+                { word: "Occlusive", text: "Physical density layers locking structural moisture pools inside cell walls." }
+            ];
+
+            function fillLocalDictionary(term = "") {
+                if (!listField) return;
+                listField.innerHTML = "";
+                const matched = localBackup.filter(i => i.word.toLowerCase().includes(term.toLowerCase()));
+                matched.forEach(i => {
+                    listField.innerHTML += `
+                        <div class="content-card" style="padding:0.75rem; margin-top:0.4rem;">
+                            <h4 style="color:var(--brand-accent); font-size:0.9rem; margin:0 0 0.15rem 0;">${i.word}</h4>
+                            <p style="font-size:0.75rem; margin:0;">${i.text}</p>
+                        </div>`;
+                });
+            }
+            fillLocalDictionary();
+
+            let delayCall;
+            if (searchField) {
+                searchField.addEventListener("input", (e) => {
+                    const typed = e.target.value.trim();
+                    clearTimeout(delayCall);
+
+                    if (!typed) {
+                        fillLocalDictionary();
+                        return;
+                    }
+
+                    delayCall = setTimeout(async () => {
+                        listField.innerHTML = `<p style="font-size:0.75rem; color:var(--brand-accent);">🔍 Scanning public medical dictionary endpoints for "${typed}"...</p>`;
+                        try {
+                            const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${typed}`);
+                            if (!res.ok) throw new Error();
+                            const output = await res.json();
+                            const primary = output[0];
+                            const def = primary.meanings[0].definitions[0].definition;
+
+                            listField.innerHTML = `
+                                <div class="content-card" style="padding:1rem; border-left:3px solid var(--brand-accent); margin-top:0.5rem;">
+                                    <h4 style="color:var(--brand-accent); text-transform:capitalize; margin:0 0 0.2rem 0; font-size:1rem;">${primary.word}</h4>
+                                    <p style="font-size:0.7rem; font-style:italic; color:var(--color-text-muted); margin-bottom:0.4rem;">Part of Speech: ${primary.meanings[0].partOfSpeech}</p>
+                                    <p style="font-size:0.75rem; line-height:1.4; margin:0;">${def}</p>
+                                </div>`;
+                        } catch (err) {
+                            listField.innerHTML = `<p style="font-size:0.75rem; color:var(--color-text-muted); padding:0.4rem;">ℹ️ Term not found in global index. Try general terms like "Acid", "Water", "Oil", "Glycerin", or "Zinc".</p>`;
+                        }
+                    }, 400);
+                });
+            }
+
+            // === 8. CHART.JS VISUAL TIMELINE CONFIG ===
+            const canvas = document.getElementById("dermaChart");
+            let lineChart = null;
+
+            if (canvas) {
+                lineChart = new Chart(canvas.getContext("2d"), {
+                    type: 'line',
+                    data: {
+                        labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 10', 'Day 14'],
+                        datasets: [{
+                            data: [15, 20, 32, 45, 60, 80],
+                            borderColor: '#7e967a',
+                            backgroundColor: 'rgba(126, 150, 122, 0.08)',
+                            borderWidth: 2,
+                            tension: 0.2,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 9 } } },
+                            y: { grid: { color: '#2d312a' }, ticks: { color: '#9ca3af', font: { size: 9 } } }
+                        }
+                    }
+                });
+            }
+
+            function updateVisualTimeline() {
+                if (!lineChart) return;
+                const activeCount = Array.from(checks).filter(c => c.checked).length;
+                let boost = activeCount > 0 ? activeCount * 8 : 5;
+                lineChart.data.datasets[0].data = [10, 15 + boost, 25 + boost, 40 + boost, 55 + boost, 75 + boost];
+                lineChart.update();
+            }
+
+            const feedbackForm = document.getElementById("feedbackForm");
+            if (feedbackForm) {
+                feedbackForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    document.getElementById("feedbackSuccessMessage").classList.remove("hidden");
+                    feedbackForm.reset();
+                });
             }
         });
     </script>
