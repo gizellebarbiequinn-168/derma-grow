@@ -162,6 +162,26 @@
                     </div>
                 </div>
 
+<div class="content-card" style="border-left: 4px solid var(--brand-accent);">
+    <h3>✨ Confidence Booster</h3>
+    <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted);">
+        "Your skin is a living organ, not a filter. It is doing its best to protect you today."
+    </p>
+    <button onclick="refreshTip()" class="btn-preset" style="margin-top: 10px;">Get Another Reminder</button>
+</div>
+
+<script>
+    function refreshTip() {
+        const tips = [
+            "Your worth is not defined by your texture or tone.",
+            "Consistency matters more than perfection.",
+            "Take a deep breath. Your skin's journey is a marathon, not a sprint.",
+            "You are more than your skin barrier."
+        ];
+        document.getElementById('dailyTip').textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+</script>
+    
                 <div class="content-card">
                     <h2>Help Improve Derma Grow</h2>
                     <p class="text-muted">Spotted a bug or have recommendations? Send us text feedback directly.</p>
