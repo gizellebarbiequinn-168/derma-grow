@@ -625,3 +625,18 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCards("all");
     renderDictionaryList("");
 });
+
+
+
+function refreshTip() {
+    const tips = [
+        "Your worth is not defined by your texture or tone.",
+        "Consistency matters more than perfection.",
+        "Take a deep breath. Your skin's journey is a marathon, not a sprint.",
+        "You are more than your skin barrier."
+    ];
+    const targetElement = document.getElementById('dailyTip');
+    if (targetElement) {
+        targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+}
