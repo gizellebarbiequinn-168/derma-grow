@@ -1,18 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // --- GLOBAL STATE ENGINE ---
-    let userSkinProfile = {
+    // --- GLOBAL STATE ENGINE (Merged Profile) ---
+    let userProfile = {
         baseType: "Normal",     
         reactivity: "Resilient", 
         acneProne: false,
         dehydrated: false,
-        isCalculated: false
-        // Add this to your main script to handle personalized data collection
-const userProfile = {
-    age: null,
-    gender: null,
-    skinTone: null,
-    skinType: null
-};
+        isCalculated: false,
+        // Added Personalized Fields
+        age: null,
+        gender: null,
+        skinTone: null
+    };
+
+    // --- PERSONALIZED QUIZ LOGIC ---
+    window.initPersonalizedQuiz = function() {
+        const quizSection = document.getElementById("quizSection");
+        if (!quizSection) return;
+        
+        quizSection.innerHTML = `
+            <div class="content-card">
+                <h3>Let's Personalize Your Plan</h3>
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <label>Age Range</label>
+                    <select id="userAge" class="form-input-text">
+                        <option value="">Select Age Range</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-40">26-40</option>
+                        <option value="40+">40+</option>
+                    </select>
+                </div>
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <label>Skin Tone</label>
+                    <input type="text" id="userSkinTone" placeholder="e.g., Fair, Medium, Deep..." class="form-input-text">
+                </div>
+                <button onclick="saveProfile()" class="btn-primary" style="width: 100%;">Save & Start Routine</button>
+            </div>
+        `;
+    };
+
+    window.saveProfile = function() {
+        userProfile.age = document.getElementById("userAge").value;
+        userProfile.skinTone = document.getElementById("userSkinTone").value;
+        userProfile.isCalculated = true;
+        alert("Profile saved! Your routine is now being tailored for you.");
+        // Re-run your main calculation after saving
+        calculateSkinTrajectory();
+    };
+
+    // --- NAVIGATION, METRICS, AND EXISTING CORE LOGIC ---
+    // (Keep all your existing navigation functions, calculateSkinTrajectory, etc. here)
+    // Ensure that you call initializeQuizEngine() for the original quiz 
+    // or call initPersonalizedQuiz() if you want to swap it entirely.
+
+    // --- REST OF YOUR ORIGINAL SCRIPT ---
+    // [Keep all your original logic below this point...]
+    
+    // --- FIRST DEPLOYMENT ---
+    calculateSkinTrajectory();
+});
 
 function initPersonalizedQuiz() {
     const quizSection = document.getElementById("quizSection");
