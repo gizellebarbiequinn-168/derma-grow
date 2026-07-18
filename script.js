@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function evaluateQuizResults() {
+         function evaluateQuizResults() {
         const questionBox = document.getElementById('questionBox');
         const resultBox = document.getElementById('quizResultBox');
         if (questionBox) questionBox.classList.add('hidden');
@@ -362,10 +362,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let baseTypes = { Normal: 0, Oily: 0, Dry: 0, Combination: 0 };
         let reactTypes = { Sensitive: 0, Resilient: 0 };
         let acneCount = 0; let dehydCount = 0;
+        let selectedAge = "Teens"; let selectedGender = "Neutral"; let selectedPhoto = "Type III";
 
         quizAnswers.forEach(ans => {
             if (ans.startsWith("base:")) baseTypes[ans.split(":")[1]]++;
             if (ans.startsWith("react:")) reactTypes[ans.split(":")[1]]++;
+            if (ans.startsWith("age:")) selectedAge = ans.split(":")[1];
+            if (ans.startsWith("gender:")) selectedGender = ans.split(":")[1];
+            if (ans.startsWith("photo:")) selectedPhoto = ans.split(":")[1];
             if (ans === "acne:true") acneCount++;
             if (ans === "dehyd:true") dehydCount++;
         });
@@ -377,18 +381,27 @@ document.addEventListener("DOMContentLoaded", () => {
         userSkinProfile.reactivity = determinedReact;
         userSkinProfile.acneProne = acneCount > 0;
         userSkinProfile.dehydrated = dehydCount > 0;
+        userSkinProfile.ageGroup = selectedAge;
+        userSkinProfile.genderProfile = selectedGender;
+        userSkinProfile.phototype = selectedPhoto;
         userSkinProfile.isCalculated = true;
 
-        let typeStr = `${determinedBase} Skin Type`; let descStr = "";
+        let typeStr = `${determinedBase} Profile (${selectedAge} / ${selectedPhoto})`; 
+        let descStr = `Targeting a specialized solution for your assigned profile. `;
 
-        if (determinedReact === "Sensitive") {
-            typeStr = `Sensitive & ${determinedBase} Skin`;
-            descStr = "Your quiz choices point to a highly reactive skin surface. Avoid complicated multi-step layering patterns, physical abrasives, and strong unbuffered acids. Focus entirely on low-pH gentle cleansing and simple hydration options.";
-        } else {
-            if (determinedBase === "Oily") descStr = "Your choices show active surface oil production. Prioritize water-based lightweight hydration elements (like simple humectants or gel lotions) and avoid heavy, thick wax-based formulations.";
-            else if (determinedBase === "Dry") descStr = "Your choices track limited natural surface oil production. Focus on rich moisturizers applied directly to damp skin to prevent environmental moisture loss.";
-            else descStr = "Your skin type is historically well-balanced across oil and moisture levels. Maintain this balance by skipping heavy trend items and shielding daily with basic sunscreen.";
+        if (selectedPhoto.includes("Type V-VI")) {
+            descStr += "⚠️ Darker Phototypes heal with higher rates of Post-Inflammatory Hyperpigmentation (PIH). Avoid popping acne or picking skin surface friction boundaries to bypass dark marks.";
         }
+        if (selectedAge === "Teens" && determinedBase === "Oily") {
+            descStr += " Your profile matches active teenage sebaceous pathways. Do not panic and try to blast it away with heavy drying alcohols; your moisture barrier needs non-comedogenic balancing care.";
+        }
+
+        const titleEl = document.getElementById('skinTypeTitle');
+        const descEl = document.getElementById('skinTypeDescription');
+        if (titleEl) titleEl.textContent = typeStr.toUpperCase();
+        if (descEl) descEl.textContent = descStr;
+    }
+
 
         if (userSkinProfile.dehydrated) descStr += " Note: Your quiz answers also suggest surface dehydration (a lack of bound water in the outer cell layers).";
         
