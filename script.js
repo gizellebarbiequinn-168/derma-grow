@@ -5,8 +5,23 @@ document.addEventListener("DOMContentLoaded", () => {
         reactivity: "Resilient", 
         acneProne: false,
         dehydrated: false,
+        ageGroup: "Teens",
+        genderProfile: "Neutral",
+        phototype: "Type III",
         isCalculated: false
     };
+
+    // Global Currency Engine Map (Covers key regions around the world)
+    const currencyMap = {
+        "IDR": { locale: "id-ID", symbol: "Rp ", maxBudget: 300000, step: 10000 },
+        "USD": { locale: "en-US", symbol: "$", maxBudget: 30, step: 1 },
+        "EUR": { locale: "de-DE", symbol: "€", maxBudget: 30, step: 1 },
+        "GBP": { locale: "en-GB", symbol: "£", maxBudget: 25, step: 1 },
+        "SGD": { locale: "en-SG", symbol: "S$", maxBudget: 40, step: 1 },
+        "AUD": { locale: "en-AU", symbol: "A$", maxBudget: 45, step: 1 }
+    };
+    let currentCurrency = "IDR"; // Default
+
 
     // --- MAIN CORE NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
