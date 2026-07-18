@@ -147,6 +147,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs'];
     let dermaChart = null;
 
+        // Global Multi-Currency Formatting Engine
+    function formatGlobalCurrency(amount, currencyCode) {
+        const config = currencyMap[currencyCode] || { locale: "en-US", symbol: "$" };
+        return new Intl.NumberFormat(config.locale, {
+            style: 'currency',
+            currency: currencyCode,
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
     function calculateSkinTrajectory() {
         if (!budgetSlider) return;
         const budget = parseInt(budgetSlider.value);
