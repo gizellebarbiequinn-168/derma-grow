@@ -157,14 +157,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }).format(amount);
     }
 
-    function calculateSkinTrajectory() {
+        function calculateSkinTrajectory() {
         if (!budgetSlider) return;
+        
         const budget = parseInt(budgetSlider.value);
-        if (budgetValue) budgetValue.textContent = `Rp ${budget.toLocaleString('id-ID')}`;
+        const config = currencyMap[currentCurrency];
+        
+        if (budgetValue) {
+            budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
+        }
 
         if (profileSyncBadge) {
             if (userSkinProfile.isCalculated) {
-                profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()}`;
+                profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()} | ${userSkinProfile.phototype}`;
                 profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
                 profileSyncBadge.style.color = "var(--brand-accent)";
             } else {
@@ -173,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 profileSyncBadge.style.color = "var(--color-text-muted)";
             }
         }
+
 
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
