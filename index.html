@@ -64,11 +64,22 @@
                     </div>
                     <p class="text-muted">Select your budget parameters and available products below to configure your rule-based 14-day starter routine.</p>
                     
+                    <div class="input-group" style="margin-bottom: 1rem;">
+                        <label for="currencySelector" style="font-weight: 600; font-size: 0.85rem;">🌐 Select Global Currency Display:</label>
+                        <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.4rem; font-size: 0.85rem; width: auto; min-width: 120px; background: var(--bg-main);">
+                            <option value="IDR">IDR (Rp)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="SGD">SGD (S$)</option>
+                            <option value="AUD">AUD (A$)</option>
+                        </select>
+                    </div>
+
                     <div class="input-group">
                         <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
                         <input type="range" id="budgetSlider" class="range-slider" min="0" max="300000" step="10000" value="0">
                     </div>
-
                     <div style="margin: 1rem 0 1.5rem 0;">
                         <button type="button" id="starterPackBtn" class="btn-preset">✨ Apply 3-Step Instant Starter Pack</button>
                     </div>
