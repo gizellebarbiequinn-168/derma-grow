@@ -180,6 +180,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
+
+         // Update price calculation inside updateHonestLocalMetrics dynamically:
+        let savingsValue = unsafeHaltedCount * (config.maxBudget * 0.2); 
+        summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)} in unnecessary product costs!`;
+           
+
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
 
