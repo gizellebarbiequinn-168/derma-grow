@@ -630,10 +630,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function refreshTip() {
     const tips = [
-        "Your worth is not defined by your texture or tone.",
-        "Consistency matters more than perfection.",
-        "Take a deep breath. Your skin's journey is a marathon, not a sprint.",
-        "You are more than your skin barrier."
+        "Your skin is a living organ, not a digital filter. It is doing its best to protect you today.",
+        "Consistency matters far more than an expensive 10-step routine.",
+        "Take a deep breath. Your skin's journey is a marathon of healing, not a sprint for perfection.",
+        "You are more than your skin barrier. Texture is human; it is not a flaw.",
+        "Healing is non-linear. A temporary flare-up does not erase the progress your barrier has made.",
+        "Bypassing the marketing hype is a sign of consumer intelligence. Your budget choices are smart choices.",
+        "Your skin protects you from the entire world every single second. Give it grace for doing its job."
     ];
     const targetElement = document.getElementById('dailyTip');
     if (targetElement) {
