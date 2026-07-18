@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     let currentCurrency = "IDR"; // Default
 
-
     // --- MAIN CORE NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
     const navQuiz = document.getElementById('navQuiz');
@@ -83,16 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- TRACK MATRIX SUMMARY METRICS ---
-    function updateHonestLocalMetrics(state, finalScore) {
+    function updateHonestLocalMetrics(state, finalScore, unsafeHaltedCount) {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
         const summaryLabel = document.getElementById('impactSummaryText');
+        const config = currencyMap[currentCurrency];
 
-        let unsafeHaltedCount = 0;
-        if (state['chk-lemon']) unsafeHaltedCount++;
-        if (state['chk-scrubs']) unsafeHaltedCount++;
-        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
-        
         if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
 
         const baselineDefaultScore = 50;
@@ -101,7 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (summaryLabel) {
             if (unsafeHaltedCount > 0) {
-                summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in unnecessary product costs!`;
+                let savingsValue = unsafeHaltedCount * (config.maxBudget * 0.2); 
+                summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)} in unnecessary product costs!`;
             } else if (finalScore >= 85) {
                 summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine layout is complete. Keep up the daily consistency!`;
             } else {
@@ -147,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs'];
     let dermaChart = null;
 
-        // Global Multi-Currency Formatting Engine
+    // Global Multi-Currency Formatting Engine
     function formatGlobalCurrency(amount, currencyCode) {
         const config = currencyMap[currencyCode] || { locale: "en-US", symbol: "$" };
         return new Intl.NumberFormat(config.locale, {
@@ -157,11 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }).format(amount);
     }
 
-        function calculateSkinTrajectory() {
+    function calculateSkinTrajectory() {
         if (!budgetSlider) return;
         
         const budget = parseInt(budgetSlider.value);
-        const config = currencyMap[currentCurrency];
         
         if (budgetValue) {
             budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
@@ -179,15 +174,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-
-
-         // Update price calculation inside updateHonestLocalMetrics dynamically:
-        let savingsValue = unsafeHaltedCount * (config.maxBudget * 0.2); 
-        summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)} in unnecessary product costs!`;
-           
-
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
+
+        let unsafeHaltedCount = 0;
+        if (state['chk-lemon']) unsafeHaltedCount++;
+        if (state['chk-scrubs']) unsafeHaltedCount++;
+        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
 
         const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
         let metrics = [50, 50, 50, 50, 50, 50, 50];
@@ -261,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
         renderVisualThresholdChart(labels, metrics);
-        updateHonestLocalMetrics(state, currentEvaluatedScore);
+        updateHonestLocalMetrics(state, currentEvaluatedScore, unsafeHaltedCount);
     }
 
     function renderVisualThresholdChart(labels, metrics) {
@@ -295,7 +288,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (chkSunscreen) chkSunscreen.checked = true;
             
             if (budgetSlider) {
-                budgetSlider.value = 150000; 
+                const config = currencyMap[currentCurrency];
+                budgetSlider.value = Math.floor(config.maxBudget / 2); 
                 budgetSlider.dispatchEvent(new Event('input')); 
             }
             calculateSkinTrajectory();
@@ -304,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-        // --- ADVANCED DIAGNOSTIC SKIN ENGINE ---
+    // --- ADVANCED DIAGNOSTIC SKIN ENGINE ---
     const quizData = [
         { q: "1. Biological Age Group: Sebum and cellular cycles change dramatically across ages. What is your age category?", a: [ { text: "Teens (High hormonal sebum shifts)", type: "age:Teens" }, { text: "20s - 30s (Baseline skin turnover)", type: "age:Adult" }, { text: "40s+ (Slower lipid barrier synthesis)", type: "age:Mature" } ] },
         { q: "2. Gender Expression / Hormonal Identity: Topical product preferences and testosterone-driven skin thickness profiles vary. Select your profile:", a: [ { text: "Masculine (Typically thicker skin, higher active sebaceous counts)", type: "gender:Masculine" }, { text: "Feminine (Hormonally fluid barriers across monthly cycles)", type: "gender:Feminine" }, { text: "Neutral / Prefer Not to Say", type: "gender:Neutral" } ] },
@@ -353,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-         function evaluateQuizResults() {
+    function evaluateQuizResults() {
         const questionBox = document.getElementById('questionBox');
         const resultBox = document.getElementById('quizResultBox');
         if (questionBox) questionBox.classList.add('hidden');
@@ -395,15 +389,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectedAge === "Teens" && determinedBase === "Oily") {
             descStr += " Your profile matches active teenage sebaceous pathways. Do not panic and try to blast it away with heavy drying alcohols; your moisture barrier needs non-comedogenic balancing care.";
         }
-
-        const titleEl = document.getElementById('skinTypeTitle');
-        const descEl = document.getElementById('skinTypeDescription');
-        if (titleEl) titleEl.textContent = typeStr.toUpperCase();
-        if (descEl) descEl.textContent = descStr;
-    }
-
-
-        if (userSkinProfile.dehydrated) descStr += " Note: Your quiz answers also suggest surface dehydration (a lack of bound water in the outer cell layers).";
+        if (userSkinProfile.dehydrated) {
+            descStr += " Note: Your quiz answers also suggest surface dehydration (a lack of bound water in the outer cell layers).";
+        }
         
         const titleEl = document.getElementById('skinTypeTitle');
         const descEl = document.getElementById('skinTypeDescription');
@@ -456,7 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCards(btn.getAttribute('data-category'));
     }));
 
-     // --- GLOBAL BUDGET PEER RECOMMENDATIONS REGISTRY ---
+    // --- GLOBAL BUDGET PEER RECOMMENDATIONS REGISTRY ---
     const peerRegistryDatabase = [
         { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000 / $3", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate", usage: "Pour onto cotton pad, wipe skin surface gently.", definition: "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents." },
         { id: 2, skinType: "Dry", product: "The Ordinary Natural Moisturizing Factors", cost: "Rp 120.000 / $8", ingredients: "Caprylic Triglyceride, Amino Acids, Ceramides, Hyaluronic Acid", usage: "Apply a pea-sized dot over damp skin right after rinsing.", definition: "A dense, clean barrier matching compound setup to resolve cellular skin flaking without adding external fragrances." },
@@ -467,7 +455,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 7, skinType: "Sensitive", product: "La Roche-Posay Cicaplast Baume B5+", cost: "$19 / Rp 280.000", ingredients: "5% Panthenol (Vitamin B5), Madecassoside, Zinc, Manganese", usage: "Layer over uncomfortably raw, flaky, or red zones before bed.", definition: "The global gold-standard heavy emergency cream designed to soothe skin inflammation zones and bind moisture immediately." },
         { id: 8, skinType: "Normal", product: "Cosrx Advanced Snail 96 Mucin Power Essence", cost: "$17 / Rp 250.000", ingredients: "96.3% Snail Secretion Filtrate, Sodium Hyaluronate, Allantoin", usage: "Pat across damp surface fields right before lock-in moisturizers.", definition: "Gelatinous moisture network providing deep, weightless hydration to keep healthy barriers beautifully elastic and smooth." }
     ];
-   
 
     const peerRegistryGrid = document.getElementById('peerRegistryGrid');
     const peerFilterBtns = document.querySelectorAll('.peer-filter-btn');
@@ -543,10 +530,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- HIGHLY EFFICIENT DATA MATRIX DICTIONARY (EXACTLY 68 WORDS) ---
+    // --- HIGHLY EFFICIENT DATA MATRIX DICTIONARY ---
     const categories = ["Active Component", "Product Function", "Anatomy", "Biology"];
-    
-    // Matrix Blueprint format: [Term, CategoryIndex, Definition, ProTip]
     const matrix = [
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
         ["Niacinamide", 0, "Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.", "Mixes smoothly with most actives without causing flares."],
@@ -621,12 +606,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
     const dictionarySearchInput = document.getElementById('dictionarySearchInput');
 
-    // Super efficient index loop rendering
     function renderDictionaryList(searchTerm = "") {
         if (!dictionaryListContainer) return;
         const cleanSearch = searchTerm.toLowerCase().trim();
         
-        // Highly optimized matching loop across array slots
         const filtered = matrix.filter(row => 
             row[0].toLowerCase().includes(cleanSearch) || 
             row[2].toLowerCase().includes(cleanSearch) ||
@@ -669,10 +652,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- bathroom PRINT SERVICE ---
+    // --- BATHROOM PRINT SERVICE ---
     const printRoutineBtn = document.getElementById('printRoutineBtn');
     if (printRoutineBtn) {
         printRoutineBtn.addEventListener('click', () => { window.print(); });
+    }
+
+    // --- MULTI-CURRENCY DYNAMIC SWITCH EVENT ---
+    const currencySelector = document.getElementById('currencySelector');
+    if (currencySelector && budgetSlider) {
+        currencySelector.addEventListener('change', (e) => {
+            currentCurrency = e.target.value;
+            const config = currencyMap[currentCurrency];
+            
+            budgetSlider.max = config.maxBudget;
+            budgetSlider.step = config.step;
+            budgetSlider.value = Math.floor(config.maxBudget / 2);
+            
+            calculateSkinTrajectory();
+        });
     }
 
     // --- FIRST DEPLOYMENT PAINT SEQUENCE ---
@@ -681,8 +679,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDictionaryList("");
 });
 
-
-
+// --- GLOBAL ACCESS FOR INLINE HTML ONCLICK HANDLERS ---
 function refreshTip() {
     const tips = [
         "Your skin is a living organ, not a digital filter. It is doing its best to protect you today.",
