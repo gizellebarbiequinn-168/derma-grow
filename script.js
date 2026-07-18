@@ -682,13 +682,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- GLOBAL ACCESS FOR INLINE HTML ONCLICK HANDLERS ---
 function refreshTip() {
     const tips = [
-        "Your skin is a living organ, not a digital filter. It is doing its best to protect you today.",
-        "Consistency matters far more than an expensive 10-step routine.",
-        "Take a deep breath. Your skin's journey is a marathon of healing, not a sprint for perfection.",
-        "You are more than your skin barrier. Texture is human; it is not a flaw.",
-        "Healing is non-linear. A temporary flare-up does not erase the progress your barrier has made.",
-        "Bypassing the marketing hype is a sign of consumer intelligence. Your budget choices are smart choices.",
-        "Your skin protects you from the entire world every single second. Give it grace for doing its job."
+        "Your skin is a complex, living shield protecting you from the entire world, not a flat digital filter. Give it grace.",
+        "Consistency with safe, affordable elements outperforms an expensive, unstable 10-step luxury routine every single time.",
+        "Skin healing is completely non-linear. An unexpected flare-up doesn't erase the deep progress your cellular barrier has made.",
+        "Texture is entirely human—pores, bumps, and variance are physiological realities, not aesthetic structural flaws.",
+        "Bypassing aggressive social media marketing hype is a sign of high logical intelligence. Your budget routine is brilliant science.",
+        "Your skin protects you every second of the day. Treat it with structural kindness rather than punishing it with harsh trends.",
+        "Your worth as an innovator, a student, and a human being remains entirely independent of your topical skin barrier state."
     ];
     const targetElement = document.getElementById('dailyTip');
     if (targetElement) {
