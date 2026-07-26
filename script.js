@@ -1,3 +1,11 @@
+// Safe Supabase Initialization
+let supabase = null;
+if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} else {
+    console.warn("Supabase SDK not loaded. App running in offline mode.");
+}
+
 // --- AUTO-FETCH PROFILE FROM SUPABASE ON LOAD ---
 async function loadSavedProfileFromCloud() {
     try {
