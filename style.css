@@ -16,19 +16,6 @@
     --shadow-subtle: 0 4px 20px rgba(74, 85, 72, 0.04);
 }
 
-/* Universal Form & Select Fix for Light & Dark Mode */
-select, .form-input-text {
-    color: var(--color-text-main, #222222) !important;
-    background-color: var(--bg-main, #ffffff) !important;
-    border: 1px solid var(--border-subtle, #cccccc);
-}
-
-/* Fix option colors when dropdown opens */
-select option {
-    background-color: var(--bg-main, #ffffff);
-    color: var(--color-text-main, #222222);
-}
-
 /* DARK MODE COLOR MAP VARIABLES */
 [data-theme="dark"] {
     --bg-main: #181a18;
@@ -39,17 +26,6 @@ select option {
     --brand-secondary: #cbd3cb;
     --border-subtle: #323732;
     --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Fix invisible dropdown text */
-select, .form-input-text {
-    color: #ffffff !important;
-    background-color: var(--bg-main);
-}
-
-select option {
-    background-color: #222222;
-    color: #ffffff;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -145,19 +121,6 @@ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4
 .routine-block h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
 .routine-list { list-style-position: inside; font-size: 0.85rem; }
 .routine-list li { margin-bottom: 0.35rem; }
-
-/* Force Chart Container Dimensions */
-.chart-container {
-    position: relative;
-    width: 100%;
-    height: 250px; /* Gives the canvas explicit height to render */
-    min-height: 250px;
-}
-
-#dermaChart {
-    width: 100% !important;
-    height: 100% !important;
-}
 
 /* QUIZ STACK PACKS */
 .quiz-container { max-width: 600px; margin: 0 auto; }
