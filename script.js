@@ -166,6 +166,33 @@ document.addEventListener("DOMContentLoaded", () => {
             budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
         }
 
+        async function syncRoutineToCloud(routineData) {
+            const { data, error } = await supabase
+                .from('user_routines')
+                .upsert([ routineData ]);
+                
+            if (!error && profileSyncBadge) {
+                profileSyncBadge.textContent = "Synced: Cloud Saved";
+                profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
+                profileSyncBadge.style.color = "var(--brand-accent)";
+            }
+        }
+
+        if (profileSyncBadge) {
+            if (userSkinProfile.isCalculated) {
+                profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()} | ${userSkinProfile.phototype}`;
+                profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
+                profileSyncBadge.style.color = "var(--brand-accent)";
+            } else {
+                profileSyncBadge.textContent = "Profile: Unlinked";
+                profileSyncBadge.style.backgroundColor = "var(--border-subtle)";
+                profileSyncBadge.style.color = "var(--color-text-muted)";
+            }
+        }
+
+        const state = {};
+        selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
+
         if (profileSyncBadge) {
             if (userSkinProfile.isCalculated) {
                 profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()} | ${userSkinProfile.phototype}`;
