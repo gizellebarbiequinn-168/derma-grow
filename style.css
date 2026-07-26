@@ -16,6 +16,19 @@
     --shadow-subtle: 0 4px 20px rgba(74, 85, 72, 0.04);
 }
 
+/* Universal Form & Select Fix for Light & Dark Mode */
+select, .form-input-text {
+    color: var(--color-text-main, #222222) !important;
+    background-color: var(--bg-main, #ffffff) !important;
+    border: 1px solid var(--border-subtle, #cccccc);
+}
+
+/* Fix option colors when dropdown opens */
+select option {
+    background-color: var(--bg-main, #ffffff);
+    color: var(--color-text-main, #222222);
+}
+
 /* DARK MODE COLOR MAP VARIABLES */
 [data-theme="dark"] {
     --bg-main: #181a18;
