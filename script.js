@@ -544,21 +544,59 @@ saveQuizToCloud();
             const enteredUsage = document.getElementById('peerUsage').value;
             const enteredNotes = document.getElementById('peerNotes').value;
 
-            fetch(peerContributionForm.action, {
-                method: peerContributionForm.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                if (response.ok) {
-                    peerRegistryDatabase.unshift({
-                        id: Date.now(),
-                        skinType: selectedSkin,
-                        product: enteredProd,
-                        cost: enteredPrice,
-                        ingredients: enteredIngredients,
-                        usage: enteredUsage,
-                        definition: enteredNotes
-                    });
+                peerContributionForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const responseAlert = document.getElementById('peerSuccessMessage');
+        
+        const selectedSkin = document.getElementById('peerSkinType').value;
+        const enteredProd = document.getElementById('peerProdName').value;
+        const enteredPrice = document.getElementById('peerPrice').value;
+        const enteredIngredients = document.getElementById('peerIngredients').value;
+        const enteredUsage = document.getElementById('peerUsage').value;
+        const enteredNotes = document.getElementById('peerNotes').value;
+
+        // 1. Prepare data object for Supabase
+        const newEntry = {
+            skin_type: selectedSkin,
+            product_name: enteredProd,
+            cost: enteredPrice,
+            ingredients: enteredIngredients,
+            usage: enteredUsage,
+            notes: enteredNotes
+        };
+
+        // 2. Insert into Supabase 'shared_directory' table
+        const { data, error } = await supabase
+            .from('shared_directory')
+            .insert([newEntry]);
+
+        if (!error) {
+            // Update local array so it renders immediately on screen
+            peerRegistryDatabase.unshift({
+                id: Date.now(),
+                skinType: selectedSkin,
+                product: enteredProd,
+                cost: enteredPrice,
+                ingredients: enteredIngredients,
+                usage: enteredUsage,
+                definition: enteredNotes
+            });
+
+            renderPeerRegistry("all");
+            peerFilterBtns.forEach(b => b.classList.remove('active'));
+            if (peerFilterBtns[0]) peerFilterBtns[0].classList.add('active');
+            peerContributionForm.reset();
+
+            if (responseAlert) {
+                responseAlert.classList.remove('hidden');
+                setTimeout(() => responseAlert.classList.add('hidden'), 5000);
+            }
+        } else {
+            console.error('Supabase Error:', error);
+            alert("Database sync error. Please try again.");
+        }
+    });
+
                     renderPeerRegistry("all");
                     peerFilterBtns.forEach(b => b.classList.remove('active'));
                     if (peerFilterBtns[0]) peerFilterBtns[0].classList.add('active');
