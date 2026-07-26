@@ -162,13 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
             budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
         }
 
-        // --- SAVE TO LOCAL STORAGE (Persists on refresh or close) ---
-localStorage.setItem('dermaGrowRoutine', JSON.stringify({
-    budget: budget,
-    checkboxes: state,
-    profile: userSkinProfile
-}));
-
         if (profileSyncBadge) {
             if (userSkinProfile.isCalculated) {
                 profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()} | ${userSkinProfile.phototype}`;
@@ -270,28 +263,14 @@ localStorage.setItem('dermaGrowRoutine', JSON.stringify({
         const ctx = chartCanvas.getContext('2d');
         if (dermaChart) { dermaChart.destroy(); }
         dermaChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels,
-        datasets: [{ 
-            label: 'Habit Track (%)', 
-            data: metrics, 
-            borderColor: '#c49a45', /* Vibrant accent color visible on both themes */
-            backgroundColor: 'rgba(196, 154, 69, 0.2)',
-            borderWidth: 3, 
-            pointBackgroundColor: '#c49a45', 
-            tension: 0.2, 
-            fill: true 
-        }]
-    },
-    options: { 
-        responsive: true, 
-        maintainAspectRatio: false, 
-        scales: { 
-            y: { beginAtZero: true, max: 100 } 
-        } 
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{ label: 'Illustrative Habit Track (%)', data: metrics, borderColor: '#4A5548', borderWidth: 2.5, pointBackgroundColor: '#D4AF37', tension: 0.1, fill: false }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+        });
     }
-});
 
     if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
     selectors.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calculateSkinTrajectory); });
@@ -716,98 +695,3 @@ function refreshTip() {
         targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
     }
 }
-// --- STANDALONE CLOUD SYNC MODULE ---
-(function () {
-    const SUPABASE_URL = "https://jptovymxzysuogbkmduf.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdG92eW14enlzdW9nYmttZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMjUxNzcsImV4cCI6MjEwMDYwMTE3N30.PMuarfeVvwxA0nPBo9wbmr1BUq2DfyyqnV-OkwMwMOo";
-
-    let supabaseClient = null;
-
-    // 1. Initialize client
-    function getClient() {
-        if (!supabaseClient && window.supabase && typeof window.supabase.createClient === 'function') {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        }
-        return supabaseClient;
-    }
-
-    // 2. Visual Badge Updater
-    function updateSyncUI(status, message) {
-        const badge = document.getElementById('profileSyncBadge');
-        if (!badge) return;
-
-        if (status === 'syncing') {
-            badge.textContent = "⏳ Syncing to Cloud...";
-            badge.style.backgroundColor = "rgba(234, 179, 8, 0.2)";
-            badge.style.color = "#d97706";
-        } else if (status === 'success') {
-            badge.textContent = `✅ Synced to Cloud (${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`;
-            badge.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
-            badge.style.color = "#15803d";
-        } else if (status === 'error') {
-            badge.textContent = "⚠️ Cloud Offline (Saved Locally)";
-            badge.style.backgroundColor = "rgba(239, 68, 68, 0.2)";
-            badge.style.color = "#b91c1c";
-        }
-    }
-
-    // 3. One Universal Sync Function
-    window.pushToCloud = async function (tableName, payload) {
-        updateSyncUI('syncing');
-        const client = getClient();
-
-        if (!client) {
-            console.warn("Supabase CDN not detected.");
-            updateSyncUI('error');
-            return;
-        }
-
-        try {
-            const { error } = await client.from(tableName).insert([payload]);
-            if (error) throw error;
-            updateSyncUI('success');
-        } catch (err) {
-            console.error("Cloud Push Failed:", err);
-            updateSyncUI('error');
-        }
-    };
-})();
-
-// --- AUTO-LOAD SAVED DATA ON PAGE LOAD ---
-function loadSavedRoutine() {
-    const savedData = localStorage.getItem('dermaGrowRoutine');
-    if (!savedData) return;
-
-    try {
-        const parsed = JSON.parse(savedData);
-        
-        // Restore budget slider
-        if (parsed.budget && budgetSlider) {
-            budgetSlider.value = parsed.budget;
-        }
-
-        // Restore checked boxes
-        if (parsed.checkboxes) {
-            Object.keys(parsed.checkboxes).forEach(id => {
-                const checkbox = document.getElementById(id);
-                if (checkbox) {
-                    checkbox.checked = parsed.checkboxes[id];
-                }
-            });
-        }
-
-        // Update the badge status visually
-        const badge = document.getElementById('profileSyncBadge');
-        if (badge) {
-            badge.textContent = "Saved Locally";
-            badge.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
-            badge.style.color = "#15803d";
-        }
-    } catch (e) {
-        console.warn("Error loading saved routine:", e);
-    }
-}
-
-// Run the loader immediately when page opens
-loadSavedRoutine();
-
