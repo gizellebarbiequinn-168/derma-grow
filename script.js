@@ -162,6 +162,13 @@ document.addEventListener("DOMContentLoaded", () => {
             budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
         }
 
+        // --- SAVE TO LOCAL STORAGE (Persists on refresh or close) ---
+localStorage.setItem('dermaGrowRoutine', JSON.stringify({
+    budget: budget,
+    checkboxes: state,
+    profile: userSkinProfile
+}));
+
         if (profileSyncBadge) {
             if (userSkinProfile.isCalculated) {
                 profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()} | ${userSkinProfile.phototype}`;
