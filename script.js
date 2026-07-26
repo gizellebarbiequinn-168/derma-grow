@@ -1,18 +1,23 @@
+// --- 1. CREDENTIALS & SAFE CLIENT INIT ---
 const SUPABASE_URL = "https://jptovymxzysuogbkmduf.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdG92eW14enlzdW9nYmttZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMjUxNzcsImV4cCI6MjEwMDYwMTE3N30.PMuarfeVvwxA0nPBo9wbmr1BUq2DfyyqnV-OkwMwMOo";
 
-// Safe Supabase Client Initialization
 let supabase = null;
 try {
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
+    if (typeof window !== "undefined" && window.supabase && typeof window.supabase.createClient === "function") {
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log("Supabase client initialized successfully.");
+    } else {
+        console.warn("Supabase CDN not ready. Running in offline mode.");
     }
 } catch (err) {
-    console.warn("Supabase init deferred:", err);
+    console.warn("Supabase initialization error caught safely:", err);
 }
 
+// --- 2. MAIN APPLICATION CODE ---
 document.addEventListener("DOMContentLoaded", () => {
-    // --- GLOBAL STATE ENGINE ---
+
+    // --- GLOBAL STATE ---
     let userSkinProfile = {
         baseType: "Normal",     
         reactivity: "Resilient", 
@@ -98,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
         const summaryLabel = document.getElementById('impactSummaryText');
-        const config = currencyMap[currentCurrency];
+        const config = currencyMap[currentCurrency] || currencyMap["IDR"];
 
         if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
 
@@ -174,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 profileSyncBadge.style.color = "var(--brand-accent)";
             }
         } catch(e) {
-            console.warn("Cloud sync skipped:", e);
+            console.warn("Cloud sync skipped silently:", e);
         }
     }
 
@@ -293,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
             });
         } catch(e) {
-            console.warn("Chart render skipped:", e);
+            console.warn("Chart render skipped safely:", e);
         }
     }
 
@@ -313,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (chkSunscreen) chkSunscreen.checked = true;
             
             if (budgetSlider) {
-                const config = currencyMap[currentCurrency];
+                const config = currencyMap[currentCurrency] || currencyMap["IDR"];
                 budgetSlider.value = Math.floor(config.maxBudget / 2); 
                 budgetSlider.dispatchEvent(new Event('input')); 
             }
@@ -611,7 +616,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currencySelector && budgetSlider) {
         currencySelector.addEventListener('change', (e) => {
             currentCurrency = e.target.value;
-            const config = currencyMap[currentCurrency];
+            const config = currencyMap[currentCurrency] || currencyMap["IDR"];
             budgetSlider.max = config.maxBudget;
             budgetSlider.step = config.step;
             budgetSlider.value = Math.floor(config.maxBudget / 2);
@@ -652,7 +657,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSavedProfileFromCloud();
 });
 
-// Inline helper
+// Helper for tips
 function refreshTip() {
     const tips = [
         "Your skin is a living shield protecting you from the world. Give it grace.",
