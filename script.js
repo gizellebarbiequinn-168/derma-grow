@@ -758,3 +758,42 @@ function refreshTip() {
         }
     };
 })();
+
+// --- AUTO-LOAD SAVED DATA ON PAGE LOAD ---
+function loadSavedRoutine() {
+    const savedData = localStorage.getItem('dermaGrowRoutine');
+    if (!savedData) return;
+
+    try {
+        const parsed = JSON.parse(savedData);
+        
+        // Restore budget slider
+        if (parsed.budget && budgetSlider) {
+            budgetSlider.value = parsed.budget;
+        }
+
+        // Restore checked boxes
+        if (parsed.checkboxes) {
+            Object.keys(parsed.checkboxes).forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (checkbox) {
+                    checkbox.checked = parsed.checkboxes[id];
+                }
+            });
+        }
+
+        // Update the badge status visually
+        const badge = document.getElementById('profileSyncBadge');
+        if (badge) {
+            badge.textContent = "Saved Locally";
+            badge.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
+            badge.style.color = "#15803d";
+        }
+    } catch (e) {
+        console.warn("Error loading saved routine:", e);
+    }
+}
+
+// Run the loader immediately when page opens
+loadSavedRoutine();
+
