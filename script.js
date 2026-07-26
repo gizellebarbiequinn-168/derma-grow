@@ -726,3 +726,11 @@ function refreshTip() {
         targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
     }
 }
+
+syncRoutineToCloud({
+            budget_selected: budget,
+            active_checkboxes: state,
+            evaluated_score: currentEvaluatedScore,
+            updated_at: new Date()
+        });
+    }
