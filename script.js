@@ -1,4 +1,23 @@
-// --- 1. CREDENTIALS & SAFE CLIENT INIT ---
+// --- 1. GLOBALLY ACCESSIBLE HELPERS ---
+function refreshTip() {
+    const tips = [
+        "Your skin is a living shield protecting you from the world. Give it grace.",
+        "Consistency with safe elements outperforms a 10-step luxury routine.",
+        "Skin healing is non-linear. An unexpected flare-up doesn't erase progress.",
+        "Your worth is not defined by your texture or tone."
+    ];
+    const targetElement = document.getElementById('dailyTip');
+    if (targetElement) {
+        targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+}
+
+// Ensure refreshTip is attached to the window scope explicitly
+if (typeof window !== "undefined") {
+    window.refreshTip = refreshTip;
+}
+
+// --- 2. CREDENTIALS & SAFE CLIENT INIT ---
 const SUPABASE_URL = "https://jptovymxzysuogbkmduf.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdG92eW14enlzdW9nYmttZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMjUxNzcsImV4cCI6MjEwMDYwMTE3N30.PMuarfeVvwxA0nPBo9wbmr1BUq2DfyyqnV-OkwMwMOo";
 
@@ -14,7 +33,7 @@ try {
     console.warn("Supabase initialization error caught safely:", err);
 }
 
-// --- 2. MAIN APPLICATION CODE ---
+// --- 3. MAIN APPLICATION CODE ---
 document.addEventListener("DOMContentLoaded", () => {
 
     // --- GLOBAL STATE ---
@@ -656,16 +675,3 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDictionaryList("");
     loadSavedProfileFromCloud();
 });
-
-// Helper for tips
-function refreshTip() {
-    const tips = [
-        "Your skin is a living shield protecting you from the world. Give it grace.",
-        "Consistency with safe elements outperforms a 10-step luxury routine.",
-        "Skin healing is non-linear. An unexpected flare-up doesn't erase progress."
-    ];
-    const targetElement = document.getElementById('dailyTip');
-    if (targetElement) {
-        targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
-    }
-}
