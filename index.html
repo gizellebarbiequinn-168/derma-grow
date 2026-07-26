@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derma Grow</title>
-    
-    <!-- 1. Supabase Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- 2. Chart.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>Derma Grow — Evidence-Based Budget Skincare</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -70,22 +64,11 @@
                     </div>
                     <p class="text-muted">Select your budget parameters and available products below to configure your rule-based 14-day starter routine.</p>
                     
-                    <div class="input-group" style="margin-bottom: 1rem;">
-                        <label for="currencySelector" style="font-weight: 600; font-size: 0.85rem;">🌐 Select Global Currency Display:</label>
-                        <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.4rem; font-size: 0.85rem; width: auto; min-width: 120px; background: var(--bg-main);">
-                            <option value="IDR">IDR (Rp)</option>
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="GBP">GBP (£)</option>
-                            <option value="SGD">SGD (S$)</option>
-                            <option value="AUD">AUD (A$)</option>
-                        </select>
-                    </div>
-
                     <div class="input-group">
                         <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
                         <input type="range" id="budgetSlider" class="range-slider" min="0" max="300000" step="10000" value="0">
                     </div>
+
                     <div style="margin: 1rem 0 1.5rem 0;">
                         <button type="button" id="starterPackBtn" class="btn-preset">✨ Apply 3-Step Instant Starter Pack</button>
                     </div>
@@ -179,14 +162,26 @@
                     </div>
                 </div>
 
-                <div class="content-card" style="border-left: 4px solid var(--brand-accent);">
-                    <h3>✨ Confidence Booster</h3>
-                    <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted);">
-                        "Your skin is a living organ, not a filter. It is doing its best to protect you today."
-                    </p>
-                    <button onclick="refreshTip()" class="btn-preset" style="margin-top: 10px;">Get Another Reminder</button>
-                </div>
+<div class="content-card" style="border-left: 4px solid var(--brand-accent);">
+    <h3>✨ Confidence Booster</h3>
+    <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted);">
+        "Your skin is a living organ, not a filter. It is doing its best to protect you today."
+    </p>
+    <button onclick="refreshTip()" class="btn-preset" style="margin-top: 10px;">Get Another Reminder</button>
+</div>
 
+<script>
+    function refreshTip() {
+        const tips = [
+            "Your worth is not defined by your texture or tone.",
+            "Consistency matters more than perfection.",
+            "Take a deep breath. Your skin's journey is a marathon, not a sprint.",
+            "You are more than your skin barrier."
+        ];
+        document.getElementById('dailyTip').textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+</script>
+    
                 <div class="content-card">
                     <h2>Help Improve Derma Grow</h2>
                     <p class="text-muted">Spotted a bug or have recommendations? Send us text feedback directly.</p>
@@ -331,22 +326,13 @@
             </div>
         </section>
         
-        <footer style="text-align: center; padding: 2rem; color: var(--color-text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-subtle); margin-top: 2rem;">
-            <p>&copy; 2026 Derma Grow. All rights reserved.</p>
-            <p>Empowering skin confidence through science.</p>
-        </footer>
+     <footer style="text-align: center; padding: 2rem; color: var(--color-text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-subtle); margin-top: 2rem;">
+    <p>&copy; 2026 Derma Grow. All rights reserved.</p>
+    <p>Empowering skin confidence through science.</p>
+</footer>
 
     </div>
 
-   <!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Supabase CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- Your main JS file -->
-<script src="script.js" defer></script>
- 
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
