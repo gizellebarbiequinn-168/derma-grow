@@ -1,45 +1,15 @@
-// Safe Supabase Initialization
-let supabase = null;
-if (window.supabase && typeof window.supabase.createClient === 'function') {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-} else {
-    console.warn("Supabase SDK not loaded. App running in offline mode.");
-}
-
-// --- AUTO-FETCH PROFILE FROM SUPABASE ON LOAD ---
-async function loadSavedProfileFromCloud() {
-    try {
-        const { data, error } = await supabase
-            .from('user_profiles')
-            .select('*')
-            .order('created_at', { ascending: false })
-            .limit(1);
-
-        if (data && data.length > 0) {
-            const latest = data[0];
-            userSkinProfile.baseType = latest.base_type || "Normal";
-            userSkinProfile.reactivity = latest.reactivity || "Resilient";
-            userSkinProfile.acneProne = latest.acne_prone || false;
-            userSkinProfile.dehydrated = latest.dehydrated || false;
-            userSkinProfile.phototype = latest.phototype || "Type III";
-            userSkinProfile.isCalculated = true;
-
-            // Trigger trajectory calculation to update the "PROFILE: UNLINKED" badge immediately
-            calculateSkinTrajectory();
-        }
-    } catch (err) {
-        console.warn("Could not auto-fetch cloud profile:", err);
-    }
-}
-
-// Call auto-fetch immediately
-loadSavedProfileFromCloud();
-
 const SUPABASE_URL = "https://jptovymxzysuogbkmduf.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdG92eW14enlzdW9nYmttZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMjUxNzcsImV4cCI6MjEwMDYwMTE3N30.PMuarfeVvwxA0nPBo9wbmr1BUq2DfyyqnV-OkwMwMOo";
 
-// Initialize Supabase Client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Safe Supabase Client Initialization
+let supabase = null;
+try {
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+} catch (err) {
+    console.warn("Supabase init deferred:", err);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     // --- GLOBAL STATE ENGINE ---
@@ -54,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
         isCalculated: false
     };
 
-    // Global Currency Engine Map
     const currencyMap = {
         "IDR": { locale: "id-ID", symbol: "Rp ", maxBudget: 300000, step: 10000 },
         "USD": { locale: "en-US", symbol: "$", maxBudget: 30, step: 1 },
@@ -65,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     let currentCurrency = "IDR"; 
 
-    // --- MAIN CORE NAVIGATION ROUTING ---
+    // --- NAVIGATION CONTROLLERS ---
     const navDashboard = document.getElementById('navDashboard');
     const navQuiz = document.getElementById('navQuiz');
     const navLearn = document.getElementById('navLearn');
@@ -196,14 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function syncRoutineToCloud(routineData) {
-        const { data, error } = await supabase
-            .from('user_routines')
-            .insert([ routineData ]);
-            
-        if (!error && profileSyncBadge) {
-            profileSyncBadge.textContent = "Synced: Cloud Saved";
-            profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
-            profileSyncBadge.style.color = "var(--brand-accent)";
+        if (!supabase) return;
+        try {
+            const { error } = await supabase.from('user_routines').insert([ routineData ]);
+            if (!error && profileSyncBadge) {
+                profileSyncBadge.textContent = "Synced: Cloud Saved";
+                profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
+                profileSyncBadge.style.color = "var(--brand-accent)";
+            }
+        } catch(e) {
+            console.warn("Cloud sync skipped:", e);
         }
     }
 
@@ -298,7 +269,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderVisualThresholdChart(labels, metrics);
         updateHonestLocalMetrics(state, currentEvaluatedScore, unsafeHaltedCount);
 
-        // Sync to Supabase
         syncRoutineToCloud({
             budget_selected: budget,
             active_checkboxes: state,
@@ -309,17 +279,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderVisualThresholdChart(labels, metrics) {
         const chartCanvas = document.getElementById('dermaChart');
-        if (!chartCanvas) return;
-        const ctx = chartCanvas.getContext('2d');
-        if (dermaChart) { dermaChart.destroy(); }
-        dermaChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{ label: 'Habit Track (%)', data: metrics, borderColor: '#4A5548', borderWidth: 2.5, pointBackgroundColor: '#D4AF37', tension: 0.1, fill: false }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
-        });
+        if (!chartCanvas || typeof Chart === 'undefined') return;
+        
+        try {
+            const ctx = chartCanvas.getContext('2d');
+            if (dermaChart) { dermaChart.destroy(); }
+            dermaChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Habit Track (%)', data: metrics, borderColor: '#4A5548', borderWidth: 2.5, pointBackgroundColor: '#D4AF37', tension: 0.1, fill: false }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+            });
+        } catch(e) {
+            console.warn("Chart render skipped:", e);
+        }
     }
 
     if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
@@ -430,13 +405,17 @@ document.addEventListener("DOMContentLoaded", () => {
         userSkinProfile.phototype = selectedPhoto;
         userSkinProfile.isCalculated = true;
 
-        await supabase.from('user_profiles').insert([{
-            base_type: userSkinProfile.baseType,
-            reactivity: userSkinProfile.reactivity,
-            acne_prone: userSkinProfile.acneProne,
-            dehydrated: userSkinProfile.dehydrated,
-            phototype: userSkinProfile.phototype
-        }]);
+        if (supabase) {
+            try {
+                await supabase.from('user_profiles').insert([{
+                    base_type: userSkinProfile.baseType,
+                    reactivity: userSkinProfile.reactivity,
+                    acne_prone: userSkinProfile.acneProne,
+                    dehydrated: userSkinProfile.dehydrated,
+                    phototype: userSkinProfile.phototype
+                }]);
+            } catch(e) { console.warn("Profile cloud insert skipped:", e); }
+        }
 
         let typeStr = `${determinedBase} Profile (${selectedAge} / ${selectedPhoto})`; 
         let descStr = `Assessed profile. `;
@@ -456,7 +435,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (navDashboard && trackerCard) {
                 clearActiveTabs(); navDashboard.classList.add('active'); trackerCard.classList.remove('hidden');
                 calculateSkinTrajectory();
-                window.scrollTo({ top: document.getElementById('impactMatrix').offsetTop - 20, behavior: 'smooth' });
+                const matrixEl = document.getElementById('impactMatrix');
+                if (matrixEl) window.scrollTo({ top: matrixEl.offsetTop - 20, behavior: 'smooth' });
             }
         });
     }
@@ -548,33 +528,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 notes: enteredNotes
             };
 
-            const { data, error } = await supabase
-                .from('shared_directory')
-                .insert([newEntry]);
+            if (supabase) {
+                try {
+                    await supabase.from('shared_directory').insert([newEntry]);
+                } catch(e) { console.warn("Supabase directory sync issue:", e); }
+            }
 
-            if (!error) {
-                peerRegistryDatabase.unshift({
-                    id: Date.now(),
-                    skinType: selectedSkin,
-                    product: enteredProd,
-                    cost: enteredPrice,
-                    ingredients: enteredIngredients,
-                    usage: enteredUsage,
-                    definition: enteredNotes
-                });
+            peerRegistryDatabase.unshift({
+                id: Date.now(),
+                skinType: selectedSkin,
+                product: enteredProd,
+                cost: enteredPrice,
+                ingredients: enteredIngredients,
+                usage: enteredUsage,
+                definition: enteredNotes
+            });
 
-                renderPeerRegistry("all");
-                peerFilterBtns.forEach(b => b.classList.remove('active'));
-                if (peerFilterBtns[0]) peerFilterBtns[0].classList.add('active');
-                peerContributionForm.reset();
+            renderPeerRegistry("all");
+            peerFilterBtns.forEach(b => b.classList.remove('active'));
+            if (peerFilterBtns[0]) peerFilterBtns[0].classList.add('active');
+            peerContributionForm.reset();
 
-                if (responseAlert) {
-                    responseAlert.classList.remove('hidden');
-                    setTimeout(() => responseAlert.classList.add('hidden'), 5000);
-                }
-            } else {
-                console.error('Supabase Error:', error);
-                alert("Database sync error. Please try again.");
+            if (responseAlert) {
+                responseAlert.classList.remove('hidden');
+                setTimeout(() => responseAlert.classList.add('hidden'), 5000);
             }
         });
     }
@@ -642,10 +619,37 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // AUTO-FETCH PROFILE FROM SUPABASE ON LOAD
+    async function loadSavedProfileFromCloud() {
+        if (!supabase) return;
+        try {
+            const { data } = await supabase
+                .from('user_profiles')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (data && data.length > 0) {
+                const latest = data[0];
+                userSkinProfile.baseType = latest.base_type || "Normal";
+                userSkinProfile.reactivity = latest.reactivity || "Resilient";
+                userSkinProfile.acneProne = latest.acne_prone || false;
+                userSkinProfile.dehydrated = latest.dehydrated || false;
+                userSkinProfile.phototype = latest.phototype || "Type III";
+                userSkinProfile.isCalculated = true;
+
+                calculateSkinTrajectory();
+            }
+        } catch (err) {
+            console.warn("Could not auto-fetch cloud profile:", err);
+        }
+    }
+
     // --- INITIAL RENDER ---
     calculateSkinTrajectory();
     renderCards("all");
     renderDictionaryList("");
+    loadSavedProfileFromCloud();
 });
 
 // Inline helper
