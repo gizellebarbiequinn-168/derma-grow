@@ -5,8 +5,22 @@ document.addEventListener("DOMContentLoaded", () => {
         reactivity: "Resilient", 
         acneProne: false,
         dehydrated: false,
+        ageGroup: "Teens",
+        genderProfile: "Neutral",
+        phototype: "Type III",
         isCalculated: false
     };
+
+    // Global Currency Engine Map (Covers key regions around the world)
+    const currencyMap = {
+        "IDR": { locale: "id-ID", symbol: "Rp ", maxBudget: 300000, step: 10000 },
+        "USD": { locale: "en-US", symbol: "$", maxBudget: 30, step: 1 },
+        "EUR": { locale: "de-DE", symbol: "€", maxBudget: 30, step: 1 },
+        "GBP": { locale: "en-GB", symbol: "£", maxBudget: 25, step: 1 },
+        "SGD": { locale: "en-SG", symbol: "S$", maxBudget: 40, step: 1 },
+        "AUD": { locale: "en-AU", symbol: "A$", maxBudget: 45, step: 1 }
+    };
+    let currentCurrency = "IDR"; // Default
 
     // --- MAIN CORE NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
@@ -68,16 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- TRACK MATRIX SUMMARY METRICS ---
-    function updateHonestLocalMetrics(state, finalScore) {
+    function updateHonestLocalMetrics(state, finalScore, unsafeHaltedCount) {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
         const summaryLabel = document.getElementById('impactSummaryText');
+        const config = currencyMap[currentCurrency];
 
-        let unsafeHaltedCount = 0;
-        if (state['chk-lemon']) unsafeHaltedCount++;
-        if (state['chk-scrubs']) unsafeHaltedCount++;
-        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
-        
         if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
 
         const baselineDefaultScore = 50;
@@ -86,7 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (summaryLabel) {
             if (unsafeHaltedCount > 0) {
-                summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly Rp ${(unsafeHaltedCount * 60000).toLocaleString('id-ID')} in unnecessary product costs!`;
+                let savingsValue = unsafeHaltedCount * (config.maxBudget * 0.2); 
+                summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)} in unnecessary product costs!`;
             } else if (finalScore >= 85) {
                 summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine layout is complete. Keep up the daily consistency!`;
             } else {
@@ -132,14 +143,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs'];
     let dermaChart = null;
 
+    // Global Multi-Currency Formatting Engine
+    function formatGlobalCurrency(amount, currencyCode) {
+        const config = currencyMap[currencyCode] || { locale: "en-US", symbol: "$" };
+        return new Intl.NumberFormat(config.locale, {
+            style: 'currency',
+            currency: currencyCode,
+            maximumFractionDigits: 0
+        }).format(amount);
+    }
+
     function calculateSkinTrajectory() {
         if (!budgetSlider) return;
+        
         const budget = parseInt(budgetSlider.value);
-        if (budgetValue) budgetValue.textContent = `Rp ${budget.toLocaleString('id-ID')}`;
+        
+        if (budgetValue) {
+            budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
+        }
 
         if (profileSyncBadge) {
             if (userSkinProfile.isCalculated) {
-                profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()}`;
+                profileSyncBadge.textContent = `Synced: ${userSkinProfile.baseType.toUpperCase()} | ${userSkinProfile.phototype}`;
                 profileSyncBadge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
                 profileSyncBadge.style.color = "var(--brand-accent)";
             } else {
@@ -151,6 +176,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
+
+        let unsafeHaltedCount = 0;
+        if (state['chk-lemon']) unsafeHaltedCount++;
+        if (state['chk-scrubs']) unsafeHaltedCount++;
+        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
 
         const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
         let metrics = [50, 50, 50, 50, 50, 50, 50];
@@ -224,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
         renderVisualThresholdChart(labels, metrics);
-        updateHonestLocalMetrics(state, currentEvaluatedScore);
+        updateHonestLocalMetrics(state, currentEvaluatedScore, unsafeHaltedCount);
     }
 
     function renderVisualThresholdChart(labels, metrics) {
@@ -258,7 +288,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (chkSunscreen) chkSunscreen.checked = true;
             
             if (budgetSlider) {
-                budgetSlider.value = 150000; 
+                const config = currencyMap[currentCurrency];
+                budgetSlider.value = Math.floor(config.maxBudget / 2); 
                 budgetSlider.dispatchEvent(new Event('input')); 
             }
             calculateSkinTrajectory();
@@ -267,16 +298,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 9-STEP DIAGNOSTIC SKIN ENGINE ---
+    // --- ADVANCED DIAGNOSTIC SKIN ENGINE ---
     const quizData = [
-        { q: "1. Surface Oil: How does your skin surface feel about an hour after washing with plain water?", a: [ { text: "Tight, flaky, or visibly matte all over", type: "base:Dry" }, { text: "Slick, shiny, or greasy completely", type: "base:Oily" }, { text: "Oily on forehead/nose but tight on outer cheeks", type: "base:Combination" }, { text: "Comfortable, smooth, and well balanced", type: "base:Normal" } ] },
-        { q: "2. Comfort Sensitivity: How often do you feel stinging, burning, or redness from basic skin essentials?", a: [ { text: "Frequently, especially when trying simple products or weather shifts", type: "react:Sensitive" }, { text: "Rarely or never, skin easily handles adjustments", type: "react:Resilient" } ] },
-        { q: "3. Breakout Tendencies: Do you experience frequent breakouts, bumps, or blackheads in high-oil zones?", a: [ { text: "Yes, standard clogged cycles occur regularly", type: "acne:true" }, { text: "No, blemishes are quite rare or heal rapidly", type: "acne:false" } ] },
-        { q: "4. Surface Tightness: Does your skin feel tight underneath, even if there is visible grease or oil on top?", a: [ { text: "Yes, it feels pulled or crinkled but stays slick on top", type: "dehyd:true" }, { text: "No, skin comfort matches the surface oil level", type: "dehyd:false" } ] },
-        { q: "5. Temporary Marks: When you get a minor skin blemish, how long do dark marks or red spots remain?", a: [ { text: "Weeks or months, marking takes a while to disappear", type: "none" }, { text: "Just a few days, marks clear away efficiently", type: "none" } ] },
-        { q: "6. Dry Environments: How does your skin layer behave when staying inside air-conditioned rooms or dry climates?", a: [ { text: "Dries out quickly, develops rough localized tight spots", type: "dehyd:true" }, { text: "Maintains its current texture comfortably", type: "none" } ] },
-        { q: "7. Mechanical Friction: Rubbing your face with a standard towel or rough washcloth causes what immediate symptom?", a: [ { text: "Flashing redness, irritation, or clear stinging", type: "react:Sensitive" }, { text: "No significant color change or irritation", type: "react:Resilient" } ] },
-        { q: "8. Visible Pores: When examining your skin path in the mirror, how visible are your pore layouts?", a: [ { text: "Highly visible, wider across cheeks and center regions", type: "base:Oily" }, { text: "Virtually invisible, smooth uniform layout", type: "base:Dry" } ] },
+        { q: "1. Biological Age Group: Sebum and cellular cycles change dramatically across ages. What is your age category?", a: [ { text: "Teens (High hormonal sebum shifts)", type: "age:Teens" }, { text: "20s - 30s (Baseline skin turnover)", type: "age:Adult" }, { text: "40s+ (Slower lipid barrier synthesis)", type: "age:Mature" } ] },
+        { q: "2. Gender Expression / Hormonal Identity: Topical product preferences and testosterone-driven skin thickness profiles vary. Select your profile:", a: [ { text: "Masculine (Typically thicker skin, higher active sebaceous counts)", type: "gender:Masculine" }, { text: "Feminine (Hormonally fluid barriers across monthly cycles)", type: "gender:Feminine" }, { text: "Neutral / Prefer Not to Say", type: "gender:Neutral" } ] },
+        { q: "3. Fitzpatrick Skin Phototype Scale: How does your skin tone naturally react to direct, unprotected midday sun exposure?", a: [ { text: "Always burns, never tans (Very Fair - Phototype I/II)", type: "photo:Type I-II" }, { text: "Burns moderately, tans gradually (Medium/Olive - Phototype III/IV)", type: "photo:Type III-IV" }, { text: "Rarely burns, tans deeply/darkly (Rich/Deep - Phototype V/VI)", type: "photo:Type V-VI" } ] },
+        { q: "4. Surface Oil production: How does your skin surface feel about an hour after washing with plain water?", a: [ { text: "Tight, flaky, or visibly matte all over", type: "base:Dry" }, { text: "Slick, shiny, or greasy completely", type: "base:Oily" }, { text: "Oily on forehead/nose but tight on outer cheeks", type: "base:Combination" }, { text: "Comfortable, smooth, and well balanced", type: "base:Normal" } ] },
+        { q: "5. Comfort Sensitivity: How often do you feel stinging, burning, or redness from basic skin essentials?", a: [ { text: "Frequently, especially when trying simple products or weather shifts", type: "react:Sensitive" }, { text: "Rarely or never, skin easily handles adjustments", type: "react:Resilient" } ] },
+        { q: "6. Breakout Tendencies: Do you experience frequent breakouts, bumps, or blackheads in high-oil zones?", a: [ { text: "Yes, standard clogged cycles occur regularly", type: "acne:true" }, { text: "No, blemishes are quite rare or heal rapidly", type: "acne:false" } ] },
+        { q: "7. Surface Tightness: Does your skin feel tight underneath, even if there is visible grease or oil on top?", a: [ { text: "Yes, it feels pulled or crinkled but stays slick on top", type: "dehyd:true" }, { text: "No, skin comfort matches the surface oil level", type: "dehyd:false" } ] },
+        { q: "8. Mechanical Friction: Rubbing your face with a standard towel or rough washcloth causes what immediate symptom?", a: [ { text: "Flashing redness, irritation, or clear stinging", type: "react:Sensitive" }, { text: "No significant color change or irritation", type: "react:Resilient" } ] },
         { q: "9. Active Acid Adaptation: What occurs if you use a strong over-the-counter retinol or peeling product?", a: [ { text: "Immediate burning, clear peeling, or compromised raw skin", type: "react:Sensitive" }, { text: "Slight temporary dry phase, but skin handles it fine", type: "react:Resilient" } ] }
     ];
 
@@ -325,10 +356,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let baseTypes = { Normal: 0, Oily: 0, Dry: 0, Combination: 0 };
         let reactTypes = { Sensitive: 0, Resilient: 0 };
         let acneCount = 0; let dehydCount = 0;
+        let selectedAge = "Teens"; let selectedGender = "Neutral"; let selectedPhoto = "Type III";
 
         quizAnswers.forEach(ans => {
             if (ans.startsWith("base:")) baseTypes[ans.split(":")[1]]++;
             if (ans.startsWith("react:")) reactTypes[ans.split(":")[1]]++;
+            if (ans.startsWith("age:")) selectedAge = ans.split(":")[1];
+            if (ans.startsWith("gender:")) selectedGender = ans.split(":")[1];
+            if (ans.startsWith("photo:")) selectedPhoto = ans.split(":")[1];
             if (ans === "acne:true") acneCount++;
             if (ans === "dehyd:true") dehydCount++;
         });
@@ -340,20 +375,23 @@ document.addEventListener("DOMContentLoaded", () => {
         userSkinProfile.reactivity = determinedReact;
         userSkinProfile.acneProne = acneCount > 0;
         userSkinProfile.dehydrated = dehydCount > 0;
+        userSkinProfile.ageGroup = selectedAge;
+        userSkinProfile.genderProfile = selectedGender;
+        userSkinProfile.phototype = selectedPhoto;
         userSkinProfile.isCalculated = true;
 
-        let typeStr = `${determinedBase} Skin Type`; let descStr = "";
+        let typeStr = `${determinedBase} Profile (${selectedAge} / ${selectedPhoto})`; 
+        let descStr = `Targeting a specialized solution for your assigned profile. `;
 
-        if (determinedReact === "Sensitive") {
-            typeStr = `Sensitive & ${determinedBase} Skin`;
-            descStr = "Your quiz choices point to a highly reactive skin surface. Avoid complicated multi-step layering patterns, physical abrasives, and strong unbuffered acids. Focus entirely on low-pH gentle cleansing and simple hydration options.";
-        } else {
-            if (determinedBase === "Oily") descStr = "Your choices show active surface oil production. Prioritize water-based lightweight hydration elements (like simple humectants or gel lotions) and avoid heavy, thick wax-based formulations.";
-            else if (determinedBase === "Dry") descStr = "Your choices track limited natural surface oil production. Focus on rich moisturizers applied directly to damp skin to prevent environmental moisture loss.";
-            else descStr = "Your skin type is historically well-balanced across oil and moisture levels. Maintain this balance by skipping heavy trend items and shielding daily with basic sunscreen.";
+        if (selectedPhoto.includes("Type V-VI")) {
+            descStr += "⚠️ Darker Phototypes heal with higher rates of Post-Inflammatory Hyperpigmentation (PIH). Avoid popping acne or picking skin surface friction boundaries to bypass dark marks.";
         }
-
-        if (userSkinProfile.dehydrated) descStr += " Note: Your quiz answers also suggest surface dehydration (a lack of bound water in the outer cell layers).";
+        if (selectedAge === "Teens" && determinedBase === "Oily") {
+            descStr += " Your profile matches active teenage sebaceous pathways. Do not panic and try to blast it away with heavy drying alcohols; your moisture barrier needs non-comedogenic balancing care.";
+        }
+        if (userSkinProfile.dehydrated) {
+            descStr += " Note: Your quiz answers also suggest surface dehydration (a lack of bound water in the outer cell layers).";
+        }
         
         const titleEl = document.getElementById('skinTypeTitle');
         const descEl = document.getElementById('skinTypeDescription');
@@ -406,12 +444,16 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCards(btn.getAttribute('data-category'));
     }));
 
-    // --- PEER RECOMMENDATIONS REGISTRY HUB ---
+    // --- GLOBAL BUDGET PEER RECOMMENDATIONS REGISTRY ---
     const peerRegistryDatabase = [
-        { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate, Poloxamer 184", usage: "Pour onto a cotton pad, wipe gently across dry face field until sunscreen layer clears.", definition: "An oil-free, water-based micellar solution structured specifically to clean away surface skin oils and daily grit cleanly." },
-        { id: 2, skinType: "Dry", product: "The Ordinary Moisturizing Factors + HA", cost: "Rp 120.000", ingredients: "Caprylic Triglyceride, Cetyl Alcohol, Sodium PCA, Hyaluronic Acid, Ceramides", usage: "Apply a pea-sized dot over damp skin right after your rinsing block.", definition: "A light cream setup built to match skin's natural moisturizing factors, protecting dry cell structures from daily moisture loss." },
-        { id: 3, skinType: "Sensitive", product: "Cetaphil Gentle Skin Cleanser", cost: "Rp 65.000", ingredients: "Water, Cetyl Alcohol, Propylene Glycol, Sodium Lauryl Sulfate, Stearyl Alcohol", usage: "Massage lightly over face, then wash away with tepid water or wipe off with a soft cloth.", definition: "A soap-free, non-foaming cleansing lotion designed to wipe away outer grime safely without breaking down sensitive skin boundaries." },
-        { id: 4, skinType: "Normal", product: "Azarine Hydrasoothe Sunscreen Gel SPF 45", cost: "Rp 65.000", ingredients: "Water, Aloe Barbadensis Leaf Juice, Green Tea Extract, Propolis, Niacinamide", usage: "Smooth two finger lengths across entire face area 15 minutes before stepping outside.", definition: "An organic, gel-based UV filter layer that sinks in rapidly without leaving chalky lines or heavy grease layers on normal skin profiles." }
+        { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000 / $3", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate", usage: "Pour onto cotton pad, wipe skin surface gently.", definition: "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents." },
+        { id: 2, skinType: "Dry", product: "The Ordinary Natural Moisturizing Factors", cost: "Rp 120.000 / $8", ingredients: "Caprylic Triglyceride, Amino Acids, Ceramides, Hyaluronic Acid", usage: "Apply a pea-sized dot over damp skin right after rinsing.", definition: "A dense, clean barrier matching compound setup to resolve cellular skin flaking without adding external fragrances." },
+        { id: 3, skinType: "Sensitive", product: "Cetaphil Gentle Skin Cleanser", cost: "Rp 65.000 / $6", ingredients: "Water, Cetyl Alcohol, Propylene Glycol, Stearyl Alcohol", usage: "Massage lightly over wet face, rinse completely with lukewarm water.", definition: "Classic non-foaming, dermatologist-staple emulsion structure built to cleanse surface boundaries without disrupting pH scores." },
+        { id: 4, skinType: "Normal", product: "Azarine Hydrasoothe Sunscreen Gel SPF 45", cost: "Rp 65.000 / $5", ingredients: "Water, Aloe Vera, Green Tea Extract, Propolis, Niacinamide", usage: "Smooth two complete finger lengths across the skin before sun exposure.", definition: "Incredibly lightweight, organic chemical filter matrix that leaves zero white residue tracks or heavy oily sheen layers." },
+        { id: 5, skinType: "Oily", product: "The Inkey List Salicylic Acid Cleanser", cost: "$11 / Rp 165.000", ingredients: "2% Salicylic Acid (BHA), Zinc PCA, Allantoin", usage: "Massage into damp skin for 60 seconds at night, then rinse.", definition: "BHA breaks through thick pore grease lines to directly target blackheads and localized acne clusters cleanly." },
+        { id: 6, skinType: "Dry", product: "CeraVe Moisturizing Cream", cost: "$15 / Rp 220.000", ingredients: "Ceramide NP, Ceramide AP, Ceramide EOP, Phytosphingosine", usage: "Smooth into damp skin matrix directly after washing routines.", definition: "A rich, slow-release MVE delivery matrix that pumps core skin lipids back into empty cell gaps to block moisture evaporation." },
+        { id: 7, skinType: "Sensitive", product: "La Roche-Posay Cicaplast Baume B5+", cost: "$19 / Rp 280.000", ingredients: "5% Panthenol (Vitamin B5), Madecassoside, Zinc, Manganese", usage: "Layer over uncomfortably raw, flaky, or red zones before bed.", definition: "The global gold-standard heavy emergency cream designed to soothe skin inflammation zones and bind moisture immediately." },
+        { id: 8, skinType: "Normal", product: "Cosrx Advanced Snail 96 Mucin Power Essence", cost: "$17 / Rp 250.000", ingredients: "96.3% Snail Secretion Filtrate, Sodium Hyaluronate, Allantoin", usage: "Pat across damp surface fields right before lock-in moisturizers.", definition: "Gelatinous moisture network providing deep, weightless hydration to keep healthy barriers beautifully elastic and smooth." }
     ];
 
     const peerRegistryGrid = document.getElementById('peerRegistryGrid');
@@ -488,10 +530,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- HIGHLY EFFICIENT DATA MATRIX DICTIONARY (EXACTLY 68 WORDS) ---
+    // --- HIGHLY EFFICIENT DATA MATRIX DICTIONARY ---
     const categories = ["Active Component", "Product Function", "Anatomy", "Biology"];
-    
-    // Matrix Blueprint format: [Term, CategoryIndex, Definition, ProTip]
     const matrix = [
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
         ["Niacinamide", 0, "Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.", "Mixes smoothly with most actives without causing flares."],
@@ -566,12 +606,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
     const dictionarySearchInput = document.getElementById('dictionarySearchInput');
 
-    // Super efficient index loop rendering
     function renderDictionaryList(searchTerm = "") {
         if (!dictionaryListContainer) return;
         const cleanSearch = searchTerm.toLowerCase().trim();
         
-        // Highly optimized matching loop across array slots
         const filtered = matrix.filter(row => 
             row[0].toLowerCase().includes(cleanSearch) || 
             row[2].toLowerCase().includes(cleanSearch) ||
@@ -614,10 +652,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- bathroom PRINT SERVICE ---
+    // --- BATHROOM PRINT SERVICE ---
     const printRoutineBtn = document.getElementById('printRoutineBtn');
     if (printRoutineBtn) {
         printRoutineBtn.addEventListener('click', () => { window.print(); });
+    }
+
+    // --- MULTI-CURRENCY DYNAMIC SWITCH EVENT ---
+    const currencySelector = document.getElementById('currencySelector');
+    if (currencySelector && budgetSlider) {
+        currencySelector.addEventListener('change', (e) => {
+            currentCurrency = e.target.value;
+            const config = currencyMap[currentCurrency];
+            
+            budgetSlider.max = config.maxBudget;
+            budgetSlider.step = config.step;
+            budgetSlider.value = Math.floor(config.maxBudget / 2);
+            
+            calculateSkinTrajectory();
+        });
     }
 
     // --- FIRST DEPLOYMENT PAINT SEQUENCE ---
@@ -626,17 +679,16 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDictionaryList("");
 });
 
-
-
+// --- GLOBAL ACCESS FOR INLINE HTML ONCLICK HANDLERS ---
 function refreshTip() {
     const tips = [
-        "Your skin is a living organ, not a digital filter. It is doing its best to protect you today.",
-        "Consistency matters far more than an expensive 10-step routine.",
-        "Take a deep breath. Your skin's journey is a marathon of healing, not a sprint for perfection.",
-        "You are more than your skin barrier. Texture is human; it is not a flaw.",
-        "Healing is non-linear. A temporary flare-up does not erase the progress your barrier has made.",
-        "Bypassing the marketing hype is a sign of consumer intelligence. Your budget choices are smart choices.",
-        "Your skin protects you from the entire world every single second. Give it grace for doing its job."
+        "Your skin is a complex, living shield protecting you from the entire world, not a flat digital filter. Give it grace.",
+        "Consistency with safe, affordable elements outperforms an expensive, unstable 10-step luxury routine every single time.",
+        "Skin healing is completely non-linear. An unexpected flare-up doesn't erase the deep progress your cellular barrier has made.",
+        "Texture is entirely human—pores, bumps, and variance are physiological realities, not aesthetic structural flaws.",
+        "Bypassing aggressive social media marketing hype is a sign of high logical intelligence. Your budget routine is brilliant science.",
+        "Your skin protects you every second of the day. Treat it with structural kindness rather than punishing it with harsh trends.",
+        "Your worth as an innovator, a student, and a human being remains entirely independent of your topical skin barrier state."
     ];
     const targetElement = document.getElementById('dailyTip');
     if (targetElement) {
