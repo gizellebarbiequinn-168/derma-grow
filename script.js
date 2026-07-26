@@ -695,3 +695,59 @@ function refreshTip() {
         targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
     }
 }
+// --- STANDALONE CLOUD SYNC MODULE ---
+(function () {
+    const SUPABASE_URL = "https://jptovymxzysuogbkmduf.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdG92eW14enlzdW9nYmttZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMjUxNzcsImV4cCI6MjEwMDYwMTE3N30.PMuarfeVvwxA0nPBo9wbmr1BUq2DfyyqnV-OkwMwMOo";
+
+    let supabaseClient = null;
+
+    // 1. Initialize client
+    function getClient() {
+        if (!supabaseClient && window.supabase && typeof window.supabase.createClient === 'function') {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+        return supabaseClient;
+    }
+
+    // 2. Visual Badge Updater
+    function updateSyncUI(status, message) {
+        const badge = document.getElementById('profileSyncBadge');
+        if (!badge) return;
+
+        if (status === 'syncing') {
+            badge.textContent = "⏳ Syncing to Cloud...";
+            badge.style.backgroundColor = "rgba(234, 179, 8, 0.2)";
+            badge.style.color = "#d97706";
+        } else if (status === 'success') {
+            badge.textContent = `✅ Synced to Cloud (${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`;
+            badge.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
+            badge.style.color = "#15803d";
+        } else if (status === 'error') {
+            badge.textContent = "⚠️ Cloud Offline (Saved Locally)";
+            badge.style.backgroundColor = "rgba(239, 68, 68, 0.2)";
+            badge.style.color = "#b91c1c";
+        }
+    }
+
+    // 3. One Universal Sync Function
+    window.pushToCloud = async function (tableName, payload) {
+        updateSyncUI('syncing');
+        const client = getClient();
+
+        if (!client) {
+            console.warn("Supabase CDN not detected.");
+            updateSyncUI('error');
+            return;
+        }
+
+        try {
+            const { error } = await client.from(tableName).insert([payload]);
+            if (error) throw error;
+            updateSyncUI('success');
+        } catch (err) {
+            console.error("Cloud Push Failed:", err);
+            updateSyncUI('error');
+        }
+    };
+})();
