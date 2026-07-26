@@ -411,6 +411,17 @@ document.addEventListener("DOMContentLoaded", () => {
         userSkinProfile.phototype = selectedPhoto;
         userSkinProfile.isCalculated = true;
 
+async function saveQuizToCloud() {
+    await supabase.from('user_profiles').insert([{
+        base_type: userSkinProfile.baseType,
+        reactivity: userSkinProfile.reactivity,
+        acne_prone: userSkinProfile.acneProne,
+        dehydrated: userSkinProfile.dehydrated,
+        phototype: userSkinProfile.phototype
+    }]);
+}
+saveQuizToCloud();
+
         let typeStr = `${determinedBase} Profile (${selectedAge} / ${selectedPhoto})`; 
         let descStr = `Targeting a specialized solution for your assigned profile. `;
 
