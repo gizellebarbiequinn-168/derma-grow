@@ -146,6 +146,19 @@ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4
 .routine-list { list-style-position: inside; font-size: 0.85rem; }
 .routine-list li { margin-bottom: 0.35rem; }
 
+/* Force Chart Container Dimensions */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Gives the canvas explicit height to render */
+    min-height: 250px;
+}
+
+#dermaChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 /* QUIZ STACK PACKS */
 .quiz-container { max-width: 600px; margin: 0 auto; }
 .question-text { font-size: 1.1rem; font-weight: 600; color: var(--brand-primary); margin-bottom: 1.2rem; line-height: 1.4; }
