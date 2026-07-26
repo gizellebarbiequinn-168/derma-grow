@@ -28,6 +28,17 @@
     --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Fix invisible dropdown text */
+select, .form-input-text {
+    color: #ffffff !important;
+    background-color: var(--bg-main);
+}
+
+select option {
+    background-color: #222222;
+    color: #ffffff;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
