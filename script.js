@@ -1,3 +1,32 @@
+// --- AUTO-FETCH PROFILE FROM SUPABASE ON LOAD ---
+async function loadSavedProfileFromCloud() {
+    try {
+        const { data, error } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+        if (data && data.length > 0) {
+            const latest = data[0];
+            userSkinProfile.baseType = latest.base_type || "Normal";
+            userSkinProfile.reactivity = latest.reactivity || "Resilient";
+            userSkinProfile.acneProne = latest.acne_prone || false;
+            userSkinProfile.dehydrated = latest.dehydrated || false;
+            userSkinProfile.phototype = latest.phototype || "Type III";
+            userSkinProfile.isCalculated = true;
+
+            // Trigger trajectory calculation to update the "PROFILE: UNLINKED" badge immediately
+            calculateSkinTrajectory();
+        }
+    } catch (err) {
+        console.warn("Could not auto-fetch cloud profile:", err);
+    }
+}
+
+// Call auto-fetch immediately
+loadSavedProfileFromCloud();
+
 const SUPABASE_URL = "https://jptovymxzysuogbkmduf.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdG92eW14enlzdW9nYmttZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwMjUxNzcsImV4cCI6MjEwMDYwMTE3N30.PMuarfeVvwxA0nPBo9wbmr1BUq2DfyyqnV-OkwMwMOo";
 
