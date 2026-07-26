@@ -270,14 +270,28 @@ localStorage.setItem('dermaGrowRoutine', JSON.stringify({
         const ctx = chartCanvas.getContext('2d');
         if (dermaChart) { dermaChart.destroy(); }
         dermaChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{ label: 'Illustrative Habit Track (%)', data: metrics, borderColor: '#4A5548', borderWidth: 2.5, pointBackgroundColor: '#D4AF37', tension: 0.1, fill: false }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
-        });
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{ 
+            label: 'Habit Track (%)', 
+            data: metrics, 
+            borderColor: '#c49a45', /* Vibrant accent color visible on both themes */
+            backgroundColor: 'rgba(196, 154, 69, 0.2)',
+            borderWidth: 3, 
+            pointBackgroundColor: '#c49a45', 
+            tension: 0.2, 
+            fill: true 
+        }]
+    },
+    options: { 
+        responsive: true, 
+        maintainAspectRatio: false, 
+        scales: { 
+            y: { beginAtZero: true, max: 100 } 
+        } 
     }
+});
 
     if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
     selectors.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calculateSkinTrajectory); });
