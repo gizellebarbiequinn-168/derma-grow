@@ -172,19 +172,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 profileSyncBadge.style.backgroundColor = "var(--border-subtle)";
                 profileSyncBadge.style.color = "var(--color-text-muted)";
             }
-                // 1. Get readable names of all selected product checkboxes
-    const activeProducts = Array.from(document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked'))
-        .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
-        .join(', ');
-
-    // 2. Safely capture budget and trends avoided without crashing the chart
-    const currentBudget = typeof budget !== 'undefined' ? budget : (document.getElementById('budgetSlider')?.value || 0);
-    const currentAvoided = typeof unsafeHaltedCount !== 'undefined' ? unsafeHaltedCount : 0;
-
-    // 3. Send data to Google Sheet
-    if (typeof logRoutineToSheet === 'function') {
-        logRoutineToSheet(currentBudget, currentAvoided, activeProducts || "None Selected");
+                // --- 1. CHART RENDERING ---
+    const ctx = document.getElementById('trajectoryChart').getContext('2d');
+    
+    // Clear old chart instance to prevent Chart.js reuse errors
+    if (window.dermaChartInstance) {
+        window.dermaChartInstance.destroy();
     }
+
+    // Create and save new chart instance
+    window.dermaChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            // Your chart labels & datasets here
+        },
+        options: {
+            // Your chart options here
+        }
+    });
 
         }
 
