@@ -172,6 +172,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 profileSyncBadge.style.backgroundColor = "var(--border-subtle)";
                 profileSyncBadge.style.color = "var(--color-text-muted)";
             }
+            // Inside calculateSkinTrajectory() ...
+
+// 1. Get readable names of all selected product checkboxes
+const activeProducts = Array.from(document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked'))
+    .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
+    .join(', ');
+
+// 2. Send data to Google Sheet
+logRoutineToSheet(budget, unsafeHaltedCount, activeProducts || "None Selected");
+
         }
 
         const state = {};
