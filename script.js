@@ -172,39 +172,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 profileSyncBadge.style.backgroundColor = "var(--border-subtle)";
                 profileSyncBadge.style.color = "var(--color-text-muted)";
             }
-                // --- 1. CHART RENDERING ---
-    const ctx = document.getElementById('trajectoryChart').getContext('2d');
-    
-    // Clear old chart instance to prevent Chart.js reuse errors
-    if (window.dermaChartInstance) {
-        window.dermaChartInstance.destroy();
-    }
-
-    // Create and save new chart instance
-    window.dermaChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-            // Your chart labels & datasets here
-        },
-        options: {
-            // Your chart options here
-        }
-    });
-
         }
 
-        // --- 2. GOOGLE SHEETS TELEMETRY LOGGING ---
-    const activeProducts = Array.from(document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked'))
-        .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
-        .join(', ');
-
-    const currentBudget = typeof budget !== 'undefined' ? budget : (document.getElementById('budgetSlider')?.value || 0);
-    const currentAvoided = typeof unsafeHaltedCount !== 'undefined' ? unsafeHaltedCount : 0;
-
-    if (typeof logRoutineToSheet === 'function') {
-        logRoutineToSheet(currentBudget, currentAvoided, activeProducts || "None Selected");
-    }
-}
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
 
@@ -286,6 +255,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderVisualThresholdChart(labels, metrics);
         updateHonestLocalMetrics(state, currentEvaluatedScore, unsafeHaltedCount);
+
+        // --- GOOGLE SHEETS TELEMETRY LOGGING ---
+        const activeProducts = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+            .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
+            .join(', ');
+
+        if (typeof logRoutineToSheet === 'function') {
+            logRoutineToSheet(budget, unsafeHaltedCount, activeProducts || "None Selected");
+        }
     }
 
     function renderVisualThresholdChart(labels, metrics) {
@@ -304,7 +282,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (budgetSlider) budgetSlider.addEventListener('input', calculateSkinTrajectory);
-    selectors.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', calculateSkinTrajectory); });
+    selectors.forEach(id => { 
+        const el = document.getElementById(id); 
+        if (el) {
+            el.addEventListener('change', () => {
+                calculateSkinTrajectory();
+                updateTrendsAvoided();
+            });
+        }
+    });
 
     // --- INSTANT STARTER BLOCK PRESETS ---
     const starterPackBtn = document.getElementById('starterPackBtn');
@@ -708,6 +694,8 @@ document.addEventListener("DOMContentLoaded", () => {
     calculateSkinTrajectory();
     renderCards("all");
     renderDictionaryList("");
+    initializeDailyMetrics();
+    updateTrendsAvoided();
 });
 
 // --- GLOBAL ACCESS FOR INLINE HTML ONCLICK HANDLERS ---
@@ -737,10 +725,8 @@ function initializeDailyMetrics() {
         totalSessions: 0
     };
 
-    // 1. Session Counter
     userStats.totalSessions += 1;
 
-    // 2. Daily Streak Logic
     if (userStats.lastVisit) {
         const lastDate = new Date(userStats.lastVisit);
         const currentDate = new Date(today);
@@ -748,21 +734,18 @@ function initializeDailyMetrics() {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         if (diffDays === 1) {
-            userStats.streakDays += 1; // Logged in consecutive days
+            userStats.streakDays += 1;
         } else if (diffDays > 1) {
-            userStats.streakDays = 1; // Streak reset if missed a day
+            userStats.streakDays = 1;
         }
     } else {
-        userStats.streakDays = 1; // First day
+        userStats.streakDays = 1;
     }
 
     userStats.lastVisit = today;
     localStorage.setItem('dermaGrowStats', JSON.stringify(userStats));
 
-    // 3. Update UI Elements Live
     updateMetricUI(userStats);
-
-    // 4. Trigger Daily Notification Banner
     showDailyNotification(userStats);
 }
 
@@ -777,7 +760,6 @@ function updateMetricUI(stats) {
 }
 
 function showDailyNotification(stats) {
-    // Prevent showing multiple times in one session
     if (sessionStorage.getItem('notifiedToday')) return;
 
     const banner = document.createElement('div');
@@ -808,17 +790,12 @@ function showDailyNotification(stats) {
     sessionStorage.setItem('notifiedToday', 'true');
 }
 
-// Call this function when the DOM is ready
-document.addEventListener('DOMContentLoaded', initializeDailyMetrics);
-
-// Call this whenever dangerous checkboxes (e.g., lemon juice, coarse scrubs) are turned OFF
 function updateTrendsAvoided() {
     const lemonChk = document.getElementById('chk-lemon');
     const scrubChk = document.getElementById('chk-scrubs');
     
     let stats = JSON.parse(localStorage.getItem('dermaGrowStats')) || { trendsAvoided: 0 };
     
-    // Count avoiding bad DIY remedies as a saved trend
     let avoidedCount = 0;
     if (lemonChk && !lemonChk.checked) avoidedCount++;
     if (scrubChk && !scrubChk.checked) avoidedCount++;
