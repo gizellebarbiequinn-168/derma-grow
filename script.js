@@ -695,3 +695,87 @@ function refreshTip() {
         targetElement.textContent = tips[Math.floor(Math.random() * tips.length)];
     }
 }
+
+// --- DAILY METRICS & NOTIFICATION ENGINE ---
+function initializeDailyMetrics() {
+    const today = new Date().toDateString();
+    let userStats = JSON.parse(localStorage.getItem('dermaGrowStats')) || {
+        lastVisit: null,
+        streakDays: 0,
+        trendsAvoided: 0,
+        totalSessions: 0
+    };
+
+    // 1. Session Counter
+    userStats.totalSessions += 1;
+
+    // 2. Daily Streak Logic
+    if (userStats.lastVisit) {
+        const lastDate = new Date(userStats.lastVisit);
+        const currentDate = new Date(today);
+        const diffTime = Math.abs(currentDate - lastDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+            userStats.streakDays += 1; // Logged in consecutive days
+        } else if (diffDays > 1) {
+            userStats.streakDays = 1; // Streak reset if missed a day
+        }
+    } else {
+        userStats.streakDays = 1; // First day
+    }
+
+    userStats.lastVisit = today;
+    localStorage.setItem('dermaGrowStats', JSON.stringify(userStats));
+
+    // 3. Update UI Elements Live
+    updateMetricUI(userStats);
+
+    // 4. Trigger Daily Notification Banner
+    showDailyNotification(userStats);
+}
+
+function updateMetricUI(stats) {
+    const activeUsersEl = document.getElementById('activeUsersCount');
+    const itemsSavedEl = document.getElementById('itemsSavedCount');
+    const targetEl = document.getElementById('optimizationDelta');
+
+    if (activeUsersEl) activeUsersEl.textContent = `${stats.streakDays} Day Streak`;
+    if (itemsSavedEl) itemsSavedEl.textContent = `${stats.trendsAvoided}`;
+    if (targetEl) targetEl.textContent = `+${Math.min(stats.streakDays * 10, 100)}%`;
+}
+
+function showDailyNotification(stats) {
+    // Prevent showing multiple times in one session
+    if (sessionStorage.getItem('notifiedToday')) return;
+
+    const banner = document.createElement('div');
+    banner.id = 'dailyNotificationBanner';
+    banner.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--brand-primary, #2d4a3e);
+        color: #ffffff;
+        padding: 1rem 1.25rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+        animation: slideIn 0.3s ease-out;
+    `;
+
+    banner.innerHTML = `
+        <span>🔔 <strong>Daily Check-in:</strong> You're on a <strong>${stats.streakDays}-day routine streak</strong>! Keep it up.</span>
+        <button onclick="document.getElementById('dailyNotificationBanner').remove()" style="background:none; border:none; color:#fff; cursor:pointer; font-weight:bold; font-size:1rem;">✕</button>
+    `;
+
+    document.body.appendChild(banner);
+    sessionStorage.setItem('notifiedToday', 'true');
+}
+
+// Call this function when the DOM is ready
+document.addEventListener('DOMContentLoaded', initializeDailyMetrics);
