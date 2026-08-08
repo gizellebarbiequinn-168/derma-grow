@@ -796,3 +796,19 @@ function updateTrendsAvoided() {
     localStorage.setItem('dermaGrowStats', JSON.stringify(stats));
     updateMetricUI(stats);
 }
+
+// --- GOOGLE SHEETS TELEMETRY LOGGER ---
+function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyrLszWQ1TlFariH3yEYfppA8gd1awcOv9AHBxXrgWaHt52_q4yRFjKgeYP8CtTLwZZXw/exec";
+
+    fetch(GOOGLE_SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            budget: budget,
+            trendsAvoided: trendsAvoided,
+            routine: selectedProducts
+        })
+    }).catch(err => console.log("Silent telemetry log failure"));
+}
