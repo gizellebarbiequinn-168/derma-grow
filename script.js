@@ -193,6 +193,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+        // --- 2. GOOGLE SHEETS TELEMETRY LOGGING ---
+    const activeProducts = Array.from(document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked'))
+        .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
+        .join(', ');
+
+    const currentBudget = typeof budget !== 'undefined' ? budget : (document.getElementById('budgetSlider')?.value || 0);
+    const currentAvoided = typeof unsafeHaltedCount !== 'undefined' ? unsafeHaltedCount : 0;
+
+    if (typeof logRoutineToSheet === 'function') {
+        logRoutineToSheet(currentBudget, currentAvoided, activeProducts || "None Selected");
+    }
+}
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
 
