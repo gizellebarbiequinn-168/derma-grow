@@ -172,15 +172,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 profileSyncBadge.style.backgroundColor = "var(--border-subtle)";
                 profileSyncBadge.style.color = "var(--color-text-muted)";
             }
-            // Inside calculateSkinTrajectory() ...
+                // 1. Get readable names of all selected product checkboxes
+    const activeProducts = Array.from(document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked'))
+        .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
+        .join(', ');
 
-// 1. Get readable names of all selected product checkboxes
-const activeProducts = Array.from(document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked'))
-    .map(cb => cb.parentElement.innerText.trim().split('\n')[0])
-    .join(', ');
+    // 2. Safely capture budget and trends avoided without crashing the chart
+    const currentBudget = typeof budget !== 'undefined' ? budget : (document.getElementById('budgetSlider')?.value || 0);
+    const currentAvoided = typeof unsafeHaltedCount !== 'undefined' ? unsafeHaltedCount : 0;
 
-// 2. Send data to Google Sheet
-logRoutineToSheet(budget, unsafeHaltedCount, activeProducts || "None Selected");
+    // 3. Send data to Google Sheet
+    if (typeof logRoutineToSheet === 'function') {
+        logRoutineToSheet(currentBudget, currentAvoided, activeProducts || "None Selected");
+    }
 
         }
 
