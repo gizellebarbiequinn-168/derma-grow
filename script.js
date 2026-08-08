@@ -779,3 +779,20 @@ function showDailyNotification(stats) {
 
 // Call this function when the DOM is ready
 document.addEventListener('DOMContentLoaded', initializeDailyMetrics);
+
+// Call this whenever dangerous checkboxes (e.g., lemon juice, coarse scrubs) are turned OFF
+function updateTrendsAvoided() {
+    const lemonChk = document.getElementById('chk-lemon');
+    const scrubChk = document.getElementById('chk-scrubs');
+    
+    let stats = JSON.parse(localStorage.getItem('dermaGrowStats')) || { trendsAvoided: 0 };
+    
+    // Count avoiding bad DIY remedies as a saved trend
+    let avoidedCount = 0;
+    if (lemonChk && !lemonChk.checked) avoidedCount++;
+    if (scrubChk && !scrubChk.checked) avoidedCount++;
+
+    stats.trendsAvoided = avoidedCount;
+    localStorage.setItem('dermaGrowStats', JSON.stringify(stats));
+    updateMetricUI(stats);
+}
