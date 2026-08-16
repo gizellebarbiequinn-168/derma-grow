@@ -21,6 +21,29 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     let currentCurrency = "IDR";
 
+    // --- QUIZ ENGINE STATE & DATA ---
+    let currentQuizStep = 0;
+    const quizQuestions = [
+        {
+            title: "Skin Feeling",
+            question: "How does your skin feel 30 minutes after washing without applying moisturizer?",
+            options: [
+                { text: "Tight and rough", type: "Dry" },
+                { text: "Shiny and oily all over", type: "Oily" },
+                { text: "Oily on T-zone, normal elsewhere", type: "Combination" },
+                { text: "Comfortable and balanced", type: "Normal" }
+            ]
+        },
+        {
+            title: "Reactivity",
+            question: "How easily does your skin flush, sting, or burn when trying new products?",
+            options: [
+                { text: "Frequently stings or flushes", reactivity: "Sensitive" },
+                { text: "Rarely reacts or burns", reactivity: "Resilient" }
+            ]
+        }
+    ];
+
     // --- MAIN CORE NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
     const navQuiz = document.getElementById('navQuiz');
@@ -46,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
             navDashboard.classList.add('active');
             if (trackerCard) trackerCard.classList.remove('hidden');
             
-            // Force redraw chart when tab becomes visible
             calculateSkinTrajectory();
             if (dermaChart) {
                 dermaChart.resize();
@@ -86,6 +108,60 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- QUIZ RENDER ENGINE ---
+    function initializeQuizEngine() {
+        currentQuizStep = 0;
+        renderQuizStep();
+    }
+
+    function renderQuizStep() {
+        if (!quizSection) return;
+        
+        if (currentQuizStep >= quizQuestions.length) {
+            userSkinProfile.isCalculated = true;
+            quizSection.innerHTML = `
+                <div class="content-card text-center" style="padding: 2rem;">
+                    <h3>🎉 Assessment Complete!</h3>
+                    <p>Your profile is synced as: <strong>${userSkinProfile.baseType}</strong> (${userSkinProfile.reactivity})</p>
+                    <button id="btnReturnDashboard" class="filter-btn active" style="margin-top: 1rem;">Go to Routine Builder</button>
+                </div>
+            `;
+            const btnReturn = document.getElementById('btnReturnDashboard');
+            if (btnReturn && navDashboard) btnReturn.addEventListener('click', () => navDashboard.click());
+            return;
+        }
+
+        const q = quizQuestions[currentQuizStep];
+        quizSection.innerHTML = `
+            <div class="content-card tab-fade-animation">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="margin: 0;">${q.title}</h3>
+                    <span style="font-size: 0.85rem; color: var(--brand-accent);">Step ${currentQuizStep + 1} of ${quizQuestions.length}</span>
+                </div>
+                <p>${q.question}</p>
+                <div id="quizOptionsContainer" style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem;">
+                    ${q.options.map((opt, idx) => `
+                        <button class="quiz-opt-btn filter-btn" data-index="${idx}" style="width: 100%; text-align: left; padding: 0.8rem 1rem;">
+                            ${opt.text}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        const optionButtons = quizSection.querySelectorAll('.quiz-opt-btn');
+        optionButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const selectedOpt = q.options[parseInt(e.currentTarget.getAttribute('data-index'))];
+                if (selectedOpt.type) userSkinProfile.baseType = selectedOpt.type;
+                if (selectedOpt.reactivity) userSkinProfile.reactivity = selectedOpt.reactivity;
+                
+                currentQuizStep++;
+                renderQuizStep();
+            });
+        });
+    }
+
     function updateHonestLocalMetrics(state, finalScore, unsafeHaltedCount) {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
@@ -110,30 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const feedbackForm = document.getElementById('feedbackForm');
-    if (feedbackForm) {
-        feedbackForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const data = new FormData(e.target);
-            const responseAlert = document.getElementById('feedbackSuccessMessage');
-            const feedbackTextarea = document.getElementById('feedbackText');
-
-            fetch(feedbackForm.action, {
-                method: feedbackForm.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                if (response.ok) {
-                    if (feedbackTextarea) feedbackTextarea.value = "";
-                    if (responseAlert) {
-                        responseAlert.classList.remove('hidden');
-                        setTimeout(() => responseAlert.classList.add('hidden'), 4000);
-                    }
-                } else { alert("Submission error. Please verify form connectivity."); }
-            }).catch(() => { alert("Network error. Please try again."); });
-        });
-    }
-
     const budgetSlider = document.getElementById('budgetSlider');
     const budgetValue = document.getElementById('budgetValue');
     const reportContent = document.getElementById('reportContent');
@@ -142,7 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const pmRoutineList = document.getElementById('pmRoutineList');
     const profileSyncBadge = document.getElementById('profileSyncBadge');
 
-    // Added selectors for toxic hazard checkboxes if present in HTML
     const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs', 'chk-mercury', 'chk-steroids', 'chk-dyes', 'chk-lead'];
     let dermaChart = null;
 
@@ -255,7 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const chartCanvas = document.getElementById('dermaChart');
         if (!chartCanvas) return;
 
-        // Ensure canvas parent container is visible before initializing Chart.js
         if (chartCanvas.offsetWidth === 0 || chartCanvas.offsetHeight === 0) {
             return;
         }
@@ -278,138 +328,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (el) {
             el.addEventListener('change', () => {
                 calculateSkinTrajectory();
-                updateTrendsAvoided();
             });
         }
     });
 
-    const starterPackBtn = document.getElementById('starterPackBtn');
-    if (starterPackBtn) {
-        starterPackBtn.addEventListener('click', function() {
-            const chkCleanser = document.getElementById('chk-cleanser');
-            const chkMoisturizer = document.getElementById('chk-moisturizer');
-            const chkSunscreen = document.getElementById('chk-sunscreen');
-            
-            if (chkCleanser) chkCleanser.checked = true;
-            if (chkMoisturizer) chkMoisturizer.checked = true;
-            if (chkSunscreen) chkSunscreen.checked = true;
-            
-            if (budgetSlider) {
-                const config = currencyMap[currentCurrency];
-                budgetSlider.value = Math.floor(config.maxBudget / 2); 
-                budgetSlider.dispatchEvent(new Event('input')); 
-            }
-            calculateSkinTrajectory();
-            this.innerText = "✅ Starter Pack Applied!";
-            setTimeout(() => { this.innerText = "✨ Apply 3-Step Instant Starter Pack"; }, 2000);
-        });
-    }
-
-    const scienceDatabase = [
-        { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Reference Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid#section=Safety-and-Hazards" },
-        { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read NCBI Skin Friction Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5608132/" },
-        { id: 3, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Traditional soaps feature alkaline pH profiles (>9.0) that strip structural skin components. Low-pH alternatives clean effectively without depleting native lipids.", actionText: "Read PMC Surfactant Formulation Science →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3088928/" },
-        { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Essential Types", description: "Humectants bind moisture inside epidermal layers, while occlusives form a physical surface layout that lowers Transepidermal Water Loss (TEWL).", actionText: "Read Harvard Health Dermatological Guide →", link: "https://www.health.harvard.edu/staying-healthy/the-hype-over-skin-care-ingredients" },
-        { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "L-Ascorbic Acid (Vitamin C)", description: "A well-studied antioxidant that neutralizes environmental free radicals caused by daily UV exposure while supporting structural cell preservation.", actionText: "Read Cochrane Antioxidant Efficacy Review →", link: "https://www.cochrane.org/CD004135/SKIN_antioxidants-for-preventing-skin-ageing-caused-by-the-sun" },
-        { id: 6, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Extensively researched molecule shown to boost ceramide production, lower baseline TEWL values, and balance surface sebum metrics.", actionText: "View PubMed Niacinamide Trial Data →", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
-        { id: 7, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read JID Barrier Function Literature →", link: "https://www.jidonline.org/article/S0022-202X(15)34551-7/fulltext" },
-        { id: 8, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Protective Acid Mantle", description: "An interactive analysis of how native free fatty acids lower human surface pH to safeguard against environmental stressors and support optimal cell shedding.", actionText: "Read Wiley Hydrophilic Film Analysis →", link: "https://onlinelibrary.wiley.com/doi/10.1111/ics.12745" },
-        { id: 9, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Mercury (Hg) in Lightening Creams", description: "A toxic heavy metal often found in illegal whitening creams that inflicts severe damage on kidneys, nerves, and causes permanent skin discoloration.", actionText: "View PubChem Mercury Safety Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Mercury" },
-        { id: 10, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Potent Corticosteroids (Dexamethasone)", description: "Unregulated topical steroids lead to severe skin thinning, visible blood vessel damage (telangiectasia), topical steroid withdrawal, and systemic organ disruption.", actionText: "Read NCBI Topical Steroid Toxicity Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4171912/" },
-        { id: 11, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Industrial Dyes (Red K3 & Rhodamine B)", description: "Synthetic textile dyes (CI 15585 and Rhodamine B) banned in cosmetics due to carcinogenic properties and potential liver function impairment.", actionText: "View PubChem Rhodamine B Profile →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Rhodamine-B" },
-        { id: 12, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Heavy Metal Toxicity (Lead / Pb)", description: "Heavy metal contaminant found in unverified cosmetic formulations that accumulates in the body, damaging the central nervous system and kidney function.", actionText: "Read CDC Cosmetic Lead Exposure Data →", link: "https://www.cdc.gov/niosh/topics/lead/" }
-    ];
-
-    const databaseGrid = document.getElementById('databaseGrid');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-
-    function renderCards(categoryFilter) {
-        if (!databaseGrid) return;
-        databaseGrid.innerHTML = scienceDatabase.filter(item => categoryFilter === "all" || item.category === categoryFilter).map(item => `
-            <div class="content-card tab-fade-animation">
-                <span class="badge ${item.badgeClass}">${item.badge}</span>
-                <h3>${item.title}</h3>
-                <p>${item.description}</p>
-                <a href="${item.link}" target="_blank" class="read-more" rel="noopener noreferrer">${item.actionText}</a>
-            </div>
-        `).join('');
-    }
-
-    filterBtns.forEach(btn => btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
-        renderCards(btn.getAttribute('data-category'));
-    }));
-
-    const categories = ["Active Component", "Product Function", "Anatomy", "Biology", "Hazardous Substance"];
-    const matrix = [
-        ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
-        ["Niacinamide", 0, "Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.", "Mixes smoothly with most actives without causing flares."],
-        ["Retinol", 0, "Vitamin A derivative that accelerates cell turnover and stimulates structural collagen paths.", "Use strictly at night and wear broad-spectrum protection by day."],
-        ["Salicylic Acid", 0, "Oil-soluble Beta Hydroxy Acid (BHA) that cuts through sebum inside pore walls.", "Perfect spot solution for blackheads and clogged zones."],
-        ["Glycolic Acid", 0, "Alpha Hydroxy Acid (AHA) with small molecular weight for fast surface micro-exfoliation.", "Can cause mild initial stinging on sensitive complexions."],
-        ["Tocopherol", 0, "Vitamin E skin-identical lipid antioxidant providing structural lipid protection.", "Synergizes perfectly with Vitamin C to double free-radical defense."],
-        ["Centella Asiatica", 0, "Botanical herb concentration famous for calming tissue and reducing visual surface scaling.", "Your primary weapon for treating an over-exfoliated skin barrier."],
-        ["Squalane", 0, "Saturated, highly shelf-stable emollient oil mimicking native skin lipids.", "Biocompatible fluid that won't trigger standard oily breakouts."],
-        ["Benzoyl Peroxide", 0, "Antimicrobial compound that sends oxygen into pore channels to destroy acne-causing bacteria.", "Can discolor colored linens; rinse off completely if using body washes."],
-        ["Titanium Dioxide", 0, "Inert mineral active that remains on top of surface layers to deflect UV wavelengths.", "Highly stable and recommended for reactive or rosacea-prone paths."],
-        ["Humectant", 1, "Water-loving ingredients drawing hydration up from deeper cells or humid external environments.", "Glycerin and Hyaluronic Acid are classic functional examples."],
-        ["Emollient", 1, "Smoothing oils or fatty lipids that patch structural gaps between dry shedding cells.", "Restores immediate elasticity and silkiness to flaky surfaces."],
-        ["Occlusive", 1, "Hydrophobic compounds building an invisible protective seal to curb moisture loss.", "Apply as your final nighttime step to lock in lighter serums."],
-        ["Lotion", 1, "Lightweight fluid emulsions combining balanced ratios of oil and water phases.", "Absorbs cleanly without forming heavy waxy residue tracks."],
-        ["Moisturizer", 1, "Topical mixtures structured to maintain stratum corneum hydration levels.", "Apply within minutes after cleaning to bind maximum surface water."],
-        ["Epidermis", 2, "The stratified outermost biological block shielding against dehydration and external microbes.", "The primary zone where non-prescription cosmetic topical items react."],
-        ["Stratum Corneum", 2, "The thin exterior brick-and-mortar skin matrix acting as your primary moisture barrier.", "Keep this layer shielded; avoiding harsh friction preserves it best."],
-        ["Melanin", 3, "Natural color pigments synthesised by melanocytes to shield cellular DNA from radiation.", "Inflammation or picking pimples accelerates localized melanin spots."],
-        ["Sebum", 3, "Native waxy oil secretions layout lubricating external structural layers.", "Balanced sebum acts as a built-in age shield; don't over-strip it."],
-        ["Ceramides", 0, "Crucial structural lipids making up over 50% of the natural matrix linking skin cells.", "Look for these if your moisture shield feels raw or flaky."],
-        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."],
-        ["Mercury", 4, "A toxic heavy metal illegally added to whitening creams. Causes kidney failure, nervous system toxicity, and blotchy hyperpigmentation.", "Never use unbranded or rapidly-whitening cosmetic creams without full ingredient testing."],
-        ["Dexamethasone", 4, "A potent prescription corticosteroid drug that causes rapid skin thinning, persistent redness, and steroid withdrawal when misused.", "Must strictly be prescribed by a licensed physician for short-term medical indications."],
-        ["Hydroquinone", 4, "A strong pigment-inhibiting agent that can cause irreversible exogenous ochronosis (bluish-black skin darkening) and severe eye irritation when mismanaged.", "Requires strict clinical monitoring; prohibited in standard cosmetic retail formats in many regions."],
-        ["Retinoic Acid", 4, "Pure Tretinoin formulation that causes severe burning, scaling, and photosensitivity, as well as severe teratogenic risks (birth defects) during pregnancy.", "Strictly a prescription pharmaceutical; never use unmonitored or during pregnancy."],
-        ["Red K3 (CI 15585)", 4, "A synthetic textile dye illegally used in color cosmetics that acts as a potent carcinogen and damages liver function.", "Avoid cosmetics lacking standard laboratory batch certification or legal regulatory registration tags."],
-        ["Rhodamine B (Red K10)", 4, "A fluorescent industrial dye banned in cosmetic preparations due to strong carcinogenic links and systemic cellular toxicity.", "Commonly found in counterfeit or cheap color cosmetics lacking safety compliance certificates."],
-        ["Lead (Pb)", 4, "A systemic heavy metal contaminant that damages neurological networks, organ function, and blood chemistry.", "Only purchase cosmetics that pass heavy metal safety standard testing."]
-    ];
-
-    const dictionaryListContainer = document.getElementById('dictionaryListContainer');
-    const dictionarySearchInput = document.getElementById('dictionarySearchInput');
-
-    function renderDictionaryList(searchTerm = "") {
-        if (!dictionaryListContainer) return;
-        const cleanSearch = searchTerm.toLowerCase().trim();
-        
-        const filtered = matrix.filter(row => 
-            row[0].toLowerCase().includes(cleanSearch) || 
-            row[2].toLowerCase().includes(cleanSearch) ||
-            categories[row[1]].toLowerCase().includes(cleanSearch)
-        );
-
-        if (filtered.length === 0) {
-            dictionaryListContainer.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 2rem 0;">No vocabulary terms match your search query.</p>`;
-            return;
-        }
-
-        dictionaryListContainer.innerHTML = filtered.map(row => `
-            <div class="dict-card tab-fade-animation">
-                <div class="dict-header">
-                    <h3>${row[0]}</h3>
-                    <span class="dict-tag">${categories[row[1]]}</span>
-                </div>
-                <p class="dict-def">${row[2]}</p>
-                <div class="dict-protip"><strong>🧠 Pro Insight:</strong> ${row[3]}</div>
-            </div>
-        `).join('');
-    }
-
-    if (dictionarySearchInput) {
-        dictionarySearchInput.addEventListener('input', (e) => {
-            renderDictionaryList(e.target.value);
-        });
-    }
-
     // --- INITIALIZATION ---
     calculateSkinTrajectory();
-    renderCards("all");
-    renderDictionaryList("");
 });
