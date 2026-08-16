@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- White Rounded Square Container -->
+  <rect x="32" y="32" width="448" height="448" rx="110" ry="110" fill="#FFFFFF"/>
+  
+  <!-- Golden Yellow Top Arch -->
+  <path d="M 160 148 A 110 110 0 0 1 352 148" 
+        fill="none" 
+        stroke="#D8A838" 
+        stroke-width="26" 
+        stroke-linecap="round"/>
+        
+  <!-- Sage Green Sprout Symbol -->
+  <g fill="none" stroke="#879683" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left Loop -->
+    <path d="M 256 250 C 230 180 165 190 165 235 C 165 275 220 295 256 295"/>
+    <!-- Right Loop -->
+    <path d="M 256 250 C 282 180 347 190 347 235 C 347 275 292 295 256 295"/>
+    <!-- Center Vertical Stem -->
+    <line x1="256" y1="230" x2="256" y2="375"/>
+  </g>
+</svg>
