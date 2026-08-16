@@ -3,8 +3,8 @@
     --bg-card: #ffffff;
     --color-text-main: #2d312e;
     --color-text-muted: #606662;
-    --brand-primary: #4a5548;
-    --brand-secondary: #707f6e;
+    --brand-primary: #449c06;          /* Updated to lighter green from image */
+    --brand-secondary: #64b828;        /* Updated supporting green hue */
     --brand-accent: #c49a45;
     --brand-accent-hover: #b38936;
     --status-alert-bg: #fff1f1;
@@ -13,7 +13,7 @@
     --border-subtle: #e8e7e3;
     --radius-standard: 12px;
     --radius-pill: 50px;
-    --shadow-subtle: 0 4px 20px rgba(74, 85, 72, 0.04);
+    --shadow-subtle: 0 4px 20px rgba(68, 156, 6, 0.06);
 }
 
 /* DARK MODE COLOR MAP VARIABLES */
@@ -22,8 +22,8 @@
     --bg-card: #212421;
     --color-text-main: #e2e4e1;
     --color-text-muted: #a0a6a1;
-    --brand-primary: #8fa08c;
-    --brand-secondary: #cbd3cb;
+    --brand-primary: #52b309;          /* Slightly brighter green for dark mode visibility */
+    --brand-secondary: #7ed035;
     --border-subtle: #323732;
     --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
