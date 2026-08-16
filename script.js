@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+Document.addEventListener("DOMContentLoaded", () => {
     // --- GLOBAL STATE ENGINE ---
     let userSkinProfile = {
         baseType: "Normal",     
@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             amSteps = ["Rinse with water or an ultra-mild splash.", "Apply your basic moisturizer/lotion.", "Apply Broad-Spectrum Sunscreen (Crucial daily protection)."];
             pmSteps = ["Use your Gentle Low-pH Cleanser to break down sunscreen and buildup.", "Apply basic moisturizer to damp skin within a few minutes of drying."];
-  
+
             if (userSkinProfile.baseType === "Oily") {
                 summaryText += " Hint: Since your skin type is Oily, check that your lotion is a lightweight fluid rather than a heavy wax cream.";
             }
@@ -438,7 +438,12 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "L-Ascorbic Acid (Vitamin C)", description: "A well-studied antioxidant that neutralizes environmental free radicals caused by daily UV exposure while supporting structural cell preservation.", actionText: "Read Cochrane Antioxidant Efficacy Review →", link: "https://www.cochrane.org/CD004135/SKIN_antioxidants-for-preventing-skin-ageing-caused-by-the-sun" },
         { id: 6, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Extensively researched molecule shown to boost ceramide production, lower baseline TEWL values, and balance surface sebum metrics.", actionText: "View PubMed Niacinamide Trial Data →", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
         { id: 7, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read JID Barrier Function Literature →", link: "https://www.jidonline.org/article/S0022-202X(15)34551-7/fulltext" },
-        { id: 8, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Protective Acid Mantle", description: "An interactive analysis of how native free fatty acids lower human surface pH to safeguard against environmental stressors and support optimal cell shedding.", actionText: "Read Wiley Hydrophilic Film Analysis →", link: "https://onlinelibrary.wiley.com/doi/10.1111/ics.12745" }
+        { id: 8, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Protective Acid Mantle", description: "An interactive analysis of how native free fatty acids lower human surface pH to safeguard against environmental stressors and support optimal cell shedding.", actionText: "Read Wiley Hydrophilic Film Analysis →", link: "https://onlinelibrary.wiley.com/doi/10.1111/ics.12745" },
+        // --- HAZARDOUS SUBSTANCES ENTRIES CORRECTLY APPENDED HERE ---
+        { id: 9, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Mercury (Hg) in Lightening Creams", description: "A toxic heavy metal often found in illegal whitening creams that inflicts severe damage on kidneys, nerves, and causes permanent skin discoloration.", actionText: "View PubChem Mercury Safety Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Mercury" },
+        { id: 10, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Potent Corticosteroids (Dexamethasone)", description: "Unregulated topical steroids lead to severe skin thinning, visible blood vessel damage (telangiectasia), topical steroid withdrawal, and systemic organ disruption.", actionText: "Read NCBI Topical Steroid Toxicity Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4171912/" },
+        { id: 11, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Industrial Dyes (Red K3 & Rhodamine B)", description: "Synthetic textile dyes (CI 15585 and Rhodamine B) banned in cosmetics due to carcinogenic properties and potential liver function impairment.", actionText: "View PubChem Rhodamine B Profile →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Rhodamine-B" },
+        { id: 12, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Heavy Metal Toxicity (Lead / Pb)", description: "Heavy metal contaminant found in unverified cosmetic formulations that accumulates in the body, damaging the central nervous system and kidney function.", actionText: "Read CDC Cosmetic Lead Exposure Data →", link: "https://www.cdc.gov/niosh/topics/lead/" }
     ];
 
     const databaseGrid = document.getElementById('databaseGrid');
@@ -617,7 +622,15 @@ document.addEventListener("DOMContentLoaded", () => {
         ["Acid Mantle", 2, "Vulnerable low-pH protective film coating your outer cellular boundary layout.", "Maintained by native sweat and sebum to repel microbial invaders."],
         ["Corneocytes", 2, "Hardened, dead skin cells forming the brick blocks of the outer barrier shield.", "Regularly shed off invisibly when skin turnover is functioning healthily."],
         ["Lipid Matrix", 2, "The mortar fluid (ceramides, cholesterol, fatty acids) holding skin cells together.", "Essential for stopping water from escaping and blocking irritants out."],
-        ["pH Scale", 3, "Logarithmic numeric range detailing whether a fluid mix is acidic or basic.", "Skin prefers a slightly acidic environment hovering around 4.5 to 5.5."]
+        ["pH Scale", 3, "Logarithmic numeric range detailing whether a fluid mix is acidic or basic.", "Skin prefers a slightly acidic environment hovering around 4.5 to 5.5."],
+        // --- HAZARDOUS SUBSTANCES DICTIONARY ENTRIES CORRECTLY APPENDED HERE ---
+        ["Mercury", 0, "A toxic heavy metal illegally added to whitening creams. Causes kidney failure, nervous system toxicity, and blotchy hyperpigmentation.", "Never use unbranded or rapidly-whitening cosmetic creams without full ingredient testing."],
+        ["Dexamethasone", 0, "A potent prescription corticosteroid drug that causes rapid skin thinning, persistent redness, and steroid withdrawal when misused.", "Must strictly be prescribed by a licensed physician for short-term medical indications."],
+        ["Hydroquinone", 0, "A strong pigment-inhibiting agent that can cause irreversible exogenous ochronosis (bluish-black skin darkening) and severe eye irritation when mismanaged.", "Requires strict clinical monitoring; prohibited in standard cosmetic retail formats in many regions."],
+        ["Retinoic Acid", 0, "Pure Tretinoin formulation that causes severe burning, scaling, and photosensitivity, as well as severe teratogenic risks (birth defects) during pregnancy.", "Strictly a prescription pharmaceutical; never use unmonitored or during pregnancy."],
+        ["Red K3 (CI 15585)", 0, "A synthetic textile dye illegally used in color cosmetics that acts as a potent carcinogen and damages liver function.", "Avoid cosmetics lacking standard laboratory batch certification or legal regulatory registration tags."],
+        ["Rhodamine B (Red K10)", 0, "A fluorescent industrial dye banned in cosmetic preparations due to strong carcinogenic links and systemic cellular toxicity.", "Commonly found in counterfeit or cheap color cosmetics lacking safety compliance certificates."],
+        ["Lead (Pb)", 0, "A systemic heavy metal contaminant that damages neurological networks, organ function, and blood chemistry.", "Only purchase cosmetics that pass heavy metal safety standard testing."]
     ];
 
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
