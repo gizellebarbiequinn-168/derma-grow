@@ -217,6 +217,13 @@ document.addEventListener("DOMContentLoaded", () => {
             amSteps = ["Rinse with water or an ultra-mild splash.", "Apply your basic moisturizer/lotion.", "Apply Broad-Spectrum Sunscreen (Crucial daily protection)."];
             pmSteps = ["Use your Gentle Low-pH Cleanser to break down sunscreen and buildup.", "Apply basic moisturizer to damp skin within a few minutes of drying."];
 
+            scienceDatabase.push(
+    { id: 9, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Mercury (Hg) in Lightening Creams", description: "A toxic heavy metal often found in illegal whitening creams that inflicts severe damage on kidneys, nerves, and causes permanent skin discoloration.", actionText: "View PubChem Mercury Safety Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Mercury" },
+    { id: 10, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Potent Corticosteroids (Dexamethasone)", description: "Unregulated topical steroids lead to severe skin thinning, visible blood vessel damage (telangiectasia), topical steroid withdrawal, and systemic organ disruption.", actionText: "Read NCBI Topical Steroid Toxicity Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4171912/" },
+    { id: 11, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Industrial Dyes (Red K3 & Rhodamine B)", description: "Synthetic textile dyes (CI 15585 and Rhodamine B) banned in cosmetics due to carcinogenic properties and potential liver function impairment.", actionText: "View PubChem Rhodamine B Profile →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Rhodamine-B" },
+    { id: 12, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Heavy Metal Toxicity (Lead / Pb)", description: "Heavy metal contaminant found in unverified cosmetic formulations that accumulates in the body, damaging the central nervous system and kidney function.", actionText: "Read CDC Cosmetic Lead Exposure Data →", link: "https://www.cdc.gov/niosh/topics/lead/" }
+);
+
             // --- HAZARDOUS SUBSTANCES ENTRIES ---
 { id: 9, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Mercury (Hg) in Lightening Creams", description: "A toxic heavy metal often found in illegal whitening creams that inflicts severe damage on kidneys, nerves, and causes permanent skin discoloration.", actionText: "View PubChem Mercury Safety Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Mercury" },
 { id: 10, category: "myths", badge: "Toxic Hazard", badgeClass: "badge-myth", title: "Potent Corticosteroids (Dexamethasone)", description: "Unregulated topical steroids lead to severe skin thinning, visible blood vessel damage (telangiectasia), topical steroid withdrawal, and systemic organ disruption.", actionText: "Read NCBI Topical Steroid Toxicity Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4171912/" },
@@ -378,6 +385,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
+
+    matrix.push(
+    ["Mercury", 0, "A toxic heavy metal illegally added to whitening creams. Causes kidney failure, nervous system toxicity, and blotchy hyperpigmentation.", "Never use unbranded or rapidly-whitening cosmetic creams without full ingredient testing."],
+    ["Dexamethasone", 0, "A potent prescription corticosteroid drug that causes rapid skin thinning, persistent redness, and steroid withdrawal when misused.", "Must strictly be prescribed by a licensed physician for short-term medical indications."],
+    ["Hydroquinone", 0, "A strong pigment-inhibiting agent that can cause irreversible exogenous ochronosis (bluish-black skin darkening) and severe eye irritation when mismanaged.", "Requires strict clinical monitoring; prohibited in standard cosmetic retail formats in many regions."],
+    ["Retinoic Acid", 0, "Pure Tretinoin formulation that causes severe burning, scaling, and photosensitivity, as well as severe teratogenic risks (birth defects) during pregnancy.", "Strictly a prescription pharmaceutical; never use unmonitored or during pregnancy."],
+    ["Red K3 (CI 15585)", 0, "A synthetic textile dye illegally used in color cosmetics that acts as a potent carcinogen and damages liver function.", "Avoid cosmetics lacking standard laboratory batch certification or legal regulatory registration tags."],
+    ["Rhodamine B (Red K10)", 0, "A fluorescent industrial dye banned in cosmetic preparations due to strong carcinogenic links and systemic cellular toxicity.", "Commonly found in counterfeit or cheap color cosmetics lacking safety compliance certificates."],
+    ["Lead (Pb)", 0, "A systemic heavy metal contaminant that damages neurological networks, organ function, and blood chemistry.", "Only purchase cosmetics that pass heavy metal safety standard testing."]
+);
 
     function evaluateQuizResults() {
         const questionBox = document.getElementById('questionBox');
