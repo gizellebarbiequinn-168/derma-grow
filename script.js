@@ -1,4 +1,105 @@
 document.addEventListener("DOMContentLoaded", () => {
+// --- EXPANDED SKINCARE RECOMMENDATIONS DATABASE ---
+const peerDirectoryDatabase = [
+    // CLEANSERS
+    {
+        id: 1,
+        name: "Gentle Low-pH Hydrating Cleanser",
+        category: "Cleanser",
+        catKey: "cleanser",
+        priceIDR: 45000,
+        description: "A non-stripping, sulfate-free facial wash that cleanses dirt without disrupting the natural skin barrier.",
+        ingredients: ["Glycerin", "Sodium Cocoyl Isethionate", "Panthenol"],
+        bestFor: "All Skin Types (especially Sensitive & Dry)"
+    },
+    {
+        id: 2,
+        name: "Salicylic Acid 2% Clarifying Cleanser",
+        category: "Cleanser",
+        catKey: "cleanser",
+        priceIDR: 58000,
+        description: "A deep-cleansing gel that penetrates pores to dissolve excess oil and prevent clogged pores.",
+        ingredients: ["Salicylic Acid 2%", "Tea Tree Extract", "Zinc PCA"],
+        bestFor: "Oily & Acne-Prone Skin"
+    },
+
+    // MOISTURIZERS
+    {
+        id: 3,
+        name: "Barrier Repair Ceramide Cream",
+        category: "Moisturizer",
+        catKey: "moisturizer",
+        priceIDR: 75000,
+        description: "Rich lipid-replenishing cream that locks in moisture and repairs damaged or flaking skin.",
+        ingredients: ["Ceramide NP", "Squalane", "Hyaluronic Acid"],
+        bestFor: "Dry & Compromised Skin"
+    },
+    {
+        id: 4,
+        name: "Centella Soothing Oil-Free Gel",
+        category: "Moisturizer",
+        catKey: "moisturizer",
+        priceIDR: 52000,
+        description: "Lightweight, fast-absorbing gel moisturizer that hydrates without feeling sticky or heavy.",
+        ingredients: ["Centella Asiatica", "Allantoin", "Glycerin"],
+        bestFor: "Oily & Combination Skin"
+    },
+
+    // SUNSCREENS
+    {
+        id: 5,
+        name: "SPF 50+ PA++++ Broad-Spectrum Fluid",
+        category: "Sunscreen",
+        catKey: "sunscreen",
+        priceIDR: 65000,
+        description: "Lightweight, daily sunscreen with zero white cast that protects against both UVA and UVB rays.",
+        ingredients: ["Tinosorb S", "Uvinul A Plus", "Niacinamide"],
+        bestFor: "Daily Sun Protection (All Types)"
+    },
+
+    // TARGETED TREATMENTS / SERUMS
+    {
+        id: 6,
+        name: "Niacinamide 5% + Zinc Serum",
+        category: "Active Serum",
+        catKey: "actives",
+        priceIDR: 60000,
+        description: "Multitasking serum designed to fade post-acne dark spots and regulate oil production.",
+        ingredients: ["Niacinamide 5%", "Zinc PCA 1%", "Hyaluronic Acid"],
+        bestFor: "Hyperpigmentation & Uneven Texture"
+    }
+];
+
+// --- UPDATED DIRECTORY RENDER FUNCTION ---
+function renderPeerRegistry(filterCategory = "all") {
+    const peerRegistryGrid = document.getElementById('peerRegistryGrid');
+    if (!peerRegistryGrid) return;
+
+    const filteredItems = peerDirectoryDatabase.filter(item => {
+        if (filterCategory === "all") return true;
+        return item.catKey === filterCategory;
+    });
+
+    if (filteredItems.length === 0) {
+        peerRegistryGrid.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 2rem 0;">No recommendations found in this category.</p>`;
+        return;
+    }
+
+    peerRegistryGrid.innerHTML = filteredItems.map(item => `
+        <div class="content-card tab-fade-animation" style="margin-bottom: 1rem; padding: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="badge badge-class" style="background: rgba(74, 85, 72, 0.1); color: #4A5548; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">${item.category}</span>
+                <span style="font-weight: bold; color: var(--brand-accent, #4A5548); font-size: 0.95rem;">${formatGlobalCurrency(item.priceIDR, currentCurrency)}</span>
+            </div>
+            <h3 style="margin: 0.6rem 0 0.3rem 0; font-size: 1.1rem;">${item.name}</h3>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted, #6b7280); margin-bottom: 0.75rem;">${item.description}</p>
+            <div style="font-size: 0.85rem; background: var(--bg-surface-subtle, #f9fafb); padding: 0.6rem; border-radius: 6px;">
+                <div><strong>Suitable For:</strong> ${item.bestFor}</div>
+                <div style="margin-top: 0.25rem;"><strong>Key Ingredients:</strong> ${item.ingredients.join(', ')}</div>
+            </div>
+        </div>
+    `).join('');
+
     // --- GLOBAL STATE ENGINE ---
     let userSkinProfile = {
         baseType: "Normal",     
