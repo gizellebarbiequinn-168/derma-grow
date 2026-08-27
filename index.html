@@ -329,7 +329,26 @@
                 </div>
             </div>
         </section>
-        
+
+        <div id="recommendationsSection" class="content-section hidden">
+    <div class="section-header">
+        <h2>Recommended Skincare Products</h2>
+        <p class="section-subtitle">Science-backed, budget-friendly essentials categorized by function.</p>
+    </div>
+
+    <!-- Category Filter Buttons -->
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+        <button class="rec-filter-btn filter-btn active" data-filter="all">All Items</button>
+        <button class="rec-filter-btn filter-btn" data-filter="cleanser">Cleansers</button>
+        <button class="rec-filter-btn filter-btn" data-filter="moisturizer">Moisturizers</button>
+        <button class="rec-filter-btn filter-btn" data-filter="sunscreen">Sunscreens</button>
+        <button class="rec-filter-btn filter-btn" data-filter="actives">Serums & Actives</button>
+    </div>
+
+    <!-- Container for Product Cards -->
+    <div id="peerRegistryGrid"></div>
+</div>
+
         <footer style="text-align: center; padding: 2rem; color: var(--color-text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-subtle); margin-top: 2rem;">
             <p>&copy; 2026 Derma Grow. All rights reserved.</p>
             <p>Empowering skin confidence through science.</p>
