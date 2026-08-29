@@ -16,21 +16,23 @@
         
         <header class="app-header">
             <div class="brand-container">
-    <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Golden Arch -->
-        <path d="M 20 40 A 32 32 0 0 1 80 40" stroke="#c49a45" stroke-width="8" stroke-linecap="round"/>
-        <!-- Leaf Sprout Body (Updated to Natural Leaf Green) -->
-        <path d="M 50 82 L 50 50 C 50 35 78 35 78 50 C 78 64 50 64 50 64 C 50 64 22 64 22 50 C 22 35 50 35 50 50" stroke="#59912f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <span class="brand-heading">Derma Grow</span>
-</div>
+                <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 20 40 A 32 32 0 0 1 80 40" stroke="#c49a45" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 50 82 L 50 50 C 50 35 78 35 78 50 C 78 64 50 64 50 64 C 50 64 22 64 22 50 C 22 35 50 35 50 50" stroke="#59912f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="brand-heading">Derma Grow</span>
+            </div>
 
-            <nav class="app-nav">
-                <a href="#" id="navDashboard" class="nav-link active">Dashboard</a>
-                <a href="#" id="navQuiz" class="nav-link">Skin Type Quiz</a>
-                <a href="#" id="navLearn" class="nav-link">Science Hub</a>
-                <a href="#" id="navRecommendations" class="nav-link">Shared Directory</a>
-                <a href="#" id="navDictionary" class="nav-link">Skincare Dictionary</a>
+            <!-- Unified Scrollable Navigation -->
+            <nav class="nav-container">
+                <div class="nav-scroll">
+                    <button id="navDashboard" class="nav-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+                    <button id="navQuiz" class="nav-btn" onclick="switchTab('quiz')">Skin Type Quiz</button>
+                    <button id="navLearn" class="nav-btn" onclick="switchTab('science')">Science Hub</button>
+                    <button id="navRecommendations" class="nav-btn" onclick="switchTab('directory')">Shared Directory</button>
+                    <button id="navDictionary" class="nav-btn" onclick="switchTab('dictionary')">Skincare Dictionary</button>
+                    <button id="navProfile" class="nav-btn" onclick="switchTab('profile')">Profile</button>
+                </div>
             </nav>
         </header>
 
@@ -60,34 +62,24 @@
             </div>
         </div>
 
-<nav class="nav-container">
-  <div class="nav-scroll">
-    <button class="nav-btn active" onclick="switchTab('dashboard')">Dashboard</button>
-    <button class="nav-btn" onclick="switchTab('quiz')">Skin Type Quiz</button>
-    <button class="nav-btn" onclick="switchTab('science')">Science Hub</button>
-    <button class="nav-btn" onclick="switchTab('directory')">Shared Directory</button>
-    <button class="nav-btn" onclick="switchTab('profile')">Profile</button>
-  </div>
-</nav>
+        <section id="profile-tab" class="tab-content view-section hidden">
+            <div class="content-card profile-card">
+                <h2>User Profile & Sync</h2>
+                <p class="text-muted">Your unique ID links your routine logs and quiz results to your dashboard.</p>
+                
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <label for="profileNameInput" style="font-weight: 600;">Full Name or Display Alias:</label>
+                    <input type="text" id="profileNameInput" class="form-input-text" placeholder="e.g. Gizelle Barbie Quinn">
+                </div>
 
-     <section id="profile-tab" class="tab-content" style="display: none;">
-  <div class="card profile-card">
-    <h2>User Profile & Sync</h2>
-    <p>Your unique ID links your routine logs and quiz results to your dashboard.</p>
-    
-    <div class="form-group">
-      <label for="profileNameInput">Full Name or Display Alias:</label>
-      <input type="text" id="profileNameInput" class="custom-input" placeholder="e.g. Gizelle Barbie Quinn">
-    </div>
+                <div class="user-id-box" style="margin-bottom: 1.5rem;">
+                    <span>Your Persistent User ID: </span>
+                    <strong id="displayUserID" style="color: var(--brand-accent);">Generating...</strong>
+                </div>
 
-    <div class="user-id-box">
-      <span>Your Persistent User ID:</span>
-      <strong id="displayUserID">Generating...</strong>
-    </div>
-
-    <button onclick="saveUserProfile()" class="primary-btn">Save Profile Settings</button>
-  </div>
-</section>
+                <button onclick="saveUserProfile()" class="btn-primary">Save Profile Settings</button>
+            </div>
+        </section>
    
         <main id="trackerCard" class="view-section dashboard-grid">
             <div class="left-panel">
@@ -358,25 +350,6 @@
                 </div>
             </div>
         </section>
-
-        <div id="recommendationsSection" class="content-section hidden">
-    <div class="section-header">
-        <h2>Recommended Skincare Products</h2>
-        <p class="section-subtitle">Science-backed, budget-friendly essentials categorized by function.</p>
-    </div>
-
-    <!-- Category Filter Buttons -->
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
-        <button class="rec-filter-btn filter-btn active" data-filter="all">All Items</button>
-        <button class="rec-filter-btn filter-btn" data-filter="cleanser">Cleansers</button>
-        <button class="rec-filter-btn filter-btn" data-filter="moisturizer">Moisturizers</button>
-        <button class="rec-filter-btn filter-btn" data-filter="sunscreen">Sunscreens</button>
-        <button class="rec-filter-btn filter-btn" data-filter="actives">Serums & Actives</button>
-    </div>
-
-    <!-- Container for Product Cards -->
-    <div id="peerRegistryGrid"></div>
-</div>
 
         <footer style="text-align: center; padding: 2rem; color: var(--color-text-muted); font-size: 0.8rem; border-top: 1px solid var(--border-subtle); margin-top: 2rem;">
             <p>&copy; 2026 Derma Grow. All rights reserved.</p>
