@@ -998,8 +998,33 @@ function updateProfileBadge() {
     }
 }
 
-// Attach listener to username input box
-document.getElementById('usernameInput')?.addEventListener('input', updateProfileBadge);
+// Load saved name automatically when the page opens
+document.addEventListener("DOMContentLoaded", () => {
+    const savedName = localStorage.getItem("dermaGrowUserName");
+    const nameInput = document.getElementById("usernameInput");
+    
+    if (savedName && nameInput) {
+        nameInput.value = savedName;
+        updateProfileBadge();
+    }
+});
+
+// Update badge AND save the name permanently whenever they type
+function updateProfileBadge() {
+    const nameInput = document.getElementById('usernameInput');
+    const badge = document.querySelector('.budget-builder-badge, .profile-status');
+    
+    if (nameInput) {
+        const val = nameInput.value.trim();
+        if (val !== "") {
+            localStorage.setItem("dermaGrowUserName", val); // Permanent Save
+            if (badge) badge.textContent = "PROFILE: LINKED";
+        } else {
+            localStorage.removeItem("dermaGrowUserName");
+            if (badge) badge.textContent = "PROFILE: UNLINKED";
+        }
+    }
+}
 
 // --- MAIN TELEMETRY LOGGER ---
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
