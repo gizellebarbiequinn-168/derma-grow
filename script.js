@@ -1116,7 +1116,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Save Profile locally and log setup to Sheets
 function saveUserProfile() {
     const nameInput = document.getElementById('profileNameInput');
     const userName = nameInput ? nameInput.value.trim() : "";
@@ -1125,6 +1124,17 @@ function saveUserProfile() {
         alert("Please enter a name or alias.");
         return;
     }
+
+    // Store permanently in browser
+    localStorage.setItem('dermaGrowUserName', userName);
+    updateProfileBadge(true);
+
+    // Send a quick test log to Google Sheets
+    logRoutineToSheet(0, 0, "Profile Saved / Synced");
+
+    alert("Profile saved! Your name will now be attached to all sheet logs.");
+}
+
 
     // Save locally
     localStorage.setItem('dermaGrowUserName', userName);
@@ -1183,3 +1193,31 @@ function switchTab(tabName) {
         document.getElementById('navProfile')?.classList.add('active');
     }
 }
+
+// --- MAIN TELEMETRY LOGGER ---
+function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
+    
+    // 1. First try reading the profile input box
+    const profileInput = document.getElementById('profileNameInput');
+    const inputVal = profileInput ? profileInput.value.trim() : "";
+
+    // 2. Fall back to permanently stored name in LocalStorage, or "Guest"
+    const savedName = localStorage.getItem('dermaGrowUserName');
+    const finalUserName = inputVal || savedName || "Guest";
+
+    fetch(GOOGLE_SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            userID: getOrCreateUserID(),
+            userName: finalUserName,
+            timestamp: new Date().toISOString(),
+            budget: budget,
+            trendsAvoided: trendsAvoided,
+            routine: selectedProducts
+        })
+    }).catch(err => console.log("Silent telemetry log failure"));
+}
+
