@@ -772,7 +772,7 @@ function saveUserProfile() {
 }
 
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxsJ2EIs0KmpovS3eWZDJc3XoKkHBII25QTTDfQ3KAU0OFNJzAFvAmnHXMSdAhmnqBi/exec";
     
     const profileInput = document.getElementById('profileNameInput');
     const inputVal = profileInput ? profileInput.value.trim() : "";
