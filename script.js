@@ -965,9 +965,8 @@ function getOrCreateUserID() {
     return userID;
 }
 
-// --- GOOGLE SHEETS TELEMETRY LOGGER ---
-function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbw2tsduqYL3Pk2iZA_WMNrM66YzG-yWr3sjoe69iD7FrHhaQhXH_3B8DlrunxZEl8Gn/exec";
+function logRoutineToSheet(budget, trendsAvoided, selectedProducts, userName = "Guest") {
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
 
     fetch(GOOGLE_SHEET_URL, {
         method: "POST",
@@ -975,6 +974,7 @@ function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             userID: getOrCreateUserID(),
+            userName: userName, // Passes the user's custom profile name
             timestamp: new Date().toISOString(),
             budget: budget,
             trendsAvoided: trendsAvoided,
