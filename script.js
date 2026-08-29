@@ -1103,3 +1103,50 @@ function saveQuizResults(quizData) {
     localStorage.setItem('dermaGrowQuizResult', JSON.stringify(quizData));
     displayQuizResult(quizData);
 }
+
+// Load profile on start
+document.addEventListener("DOMContentLoaded", () => {
+    const userID = getOrCreateUserID();
+    document.getElementById('displayUserID').textContent = userID;
+
+    const savedName = localStorage.getItem('dermaGrowUserName');
+    if (savedName) {
+        document.getElementById('profileNameInput').value = savedName;
+        updateProfileBadge(true);
+    }
+});
+
+// Save Profile locally and log setup to Sheets
+function saveUserProfile() {
+    const nameInput = document.getElementById('profileNameInput');
+    const userName = nameInput ? nameInput.value.trim() : "";
+
+    if (!userName) {
+        alert("Please enter a name or alias.");
+        return;
+    }
+
+    // Save locally
+    localStorage.setItem('dermaGrowUserName', userName);
+    updateProfileBadge(true);
+
+    // Sync initialization event to Google Sheets
+    logRoutineToSheet(0, 0, "Profile Initialized / Updated");
+
+    alert("Profile saved successfully! Your telemetry is linked.");
+}
+
+function updateProfileBadge(isLinked) {
+    const badges = document.querySelectorAll('.budget-builder-badge, .profile-status');
+    badges.forEach(badge => {
+        if (isLinked) {
+            badge.textContent = "PROFILE: LINKED";
+            badge.style.backgroundColor = "#e8f5e9";
+            badge.style.color = "#2e7d32";
+        } else {
+            badge.textContent = "PROFILE: UNLINKED";
+            badge.style.backgroundColor = "#f5f5f5";
+            badge.style.color = "#666666";
+        }
+    });
+}
