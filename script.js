@@ -966,7 +966,7 @@ function getOrCreateUserID() {
 }
 
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts, userName = "Guest") {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyB5d0QBBzi1UEZbFmcmvJvgrCL6QLTC_2nLE8tHdflM_yMdlI-EB1DBTF1XNdCHMjC/exec";
 
     fetch(GOOGLE_SHEET_URL, {
         method: "POST",
