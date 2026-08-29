@@ -945,9 +945,19 @@ function getOrCreateUserID() {
     return userID;
 }
 
+// Function to get or create a persistent unique user ID
+function getOrCreateUserID() {
+    let userID = localStorage.getItem('dermaGrowUserID');
+    if (!userID) {
+        userID = 'user_' + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem('dermaGrowUserID', userID);
+    }
+    return userID;
+}
+
 // --- GOOGLE SHEETS TELEMETRY LOGGER ---
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyR7i3Sqhkg4ewR2yQeoVMOvnPzngV_KIY5VcyF1ts/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
 
     fetch(GOOGLE_SHEET_URL, {
         method: "POST",
