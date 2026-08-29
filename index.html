@@ -60,11 +60,33 @@
             </div>
         </div>
 
-        <div class="user-profile-section">
-  <label for="usernameInput">Enter your name or alias:</label>
-  <input type="text" id="usernameInput" placeholder="e.g. Alex S.">
-</div>
+        <nav class="nav-links">
+  <button class="nav-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+  <button class="nav-btn" onclick="switchTab('quiz')">Skin Type Quiz</button>
+  <button class="nav-btn" onclick="switchTab('science')">Science Hub</button>
+  <button class="nav-btn" onclick="switchTab('directory')">Shared Directory</button>
+  <button class="nav-btn" onclick="switchTab('profile')">Profile</button>
+</nav>
 
+     <section id="profile-tab" class="tab-content" style="display: none;">
+  <div class="card profile-card">
+    <h2>User Profile & Sync</h2>
+    <p>Your unique ID links your routine logs and quiz results to your dashboard.</p>
+    
+    <div class="form-group">
+      <label for="profileNameInput">Full Name or Display Alias:</label>
+      <input type="text" id="profileNameInput" class="custom-input" placeholder="e.g. Gizelle Barbie Quinn">
+    </div>
+
+    <div class="user-id-box">
+      <span>Your Persistent User ID:</span>
+      <strong id="displayUserID">Generating...</strong>
+    </div>
+
+    <button onclick="saveUserProfile()" class="primary-btn">Save Profile Settings</button>
+  </div>
+</section>
+   
         <main id="trackerCard" class="view-section dashboard-grid">
             <div class="left-panel">
                 <div class="content-card">
