@@ -1003,7 +1003,7 @@ document.getElementById('usernameInput')?.addEventListener('input', updateProfil
 
 // --- MAIN TELEMETRY LOGGER ---
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzoZ0xBtY0G78OwnTCKcBmTvGze3i_wnxbUyIlOvldrxTyP2FwLHOEbs7YrpUml83C7/exec";
     
     const nameInput = document.getElementById('usernameInput');
     const userName = nameInput ? nameInput.value.trim() : "Guest";
