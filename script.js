@@ -965,8 +965,20 @@ function getOrCreateUserID() {
     return userID;
 }
 
-function logRoutineToSheet(budget, trendsAvoided, selectedProducts, userName = "Guest") {
+function getOrCreateUserID() {
+    let userID = localStorage.getItem('dermaGrowUserID');
+    if (!userID) {
+        userID = 'user_' + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem('dermaGrowUserID', userID);
+    }
+    return userID;
+}
+
+function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyB5d0QBBzi1UEZbFmcmvJvgrCL6QLTC_2nLE8tHdflM_yMdlI-EB1DBTF1XNdCHMjC/exec";
+    
+    // Grabs what the user typed, or defaults to "Guest"
+    const enteredName = document.getElementById('usernameInput')?.value.trim() || "Guest";
 
     fetch(GOOGLE_SHEET_URL, {
         method: "POST",
@@ -974,7 +986,7 @@ function logRoutineToSheet(budget, trendsAvoided, selectedProducts, userName = "
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             userID: getOrCreateUserID(),
-            userName: userName, // Passes the user's custom profile name
+            userName: enteredName,
             timestamp: new Date().toISOString(),
             budget: budget,
             trendsAvoided: trendsAvoided,
