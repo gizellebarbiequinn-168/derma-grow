@@ -184,3 +184,42 @@ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4
         margin-bottom: 1rem;
     }
 }
+
+.nav-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Hides scrollbar on Firefox */
+}
+
+.nav-container::-webkit-scrollbar {
+  display: none; /* Hides scrollbar on Chrome/Safari */
+}
+
+.nav-scroll {
+  display: inline-flex;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.nav-btn {
+  background: #f1f3f4;
+  border: 1px solid #dadce0;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.nav-btn.active {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
