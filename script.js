@@ -1183,3 +1183,30 @@ function switchTab(tabName) {
         document.getElementById('navProfile')?.classList.add('active');
     }
 }
+
+// --- MAIN TELEMETRY LOGGER ---
+function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
+    
+    // 1. First try reading the profile input box
+    const profileInput = document.getElementById('profileNameInput');
+    const inputVal = profileInput ? profileInput.value.trim() : "";
+
+    // 2. Fall back to permanently stored name in LocalStorage, or "Guest"
+    const savedName = localStorage.getItem('dermaGrowUserName');
+    const finalUserName = inputVal || savedName || "Guest";
+
+    fetch(GOOGLE_SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            userID: getOrCreateUserID(),
+            userName: finalUserName,
+            timestamp: new Date().toISOString(),
+            budget: budget,
+            trendsAvoided: trendsAvoided,
+            routine: selectedProducts
+        })
+    }).catch(err => console.log("Silent telemetry log failure"));
+}
