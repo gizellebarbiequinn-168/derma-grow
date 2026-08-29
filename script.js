@@ -1150,3 +1150,36 @@ function updateProfileBadge(isLinked) {
         }
     });
 }
+
+// Tab Switching Manager
+function switchTab(tabName) {
+    // 1. Hide all view sections
+    const sections = document.querySelectorAll('.view-section');
+    sections.forEach(section => section.classList.add('hidden'));
+
+    // 2. Remove 'active' status from all nav buttons
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => btn.classList.remove('active'));
+
+    // 3. Map tab names to their section IDs
+    if (tabName === 'dashboard') {
+        document.getElementById('heroSection')?.classList.remove('hidden');
+        document.getElementById('trackerCard')?.classList.remove('hidden');
+        document.getElementById('navDashboard')?.classList.add('active');
+    } else if (tabName === 'quiz') {
+        document.getElementById('quizSection')?.classList.remove('hidden');
+        document.getElementById('navQuiz')?.classList.add('active');
+    } else if (tabName === 'science') {
+        document.getElementById('learnSection')?.classList.remove('hidden');
+        document.getElementById('navLearn')?.classList.add('active');
+    } else if (tabName === 'directory') {
+        document.getElementById('recommendationsSection')?.classList.remove('hidden');
+        document.getElementById('navRecommendations')?.classList.add('active');
+    } else if (tabName === 'dictionary') {
+        document.getElementById('dictionarySection')?.classList.remove('hidden');
+        document.getElementById('navDictionary')?.classList.add('active');
+    } else if (tabName === 'profile') {
+        document.getElementById('profileSection')?.classList.remove('hidden');
+        document.getElementById('navProfile')?.classList.add('active');
+    }
+}
