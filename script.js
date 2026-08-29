@@ -935,16 +935,26 @@ function getOrCreateUserID() {
     return userID;
 }
 
+// Function to get or create a persistent unique user ID
+function getOrCreateUserID() {
+    let userID = localStorage.getItem('dermaGrowUserID');
+    if (!userID) {
+        userID = 'user_' + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem('dermaGrowUserID', userID);
+    }
+    return userID;
+}
+
 // --- GOOGLE SHEETS TELEMETRY LOGGER ---
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyrLszWQ1TlFariH3yEYfppA8gd1awcOv9AHBxXrgWaHt52_q4yRFjKgeYP8CtTLwZZXw/exec";
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyR7i3Sqhkg4ewR2yQeoVMOvnPzngV_KIY5VcyF1ts/exec";
 
     fetch(GOOGLE_SHEET_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            userID: getOrCreateUserID(), // Adds per-user tracking
+            userID: getOrCreateUserID(),
             timestamp: new Date().toISOString(),
             budget: budget,
             trendsAvoided: trendsAvoided,
@@ -952,4 +962,3 @@ function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
         })
     }).catch(err => console.log("Silent telemetry log failure"));
 }
-
