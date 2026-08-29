@@ -1047,3 +1047,59 @@ function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
         })
     }).catch(err => console.log("Silent telemetry log failure"));
 }
+
+// --- PERMANENT STORAGE & APP STATE MANAGER ---
+document.addEventListener("DOMContentLoaded", () => {
+    loadSavedState();
+    
+    // Auto-save username as the user types
+    document.getElementById('usernameInput')?.addEventListener('input', (e) => {
+        const name = e.target.value.trim();
+        if (name) {
+            localStorage.setItem('dermaGrowUserName', name);
+        } else {
+            localStorage.removeItem('dermaGrowUserName');
+        }
+        updateProfileBadge();
+    });
+});
+
+// Load saved profile and quiz data on page load
+function loadSavedState() {
+    // 1. Restore Username
+    const savedName = localStorage.getItem('dermaGrowUserName');
+    const nameInput = document.getElementById('usernameInput');
+    if (savedName && nameInput) {
+        nameInput.value = savedName;
+    }
+    updateProfileBadge();
+
+    // 2. Restore Quiz Results (if saved)
+    const savedQuizResult = localStorage.getItem('dermaGrowQuizResult');
+    if (savedQuizResult) {
+        displayQuizResult(JSON.parse(savedQuizResult));
+    }
+}
+
+// Update UI Badge Status
+function updateProfileBadge() {
+    const savedName = localStorage.getItem('dermaGrowUserName');
+    const badge = document.querySelector('.budget-builder-badge, .profile-status');
+    
+    if (badge) {
+        if (savedName) {
+            badge.textContent = "PROFILE: LINKED";
+            badge.style.color = "#4CAF50"; // Green indicator
+        } else {
+            badge.textContent = "PROFILE: UNLINKED";
+            badge.style.color = "#888888";
+        }
+    }
+}
+
+// CALL THIS INSIDE YOUR QUIZ SUBMIT FUNCTION:
+function saveQuizResults(quizData) {
+    // Save quiz payload to local storage
+    localStorage.setItem('dermaGrowQuizResult', JSON.stringify(quizData));
+    displayQuizResult(quizData);
+}
