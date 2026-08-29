@@ -974,11 +974,39 @@ function getOrCreateUserID() {
     return userID;
 }
 
-function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyB5d0QBBzi1UEZbFmcmvJvgrCL6QLTC_2nLE8tHdflM_yMdlI-EB1DBTF1XNdCHMjC/exec";
+// Function to get or create a persistent unique user ID
+function getOrCreateUserID() {
+    let userID = localStorage.getItem('dermaGrowUserID');
+    if (!userID) {
+        userID = 'user_' + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem('dermaGrowUserID', userID);
+    }
+    return userID;
+}
+
+// Function to update the profile badge status in real-time
+function updateProfileBadge() {
+    const nameInput = document.getElementById('usernameInput');
+    const badge = document.querySelector('.budget-builder-badge, .profile-status');
     
-    // Grabs what the user typed, or defaults to "Guest"
-    const enteredName = document.getElementById('usernameInput')?.value.trim() || "Guest";
+    if (nameInput && badge) {
+        if (nameInput.value.trim() !== "") {
+            badge.textContent = "PROFILE: LINKED";
+        } else {
+            badge.textContent = "PROFILE: UNLINKED";
+        }
+    }
+}
+
+// Attach listener to username input box
+document.getElementById('usernameInput')?.addEventListener('input', updateProfileBadge);
+
+// --- MAIN TELEMETRY LOGGER ---
+function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyE6HD5igg4bbMJYK3bDx6QttI3PzBF1Zvr-GZ8i5ZVRLOjF-nwpvKS3Bx1KeHBREMa/exec";
+    
+    const nameInput = document.getElementById('usernameInput');
+    const userName = nameInput ? nameInput.value.trim() : "Guest";
 
     fetch(GOOGLE_SHEET_URL, {
         method: "POST",
@@ -986,7 +1014,7 @@ function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             userID: getOrCreateUserID(),
-            userName: enteredName,
+            userName: userName || "Guest",
             timestamp: new Date().toISOString(),
             budget: budget,
             trendsAvoided: trendsAvoided,
