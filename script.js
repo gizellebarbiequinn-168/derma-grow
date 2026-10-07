@@ -250,7 +250,7 @@ if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
         if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
         renderVisualThresholdChart(labels, metrics);
-        function updateHonestLocalMetrics(state, score, trendsAvoidedCount) {
+        function updateHonestLocalMetrics(state, score, trendsAvoidedCount, activeHarmfulTrends) {
     const summaryLabel = document.getElementById('metricSummaryLabel');
     const config = currencyMap[currentCurrency] || currencyMap['USD'];
 
