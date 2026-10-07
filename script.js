@@ -1,4 +1,4 @@
-Document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     // --- GLOBAL STATE ENGINE ---
     let userSkinProfile = {
         baseType: "Normal",     
@@ -11,7 +11,7 @@ Document.addEventListener("DOMContentLoaded", () => {
         isCalculated: false
     };
 
-    // Global Multi-Currency Engine (~190+ ISO Currency Codes)
+    // Global Multi-Currency Engine (~190+ ISO Currency Codes - Alphabetical Order)
     const currencyMap = {
         "AED": { locale: "ar-AE", symbol: "AED ", maxBudget: 110, step: 5 },
         "AFN": { locale: "ps-AF", symbol: "AFN ", maxBudget: 2200, step: 50 },
@@ -169,7 +169,7 @@ Document.addEventListener("DOMContentLoaded", () => {
         "ZMW": { locale: "en-ZM", symbol: "ZK ", maxBudget: 780, step: 20 },
         "ZWL": { locale: "en-ZW", symbol: "Z$ ", maxBudget: 9600, step: 500 }
     };
-    let currentCurrency = "IDR"; // Default
+    let currentCurrency = ""; // Default empty until user selects
 
     // --- MAIN CORE NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
@@ -235,7 +235,7 @@ Document.addEventListener("DOMContentLoaded", () => {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
         const summaryLabel = document.getElementById('impactSummaryText');
-        const config = currencyMap[currentCurrency] || currencyMap['USD'];
+        const config = currencyMap[currentCurrency];
 
         if (itemsSavedCount) itemsSavedCount.textContent = trendsAvoidedCount;
 
@@ -248,8 +248,8 @@ Document.addEventListener("DOMContentLoaded", () => {
                 summaryLabel.textContent = `⚠️ Active Irritant Warning: You have ${activeHarmfulTrends} harsh trend(s) selected! Remove them to protect your skin barrier.`;
                 summaryLabel.style.color = "#d9534f"; // Soft red accent
             } else if (trendsAvoidedCount > 0) {
-                let savingsValue = trendsAvoidedCount * (config.maxBudget * 0.2); 
-                summaryLabel.textContent = `🎉 Barrier Protected: By avoiding ${trendsAvoidedCount} aggressive trends, you protected your skin surface and saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)}!`;
+                let savingsText = config ? ` and saved roughly ${formatGlobalCurrency(trendsAvoidedCount * (config.maxBudget * 0.2), currentCurrency)}` : "";
+                summaryLabel.textContent = `🎉 Barrier Protected: By avoiding ${trendsAvoidedCount} aggressive trends, you protected your skin surface${savingsText}!`;
                 summaryLabel.style.color = "var(--brand-primary)";
             } else if (finalScore >= 85) {
                 summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine layout is complete. Keep up the daily consistency!`;
@@ -299,7 +299,8 @@ Document.addEventListener("DOMContentLoaded", () => {
 
     // Global Multi-Currency Formatting Engine
     function formatGlobalCurrency(amount, currencyCode) {
-        const config = currencyMap[currencyCode] || { locale: "en-US", symbol: "$" };
+        if (!currencyCode || !currencyMap[currencyCode]) return `${amount}`;
+        const config = currencyMap[currencyCode];
         return new Intl.NumberFormat(config.locale, {
             style: 'currency',
             currency: currencyCode,
@@ -313,7 +314,7 @@ Document.addEventListener("DOMContentLoaded", () => {
         const budget = parseInt(budgetSlider.value);
         
         if (budgetValue) {
-            budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
+            budgetValue.textContent = currentCurrency ? formatGlobalCurrency(budget, currentCurrency) : `${budget}`;
         }
 
         const state = {};
@@ -455,7 +456,7 @@ Document.addEventListener("DOMContentLoaded", () => {
             if (chkSunscreen) chkSunscreen.checked = true;
             
             if (budgetSlider) {
-                const config = currencyMap[currentCurrency] || currencyMap['USD'];
+                const config = currencyMap[currentCurrency] || { maxBudget: 300000 };
                 budgetSlider.value = Math.floor(config.maxBudget / 2); 
                 budgetSlider.dispatchEvent(new Event('input')); 
             }
@@ -830,7 +831,7 @@ Document.addEventListener("DOMContentLoaded", () => {
     if (currencySelector && budgetSlider) {
         currencySelector.addEventListener('change', (e) => {
             currentCurrency = e.target.value;
-            const config = currencyMap[currentCurrency] || currencyMap['USD'];
+            const config = currencyMap[currentCurrency] || { maxBudget: 300000, step: 10000 };
             
             // Convert proportionally instead of resetting to midpoint
             const currentRatio = budgetSlider.value / budgetSlider.max;
@@ -932,7 +933,7 @@ function saveUserProfile() {
     updateProfileBadge(true);
     logRoutineToSheet(0, 0, "Profile Saved / Synced");
 
-    alert("Profile saved successfully! Your name is now linked to your Google Sheet telemetry.");
+    alert("Profile saved successfully! Your name is now linked to your session telemetry.");
 }
 
 function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
