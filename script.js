@@ -250,7 +250,21 @@ if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
         if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
         renderVisualThresholdChart(labels, metrics);
-        updateHonestLocalMetrics(state, currentEvaluatedScore, unsafeHaltedCount);
+        function updateHonestLocalMetrics(state, score, trendsAvoidedCount) {
+    const summaryLabel = document.getElementById('metricSummaryLabel');
+    const config = currencyMap[currentCurrency] || currencyMap['USD'];
+
+    if (summaryLabel) {
+        if (activeHarmfulTrends > 0) {
+            summaryLabel.textContent = `⚠️ Active Irritant Warning: You have ${activeHarmfulTrends} harsh trend(s) selected! Remove them to protect your skin barrier.`;
+            summaryLabel.style.color = "#d9534f"; // Soft red accent
+        } else if (trendsAvoidedCount > 0) {
+            let savingsValue = trendsAvoidedCount * (config.maxBudget * 0.2); 
+            summaryLabel.textContent = `🎉 Barrier Protected: By avoiding ${trendsAvoidedCount} aggressive trends, you protected your skin surface and saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)}!`;
+            summaryLabel.style.color = "var(--brand-primary)";
+        }
+    }
+}
 
         // --- GOOGLE SHEETS TELEMETRY LOGGING ---
         const activeProducts = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
