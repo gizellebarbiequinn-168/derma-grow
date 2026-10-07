@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+Document.addEventListener("DOMContentLoaded", () => {
     // --- GLOBAL STATE ENGINE ---
     let userSkinProfile = {
         baseType: "Normal",     
@@ -11,14 +11,163 @@ document.addEventListener("DOMContentLoaded", () => {
         isCalculated: false
     };
 
-    // Global Currency Engine Map
+    // Global Multi-Currency Engine (~190+ ISO Currency Codes)
     const currencyMap = {
-        "IDR": { locale: "id-ID", symbol: "Rp ", maxBudget: 300000, step: 10000 },
-        "USD": { locale: "en-US", symbol: "$", maxBudget: 30, step: 1 },
+        "AED": { locale: "ar-AE", symbol: "AED ", maxBudget: 110, step: 5 },
+        "AFN": { locale: "ps-AF", symbol: "AFN ", maxBudget: 2200, step: 50 },
+        "ALL": { locale: "sq-AL", symbol: "ALL ", maxBudget: 2800, step: 100 },
+        "AMD": { locale: "hy-AM", symbol: "AMD ", maxBudget: 12000, step: 500 },
+        "ANG": { locale: "nl-CW", symbol: "NAƒ ", maxBudget: 55, step: 1 },
+        "AOA": { locale: "pt-AO", symbol: "Kz ", maxBudget: 27000, step: 1000 },
+        "ARS": { locale: "es-AR", symbol: "$ ", maxBudget: 30000, step: 1000 },
+        "AUD": { locale: "en-AU", symbol: "A$", maxBudget: 45, step: 1 },
+        "AWG": { locale: "nl-AW", symbol: "Afl. ", maxBudget: 55, step: 1 },
+        "AZN": { locale: "az-AZ", symbol: "₼ ", maxBudget: 50, step: 2 },
+        "BAM": { locale: "bs-BA", symbol: "KM ", maxBudget: 55, step: 2 },
+        "BBD": { locale: "en-BB", symbol: "Bds$ ", maxBudget: 60, step: 2 },
+        "BDT": { locale: "bn-BD", symbol: "৳ ", maxBudget: 3500, step: 100 },
+        "BGN": { locale: "bg-BG", symbol: "лв. ", maxBudget: 55, step: 2 },
+        "BHD": { locale: "ar-BH", symbol: "BD ", maxBudget: 12, step: 1 },
+        "BIF": { locale: "fr-BI", symbol: "FBu ", maxBudget: 85000, step: 2000 },
+        "BMD": { locale: "en-BM", symbol: "$ ", maxBudget: 30, step: 1 },
+        "BND": { locale: "ms-BN", symbol: "B$ ", maxBudget: 40, step: 1 },
+        "BOB": { locale: "es-BO", symbol: "Bs. ", maxBudget: 200, step: 10 },
+        "BRL": { locale: "pt-BR", symbol: "R$ ", maxBudget: 150, step: 5 },
+        "BSD": { locale: "en-BS", symbol: "B$ ", maxBudget: 30, step: 1 },
+        "BTN": { locale: "dz-BT", symbol: "Nu. ", maxBudget: 2500, step: 100 },
+        "BWP": { locale: "en-BW", symbol: "P ", maxBudget: 400, step: 10 },
+        "BYN": { locale: "be-BY", symbol: "Br ", maxBudget: 100, step: 5 },
+        "BZD": { locale: "en-BZ", symbol: "BZ$ ", maxBudget: 60, step: 2 },
+        "CAD": { locale: "en-CA", symbol: "CA$ ", maxBudget: 40, step: 1 },
+        "CDF": { locale: "fr-CD", symbol: "FC ", maxBudget: 85000, step: 2000 },
+        "CHF": { locale: "de-CH", symbol: "CHF ", maxBudget: 28, step: 1 },
+        "CLP": { locale: "es-CL", symbol: "$ ", maxBudget: 28000, step: 1000 },
+        "CNY": { locale: "zh-CN", symbol: "¥ ", maxBudget: 220, step: 10 },
+        "COP": { locale: "es-CO", symbol: "$ ", maxBudget: 120000, step: 5000 },
+        "CRC": { locale: "es-CR", symbol: "₡ ", maxBudget: 15000, step: 500 },
+        "CUP": { locale: "es-CU", symbol: "$MN ", maxBudget: 720, step: 20 },
+        "CVE": { locale: "pt-CV", symbol: "Esc ", maxBudget: 3000, step: 100 },
+        "CZK": { locale: "cs-CZ", symbol: "Kč ", maxBudget: 700, step: 25 },
+        "DJF": { locale: "fr-DJ", symbol: "Fdj ", maxBudget: 5300, step: 200 },
+        "DKK": { locale: "da-DK", symbol: "kr. ", maxBudget: 210, step: 10 },
+        "DOP": { locale: "es-DO", symbol: "RD$ ", maxBudget: 1800, step: 50 },
+        "DZD": { locale: "ar-DZ", symbol: "DA ", maxBudget: 4000, step: 100 },
+        "EGP": { locale: "ar-EG", symbol: "E£ ", maxBudget: 1400, step: 50 },
+        "ERN": { locale: "ti-ER", symbol: "Nfk ", maxBudget: 450, step: 20 },
+        "ETB": { locale: "am-ET", symbol: "Br ", maxBudget: 1700, step: 50 },
         "EUR": { locale: "de-DE", symbol: "€", maxBudget: 30, step: 1 },
+        "FJD": { locale: "en-FJ", symbol: "FJ$ ", maxBudget: 65, step: 2 },
+        "FKP": { locale: "en-FK", symbol: "£ ", maxBudget: 25, step: 1 },
         "GBP": { locale: "en-GB", symbol: "£", maxBudget: 25, step: 1 },
+        "GEL": { locale: "ka-GE", symbol: "₾ ", maxBudget: 80, step: 5 },
+        "GHS": { locale: "en-GH", symbol: "GH₵ ", maxBudget: 420, step: 20 },
+        "GIP": { locale: "en-GI", symbol: "£ ", maxBudget: 25, step: 1 },
+        "GMD": { locale: "en-GM", symbol: "D ", maxBudget: 2000, step: 50 },
+        "GNF": { locale: "fr-GN", symbol: "FG ", maxBudget: 250000, step: 10000 },
+        "GTQ": { locale: "es-GT", symbol: "Q ", maxBudget: 230, step: 10 },
+        "GYD": { locale: "en-GY", symbol: "G$ ", maxBudget: 6200, step: 200 },
+        "HKD": { locale: "zh-HK", symbol: "HK$ ", maxBudget: 235, step: 10 },
+        "HNL": { locale: "es-HN", symbol: "L ", maxBudget: 740, step: 20 },
+        "HRK": { locale: "hr-HR", symbol: "€ ", maxBudget: 30, step: 1 },
+        "HTG": { locale: "fr-HT", symbol: "G ", maxBudget: 4000, step: 100 },
+        "HUF": { locale: "hu-HU", symbol: "Ft ", maxBudget: 11000, step: 500 },
+        "IDR": { locale: "id-ID", symbol: "Rp ", maxBudget: 300000, step: 10000 },
+        "ILS": { locale: "he-IL", symbol: "₪ ", maxBudget: 110, step: 5 },
+        "INR": { locale: "hi-IN", symbol: "₹ ", maxBudget: 2500, step: 100 },
+        "IQD": { locale: "ar-IQ", symbol: "IQD ", maxBudget: 39000, step: 1000 },
+        "IRR": { locale: "fa-IR", symbol: "IRR ", maxBudget: 1250000, step: 50000 },
+        "ISK": { locale: "is-IS", symbol: "kr. ", maxBudget: 4100, step: 100 },
+        "JMD": { locale: "en-JM", symbol: "J$ ", maxBudget: 4600, step: 200 },
+        "JOD": { locale: "ar-JO", symbol: "JD ", maxBudget: 21, step: 1 },
+        "JPY": { locale: "ja-JP", symbol: "¥ ", maxBudget: 4500, step: 200 },
+        "KES": { locale: "sw-KE", symbol: "KSh ", maxBudget: 3900, step: 100 },
+        "KGS": { locale: "ky-KG", symbol: "сом ", maxBudget: 2600, step: 100 },
+        "KHR": { locale: "km-KH", symbol: "៛ ", maxBudget: 120000, step: 5000 },
+        "KMF": { locale: "fr-KM", symbol: "CF ", maxBudget: 13500, step: 500 },
+        "KPW": { locale: "ko-KP", symbol: "₩ ", maxBudget: 27000, step: 1000 },
+        "KRW": { locale: "ko-KR", symbol: "₩ ", maxBudget: 40000, step: 1000 },
+        "KWD": { locale: "ar-KW", symbol: "KD ", maxBudget: 9, step: 1 },
+        "KYD": { locale: "en-KY", symbol: "CI$ ", maxBudget: 25, step: 1 },
+        "KZT": { locale: "kk-KZ", symbol: "₸ ", maxBudget: 14000, step: 500 },
+        "LAK": { locale: "lo-LA", symbol: "₭ ", maxBudget: 630000, step: 20000 },
+        "LBP": { locale: "ar-LB", symbol: "L£ ", maxBudget: 2700000, step: 100000 },
+        "LKR": { locale: "si-LK", symbol: "Rs ", maxBudget: 9000, step: 500 },
+        "LRD": { locale: "en-LR", symbol: "L$ ", maxBudget: 5800, step: 200 },
+        "LSL": { locale: "st-LS", symbol: "L ", maxBudget: 550, step: 25 },
+        "LYD": { locale: "ar-LY", symbol: "LD ", maxBudget: 145, step: 5 },
+        "MAD": { locale: "ar-MA", symbol: "MAD ", maxBudget: 300, step: 10 },
+        "MDL": { locale: "ro-MD", symbol: "L ", maxBudget: 530, step: 20 },
+        "MGA": { locale: "mg-MG", symbol: "Ar ", maxBudget: 135000, step: 5000 },
+        "MKD": { locale: "mk-MK", symbol: "ден ", maxBudget: 1700, step: 50 },
+        "MMK": { locale: "my-MM", symbol: "Ks ", maxBudget: 63000, step: 2000 },
+        "MNT": { locale: "mn-MN", symbol: "₮ ", maxBudget: 100000, step: 5000 },
+        "MOP": { locale: "zh-MO", symbol: "MOP$ ", maxBudget: 240, step: 10 },
+        "MRU": { locale: "ar-MR", symbol: "UM ", maxBudget: 1200, step: 50 },
+        "MUR": { locale: "en-MU", symbol: "Rs ", maxBudget: 1380, step: 50 },
+        "MVR": { locale: "dv-MV", symbol: "Rf ", maxBudget: 460, step: 20 },
+        "MWK": { locale: "ny-MW", symbol: "MK ", maxBudget: 50000, step: 2000 },
+        "MXN": { locale: "es-MX", symbol: "Mex$ ", maxBudget: 550, step: 25 },
+        "MYR": { locale: "ms-MY", symbol: "RM ", maxBudget: 135, step: 5 },
+        "MZN": { locale: "pt-MZ", symbol: "MT ", maxBudget: 1900, step: 50 },
+        "NAD": { locale: "en-NA", symbol: "N$ ", maxBudget: 550, step: 25 },
+        "NGN": { locale: "ha-NG", symbol: "₦ ", maxBudget: 45000, step: 2000 },
+        "NIO": { locale: "es-NI", symbol: "C$ ", maxBudget: 1100, step: 50 },
+        "NOK": { locale: "nb-NO", symbol: "kr ", maxBudget: 320, step: 10 },
+        "NPR": { locale: "ne-NP", symbol: "Rs ", maxBudget: 4000, step: 100 },
+        "NZD": { locale: "en-NZ", symbol: "NZ$ ", maxBudget: 50, step: 2 },
+        "OMR": { locale: "ar-OM", symbol: "OMR ", maxBudget: 11, step: 1 },
+        "PAB": { locale: "es-PA", symbol: "B/. ", maxBudget: 30, step: 1 },
+        "PEN": { locale: "es-PE", symbol: "S/ ", maxBudget: 110, step: 5 },
+        "PGK": { locale: "en-PG", symbol: "K ", maxBudget: 115, step: 5 },
+        "PHP": { locale: "en-PH", symbol: "₱ ", maxBudget: 1700, step: 50 },
+        "PKR": { locale: "ur-PK", symbol: "Rs ", maxBudget: 8300, step: 200 },
+        "PLN": { locale: "pl-PL", symbol: "zł ", maxBudget: 120, step: 5 },
+        "PYG": { locale: "es-PY", symbol: "₲ ", maxBudget: 220000, step: 10000 },
+        "QAR": { locale: "ar-QA", symbol: "QR ", maxBudget: 110, step: 5 },
+        "RON": { locale: "ro-RO", symbol: "lei ", maxBudget: 135, step: 5 },
+        "RSD": { locale: "sr-RS", symbol: "дин. ", maxBudget: 3200, step: 100 },
+        "RUB": { locale: "ru-RU", symbol: "₽ ", maxBudget: 2800, step: 100 },
+        "RWF": { locale: "rw-RW", symbol: "FRw ", maxBudget: 38000, step: 1000 },
+        "SAR": { locale: "ar-SA", symbol: "SR ", maxBudget: 112, step: 5 },
+        "SBD": { locale: "en-SB", symbol: "SI$ ", maxBudget: 250, step: 10 },
+        "SCR": { locale: "fr-SC", symbol: "SR ", maxBudget: 400, step: 20 },
+        "SDG": { locale: "ar-SD", symbol: "SDG ", maxBudget: 18000, step: 500 },
+        "SEK": { locale: "sv-SE", symbol: "kr ", maxBudget: 310, step: 10 },
         "SGD": { locale: "en-SG", symbol: "S$", maxBudget: 40, step: 1 },
-        "AUD": { locale: "en-AU", symbol: "A$", maxBudget: 45, step: 1 }
+        "SHP": { locale: "en-SH", symbol: "£ ", maxBudget: 25, step: 1 },
+        "SLE": { locale: "en-SL", symbol: "Le ", maxBudget: 650, step: 25 },
+        "SOS": { locale: "so-SO", symbol: "Ssh ", maxBudget: 17000, step: 500 },
+        "SRD": { locale: "nl-SR", symbol: "$ ", maxBudget: 1000, step: 50 },
+        "SSP": { locale: "en-SS", symbol: "£ ", maxBudget: 39000, step: 1000 },
+        "STN": { locale: "pt-ST", symbol: "Db ", maxBudget: 670, step: 25 },
+        "SYP": { locale: "ar-SY", symbol: "LS ", maxBudget: 380000, step: 10000 },
+        "SZL": { locale: "ss-SZ", symbol: "E ", maxBudget: 550, step: 25 },
+        "THB": { locale: "th-TH", symbol: "฿ ", maxBudget: 1000, step: 50 },
+        "TJS": { locale: "tg-TJ", symbol: "SM ", maxBudget: 320, step: 10 },
+        "TMT": { locale: "tk-TM", symbol: "m ", maxBudget: 105, step: 5 },
+        "TND": { locale: "ar-TN", symbol: "DT ", maxBudget: 90, step: 5 },
+        "TOP": { locale: "to-TO", symbol: "T$ ", maxBudget: 70, step: 2 },
+        "TRY": { locale: "tr-TR", symbol: "₺ ", maxBudget: 1000, step: 50 },
+        "TTD": { locale: "en-TT", symbol: "TT$ ", maxBudget: 200, step: 10 },
+        "TWD": { locale: "zh-TW", symbol: "NT$ ", maxBudget: 950, step: 50 },
+        "TZS": { locale: "sw-TZ", symbol: "TSh ", maxBudget: 78000, step: 2000 },
+        "UAH": { locale: "uk-UA", symbol: "₴ ", maxBudget: 1200, step: 50 },
+        "UGX": { locale: "sw-UG", symbol: "USh ", maxBudget: 110000, step: 5000 },
+        "USD": { locale: "en-US", symbol: "$", maxBudget: 30, step: 1 },
+        "UYU": { locale: "es-UY", symbol: "$U ", maxBudget: 1200, step: 50 },
+        "UZS": { locale: "uz-UZ", symbol: "so'm ", maxBudget: 380000, step: 10000 },
+        "VES": { locale: "es-VE", symbol: "Bs.S ", maxBudget: 1100, step: 50 },
+        "VND": { locale: "vi-VN", symbol: "₫ ", maxBudget: 750000, step: 25000 },
+        "VUV": { locale: "bi-VU", symbol: "VT ", maxBudget: 3500, step: 100 },
+        "WST": { locale: "sm-WS", symbol: "WS$ ", maxBudget: 80, step: 5 },
+        "XAF": { locale: "fr-CM", symbol: "FCFA ", maxBudget: 18000, step: 500 },
+        "XCD": { locale: "en-AG", symbol: "EC$ ", maxBudget: 80, step: 5 },
+        "XOF": { locale: "fr-SN", symbol: "CFA ", maxBudget: 18000, step: 500 },
+        "XPF": { locale: "fr-PF", symbol: "CFP ", maxBudget: 3300, step: 100 },
+        "YER": { locale: "ar-YE", symbol: "YR ", maxBudget: 7500, step: 250 },
+        "ZAR": { locale: "af-ZA", symbol: "R ", maxBudget: 550, step: 25 },
+        "ZMW": { locale: "en-ZM", symbol: "ZK ", maxBudget: 780, step: 20 },
+        "ZWL": { locale: "en-ZW", symbol: "Z$ ", maxBudget: 9600, step: 500 }
     };
     let currentCurrency = "IDR"; // Default
 
@@ -82,26 +231,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- TRACK MATRIX SUMMARY METRICS ---
-    function updateHonestLocalMetrics(state, finalScore, unsafeHaltedCount) {
+    function updateHonestLocalMetrics(state, finalScore, trendsAvoidedCount, activeHarmfulTrends) {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
         const summaryLabel = document.getElementById('impactSummaryText');
-        const config = currencyMap[currentCurrency];
+        const config = currencyMap[currentCurrency] || currencyMap['USD'];
 
-        if (itemsSavedCount) itemsSavedCount.textContent = unsafeHaltedCount;
+        if (itemsSavedCount) itemsSavedCount.textContent = trendsAvoidedCount;
 
         const baselineDefaultScore = 50;
         let delta = finalScore - baselineDefaultScore;
         if (optimizationDelta) optimizationDelta.textContent = delta >= 0 ? `+${delta}%` : `${delta}%`;
 
         if (summaryLabel) {
-            if (unsafeHaltedCount > 0) {
-                let savingsValue = unsafeHaltedCount * (config.maxBudget * 0.2); 
-                summaryLabel.textContent = `🎉 Trend Avoided: Dropping ${unsafeHaltedCount} aggressive trends protects your skin surface. You also saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)} in unnecessary product costs!`;
+            if (activeHarmfulTrends > 0) {
+                summaryLabel.textContent = `⚠️ Active Irritant Warning: You have ${activeHarmfulTrends} harsh trend(s) selected! Remove them to protect your skin barrier.`;
+                summaryLabel.style.color = "#d9534f"; // Soft red accent
+            } else if (trendsAvoidedCount > 0) {
+                let savingsValue = trendsAvoidedCount * (config.maxBudget * 0.2); 
+                summaryLabel.textContent = `🎉 Barrier Protected: By avoiding ${trendsAvoidedCount} aggressive trends, you protected your skin surface and saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)}!`;
+                summaryLabel.style.color = "var(--brand-primary)";
             } else if (finalScore >= 85) {
                 summaryLabel.textContent = `🎯 Core Routine Built: Your minimalist routine layout is complete. Keep up the daily consistency!`;
+                summaryLabel.style.color = "var(--brand-primary)";
             } else {
-                summaryLabel.textContent = `💡 Routine Builder Active. Interact with the checkboxes or hit the Starter Pack button to see layout responses.`;
+                summaryLabel.textContent = `💡 Routine Builder Active. Select products currently in your routine to view barrier trajectory metrics.`;
+                summaryLabel.style.color = "var(--color-text-main)";
             }
         }
     }
@@ -138,7 +293,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const protocolBox = document.getElementById('protocolBox');
     const amRoutineList = document.getElementById('amRoutineList');
     const pmRoutineList = document.getElementById('pmRoutineList');
-    const profileSyncBadge = document.getElementById('profileSyncBadge');
 
     const selectors = ['chk-moisturizer', 'chk-cleanser', 'chk-sunscreen', 'chk-toner', 'chk-niacinamide', 'chk-actives', 'chk-lemon', 'chk-scrubs'];
     let dermaChart = null;
@@ -166,17 +320,17 @@ document.addEventListener("DOMContentLoaded", () => {
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
 
         let activeHarmfulTrends = 0;
-let trendsAvoidedCount = 0;
+        let trendsAvoidedCount = 0;
 
-// Count active harmful items selected
-if (state['chk-lemon']) activeHarmfulTrends++;
-if (state['chk-scrubs']) activeHarmfulTrends++;
-if (state['chk-actives'] && !state['chk-moisturizer']) activeHarmfulTrends++;
+        // Count active harmful items selected
+        if (state['chk-lemon']) activeHarmfulTrends++;
+        if (state['chk-scrubs']) activeHarmfulTrends++;
+        if (state['chk-actives'] && !state['chk-moisturizer']) activeHarmfulTrends++;
 
-// Award points for trends avoided (if user leaves them UNCHECKED)
-if (!state['chk-lemon']) trendsAvoidedCount++;
-if (!state['chk-scrubs']) trendsAvoidedCount++;
-if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
+        // Award points for trends avoided (if user leaves them UNCHECKED)
+        if (!state['chk-lemon']) trendsAvoidedCount++;
+        if (!state['chk-scrubs']) trendsAvoidedCount++;
+        if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
 
         const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
         let metrics = [50, 50, 50, 50, 50, 50, 50];
@@ -250,21 +404,7 @@ if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
         if (pmRoutineList) pmRoutineList.innerHTML = pmSteps.map(s => `<li>${s}</li>`).join('');
 
         renderVisualThresholdChart(labels, metrics);
-        function updateHonestLocalMetrics(state, score, trendsAvoidedCount, activeHarmfulTrends) {
-    const summaryLabel = document.getElementById('metricSummaryLabel');
-    const config = currencyMap[currentCurrency] || currencyMap['USD'];
-
-    if (summaryLabel) {
-        if (activeHarmfulTrends > 0) {
-            summaryLabel.textContent = `⚠️ Active Irritant Warning: You have ${activeHarmfulTrends} harsh trend(s) selected! Remove them to protect your skin barrier.`;
-            summaryLabel.style.color = "#d9534f"; // Soft red accent
-        } else if (trendsAvoidedCount > 0) {
-            let savingsValue = trendsAvoidedCount * (config.maxBudget * 0.2); 
-            summaryLabel.textContent = `🎉 Barrier Protected: By avoiding ${trendsAvoidedCount} aggressive trends, you protected your skin surface and saved roughly ${formatGlobalCurrency(savingsValue, currentCurrency)}!`;
-            summaryLabel.style.color = "var(--brand-primary)";
-        }
-    }
-}
+        updateHonestLocalMetrics(state, currentEvaluatedScore, trendsAvoidedCount, activeHarmfulTrends);
 
         // --- GOOGLE SHEETS TELEMETRY LOGGING ---
         const activeProducts = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
@@ -272,7 +412,7 @@ if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
             .join(', ');
 
         if (typeof logRoutineToSheet === 'function') {
-            logRoutineToSheet(budget, unsafeHaltedCount, activeProducts || "None Selected");
+            logRoutineToSheet(budget, trendsAvoidedCount, activeProducts || "None Selected");
         }
     }
 
@@ -315,7 +455,7 @@ if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
             if (chkSunscreen) chkSunscreen.checked = true;
             
             if (budgetSlider) {
-                const config = currencyMap[currentCurrency];
+                const config = currencyMap[currentCurrency] || currencyMap['USD'];
                 budgetSlider.value = Math.floor(config.maxBudget / 2); 
                 budgetSlider.dispatchEvent(new Event('input')); 
             }
@@ -690,11 +830,13 @@ if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
     if (currencySelector && budgetSlider) {
         currencySelector.addEventListener('change', (e) => {
             currentCurrency = e.target.value;
-            const config = currencyMap[currentCurrency];
+            const config = currencyMap[currentCurrency] || currencyMap['USD'];
             
+            // Convert proportionally instead of resetting to midpoint
+            const currentRatio = budgetSlider.value / budgetSlider.max;
             budgetSlider.max = config.maxBudget;
             budgetSlider.step = config.step;
-            budgetSlider.value = Math.floor(config.maxBudget / 2);
+            budgetSlider.value = Math.round((config.maxBudget * currentRatio) / config.step) * config.step || config.maxBudget;
             
             calculateSkinTrajectory();
         });
@@ -766,11 +908,11 @@ function updateProfileBadge(isLinked) {
     const badge = document.getElementById('profileSyncBadge');
     if (badge) {
         if (isLinked) {
-            badge.textContent = "PROFILE: LINKED";
+            badge.textContent = "Profile: Saved & Synced";
             badge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
             badge.style.color = "var(--brand-accent)";
         } else {
-            badge.textContent = "PROFILE: UNLINKED";
+            badge.textContent = "Profile: Guest Mode";
             badge.style.backgroundColor = "var(--border-subtle)";
             badge.style.color = "var(--color-text-muted)";
         }
