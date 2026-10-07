@@ -165,10 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const state = {};
         selectors.forEach(id => { const el = document.getElementById(id); state[id] = el ? el.checked : false; });
 
-        let unsafeHaltedCount = 0;
-        if (state['chk-lemon']) unsafeHaltedCount++;
-        if (state['chk-scrubs']) unsafeHaltedCount++;
-        if (state['chk-actives'] && !state['chk-moisturizer']) unsafeHaltedCount++;
+        let activeHarmfulTrends = 0;
+let trendsAvoidedCount = 0;
+
+// Count active harmful items selected
+if (state['chk-lemon']) activeHarmfulTrends++;
+if (state['chk-scrubs']) activeHarmfulTrends++;
+if (state['chk-actives'] && !state['chk-moisturizer']) activeHarmfulTrends++;
+
+// Award points for trends avoided (if user leaves them UNCHECKED)
+if (!state['chk-lemon']) trendsAvoidedCount++;
+if (!state['chk-scrubs']) trendsAvoidedCount++;
+if (!state['chk-actives'] || state['chk-moisturizer']) trendsAvoidedCount++;
 
         const labels = ["Day 1", "Day 3", "Day 5", "Day 7", "Day 10", "Day 12", "Day 14"];
         let metrics = [50, 50, 50, 50, 50, 50, 50];
