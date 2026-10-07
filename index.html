@@ -69,7 +69,7 @@
                 
                 <div class="input-group" style="margin-bottom: 1rem;">
                     <label for="profileNameInput" style="font-weight: 600;">Full Name or Display Alias:</label>
-                    <input type="text" id="profileNameInput" class="form-input-text" placeholder="e.g. Gizelle Barbie Quinn">
+                    <input type="text" id="profileNameInput" class="form-input-text" placeholder="e.g. Louise Elizabeth">
                 </div>
 
                 <div class="user-id-box" style="margin-bottom: 1.5rem;">
@@ -93,20 +93,7 @@
                     <div class="input-group" style="margin-bottom: 1rem;">
                         <label for="currencySelector" style="font-weight: 600; font-size: 0.85rem;">🌐 Select Global Currency Display:</label>
                         <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.4rem; font-size: 0.85rem; width: auto; min-width: 140px; background: var(--bg-main);">
-                            <option value="IDR" selected>IDR (Rp)</option>
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="GBP">GBP (£)</option>
-                            <option value="SGD">SGD (S$)</option>
-                            <option value="AUD">AUD (A$)</option>
-                            <option value="CAD">CAD (CA$)</option>
-                            <option value="JPY">JPY (¥)</option>
-                            <option value="CNY">CNY (¥)</option>
-
-                            <option value="INR">INR (₹)</option>
-                            <option value="MYR">MYR (RM)</option>
-                            <option value="PHP">PHP (₱)</option>
-                            <option value="BRL">BRL (R$)</option>
+                            <option value="" disabled selected>-- Select Currency --</option>
                             <option value="AED">AED (AED)</option>
                             <option value="AFN">AFN (AFN)</option>
                             <option value="ALL">ALL (ALL)</option>
@@ -114,44 +101,47 @@
                             <option value="ANG">ANG (NAƒ)</option>
                             <option value="AOA">AOA (Kz)</option>
                             <option value="ARS">ARS ($)</option>
+                            <option value="AUD">AUD (A$)</option>
                             <option value="AWG">AWG (Afl.)</option>
                             <option value="AZN">AZN (₼)</option>
                             <option value="BAM">BAM (KM)</option>
                             <option value="BBD">BBD (Bds$)</option>
                             <option value="BDT">BDT (৳)</option>
-
                             <option value="BGN">BGN (лв.)</option>
                             <option value="BHD">BHD (BD)</option>
                             <option value="BIF">BIF (FBu)</option>
                             <option value="BMD">BMD ($)</option>
                             <option value="BND">BND (B$)</option>
                             <option value="BOB">BOB (Bs.)</option>
+                            <option value="BRL">BRL (R$)</option>
                             <option value="BSD">BSD (B$)</option>
                             <option value="BTN">BTN (Nu.)</option>
                             <option value="BWP">BWP (P)</option>
                             <option value="BYN">BYN (Br)</option>
                             <option value="BZD">BZD (BZ$)</option>
+                            <option value="CAD">CAD (CA$)</option>
                             <option value="CDF">CDF (FC)</option>
                             <option value="CHF">CHF (CHF)</option>
                             <option value="CLP">CLP ($)</option>
+                            <option value="CNY">CNY (¥)</option>
                             <option value="COP">COP ($)</option>
                             <option value="CRC">CRC (₡)</option>
                             <option value="CUP">CUP ($MN)</option>
                             <option value="CVE">CVE (Esc)</option>
                             <option value="CZK">CZK (Kč)</option>
                             <option value="DJF">DJF (Fdj)</option>
-
                             <option value="DKK">DKK (kr.)</option>
                             <option value="DOP">DOP (RD$)</option>
                             <option value="DZD">DZD (DA)</option>
                             <option value="EGP">EGP (E£)</option>
                             <option value="ERN">ERN (Nfk)</option>
                             <option value="ETB">ETB (Br)</option>
+                            <option value="EUR">EUR (€)</option>
                             <option value="FJD">FJD (FJ$)</option>
                             <option value="FKP">FKP (£)</option>
+                            <option value="GBP">GBP (£)</option>
                             <option value="GEL">GEL (₾)</option>
                             <option value="GHS">GHS (GH₵)</option>
-
                             <option value="GIP">GIP (£)</option>
                             <option value="GMD">GMD (D)</option>
                             <option value="GNF">GNF (FG)</option>
@@ -162,19 +152,20 @@
                             <option value="HRK">HRK (€)</option>
                             <option value="HTG">HTG (G)</option>
                             <option value="HUF">HUF (Ft)</option>
+                            <option value="IDR">IDR (Rp)</option>
                             <option value="ILS">ILS (₪)</option>
-
+                            <option value="INR">INR (₹)</option>
                             <option value="IQD">IQD (IQD)</option>
                             <option value="IRR">IRR (IRR)</option>
                             <option value="ISK">ISK (kr.)</option>
                             <option value="JMD">JMD (J$)</option>
                             <option value="JOD">JOD (JD)</option>
+                            <option value="JPY">JPY (¥)</option>
                             <option value="KES">KES (KSh)</option>
                             <option value="KGS">KGS (сом)</option>
                             <option value="KHR">KHR (៛)</option>
                             <option value="KMF">KMF (CF)</option>
                             <option value="KPW">KPW (₩)</option>
-
                             <option value="KRW">KRW (₩)</option>
                             <option value="KWD">KWD (KD)</option>
                             <option value="KYD">KYD (CI$)</option>
@@ -185,7 +176,6 @@
                             <option value="LRD">LRD (L$)</option>
                             <option value="LSL">LSL (L)</option>
                             <option value="LYD">LYD (LD)</option>
-
                             <option value="MAD">MAD (MAD)</option>
                             <option value="MDL">MDL (L)</option>
                             <option value="MGA">MGA (Ar)</option>
@@ -197,8 +187,8 @@
                             <option value="MUR">MUR (Rs)</option>
                             <option value="MVR">MVR (Rf)</option>
                             <option value="MWK">MWK (MK)</option>
-
                             <option value="MXN">MXN (Mex$)</option>
+                            <option value="MYR">MYR (RM)</option>
                             <option value="MZN">MZN (MT)</option>
                             <option value="NAD">NAD (N$)</option>
                             <option value="NGN">NGN (₦)</option>
@@ -208,9 +198,9 @@
                             <option value="NZD">NZD (NZ$)</option>
                             <option value="OMR">OMR (OMR)</option>
                             <option value="PAB">PAB (B/.)</option>
-
                             <option value="PEN">PEN (S/)</option>
                             <option value="PGK">PGK (K)</option>
+                            <option value="PHP">PHP (₱)</option>
                             <option value="PKR">PKR (Rs)</option>
                             <option value="PLN">PLN (zł)</option>
                             <option value="PYG">PYG (₲)</option>
@@ -219,18 +209,17 @@
                             <option value="RSD">RSD (дин.)</option>
                             <option value="RUB">RUB (₽)</option>
                             <option value="RWF">RWF (FRw)</option>
-
                             <option value="SAR">SAR (SR)</option>
                             <option value="SBD">SBD (SI$)</option>
                             <option value="SCR">SCR (SR)</option>
                             <option value="SDG">SDG (SDG)</option>
                             <option value="SEK">SEK (kr)</option>
+                            <option value="SGD">SGD (S$)</option>
                             <option value="SHP">SHP (£)</option>
                             <option value="SLE">SLE (Le)</option>
                             <option value="SOS">SOS (Ssh)</option>
                             <option value="SRD">SRD ($)</option>
                             <option value="SSP">SSP (£)</option>
-
                             <option value="STN">STN (Db)</option>
                             <option value="SYP">SYP (LS)</option>
                             <option value="SZL">SZL (E)</option>
@@ -242,10 +231,10 @@
                             <option value="TRY">TRY (₺)</option>
                             <option value="TTD">TTD (TT$)</option>
                             <option value="TWD">TWD (NT$)</option>
-
                             <option value="TZS">TZS (TSh)</option>
                             <option value="UAH">UAH (₴)</option>
                             <option value="UGX">UGX (USh)</option>
+                            <option value="USD">USD ($)</option>
                             <option value="UYU">UYU ($U)</option>
                             <option value="UZS">UZS (so'm)</option>
                             <option value="VES">VES (Bs.S)</option>
@@ -253,7 +242,6 @@
                             <option value="VUV">VUV (VT)</option>
                             <option value="WST">WST (WS$)</option>
                             <option value="XAF">XAF (FCFA)</option>
-
                             <option value="XCD">XCD (EC$)</option>
                             <option value="XOF">XOF (CFA)</option>
                             <option value="XPF">XPF (CFP)</option>
@@ -265,7 +253,7 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 0</span></label>
+                        <label for="budgetSlider">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">$0</span></label>
                         <input type="range" id="budgetSlider" class="range-slider" min="0" max="300000" step="10000" value="0">
                     </div>
                     <div style="margin: 1rem 0 1.5rem 0;">
