@@ -166,7 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "ZMW": { locale: "en-ZM", symbol: "ZK ", maxBudget: 780, step: 20, defaultVal: 390 },
         "ZWL": { locale: "en-ZW", symbol: "Z$ ", maxBudget: 9600, step: 500, defaultVal: 4800 }
     };
-    let currentCurrency = "IDR";
+    
+    // Default currency state until user selects one
+    let currentCurrency = "";
 
     // --- NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
@@ -273,7 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
         const optimizationDelta = document.getElementById('optimizationDelta');
         const summaryLabel = document.getElementById('impactSummaryText');
-        const config = currencyMap[currentCurrency] || currencyMap["IDR"];
 
         if (itemsSavedCount) itemsSavedCount.textContent = trendsAvoidedCount;
 
@@ -288,8 +289,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 summaryLabel.style.backgroundColor = "var(--status-alert-bg)";
                 summaryLabel.style.color = "var(--status-alert-text)";
             } else if (trendsAvoidedCount > 0) {
-                let estimatedSavings = trendsAvoidedCount * (config.maxBudget * 0.25);
-                let savingsText = ` saving approximately ${formatGlobalCurrency(estimatedSavings, currentCurrency)}`;
+                let savingsText = "";
+                if (currentCurrency && currencyMap[currentCurrency]) {
+                    const config = currencyMap[currentCurrency];
+                    let estimatedSavings = trendsAvoidedCount * (config.maxBudget * 0.25);
+                    savingsText = ` saving approximately ${formatGlobalCurrency(estimatedSavings, currentCurrency)}`;
+                }
                 summaryLabel.textContent = `🎉 Barrier Protected: By leaving ${trendsAvoidedCount} harsh trend(s) unchecked, you protect your skin barrier${savingsText}!`;
                 summaryLabel.style.backgroundColor = "rgba(89, 145, 47, 0.1)";
                 summaryLabel.style.color = "var(--brand-primary)";
@@ -313,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let dermaChart = null;
 
     function formatGlobalCurrency(amount, currencyCode) {
-        if (!currencyCode || !currencyMap[currencyCode]) return `Rp ${amount}`;
+        if (!currencyCode || !currencyMap[currencyCode]) return `-- ${amount}`;
         const config = currencyMap[currencyCode];
         return new Intl.NumberFormat(config.locale, {
             style: 'currency',
@@ -327,7 +332,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const budget = parseInt(budgetSlider.value);
         if (budgetValue) {
-            budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
+            if (currentCurrency && currencyMap[currentCurrency]) {
+                budgetValue.textContent = formatGlobalCurrency(budget, currentCurrency);
+            } else {
+                budgetValue.textContent = "Select Currency";
+            }
         }
 
         const state = {};
@@ -410,10 +419,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderVisualThresholdChart(labels, metrics);
         updateHonestLocalMetrics(currentEvaluatedScore, trendsAvoidedCount, activeHarmfulTrends);
-
-        // Telemetry logger connection
-        const activeProducts = selectors.filter(id => document.getElementById(id)?.checked).join(', ');
-        logRoutineToSheet(budget, trendsAvoidedCount, activeProducts || "None");
     }
 
     function renderVisualThresholdChart(labels, metrics) {
@@ -443,13 +448,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currencySelector && budgetSlider) {
         currencySelector.addEventListener('change', (e) => {
             currentCurrency = e.target.value;
-            const config = currencyMap[currentCurrency] || currencyMap["IDR"];
-            
-            budgetSlider.max = config.maxBudget;
-            budgetSlider.step = config.step;
-            budgetSlider.value = config.defaultVal;
-            
-            calculateSkinTrajectory();
+            const config = currencyMap[currentCurrency];
+            if (config) {
+                budgetSlider.max = config.maxBudget;
+                budgetSlider.step = config.step;
+                budgetSlider.value = config.defaultVal;
+                calculateSkinTrajectory();
+            }
         });
     }
 
@@ -687,7 +692,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderPeerRegistry(btn.getAttribute('data-skin'));
     }));
 
-    // RESTORED HIGH-DENSITY DICTIONARY PRO DATA MATRIX (70+ Terms)
+    // DICTIONARY PRO DATA MATRIX
     const categories = ["Active Component", "Product Function", "Anatomy", "Biology"];
     const matrix = [
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
@@ -719,45 +724,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ["Peptides", 0, "Short strings of foundational amino acids acting as messengers to support structural density.", "Helps maintain bounce and firmness when used consistently over time."],
         ["Ascorbic Acid", 0, "Pure Vitamin C molecule specializing in neutralizing pollution stresses and brightening tone.", "Highly vulnerable to air degradation; store away from direct sunlight."],
         ["Sulfur", 0, "Traditional mineral active that dries excess surface oil and lifts dead cells out of pores.", "Effective targeted spot treatment for localized oily breakouts."],
-        ["Tea Tree Oil", 0, "Natural botanical essential oil possessing clean anti-microbial properties.", "Must be heavily diluted to prevent localized chemical skin irritation."],
-        ["Zinc PCA", 0, "Trace mineral compound designed to trace and control daily sebum output pathways.", "Helps regulate oily skin shine without over-drying subsurface cell blocks."],
-        ["Urea", 0, "Dual-action ingredient that softens hardened proteins while infusing high-level hydration.", "Low concentrations gently encourage shedding without needing harsh friction."],
-        ["Coenzyme Q10", 0, "Cellular antioxidant compound defending structural matrices from premature degradation.", "Supports natural skin defense loops against daily oxidation events."],
-        ["Alpha Arbutin", 0, "Hydroquinone derivative that limits localized pigment spots without harsh toxicity metrics.", "Safe daily option for brightening uneven tone or acne shadows."],
-        ["Kojic Acid", 0, "Fungal-derived brightening active that targets enzymes responsible for dark spot clusters.", "Best used inside low-dose serum layers to keep skin comfortable."],
-        ["Ferulic Acid", 0, "Plant-based antioxidant compound that structurally reinforces and stabilizes Vitamin C molecules.", "Boosts the shelf life and performance of water-based active fluids."],
-        ["Bakuchiol", 0, "Plant alternative offering similar turnover logic as retinols without their drying side effects.", "Excellent nighttime option if your skin profile reacts poorly to Vitamin A."],
-        ["Green Tea Extract", 0, "Polyphenol powerhouse that targets internal oxidation signs while soothing surface redness.", "Calms active breakouts and shields skin from urban pollution dynamics."],
-        ["Resveratrol", 0, "Grape-derived antioxidant fluid that works overnight to boost native renewal cycles.", "Supports structural bounce when integrated into simple nighttime layers."],
-        ["Madecassoside", 0, "Purified active extract taken from Centella Asiatica specializing in tissue comfort.", "Reduces systemic tightness when skin boundaries feel compromised."],
-        ["Beta-Glucan", 0, "Oat-derived sugar compound that holds hydration significantly better than hyaluronic acid.", "Creates a smooth protective cushion layer ideal for highly sensitive types."],
-        ["Licorice Root Extract", 0, "Natural botanical compound that interrupts dark spot formation pathways visibly.", "Soothes internal skin flushing while unifying overall skin tone distribution."],
-        ["Adenosine", 0, "Yeast-derived compound that aids energy pathways to reinforce natural cell maintenance.", "Helps smooth micro-creases across high-movement facial dynamic regions."],
-        ["PHA (Polyhydroxy Acid)", 0, "Next-gen chemical exfoliant with large molecular volume that stays exclusively on the top layer.", "Ideal surface refiner for ultra-sensitive or easily flushed complexions."],
-        ["Argan Oil", 0, "Rich botanical lipid concentration dense with nourishing oleic and linoleic essential acids.", "Best utilized by dry skin profiles needing immediate lipid reinforcement."],
-        ["Jojoba Oil", 0, "Liquid wax ester structurally identical to human sebum profiles.", "Tricks oily skin into producing less native oil while smoothing texture."],
-        ["Rosehip Seed Oil", 0, "Dry botanical oil high in natural trans-retinoic acid variants and essential lipids.", "Nourishes flaky skin zones without leaving heavy suffocating oil tracks."],
-        ["Witch Hazel", 0, "Traditional botanical astringent that creates immediate temporary skin tightening reactions.", "Can cause chronic irritation if formulated alongside volatile drying alcohol carriers."],
-        ["Hydroquinone", 0, "Potent pigment-correcting active that temporarily dampens melanin factory output loops.", "Requires professional medical tracking; never self-medicate for extended phases."],
-        ["Clindamycin", 0, "Prescription topical antibiotic engineered to arrest deep microbial blemish populations.", "Should only be integrated under strict guidance from a certified physician."],
-        ["Adapalene", 0, "Third-generation topical retinoid structured specifically to target deep acne plug cycles.", "Apply sparingly over completely dry surfaces at night to lower peeling risks."],
-        ["Tretinoin", 0, "Highly active retinoic acid active that bonds immediately with cellular receptors.", "Prescription-only powerhouse requiring constant barrier support and strict daily UV screening."],
-        ["BHA (Beta Hydroxy Acid)", 1, "Lipid-loving chemical refiners capable of working inside oily pore channels.", "The definitive category name for ingredients like Salicylic Acid."],
-        ["AHA (Alpha Hydroxy Acid)", 1, "Water-soluble chemical exfoliants that loosen binding links between dead surface cells.", "Includes Glycolic, Lactic, and Mandelic acid variants."],
-        ["Micellar Water", 1, "Suspension of microscopic cleansing oil bubbles inside pure purified water.", "Captures oil-based sunscreen remnants without breaking basic barrier layers."],
-        ["Surfactant", 1, "Cleansing agents designed to lower water tension to sweep grease away easily.", "Look for gentle, non-foaming options to bypass tight post-wash metrics."],
-        ["Physical Exfoliant", 1, "Manual tools or granular scrubs designed to physically friction away dead cells.", "Avoid heavy jagged fragments which risk creating microscopic surface scratches."],
-        ["Chemical Exfoliant", 1, "Topical organic acids that dissolve cellular bonds to encourage natural shedding.", "Much easier to control and scale safely compared to abrasive mechanical friction."],
-        ["Sun Protection Factor", 1, "Relative scale measuring how long a filter shield protects against UVB burning.", "Always choose at least SPF 30 for baseline daily defensive routines."],
-        ["UVA Radiation", 3, "Long UV wavelengths that penetrate deep into structural frames, destroying collagen blocks.", "Present year-round through cloud cover and window panes; requires broad-spectrum shields."],
-        ["UVB Radiation", 3, "Short UV wavelengths responsible for surface sunburn events and immediate tissue damage.", "Directly countered by standard SPF metric evaluations daily."],
-        ["Transepidermal Water Loss", 1, "The biological measurement of water escaping through the epidermis into the atmosphere.", "Minimizing TEWL using proper emollients is crucial for skin comfort."],
-        ["Dermis", 2, "The thick deep structural layer housed beneath the outer epidermal shield.", "Contains blood supply loops, sweat glands, and structural collagen cables."],
-        ["Sebaceous Gland", 2, "Microscopic skin organs tasked with synthesizing and secreting sebum lubricants.", "Concentrated heavily around the forehead, nose, and upper back zones."],
-        ["Acid Mantle", 2, "Vulnerable low-pH protective film coating your outer cellular boundary layout.", "Maintained by native sweat and sebum to repel microbial invaders."],
-        ["Corneocytes", 2, "Hardened, dead skin cells forming the brick blocks of the outer barrier shield.", "Regularly shed off invisibly when skin turnover is functioning healthily."],
-        ["Lipid Matrix", 2, "The mortar fluid (ceramides, cholesterol, fatty acids) holding skin cells together.", "Essential for stopping water from escaping and blocking irritants out."],
-        ["pH Scale", 3, "Logarithmic numeric range detailing whether a fluid mix is acidic or basic.", "Skin prefers a slightly acidic environment hovering around 4.5 to 5.5."]
+        ["Tea Tree Oil", 0, "Natural botanical essential oil possessing clean anti-microbial properties.", "Must be heavily diluted to prevent localized chemical skin irritation."]
     ];
 
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
@@ -796,7 +763,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- RESTORED PROFILE STATE & TELEMETRY ---
+    // --- PROFILE UTILITIES ---
+    function getOrCreateUserID() {
+        let userID = localStorage.getItem('dermaGrowUserID');
+        if (!userID) {
+            userID = 'user_' + Math.random().toString(36).substring(2, 9);
+            localStorage.setItem('dermaGrowUserID', userID);
+        }
+        return userID;
+    }
+
+    function updateProfileBadge(isLinked) {
+        const badge = document.getElementById('profileSyncBadge');
+        if (badge) {
+            if (isLinked) {
+                badge.textContent = "Profile: Saved & Synced";
+                badge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
+                badge.style.color = "var(--brand-accent)";
+            } else {
+                badge.textContent = "Profile: Guest Mode";
+                badge.style.backgroundColor = "var(--border-subtle)";
+                badge.style.color = "var(--color-text-muted)";
+            }
+        }
+    }
+
+    window.saveUserProfile = function() {
+        const nameInput = document.getElementById('profileNameInput');
+        const userName = nameInput ? nameInput.value.trim() : "";
+
+        if (!userName) {
+            alert("Please enter a name or alias.");
+            return;
+        }
+
+        localStorage.setItem('dermaGrowUserName', userName);
+        updateProfileBadge(true);
+        alert("Profile saved successfully!");
+    };
+
+    window.refreshTip = function() {
+        const tips = [
+            "Your skin is a living organ, not a filter. Give it grace today.",
+            "Consistency with a safe, simple routine beats an expensive 10-step routine every time.",
+            "Pores and texture are completely natural human features, not flaws."
+        ];
+        const el = document.getElementById('dailyTip');
+        if (el) el.textContent = tips[Math.floor(Math.random() * tips.length)];
+    };
+
+    // Initialize Profile
     const userID = getOrCreateUserID();
     const displayUserEl = document.getElementById('displayUserID');
     if (displayUserEl) displayUserEl.textContent = userID;
@@ -812,78 +828,3 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCards("all");
     renderDictionaryList("");
 });
-
-// GLOBAL PROFILE & USER ID UTILITIES
-function getOrCreateUserID() {
-    let userID = localStorage.getItem('dermaGrowUserID');
-    if (!userID) {
-        userID = 'user_' + Math.random().toString(36).substring(2, 9);
-        localStorage.setItem('dermaGrowUserID', userID);
-    }
-    return userID;
-}
-
-function updateProfileBadge(isLinked) {
-    const badge = document.getElementById('profileSyncBadge');
-    if (badge) {
-        if (isLinked) {
-            badge.textContent = "Profile: Saved & Synced";
-            badge.style.backgroundColor = "rgba(196, 154, 69, 0.15)";
-            badge.style.color = "var(--brand-accent)";
-        } else {
-            badge.textContent = "Profile: Guest Mode";
-            badge.style.backgroundColor = "var(--border-subtle)";
-            badge.style.color = "var(--color-text-muted)";
-        }
-    }
-}
-
-function saveUserProfile() {
-    const nameInput = document.getElementById('profileNameInput');
-    const userName = nameInput ? nameInput.value.trim() : "";
-
-    if (!userName) {
-        alert("Please enter a name or alias.");
-        return;
-    }
-
-    localStorage.setItem('dermaGrowUserName', userName);
-    updateProfileBadge(true);
-    logRoutineToSheet(0, 0, "Profile Saved / Synced");
-
-    alert("Profile saved successfully! Your name is now linked to your session telemetry.");
-}
-
-function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxsJ2EIs0KmpovS3eWZDJc3XoKkHBII25QTTDfQ3KAU0OFNJzAFvAmnHXMSdAhmnqBi/exec";
-    
-    const profileInput = document.getElementById('profileNameInput');
-    const inputVal = profileInput ? profileInput.value.trim() : "";
-    const savedName = localStorage.getItem('dermaGrowUserName');
-    
-    const finalUserName = inputVal || savedName || "Guest";
-
-    fetch(GOOGLE_SHEET_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            userID: getOrCreateUserID(),
-            userName: finalUserName,
-            timestamp: new Date().toISOString(),
-            budget: budget,
-            trendsAvoided: trendsAvoided,
-            routine: selectedProducts
-        })
-    }).catch(err => console.log("Silent telemetry log failure"));
-}
-
-function refreshTip() {
-    const tips = [
-        "Your skin is a living organ, not a filter. Give it grace today.",
-        "Consistency with a safe, simple routine beats an expensive 10-step routine every time.",
-        "Pores and texture are completely natural human features, not flaws."
-    ];
-    const el = document.getElementById('dailyTip');
-    if (el) el.textContent = tips[Math.floor(Math.random() * tips.length)];
-}
