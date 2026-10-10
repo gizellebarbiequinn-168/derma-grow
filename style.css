@@ -16,7 +16,7 @@
     --shadow-subtle: 0 4px 20px rgba(89, 145, 47, 0.08);
 }
 
-/* DARK MODE THEME VARIABLE MAP */
+/* DARK MODE VARIABLE MAP */
 [data-theme="dark"] {
     --bg-main: #181a18;
     --bg-card: #212421;
@@ -165,10 +165,14 @@ label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4
 .quiz-opt-btn { text-align: left; background-color: var(--bg-card); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: 6px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; font-weight: 500; color: var(--color-text-main); }
 .quiz-opt-btn:hover { border-color: var(--brand-primary); background-color: var(--bg-main); padding-left: 1.25rem; }
 
-/* DICTIONARY & DIRECTORY */
+/* DICTIONARY PRO CARDS */
 .dictionary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
 .dict-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 15px; border-left: 4px solid var(--brand-secondary); box-shadow: var(--shadow-subtle); }
+.dict-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 0.5rem; }
+.dict-header h3 { margin: 0 !important; color: var(--brand-primary) !important; font-size: 1.05rem; font-weight: 700; }
+.dict-tag { background: var(--bg-main); font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; border: 1px solid var(--border-subtle); }
 .dict-def { font-size: 0.85rem; color: var(--color-text-main); line-height: 1.45; margin: 5px 0; }
+.dict-protip { background: var(--bg-main); font-size: 0.8rem; padding: 8px; border-radius: 6px; margin-top: 8px; color: var(--color-text-muted); border: 1px dashed var(--border-subtle); }
 
 .database-filter-bar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
 .filter-btn, .peer-filter-btn { background: none; border: 1px solid var(--border-subtle); color: var(--color-text-muted); padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 500; border-radius: var(--radius-pill); cursor: pointer; transition: all 0.2s; }
