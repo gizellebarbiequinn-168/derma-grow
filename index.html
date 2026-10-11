@@ -4,10 +4,337 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Derma Grow — Science-Backed Budget Skincare</title>
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%23ffffff'/%3E%3Cpath d='M 176 138 A 120 120 0 0 1 336 138' fill='none' stroke='%23D3A746' stroke-width='32' stroke-linecap='round'/%3E%3Cpath d='M 256 384 L 256 220 C 256 160 380 160 380 230 C 380 290 256 290 256 290 C 256 290 132 290 132 230 C 132 160 256 160 256 220' fill='none' stroke='%23859682' stroke-width='32' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- In-Browser OCR Library for reading image text -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <style>
+    :root {
+      --bg-main: #f8f9f8;
+      --bg-card: #ffffff;
+      --color-text-main: #2d3436;
+      --color-text-muted: #636e72;
+      --brand-primary: #59912f;
+      --brand-accent: #c89d47;
+      --border-subtle: #e2e8f0;
+      --status-alert-bg: #fff5f5;
+      --status-alert-border: #feb2b2;
+      --status-alert-text: #c53030;
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #121212;
+      --bg-card: #1e1e1e;
+      --color-text-main: #e0e0e0;
+      --color-text-muted: #a0a0a0;
+      --brand-primary: #70c732;
+      --brand-accent: #d4a746;
+      --border-subtle: #2c2c2c;
+      --status-alert-bg: #2c0b0b;
+      --status-alert-border: #742a2a;
+      --status-alert-text: #feb2b2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--color-text-main);
+      line-height: 1.5;
+      padding: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .app-container {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* HEADER & NAVIGATION */
+    .app-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.5rem;
+    }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    .nav-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .nav-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-scroll {
+      display: flex;
+      gap: 0.5rem;
+      white-space: nowrap;
+      padding: 2px 0;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--color-text-main);
+      padding: 0.45rem 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-btn.active, .nav-btn:hover {
+      background: var(--brand-primary) !important;
+      color: #ffffff !important;
+      border-color: var(--brand-primary) !important;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-main);
+      border: 1px solid var(--border-subtle);
+      font-size: 1.1rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* DASHBOARD LAYOUT */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .content-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .content-card h2, .content-card h3 {
+      color: var(--brand-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .text-muted {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* KPI SCOREBOARD */
+    .metrics-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .metric-stat-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.75rem 0.5rem;
+      border-radius: 12px;
+    }
+
+    .metric-number {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.9;
+      margin-top: 0.2rem;
+    }
+
+    /* OPTION CARDS (SINGLE COLUMN STACK) */
+    .selection-matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .checkbox-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: var(--bg-main);
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .checkbox-card:hover {
+      border-color: var(--brand-primary);
+    }
+
+    .checkbox-label-text {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .checkbox-subtext {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      margin-top: 0.15rem;
+    }
+
+    /* INPUTS & BUTTONS */
+    .form-input-text {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-main);
+      color: var(--color-text-main);
+      font-size: 0.9rem;
+    }
+
+    .range-slider {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-accent, .btn-primary {
+      background-color: var(--brand-accent) !important;
+      color: #ffffff !important;
+      border: none !important;
+      padding: 0.8rem 1.4rem !important;
+      border-radius: 14px !important;
+      font-size: 0.92rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: opacity 0.2s ease !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-accent:hover, .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-preset {
+      background: var(--bg-card);
+      border: 1px solid var(--brand-primary);
+      color: var(--brand-primary);
+      padding: 0.65rem 1.2rem;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background-color 0.2s, border-color 0.2s;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-preset:hover {
+      background: rgba(89, 145, 47, 0.06);
+    }
+
+    /* DICTIONARY GRID & LIGHT GREEN INGREDIENT HEADINGS */
+    .dictionary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .dict-card {
+      background: var(--bg-main);
+      padding: 1.1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .dict-card h3 {
+      color: var(--brand-primary) !important;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .dict-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .dict-tag {
+      font-size: 0.7rem;
+      background: var(--border-subtle);
+      color: var(--color-text-muted);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .dict-def {
+      font-size: 0.88rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.45;
+    }
+
+    .dict-protip {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      border-top: 1px dashed var(--border-subtle);
+      padding-top: 0.5rem;
+      margin-top: 0.4rem;
+    }
+  </style>
 </head>
 <body>
   <div class="app-container">
@@ -21,17 +348,16 @@
           </svg>
           <span class="brand-heading">Derma Grow</span>
         </div>
-        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Dark Mode">🌙</button>
+        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Dark Mode">🌙</button>
       </div>
       <nav class="nav-container">
         <div class="nav-scroll">
-          <button id="navDashboard" class="nav-btn active">Dashboard</button>
-          <button id="navQuiz" class="nav-btn">Skin Type Quiz</button>
-          <button id="navAi" class="nav-btn">✨ Derma AI Snap</button>
-          <button id="navLearn" class="nav-btn">Science Hub</button>
-          <button id="navRecommendations" class="nav-btn">Shared Directory</button>
-          <button id="navDictionary" class="nav-btn">Skincare Dictionary</button>
-          <button id="navProfile" class="nav-btn">Profile</button>
+          <button id="navDashboard" class="nav-btn active" onclick="switchTab('trackerCard', this)">Dashboard</button>
+          <button id="navQuiz" class="nav-btn" onclick="switchTab('quizSection', this)">Skin Type Quiz</button>
+          <button id="navAi" class="nav-btn" onclick="switchTab('aiSection', this)">✨ Derma AI Snap</button>
+          <button id="navRecommendations" class="nav-btn" onclick="switchTab('recommendationsSection', this)">Shared Directory</button>
+          <button id="navDictionary" class="nav-btn" onclick="switchTab('dictionarySection', this)">Skincare Dictionary</button>
+          <button id="navProfile" class="nav-btn" onclick="switchTab('profileSection', this)">Profile</button>
         </div>
       </nav>
     </header>
@@ -81,161 +407,16 @@
             <label for="currencySelector" style="font-weight: 600; font-size: 0.88rem;">🌐 Select Global Currency Display:</label>
             <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.55rem 0.8rem; font-size: 0.88rem; width: 100%; background: var(--bg-main); margin-top: 0.3rem;">
               <option value="" selected disabled>-- Select Currency --</option>
-              <option value="AED">AED (AED)</option>
-              <option value="AFN">AFN (AFN)</option>
-              <option value="ALL">ALL (ALL)</option>
-              <option value="AMD">AMD (AMD)</option>
-              <option value="ANG">ANG (NAƒ)</option>
-              <option value="AOA">AOA (Kz)</option>
-              <option value="ARS">ARS ($)</option>
-              <option value="AUD">AUD (A$)</option>
-              <option value="AWG">AWG (Afl.)</option>
-              <option value="AZN">AZN (₼)</option>
-              <option value="BAM">BAM (KM)</option>
-              <option value="BBD">BBD (Bds$)</option>
-              <option value="BDT">BDT (৳)</option>
-              <option value="BGN">BGN (лв.)</option>
-              <option value="BHD">BHD (BD)</option>
-              <option value="BIF">BIF (FBu)</option>
-              <option value="BMD">BMD ($)</option>
-              <option value="BND">BND (B$)</option>
-              <option value="BOB">BOB (Bs.)</option>
-              <option value="BRL">BRL (R$)</option>
-              <option value="BSD">BSD (B$)</option>
-              <option value="BTN">BTN (Nu.)</option>
-              <option value="BWP">BWP (P)</option>
-              <option value="BYN">BYN (Br)</option>
-              <option value="BZD">BZD (BZ$)</option>
-              <option value="CAD">CAD (CA$)</option>
-              <option value="CDF">CDF (FC)</option>
-              <option value="CHF">CHF (CHF)</option>
-              <option value="CLP">CLP ($)</option>
-              <option value="CNY">CNY (¥)</option>
-              <option value="COP">COP ($)</option>
-              <option value="CRC">CRC (₡)</option>
-              <option value="CUP">CUP ($MN)</option>
-              <option value="CVE">CVE (Esc)</option>
-              <option value="CZK">CZK (Kč)</option>
-              <option value="DJF">DJF (Fdj)</option>
-              <option value="DKK">DKK (kr.)</option>
-              <option value="DOP">DOP (RD$)</option>
-              <option value="DZD">DZD (DA)</option>
-              <option value="EGP">EGP (E£)</option>
-              <option value="ERN">ERN (Nfk)</option>
-              <option value="ETB">ETB (Br)</option>
-              <option value="EUR">EUR (€)</option>
-              <option value="FJD">FJD (FJ$)</option>
-              <option value="FKP">FKP (£)</option>
-              <option value="GBP">GBP (£)</option>
-              <option value="GEL">GEL (₾)</option>
-              <option value="GHS">GHS (GH₵)</option>
-              <option value="GIP">GIP (£)</option>
-              <option value="GMD">GMD (D)</option>
-              <option value="GNF">GNF (FG)</option>
-              <option value="GTQ">GTQ (Q)</option>
-              <option value="GYD">GYD (G$)</option>
-              <option value="HKD">HKD (HK$)</option>
-              <option value="HNL">HNL (L)</option>
-              <option value="HRK">HRK (€)</option>
-              <option value="HTG">HTG (G)</option>
-              <option value="HUF">HUF (Ft)</option>
               <option value="IDR">IDR (Rp)</option>
-              <option value="ILS">ILS (₪)</option>
-              <option value="INR">INR (₹)</option>
-              <option value="IQD">IQD (IQD)</option>
-              <option value="IRR">IRR (IRR)</option>
-              <option value="ISK">ISK (kr.)</option>
-              <option value="JMD">JMD (J$)</option>
-              <option value="JOD">JOD (JD)</option>
-              <option value="JPY">JPY (¥)</option>
-              <option value="KES">KES (KSh)</option>
-              <option value="KGS">KGS (сом)</option>
-              <option value="KHR">KHR (៛)</option>
-              <option value="KMF">KMF (CF)</option>
-              <option value="KPW">KPW (₩)</option>
-              <option value="KRW">KRW (₩)</option>
-              <option value="KWD">KWD (KD)</option>
-              <option value="KYD">KYD (CI$)</option>
-              <option value="KZT">KZT (₸)</option>
-              <option value="LAK">LAK (₭)</option>
-              <option value="LBP">LBP (L£)</option>
-              <option value="LKR">LKR (Rs)</option>
-              <option value="LRD">LRD (L$)</option>
-              <option value="LSL">LSL (L)</option>
-              <option value="LYD">LYD (LD)</option>
-              <option value="MAD">MAD (MAD)</option>
-              <option value="MDL">MDL (L)</option>
-              <option value="MGA">MGA (Ar)</option>
-              <option value="MKD">MKD (ден)</option>
-              <option value="MMK">MMK (Ks)</option>
-              <option value="MNT">MNT (₮)</option>
-              <option value="MOP">MOP (MOP$)</option>
-              <option value="MRU">MRU (UM)</option>
-              <option value="MUR">MUR (Rs)</option>
-              <option value="MVR">MVR (Rf)</option>
-              <option value="MWK">MWK (MK)</option>
-              <option value="MXN">MXN (Mex$)</option>
-              <option value="MYR">MYR (RM)</option>
-              <option value="MZN">MZN (MT)</option>
-              <option value="NAD">NAD (N$)</option>
-              <option value="NGN">NGN (₦)</option>
-              <option value="NIO">NIO (C$)</option>
-              <option value="NOK">NOK (kr)</option>
-              <option value="NPR">NPR (Rs)</option>
-              <option value="NZD">NZD (NZ$)</option>
-              <option value="OMR">OMR (OMR)</option>
-              <option value="PAB">PAB (B/.)</option>
-              <option value="PEN">PEN (S/)</option>
-              <option value="PGK">PGK (K)</option>
-              <option value="PHP">PHP (₱)</option>
-              <option value="PKR">PKR (Rs)</option>
-              <option value="PLN">PLN (zł)</option>
-              <option value="PYG">PYG (₲)</option>
-              <option value="QAR">QAR (QR)</option>
-              <option value="RON">RON (lei)</option>
-              <option value="RSD">RSD (дин.)</option>
-              <option value="RUB">RUB (₽)</option>
-              <option value="RWF">RWF (FRw)</option>
-              <option value="SAR">SAR (SR)</option>
-              <option value="SBD">SBD (SI$)</option>
-              <option value="SCR">SCR (SR)</option>
-              <option value="SDG">SDG (SDG)</option>
-              <option value="SEK">SEK (kr)</option>
-              <option value="SGD">SGD (S$)</option>
-              <option value="SHP">SHP (£)</option>
-              <option value="SLE">SLE (Le)</option>
-              <option value="SOS">SOS (Ssh)</option>
-              <option value="SRD">SRD ($)</option>
-              <option value="SSP">SSP (£)</option>
-              <option value="STN">STN (Db)</option>
-              <option value="SYP">SYP (LS)</option>
-              <option value="SZL">SZL (E)</option>
-              <option value="THB">THB (฿)</option>
-              <option value="TJS">TJS (SM)</option>
-              <option value="TMT">TMT (m)</option>
-              <option value="TND">TND (DT)</option>
-              <option value="TOP">TOP (T$)</option>
-              <option value="TRY">TRY (₺)</option>
-              <option value="TTD">TTD (TT$)</option>
-              <option value="TWD">TWD (NT$)</option>
-              <option value="TZS">TZS (TSh)</option>
-              <option value="UAH">UAH (₴)</option>
-              <option value="UGX">UGX (USh)</option>
               <option value="USD">USD ($)</option>
-              <option value="UYU">UYU ($U)</option>
-              <option value="UZS">UZS (so'm)</option>
-              <option value="VES">VES (Bs.S)</option>
-              <option value="VND">VND (₫)</option>
-              <option value="VUV">VUV (VT)</option>
-              <option value="WST">WST (WS$)</option>
-              <option value="XAF">XAF (FCFA)</option>
-              <option value="XCD">XCD (EC$)</option>
-              <option value="XOF">XOF (CFA)</option>
-              <option value="XPF">XPF (CFP)</option>
-              <option value="YER">YER (YR)</option>
-              <option value="ZAR">ZAR (R)</option>
-              <option value="ZMW">ZMW (ZK)</option>
-              <option value="ZWL">ZWL (Z$)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="SGD">SGD (S$)</option>
+              <option value="MYR">MYR (RM)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="CAD">CAD (CA$)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="INR">INR (₹)</option>
             </select>
           </div>
 
@@ -245,17 +426,18 @@
           </div>
 
           <div style="margin-bottom: 1.5rem; text-align: center;">
-            <button type="button" id="starterPackBtn" class="btn-preset" style="width: 100%;">✨ Apply 3-Step Instant Starter Pack</button>
+            <button type="button" id="starterPackBtn" class="btn-preset" style="width: 100%;" onclick="applyStarterPack()">✨ Apply 3-Step Instant Starter Pack</button>
           </div>
 
           <label style="font-weight: 700; font-size: 0.95rem; display: block;">Current Available Products:</label>
           <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
           
+          <!-- ALL 8 PRODUCTS STACKED -->
           <div class="selection-matrix-grid">
             <label class="checkbox-card">
               <input type="checkbox" id="chk-moisturizer">
               <div class="checkbox-label-text">
-                抓 Basic Moisturizer / Glycerin
+                🧴 Basic Moisturizer / Glycerin
                 <span class="checkbox-subtext">Protects surface cells from drying out</span>
               </div>
             </label>
@@ -310,28 +492,6 @@
             </label>
           </div>
         </div>
-
-        <!-- ROUTINE OUTPUT -->
-        <div id="protocolBox" class="content-card">
-          <h3>Your Essential Daily Routine Guide</h3>
-          <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); border-radius: 12px; padding: 0.75rem 1rem;">
-            Check the products you use above to build your customized AM/PM routine schedule.
-          </div>
-          <div class="routine-split-panel">
-            <div class="routine-block">
-              <h4>☀️ Morning Routine</h4>
-              <ul id="amRoutineList" class="routine-list"></ul>
-            </div>
-            <div class="routine-block">
-              <h4>🌙 Evening Routine</h4>
-              <ul id="pmRoutineList" class="routine-list"></ul>
-            </div>
-          </div>
-          <div class="routine-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-            <button id="printRoutineBtn" class="btn-preset" style="flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
-            <button id="takeQuizBtn" class="btn-accent" style="flex: 1; cursor: pointer;">🧪 Take Skin Quiz</button>
-          </div>
-        </div>
       </div>
 
       <!-- RIGHT PANEL -->
@@ -339,11 +499,11 @@
         <div class="content-card">
           <h2>Barrier Health Trajectory (14-Day Model)</h2>
           <p class="text-muted">A conceptual model showing how consistent gentle care protects your skin barrier over 14 days compared to harsh irritants.</p>
-          <div class="chart-container">
+          <div class="chart-container" style="height:200px; padding:1rem 0;">
             <canvas id="dermaChart"></canvas>
           </div>
           <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(89, 145, 47, 0.08); border: 1px solid rgba(89, 145, 47, 0.2); color: var(--brand-primary);">
-            🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier!
+            🎉 Barrier Protected: Gentle routine maintains healthy skin barrier!
           </div>
         </div>
 
@@ -353,21 +513,6 @@
             "Pores and texture are completely natural human features, not flaws."
           </p>
           <button onclick="refreshTip()" class="btn-preset">Get Another Reminder</button>
-        </div>
-
-        <!-- DASHBOARD FEEDBACK & LOG FORM -->
-        <div class="content-card">
-          <h2>Help Improve Derma Grow</h2>
-          <p class="text-muted" style="margin-bottom: 0.85rem;">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
-          <form id="feedbackForm">
-            <div class="input-group" style="margin-bottom: 0.85rem;">
-              <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
-            </div>
-            <button type="submit" id="feedbackSubmitBtn" class="btn-accent">Submit Feedback</button>
-          </form>
-          <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 12px; border: 1px solid var(--brand-primary); text-align: center;">
-            ✓ Thank you for submitting! Your feedback has been sent successfully.
-          </div>
         </div>
       </div>
     </main>
@@ -383,40 +528,29 @@
         </div>
         <div class="user-id-box" style="margin-bottom: 1.5rem;">
           <span class="text-muted" style="font-size: 0.85rem;">Session Reference Code: </span>
-          <strong id="displayUserID" style="color: var(--brand-accent);">Generating...</strong>
+          <strong id="displayUserID" style="color: var(--brand-accent);">user_t20lozq</strong>
         </div>
-        <button onclick="saveUserProfile()" class="btn-accent">Save Profile Settings</button>
+        <button onclick="alert('Profile saved successfully!')" class="btn-accent">Save Profile Settings</button>
       </div>
     </section>
 
-    <!-- SKIN TYPE QUIZ -->
-    <section id="quizSection" class="view-section quiz-container hidden">
+    <!-- SKIN TYPE QUIZ SECTION -->
+    <section id="quizSection" class="view-section hidden">
       <div class="content-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h2 style="margin: 0;">Comprehensive Dermatological Profile Quiz</h2>
-          <span id="quizProgressTracker" style="font-size: 0.8rem; font-weight: 700; color: var(--brand-accent);">Step 1 of 18</span>
+        <h2>Skin Type Profile Quiz</h2>
+        <p class="text-muted" style="margin-bottom: 1rem;">Identify your primary skin needs to optimize product selections.</p>
+        <div style="margin-bottom: 1rem;">
+          <p style="font-weight:600;">How does your skin feel midday?</p>
+          <button class="btn-preset" style="display:block; width:100%; text-align:left; margin:0.5rem 0;" onclick="selectQuizResult('Oily Skin')">A) Shiny or oily all over</button>
+          <button class="btn-preset" style="display:block; width:100%; text-align:left; margin:0.5rem 0;" onclick="selectQuizResult('Dry Skin')">B) Tight, flaky, or dull</button>
+          <button class="btn-preset" style="display:block; width:100%; text-align:left; margin:0.5rem 0;" onclick="selectQuizResult('Sensitive Skin')">C) Easily red or irritated</button>
+          <button class="btn-preset" style="display:block; width:100%; text-align:left; margin:0.5rem 0;" onclick="selectQuizResult('Normal Skin')">D) Balanced and comfortable</button>
         </div>
-        <p class="text-muted" style="margin-bottom: 1.2rem;">Answer 18 clinical questions regarding your skin environment, Fitzpatrick tone, age, and sensitivity levels.</p>
-        <div style="width: 100%; height: 4px; background: var(--border-subtle); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden;">
-          <div id="quizProgressBar" style="width: 5.5%; height: 100%; background: var(--brand-accent); transition: width 0.3s ease;"></div>
-        </div>
-        <div id="questionBox">
-          <p id="questionText" class="question-text">Loading question...</p>
-          <div id="answerOptions" class="answer-options-stack"></div>
-        </div>
-        <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
-          <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Your Skin Classification:</span>
-          <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL SKIN</h3>
-          <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left; border-radius: 12px; padding: 0.75rem;"></p>
-          <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
-            <button id="syncToRoutineBtn" class="btn-accent">Sync Result to Routine & Directory</button>
-            <button id="resetQuizBtn" class="btn-preset">Retake Quiz</button>
-          </div>
-        </div>
+        <div id="quizResult" class="hidden" style="padding:1rem; background:rgba(89,145,47,0.1); border-radius:12px; color:var(--brand-primary); font-weight:600;"></div>
       </div>
     </section>
 
-    <!-- DERMA AI SNAP -->
+    <!-- DERMA AI SNAP SECTION -->
     <section id="aiSection" class="view-section hidden">
       <div class="content-card">
         <h2>✨ Derma Grow AI Snap & Ingredient Matcher</h2>
@@ -448,84 +582,54 @@
       </div>
     </section>
 
-    <!-- SCIENCE HUB SECTION -->
-    <section id="learnSection" class="view-section hidden">
-      <div class="content-card" style="margin-bottom: 1.5rem;">
-        <h2>Skincare Academy & Science Hub</h2>
-        <p class="text-muted">Explore debunked internet trends and medical research concepts verified against dermatological references.</p>
-        <div class="database-filter-bar">
-          <button class="filter-btn active" data-category="all">All Resources</button>
-          <button class="filter-btn" data-category="myths">Trend Debunkers</button>
-          <button class="filter-btn" data-category="classification">Product Categories</button>
-          <button class="filter-btn" data-category="actives">Skincare Ingredients</button>
-          <button class="filter-btn" data-category="anatomy">Skin Biology</button>
-        </div>
-      </div>
-      <div id="databaseGrid" class="database-cards-grid"></div>
-    </section>
-
     <!-- SHARED DIRECTORY SECTION -->
     <section id="recommendationsSection" class="view-section hidden">
-      <div class="content-card" style="margin-bottom: 1.5rem;">
+      <div class="content-card">
         <h2>Shared Product Directory</h2>
-        <p class="text-muted">Browse affordable products recommended by peers and vetted against dermatological ingredient guidelines.</p>
-        <div class="database-filter-bar">
-          <button class="peer-filter-btn active" data-skin="all">All Skin Profiles</button>
-          <button class="peer-filter-btn" data-skin="Normal">Normal Skin</button>
-          <button class="peer-filter-btn" data-skin="Oily">Oily Skin</button>
-          <button class="peer-filter-btn" data-skin="Dry">Dry Skin</button>
-          <button class="peer-filter-btn" data-skin="Sensitive">Sensitive Skin</button>
-        </div>
-      </div>
-      <div class="peer-split-grid">
-        <div id="peerRegistryGrid" class="database-cards-grid"></div>
-        <div class="content-card">
-          <h2>Log a Budget Find</h2>
-          <p class="text-muted" style="margin-bottom: 0.85rem;">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
-          <form id="peerContributionForm">
-            <div class="input-group" style="margin-bottom: 0.75rem;">
-              <label for="peerSkinType" style="font-weight: 600;">Target Skin Type:</label>
-              <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
-                <option value="Normal">Normal Skin</option>
-                <option value="Oily">Oily Skin</option>
-                <option value="Dry">Dry Skin</option>
-                <option value="Sensitive">Sensitive Skin</option>
-              </select>
-            </div>
-            <div class="input-group" style="margin-bottom: 0.75rem;">
-              <label for="peerProdName" style="font-weight: 600;">Product Name:</label>
-              <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Glad2Glow Centella Soothing Gel" required>
-            </div>
-            <div class="input-group" style="margin-bottom: 0.75rem;">
-              <label for="peerPrice" style="font-weight: 600;">Estimated Retail Cost:</label>
-              <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 43.000 / $3" required>
-            </div>
-            <div class="input-group" style="margin-bottom: 0.75rem;">
-              <label for="peerIngredients" style="font-weight: 600;">Key Ingredients:</label>
-              <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Centella Asiatica, Allantoin, Glycerin" required>
-            </div>
-            <div class="input-group" style="margin-bottom: 1rem;">
-              <label for="peerNotes" style="font-weight: 600;">Description & Notes:</label>
-              <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..." required></textarea>
-            </div>
-            <button type="submit" id="peerSubmitBtn" class="btn-accent" style="width: 100%;">Submit Budget Find</button>
-          </form>
-          <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 12px; border: 1px solid var(--brand-primary); text-align: center;">
-            ✓ Thank you for submitting! Your find has been logged successfully.
-          </div>
-        </div>
+        <p class="text-muted">Community recommended affordable products vetted for safety.</p>
+        <ul style="list-style:none; margin-top:1rem;">
+          <li style="padding:0.75rem; background:var(--bg-main); border-radius:10px; margin-bottom:0.5rem;"><strong>Glad2Glow Centella Soothing Gel</strong> - Gentle hydration ($3)</li>
+          <li style="padding:0.75rem; background:var(--bg-main); border-radius:10px; margin-bottom:0.5rem;"><strong>The Ordinary Niacinamide 10%</strong> - Sebum control ($6)</li>
+          <li style="padding:0.75rem; background:var(--bg-main); border-radius:10px; margin-bottom:0.5rem;"><strong>CeraVe Hydrating Cleanser</strong> - Barrier support ($12)</li>
+        </ul>
       </div>
     </section>
 
     <!-- DICTIONARY SECTION -->
     <section id="dictionarySection" class="view-section hidden">
       <div class="content-card">
-        <h2 id="dictHeaderTitle">🔬 Skincare Dictionary Pro</h2>
-        <p class="text-muted">Search common skincare ingredients, product formulations, and skin biology terms in plain English.</p>
-        <div class="dictionary-search-box" style="margin-top: 0.75rem;">
-          <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Glycerin, Salicylic Acid)...">
+        <h2>🔬 Skincare Dictionary Pro</h2>
+        <p class="text-muted" style="margin-bottom:1rem;">Search common skincare ingredients in plain English.</p>
+        <div class="dictionary-grid">
+          <div class="dict-card">
+            <div class="dict-header">
+              <h3>Hyaluronic Acid</h3>
+              <span class="dict-tag">Humectant</span>
+            </div>
+            <p class="dict-def">A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.</p>
+          </div>
+          <div class="dict-card">
+            <div class="dict-header">
+              <h3>Niacinamide</h3>
+              <span class="dict-tag">Active Component</span>
+            </div>
+            <p class="dict-def">Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.</p>
+          </div>
+          <div class="dict-card">
+            <div class="dict-header">
+              <h3>Retinol</h3>
+              <span class="dict-tag">Vitamin A Derivative</span>
+            </div>
+            <p class="dict-def">Accelerates cell turnover and stimulates structural collagen paths.</p>
+          </div>
+          <div class="dict-card">
+            <div class="dict-header">
+              <h3>Salicylic Acid</h3>
+              <span class="dict-tag">BHA Exfoliant</span>
+            </div>
+            <p class="dict-def">Oil-soluble Beta Hydroxy Acid that cuts through sebum inside pore walls.</p>
+          </div>
         </div>
-        <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;"></div>
       </div>
     </section>
 
@@ -536,8 +640,156 @@
     </footer>
   </div>
 
-  <!-- Tesseract.js for In-Browser Image OCR -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="script.js"></script>
+  <!-- APP JAVASCRIPT LOGIC -->
+  <script>
+    // Tab Navigation Switcher
+    function switchTab(sectionId, btnElement) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(sectionId).classList.remove('hidden');
+      if (btnElement) btnElement.classList.add('active');
+    }
+
+    // Dark Theme Toggle
+    function toggleTheme() {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
+    }
+
+    // Starter Pack Selector
+    function applyStarterPack() {
+      document.getElementById('chk-moisturizer').checked = true;
+      document.getElementById('chk-cleanser').checked = true;
+      document.getElementById('chk-sunscreen').checked = true;
+      alert("Applied 3-step essential starter pack!");
+    }
+
+    // Quiz Result
+    function selectQuizResult(type) {
+      const res = document.getElementById('quizResult');
+      res.innerText = `Your Skin Type Classification: ${type}`;
+      res.classList.remove('hidden');
+    }
+
+    // Affirmation Reminders
+    const tips = [
+      '"Pores and texture are completely natural human features, not flaws."',
+      '"Consistency with gentle basics beats chasing aggressive trends."',
+      '"Healthy skin is a barrier protected, not stripped smooth."'
+    ];
+    function refreshTip() {
+      const el = document.getElementById('dailyTip');
+      el.innerText = tips[Math.floor(Math.random() * tips.length)];
+    }
+
+    // Image OCR with Tesseract.js (Extracts text from photos automatically)
+    async function handleImageSnap(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const imagePreview = document.getElementById('imagePreview');
+      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+      const aiIngredientInput = document.getElementById('aiIngredientInput');
+      const aiAnalysisResult = document.getElementById('aiAnalysisResult');
+      const aiResultTitle = document.getElementById('aiResultTitle');
+      const aiResultBody = document.getElementById('aiResultBody');
+
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imagePreview.src = e.target.result;
+        imagePreviewContainer.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+
+      // Display scanning status
+      aiAnalysisResult.classList.remove('hidden');
+      aiResultTitle.innerText = "⏳ Scanning Photo Text...";
+      aiResultBody.innerText = "Extracting ingredients from photo using optical recognition. Please wait...";
+
+      try {
+        const result = await Tesseract.recognize(file, 'eng');
+        const text = result.data.text.trim();
+
+        if (text) {
+          aiIngredientInput.value = text;
+          aiResultTitle.innerText = "✨ Ingredients Extracted!";
+          aiResultBody.innerText = "Text read from photo and pasted into text box below. Click 'Analyze Product Safety' now!";
+        } else {
+          aiResultTitle.innerText = "⚠️ No Text Detected";
+          aiResultBody.innerText = "Could not clearly read text from photo. Please try a clearer photo or paste text manually.";
+        }
+      } catch (err) {
+        console.error(err);
+        aiResultTitle.innerText = "⚠️ Photo Read Error";
+        aiResultBody.innerText = "Could not process image automatically. Please paste ingredients into the text box.";
+      }
+    }
+
+    // Analyze Ingredients Function
+    function analyzeProductIngredients() {
+      const input = document.getElementById('aiIngredientInput').value.trim();
+      const aiAnalysisResult = document.getElementById('aiAnalysisResult');
+      const aiResultTitle = document.getElementById('aiResultTitle');
+      const aiResultBody = document.getElementById('aiResultBody');
+
+      if (!input) {
+        alert("Please select a product photo or paste ingredients first!");
+        return;
+      }
+
+      aiAnalysisResult.classList.remove('hidden');
+      aiResultTitle.innerText = "🔍 Safety Evaluation";
+
+      const lower = input.toLowerCase();
+      let alerts = [];
+      let pros = [];
+
+      if (lower.includes('alcohol denat') || lower.includes('sd alcohol')) {
+        alerts.push("Contains drying alcohols which may strip sensitive skin.");
+      }
+      if (lower.includes('fragrance') || lower.includes('parfum') || lower.includes('limonene')) {
+        alerts.push("Contains fragrance compounds that can trigger reactions on reactive skin.");
+      }
+      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('ceramide')) {
+        pros.push("Contains soothing and barrier-repairing compounds.");
+      }
+
+      let html = `<strong>Input Text Preview:</strong> ${input.substring(0, 120)}${input.length > 120 ? '...' : ''}<br><br>`;
+      if (alerts.length) html += `<strong style="color:var(--status-alert-text);">Sensitivity Concerns:</strong><ul>${alerts.map(a => `<li>${a}</li>`).join('')}</ul><br>`;
+      if (pros.length) html += `<strong style="color:var(--brand-primary);">Beneficial Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
+      if (!alerts.length && !pros.length) html += "Standard baseline formulation detected.";
+
+      aiResultBody.innerHTML = html;
+    }
+
+    // Simple Barrier Health Chart Canvas Setup
+    window.addEventListener('load', () => {
+      const ctx = document.getElementById('dermaChart');
+      if (ctx && typeof Chart !== 'undefined') {
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 10', 'Day 12', 'Day 14'],
+            datasets: [{
+              label: 'Barrier Health',
+              data: [50, 55, 63, 72, 80, 85, 90],
+              borderColor: '#59912f',
+              backgroundColor: 'rgba(89, 145, 47, 0.1)',
+              fill: true,
+              tension: 0.3
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { min: 0, max: 100 } }
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
