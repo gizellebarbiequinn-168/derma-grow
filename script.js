@@ -533,7 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .filter(id => document.getElementById(id)?.checked)
       .map(id => readableProductNames[id] || id);
 
-    debouncedLogToSheet(budget, trendsAvoided, selectedReadableNames.join(', ') || "None");
+    debouncedLogToSheet(budget, trendsAvoidedCount, selectedReadableNames.join(', ') || "None");
   }
 
   function renderVisualThresholdChart(labels, metrics) {
