@@ -44,24 +44,24 @@ body {
     margin: 0 auto;
 }
 
-/* HEADER & NAV */
+/* HEADER & NAVIGATION (Fixed contrast & alignment) */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.85rem 1.2rem;
     background: var(--bg-card);
     border-radius: 12px;
     border: 1px solid var(--border-subtle);
     margin-bottom: 1.5rem;
-    flex-wrap: wrap;
     gap: 1rem;
 }
 
 .brand-container {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
+    flex-shrink: 0;
 }
 
 .brand-heading {
@@ -73,6 +73,7 @@ body {
 .nav-container {
     flex: 1;
     overflow-x: auto;
+    padding: 0.2rem 0;
 }
 
 .nav-scroll {
@@ -85,7 +86,7 @@ body {
     background: transparent;
     border: 1px solid var(--border-subtle);
     color: var(--color-text-main);
-    padding: 0.4rem 0.8rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 20px;
     cursor: pointer;
     font-size: 0.85rem;
@@ -93,9 +94,14 @@ body {
     transition: all 0.2s ease;
 }
 
-.nav-btn.active, .nav-btn:hover {
+.nav-btn:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+.nav-btn.active {
     background: var(--brand-primary);
-    color: #ffffff;
+    color: #ffffff !important;
     border-color: var(--brand-primary);
 }
 
@@ -106,9 +112,10 @@ body {
     padding: 0.4rem 0.6rem;
     border-radius: 8px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-/* DASHBOARD LAYOUT */
+/* DASHBOARD GRID */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -133,7 +140,7 @@ body {
     font-size: 0.875rem;
 }
 
-/* MATRIX STATS */
+/* SCOREBOARD METRICS */
 .metrics-row {
     display: flex;
     justify-content: space-around;
@@ -159,7 +166,7 @@ body {
     opacity: 0.9;
 }
 
-/* CHECKBOX MATRIX */
+/* SELECTION MATRIX */
 .selection-matrix-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -190,7 +197,7 @@ body {
     color: var(--color-text-muted);
 }
 
-/* FORM ELEMENTS */
+/* FORM CONTROLS */
 .form-input-text {
     width: 100%;
     padding: 0.6rem;
@@ -290,7 +297,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* DATABASE GRIDS */
+/* DATABASE & DIRECTORY GRIDS */
 .database-cards-grid, .peer-split-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -384,7 +391,7 @@ body {
     padding-top: 0.4rem;
 }
 
-/* PRINT ENGINE STYLES */
+/* STRICT PRINT STYLES (Isolates only the Routine Card for printing) */
 @media print {
     body * {
         visibility: hidden !important;
