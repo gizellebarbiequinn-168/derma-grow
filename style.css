@@ -44,7 +44,7 @@ body {
     margin: 0 auto;
 }
 
-/* HEADER & NAVIGATION (Fixed contrast & alignment) */
+/* HEADER & NAVIGATION */
 .app-header {
     display: flex;
     justify-content: space-between;
@@ -391,7 +391,7 @@ body {
     padding-top: 0.4rem;
 }
 
-/* STRICT PRINT STYLES (Isolates only the Routine Card for printing) */
+/* STRICT PRINT ISOLATION (Only prints the Routine Guide card) */
 @media print {
     body * {
         visibility: hidden !important;
@@ -409,9 +409,9 @@ body {
         margin: 0 !important;
         padding: 1.5rem !important;
         border: 2px solid #59912f !important;
-        box-shadow: none !important;
         background: #ffffff !important;
         color: #000000 !important;
+        box-shadow: none !important;
     }
 
     .routine-actions,
@@ -439,9 +439,10 @@ body {
 
     .routine-block {
         flex: 1 !important;
-        border: 1px solid #ccc !important;
+        border: 1px solid #cccccc !important;
         padding: 1rem !important;
         border-radius: 8px !important;
+        background: #ffffff !important;
     }
 
     .routine-list li {
