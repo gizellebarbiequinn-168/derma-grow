@@ -3,8 +3,8 @@
   --bg-card: #ffffff;
   --color-text-main: #2d3436;
   --color-text-muted: #636e72;
-  --brand-primary: #59912f;
-  --brand-accent: #c89d47; /* Exact golden-tan shade from 48615.jpg / 48616.jpg */
+  --brand-primary: #59912f; /* Fresh green shade from target image */
+  --brand-accent: #c89d47;  /* Warm golden-tan for secondary CTA buttons */
   --border-subtle: #e2e8f0;
   --status-alert-bg: #fff5f5;
   --status-alert-border: #feb2b2;
@@ -44,7 +44,7 @@ body {
   margin: 0 auto;
 }
 
-/* HEADER & NAVIGATION */
+/* HEADER & NAVIGATION (GREEN ACTIVE STATE) */
 .app-header {
   display: flex;
   flex-direction: column;
@@ -106,10 +106,11 @@ body {
   flex-shrink: 0;
 }
 
+/* Active navigation tab kept in rich brand green */
 .nav-btn.active, .nav-btn:hover {
-  background: var(--brand-accent);
-  color: #ffffff;
-  border-color: var(--brand-accent);
+  background: var(--brand-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--brand-primary) !important;
 }
 
 .theme-toggle-btn {
@@ -151,7 +152,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* SCOREBOARD METRICS */
+/* KPI METRICS BAR */
 .metrics-row {
   display: flex;
   justify-content: space-between;
@@ -222,7 +223,7 @@ body {
   margin-top: 0.15rem;
 }
 
-/* INPUTS & BUTTONS (EXACT COLOR, SHAPE & FONT MATCH FROM TARGET) */
+/* INPUTS & BUTTONS */
 .form-input-text {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -238,7 +239,6 @@ body {
   margin-top: 0.5rem;
 }
 
-/* Target Solid Golden-Tan Buttons */
 .btn-primary, .btn-accent {
   background-color: var(--brand-accent) !important;
   color: #ffffff !important;
@@ -248,7 +248,7 @@ body {
   font-size: 0.92rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
-  transition: opacity 0.2s ease, transform 0.1s ease !important;
+  transition: opacity 0.2s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
 
@@ -387,16 +387,7 @@ body {
   color: var(--brand-primary);
 }
 
-.read-more {
-  display: inline-block;
-  margin-top: 0.75rem;
-  font-size: 0.8rem;
-  color: var(--brand-accent);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/* DICTIONARY GRID */
+/* DICTIONARY GRID & LIGHT GREEN INGREDIENT HEADINGS */
 .dictionary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -405,39 +396,50 @@ body {
 
 .dict-card {
   background: var(--bg-main);
-  padding: 1rem;
-  border-radius: 12px;
+  padding: 1.1rem;
+  border-radius: 14px;
   border: 1px solid var(--border-subtle);
+}
+
+/* Green header styling matching image 48617.jpg */
+.dict-card h3 {
+  color: var(--brand-primary) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .dict-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .dict-tag {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   background: var(--border-subtle);
-  padding: 0.15rem 0.4rem;
+  color: var(--color-text-muted);
+  padding: 0.2rem 0.5rem;
   border-radius: 6px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .dict-def {
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.88rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.45;
 }
 
 .dict-protip {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--color-text-muted);
   border-top: 1px dashed var(--border-subtle);
-  padding-top: 0.4rem;
+  padding-top: 0.5rem;
+  margin-top: 0.4rem;
 }
 
-/* PRINT STYLES */
+/* PRINT CSS */
 @media print {
   body * {
     visibility: hidden !important;
