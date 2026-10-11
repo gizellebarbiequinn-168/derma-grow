@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD (EXACTLY MATCHING IMAGE 4) -->
+    <!-- MAIN DASHBOARD -->
     <main id="trackerCard" class="view-section dashboard-grid">
       <!-- LEFT PANEL -->
       <div class="left-panel">
@@ -240,7 +240,7 @@
           </div>
 
           <div class="input-group" style="margin-bottom: 1.25rem;">
-            <label for="budgetSlider" style="font-weight: 600; font-size: 0.88rem;">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">0</span></label>
+            <label for="budgetSlider" style="font-weight: 600; font-size: 0.88rem;">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Select Currency</span></label>
             <input type="range" id="budgetSlider" class="range-slider" min="0" max="100" step="1" value="0">
           </div>
 
@@ -248,9 +248,10 @@
             <button type="button" id="starterPackBtn" class="btn-preset" style="width: 100%;">✨ Apply 3-Step Instant Starter Pack</button>
           </div>
 
-          <label style="font-weight: 700; font-size: 0.95rem; display: block;">Select Products Currently in Your Routine:</label>
+          <label style="font-weight: 700; font-size: 0.95rem; display: block;">Current Available Products:</label>
           <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
           
+          <!-- ALL 8 PRODUCTS IN SINGLE COLUMN STACK -->
           <div class="selection-matrix-grid">
             <label class="checkbox-card">
               <input type="checkbox" id="chk-moisturizer">
@@ -271,6 +272,41 @@
               <div class="checkbox-label-text">
                 ☀️ Broad-Spectrum Sunscreen
                 <span class="checkbox-subtext">Crucial daily protective UV shield</span>
+              </div>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" id="chk-toner">
+              <div class="checkbox-label-text">
+                💧 Gentle Hydrating Toner
+                <span class="checkbox-subtext">Adds extra surface-level hydration</span>
+              </div>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" id="chk-niacinamide">
+              <div class="checkbox-label-text">
+                🧪 Niacinamide Serum
+                <span class="checkbox-subtext">Supports natural skin hydration paths</span>
+              </div>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" id="chk-actives">
+              <div class="checkbox-label-text">
+                ⚡ High-Potency Active Serums
+                <span class="checkbox-subtext">Retinols or strong unbuffered acids</span>
+              </div>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" id="chk-lemon">
+              <div class="checkbox-label-text">
+                🍋 DIY Lemon Juice Remedies
+                <span class="checkbox-subtext">Extreme acidic threat to natural skin pH</span>
+              </div>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" id="chk-scrubs">
+              <div class="checkbox-label-text">
+                🧽 Coarse Physical Face Scrubs
+                <span class="checkbox-subtext">Causes micro-friction and surface redness</span>
               </div>
             </label>
           </div>
@@ -340,7 +376,7 @@
     <!-- PROFILE SECTION -->
     <section id="profileSection" class="view-section hidden">
       <div class="content-card profile-card">
-        <h2>User Profile & Sync</h2>
+        2<h2>User Profile & Sync</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Your session ID links your routine choices and quiz preferences to your local session.</p>
         <div class="input-group" style="margin-bottom: 1rem;">
           <label for="profileNameInput" style="font-weight: 600;">Full Name or Display Alias:</label>
