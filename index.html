@@ -24,13 +24,13 @@
 
             <nav class="nav-container">
                 <div class="nav-scroll">
-                    <button id="navDashboard" class="nav-btn active" onclick="switchTab('dashboard')">Dashboard</button>
-                    <button id="navQuiz" class="nav-btn" onclick="switchTab('quiz')">Skin Type Quiz</button>
-                    <button id="navAi" class="nav-btn" onclick="switchTab('ai')">✨ Derma AI Snap</button>
-                    <button id="navLearn" class="nav-btn" onclick="switchTab('science')">Science Hub</button>
-                    <button id="navRecommendations" class="nav-btn" onclick="switchTab('directory')">Shared Directory</button>
-                    <button id="navDictionary" class="nav-btn" onclick="switchTab('dictionary')">Skincare Dictionary</button>
-                    <button id="navProfile" class="nav-btn" onclick="switchTab('profile')">Profile</button>
+                    <button id="navDashboard" class="nav-btn active">Dashboard</button>
+                    <button id="navQuiz" class="nav-btn">Skin Type Quiz</button>
+                    <button id="navAi" class="nav-btn">✨ Derma AI Snap</button>
+                    <button id="navLearn" class="nav-btn">Science Hub</button>
+                    <button id="navRecommendations" class="nav-btn">Shared Directory</button>
+                    <button id="navDictionary" class="nav-btn">Skincare Dictionary</button>
+                    <button id="navProfile" class="nav-btn">Profile</button>
                 </div>
             </nav>
 
@@ -83,7 +83,7 @@
                 <button onclick="saveUserProfile()" class="btn-primary">Save Profile Settings</button>
             </div>
         </section>
-   
+
         <main id="trackerCard" class="view-section dashboard-grid">
             <div class="left-panel">
                 <div class="content-card">
@@ -336,9 +336,10 @@
                         </div>
                     </div>
 
+                    <!-- FIXED BUTTON FUNCTIONALITY -->
                     <div class="routine-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent); flex: 1;">🖨️ Print / Save Routine</button>
-                        <button onclick="switchTab('quiz')" class="btn-primary" style="flex: 1;">🧪 Take Skin Quiz</button>
+                        <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent); flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
+                        <button id="takeQuizBtn" class="btn-primary" style="flex: 1; cursor: pointer;">🧪 Take Skin Quiz</button>
                     </div>
                 </div>
             </div>
@@ -379,17 +380,17 @@
             </div>
         </main>
 
-        <!-- Quiz Section -->
+        <!-- DETAILED 18-QUESTION SKIN TYPE QUIZ -->
         <section id="quizSection" class="view-section quiz-container hidden">
             <div class="content-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <h2 style="margin: 0;">Easy Skin Type Quiz</h2>
-                    <span id="quizProgressTracker" style="font-size: 0.8rem; font-weight: 700; color: var(--brand-accent);">Step 1 of 5</span>
+                    <h2 style="margin: 0;">Comprehensive Dermatological Profile Quiz</h2>
+                    <span id="quizProgressTracker" style="font-size: 0.8rem; font-weight: 700; color: var(--brand-accent);">Step 1 of 18</span>
                 </div>
-                <p class="text-muted" style="margin-bottom: 1.2rem;">Answer 5 simple questions to find your skin type and get personalized product advice.</p>
+                <p class="text-muted" style="margin-bottom: 1.2rem;">Answer 18 clinical questions regarding your skin environment, Fitzpatrick tone, age, and sensitivity levels.</p>
                 
                 <div style="width: 100%; height: 4px; background: var(--border-subtle); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden;">
-                    <div id="quizProgressBar" style="width: 20%; height: 100%; background: var(--brand-accent); transition: width 0.3s ease;"></div>
+                    <div id="quizProgressBar" style="width: 5.5%; height: 100%; background: var(--brand-accent); transition: width 0.3s ease;"></div>
                 </div>
 
                 <div id="questionBox">
@@ -461,7 +462,7 @@
             <div id="databaseGrid" class="database-cards-grid"></div>
         </section>
 
-        <!-- Shared Directory Section -->
+        <!-- Shared Directory Section (12 Recommendations) -->
         <section id="recommendationsSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Shared Product Directory</h2>
@@ -526,14 +527,14 @@
             </div>
         </section>
 
-        <!-- DICTIONARY PRO SECTION -->
+        <!-- DYNAMIC DICTIONARY SECTION (90 TERMS) -->
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
-                <h2>🔬 Skincare Dictionary Pro (<span id="dictCountLabel">99</span> Terms)</h2>
+                <h2 id="dictHeaderTitle">🔬 Skincare Dictionary Pro</h2>
                 <p class="text-muted">Search common skincare ingredients, product formulations, and skin biology terms in plain English.</p>
                 
                 <div class="dictionary-search-box">
-                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search 99 terms (e.g., Niacinamide, Glycerin, Retinol, Ceramides, TEWL)...">
+                    <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Glycerin, Salicylic Acid)...">
                 </div>
 
                 <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;"></div>
