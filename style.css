@@ -3,8 +3,8 @@
   --bg-card: #ffffff;
   --color-text-main: #2d3436;
   --color-text-muted: #636e72;
-  --brand-primary: #59912f; /* Fresh green shade from target image */
-  --brand-accent: #c89d47;  /* Warm golden-tan for secondary CTA buttons */
+  --brand-primary: #59912f; /* Fresh green for headings & active nav */
+  --brand-accent: #c89d47;  /* Golden-tan accent for submit buttons */
   --border-subtle: #e2e8f0;
   --status-alert-bg: #fff5f5;
   --status-alert-border: #feb2b2;
@@ -44,7 +44,7 @@ body {
   margin: 0 auto;
 }
 
-/* HEADER & NAVIGATION (GREEN ACTIVE STATE) */
+/* HEADER & NAVIGATION */
 .app-header {
   display: flex;
   flex-direction: column;
@@ -106,7 +106,7 @@ body {
   flex-shrink: 0;
 }
 
-/* Active navigation tab kept in rich brand green */
+/* Green Active Nav Tab */
 .nav-btn.active, .nav-btn:hover {
   background: var(--brand-primary) !important;
   color: #ffffff !important;
@@ -152,7 +152,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* KPI METRICS BAR */
+/* KPI SCOREBOARD METRICS */
 .metrics-row {
   display: flex;
   justify-content: space-between;
@@ -207,7 +207,7 @@ body {
 }
 
 .checkbox-card:hover {
-  border-color: var(--brand-accent);
+  border-color: var(--brand-primary);
 }
 
 .checkbox-label-text {
@@ -239,7 +239,8 @@ body {
   margin-top: 0.5rem;
 }
 
-.btn-primary, .btn-accent {
+/* Golden-Tan Solid Action Buttons (e.g. Submit Feedback, Analyze Product Safety) */
+.btn-accent, .btn-primary {
   background-color: var(--brand-accent) !important;
   color: #ffffff !important;
   border: none !important;
@@ -248,28 +249,31 @@ body {
   font-size: 0.92rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease !important;
   box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
 
-.btn-primary:hover, .btn-accent:hover {
+.btn-accent:hover, .btn-primary:hover {
   opacity: 0.92;
 }
 
+/* Preset & Secondary Action Buttons (e.g., Apply Starter Routine, Get Another Reminder) */
 .btn-preset {
-  background: var(--bg-main);
-  border: 1px solid var(--border-subtle);
-  color: var(--color-text-main);
-  padding: 0.6rem 1.1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--brand-primary);
+  color: var(--brand-primary);
+  padding: 0.65rem 1.2rem;
   border-radius: 14px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: border-color 0.2s;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background-color 0.2s, border-color 0.2s;
+  display: inline-block;
+  text-align: center;
 }
 
 .btn-preset:hover {
-  border-color: var(--brand-accent);
+  background: rgba(89, 145, 47, 0.06);
 }
 
 /* ROUTINE GUIDE */
@@ -323,7 +327,7 @@ body {
 }
 
 .quiz-opt-btn:hover {
-  border-color: var(--brand-accent);
+  border-color: var(--brand-primary);
 }
 
 .question-text {
@@ -401,7 +405,6 @@ body {
   border: 1px solid var(--border-subtle);
 }
 
-/* Green header styling matching image 48617.jpg */
 .dict-card h3 {
   color: var(--brand-primary) !important;
   font-size: 1.15rem;
