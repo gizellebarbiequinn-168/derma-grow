@@ -167,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "ZWL": { locale: "en-ZW", symbol: "Z$ ", maxBudget: 9600, step: 500, defaultVal: 4800 }
     };
     
-    // Default currency state until user selects one
     let currentCurrency = "";
 
     // --- NAVIGATION ROUTING ---
@@ -270,6 +269,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- REAL SESSION STREAK ENGINE ---
+    function updateSessionStreak() {
+        const todayStr = new Date().toISOString().split('T')[0];
+        let lastDate = localStorage.getItem('dermaLastActiveDate');
+        let streak = parseInt(localStorage.getItem('dermaUserStreak') || "1", 10);
+
+        if (!lastDate) {
+            localStorage.setItem('dermaLastActiveDate', todayStr);
+            localStorage.setItem('dermaUserStreak', "1");
+        } else if (lastDate !== todayStr) {
+            const last = new Date(lastDate);
+            const current = new Date(todayStr);
+            const diffDays = Math.round((current - last) / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 1) {
+                streak += 1;
+            } else if (diffDays > 1) {
+                streak = 1;
+            }
+            localStorage.setItem('dermaLastActiveDate', todayStr);
+            localStorage.setItem('dermaUserStreak', streak.toString());
+        }
+
+        const streakEl = document.getElementById('activeUsersCount');
+        if (streakEl) streakEl.textContent = `${streak} Day${streak > 1 ? 's' : ''}`;
+    }
+
     // --- TRACK MATRIX SUMMARY METRICS ---
     function updateHonestLocalMetrics(finalScore, trendsAvoidedCount, activeHarmfulTrends) {
         const itemsSavedCount = document.getElementById('itemsSavedCount');
@@ -348,11 +374,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let activeHarmfulTrends = 0;
         let trendsAvoidedCount = 0;
 
-        // Checked bad products = Active Irritants
         if (state['chk-lemon']) activeHarmfulTrends++;
         if (state['chk-scrubs']) activeHarmfulTrends++;
 
-        // Unchecked bad products = Trends Avoided
         if (!state['chk-lemon']) trendsAvoidedCount++;
         if (!state['chk-scrubs']) trendsAvoidedCount++;
 
@@ -419,6 +443,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderVisualThresholdChart(labels, metrics);
         updateHonestLocalMetrics(currentEvaluatedScore, trendsAvoidedCount, activeHarmfulTrends);
+
+        // Safe debounced logging to Google Sheets
+        const activeProducts = selectors.filter(id => document.getElementById(id)?.checked).join(', ');
+        debouncedLogToSheet(budget, trendsAvoidedCount, activeProducts || "None");
     }
 
     function renderVisualThresholdChart(labels, metrics) {
@@ -628,14 +656,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // --- SCIENCE HUB DATA ---
+    // --- SCIENCE HUB DATA (PERMALINKS FIXED) ---
     const scienceDatabase = [
-        { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Reference Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid#section=Safety-and-Hazards" },
-        { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read NCBI Skin Friction Studies →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5608132/" },
-        { id: 3, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Traditional soaps feature alkaline pH profiles (>9.0) that strip structural skin components. Low-pH alternatives clean effectively without depleting native lipids.", actionText: "Read PMC Surfactant Formulation Science →", link: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3088928/" },
-        { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Essential Types", description: "Humectants bind moisture inside epidermal layers, while occlusives form a physical surface layout that lowers Transepidermal Water Loss (TEWL).", actionText: "Read Harvard Health Dermatological Guide →", link: "https://www.health.harvard.edu/staying-healthy/the-hype-over-skin-care-ingredients" },
-        { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Extensively researched molecule shown to boost ceramide production, lower baseline TEWL values, and balance surface sebum metrics.", actionText: "View PubMed Niacinamide Trial Data →", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
-        { id: 6, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read JID Barrier Function Literature →", link: "https://www.jidonline.org/article/S0022-202X(15)34551-7/fulltext" }
+        { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Reference Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid" },
+        { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read PubMed Skin Friction Study →", link: "https://pubmed.ncbi.nlm.nih.gov/28805905/" },
+        { id: 3, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Traditional soaps feature alkaline pH profiles (>9.0) that strip structural skin components. Low-pH alternatives clean effectively without depleting native lipids.", actionText: "Read PubMed Surfactant Science →", link: "https://pubmed.ncbi.nlm.nih.gov/21134135/" },
+        { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Essential Types", description: "Humectants bind moisture inside epidermal layers, while occlusives form a physical surface layout that lowers Transepidermal Water Loss (TEWL).", actionText: "Read PubMed Barrier Hydration Data →", link: "https://pubmed.ncbi.nlm.nih.gov/18018301/" },
+        { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Extensively researched molecule shown to boost ceramide production, lower baseline TEWL values, and balance surface sebum metrics.", actionText: "View PubMed Trial Data →", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
+        { id: 6, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read PubMed Barrier Anatomy Paper →", link: "https://pubmed.ncbi.nlm.nih.gov/16060702/" }
     ];
 
     const databaseGrid = document.getElementById('databaseGrid');
@@ -692,7 +720,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderPeerRegistry(btn.getAttribute('data-skin'));
     }));
 
-    // DICTIONARY PRO DATA MATRIX
+    // --- DICTIONARY DATA ---
     const categories = ["Active Component", "Product Function", "Anatomy", "Biology"];
     const matrix = [
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
@@ -715,16 +743,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ["Melanin", 3, "Natural color pigments synthesised by melanocytes to shield cellular DNA from radiation.", "Inflammation or picking pimples accelerates localized melanin spots."],
         ["Sebum", 3, "Native waxy oil secretions layout lubricating external structural layers.", "Balanced sebum acts as a built-in age shield; don't over-strip it."],
         ["Ceramides", 0, "Crucial structural lipids making up over 50% of the natural matrix linking skin cells.", "Look for these if your moisture shield feels raw or flaky."],
-        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."],
-        ["Lactic Acid", 0, "An AHA derived from milk that removes surface buildup while acting as a natural humectant.", "Gentler exfoliation alternative than Glycolic Acid for dry skin types."],
-        ["Azelaic Acid", 0, "Dicarboxylic compound that reduces cellular redness and calms persistent dark marks.", "Great secondary option for handling post-acne blemishes safely."],
-        ["Allantoin", 0, "Soothing botanical derivative that minimizes irritation and protects vulnerable surface cells.", "Commonly added to standard basic cleansers to offset stripping reactions."],
-        ["Zinc Oxide", 0, "Mineral UV barrier providing broad-spectrum coverage while naturally soothing skin surface heat.", "Excellent protective filter choice for reactive or acne-prone profiles."],
-        ["Panthenol", 0, "Provitamin B5 active that converts into pantothenic acid to accelerate barrier repair.", "Binds water efficiently to improve overall layer elasticity scores."],
-        ["Peptides", 0, "Short strings of foundational amino acids acting as messengers to support structural density.", "Helps maintain bounce and firmness when used consistently over time."],
-        ["Ascorbic Acid", 0, "Pure Vitamin C molecule specializing in neutralizing pollution stresses and brightening tone.", "Highly vulnerable to air degradation; store away from direct sunlight."],
-        ["Sulfur", 0, "Traditional mineral active that dries excess surface oil and lifts dead cells out of pores.", "Effective targeted spot treatment for localized oily breakouts."],
-        ["Tea Tree Oil", 0, "Natural botanical essential oil possessing clean anti-microbial properties.", "Must be heavily diluted to prevent localized chemical skin irritation."]
+        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."]
     ];
 
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
@@ -812,7 +831,41 @@ document.addEventListener("DOMContentLoaded", () => {
         if (el) el.textContent = tips[Math.floor(Math.random() * tips.length)];
     };
 
-    // Initialize Profile
+    // --- GOOGLE SHEETS TELEMETRY LOGGER ---
+    let logTimeout = null;
+    function debouncedLogToSheet(budget, trendsAvoided, selectedProducts) {
+        clearTimeout(logTimeout);
+        logTimeout = setTimeout(() => {
+            logRoutineToSheet(budget, trendsAvoided, selectedProducts);
+        }, 750);
+    }
+
+    function logRoutineToSheet(budget, trendsAvoided, selectedProducts) {
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxsJ2EIs0KmpovS3eWZDJc3XoKkHBII25QTTDfQ3KAU0OFNJzAFvAmnHXMSdAhmnqBi/exec";
+        
+        const profileInput = document.getElementById('profileNameInput');
+        const inputVal = profileInput ? profileInput.value.trim() : "";
+        const savedName = localStorage.getItem('dermaGrowUserName');
+        
+        const finalUserName = inputVal || savedName || "Guest";
+
+        fetch(GOOGLE_SHEET_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userID: getOrCreateUserID(),
+                userName: finalUserName,
+                timestamp: new Date().toISOString(),
+                budget: budget,
+                trendsAvoided: trendsAvoided,
+                routine: selectedProducts
+            })
+        }).catch(() => console.log("Silent telemetry log failure"));
+    }
+
+    // Initialize Page State
+    updateSessionStreak();
     const userID = getOrCreateUserID();
     const displayUserEl = document.getElementById('displayUserID');
     if (displayUserEl) displayUserEl.textContent = userID;
