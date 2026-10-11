@@ -384,7 +384,7 @@ body {
     padding-top: 0.4rem;
 }
 
-/* PRINT ENGINE STYLES (Print ONLY the Routine Card) */
+/* PRINT ENGINE STYLES */
 @media print {
     body * {
         visibility: hidden !important;
