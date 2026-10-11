@@ -282,7 +282,7 @@
       background: rgba(89, 145, 47, 0.06);
     }
 
-    /* DICTIONARY GRID & LIGHT GREEN INGREDIENT HEADINGS */
+    /* DICTIONARY GRID */
     .dictionary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -620,8 +620,8 @@
     function switchTab(sectionId, btnElement) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      const targetSection = document.getElementById(sectionId);
-      if (targetSection) targetSection.classList.remove('hidden');
+      const target = document.getElementById(sectionId);
+      if (target) target.classList.remove('hidden');
       if (btnElement) btnElement.classList.add('active');
     }
 
