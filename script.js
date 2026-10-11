@@ -219,18 +219,79 @@ document.addEventListener("DOMContentLoaded", () => {
     if (navDictionary) navDictionary.addEventListener('click', (e) => { e.preventDefault(); switchTab('dictionary'); });
     if (navProfile) navProfile.addEventListener('click', (e) => { e.preventDefault(); switchTab('profile'); });
 
-    // FIX FOR PRINT AND QUIZ BUTTONS IN ROUTINE PANEL
+    // ROUTINE ACTIONS
     const printRoutineBtn = document.getElementById('printRoutineBtn');
     if (printRoutineBtn) {
-        printRoutineBtn.addEventListener('click', () => {
-            window.print();
-        });
+        printRoutineBtn.addEventListener('click', () => { window.print(); });
     }
 
     const takeQuizBtn = document.getElementById('takeQuizBtn');
     if (takeQuizBtn) {
-        takeQuizBtn.addEventListener('click', () => {
-            switchTab('quiz');
+        takeQuizBtn.addEventListener('click', () => { switchTab('quiz'); });
+    }
+
+    // --- IN-APP AJAX FORMSPREE HANDLERS ---
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xykrgnlq";
+
+    const feedbackForm = document.getElementById('feedbackForm');
+    if (feedbackForm) {
+        feedbackForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('feedbackSubmitBtn');
+            const successMsg = document.getElementById('feedbackSuccessMessage');
+            
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Submitting..."; }
+
+            try {
+                const formData = new FormData(feedbackForm);
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    feedbackForm.reset();
+                    if (successMsg) successMsg.classList.remove('hidden');
+                } else {
+                    alert("Submission error. Please try again.");
+                }
+            } catch (err) {
+                alert("Network error. Please try again.");
+            } finally {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Submit Feedback"; }
+            }
+        });
+    }
+
+    const peerContributionForm = document.getElementById('peerContributionForm');
+    if (peerContributionForm) {
+        peerContributionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('peerSubmitBtn');
+            const successMsg = document.getElementById('peerSuccessMessage');
+
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Submitting..."; }
+
+            try {
+                const formData = new FormData(peerContributionForm);
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    peerContributionForm.reset();
+                    if (successMsg) successMsg.classList.remove('hidden');
+                } else {
+                    alert("Submission error. Please try again.");
+                }
+            } catch (err) {
+                alert("Network error. Please try again.");
+            } finally {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Submit Budget Find"; }
+            }
         });
     }
 
@@ -437,7 +498,6 @@ document.addEventListener("DOMContentLoaded", () => {
         debouncedLogToSheet(budget, trendsAvoidedCount, activeProducts || "None");
     }
 
-    // HIGH-CONTRAST DARK MODE VISIBILITY CHART FIX
     function renderVisualThresholdChart(labels, metrics) {
         const chartCanvas = document.getElementById('dermaChart');
         if (!chartCanvas) return;
@@ -679,14 +739,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // --- SCIENCE HUB DATA (VERIFIED UNIQUE PUBMED/PUBCHEM PERMALINKS) ---
+    // --- SCIENCE HUB DATA (PERMALINKS VERIFIED) ---
     const scienceDatabase = [
         { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Citric Acid Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid" },
         { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read PubMed Skin Friction Study →", link: "https://pubmed.ncbi.nlm.nih.gov/28805905/" },
         { id: 3, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Cleansers: Low-pH Surfactants", description: "Traditional soaps feature alkaline pH profiles (>9.0) that strip structural skin components. Low-pH alternatives clean effectively without depleting native lipids.", actionText: "Read PubMed Surfactant Science →", link: "https://pubmed.ncbi.nlm.nih.gov/21134135/" },
-        { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Essential Types", description: "Humectants bind moisture inside epidermal layers, while occlusives form a physical surface layout that lowers Transepidermal Water Loss (TEWL).", actionText: "Read PubMed Barrier Hydration Data →", link: "https://pubmed.ncbi.nlm.nih.gov/18018301/" },
+        { id: 4, category: "classification", badge: "Product Category", badgeClass: "badge-class", title: "Moisturizers: Essential Types", description: "Humectants bind moisture inside epidermal layers, while occlusives form a physical surface layout that lowers Transepidermal Water Loss (TEWL).", actionText: "Read PubMed Clinical Benefit of Moisturizers →", link: "https://pubmed.ncbi.nlm.nih.gov/16181452/" },
         { id: 5, category: "actives", badge: "Skincare Ingredient", badgeClass: "badge-science", title: "Niacinamide (Vitamin B3)", description: "Extensively researched molecule shown to boost ceramide production, lower baseline TEWL values, and balance surface sebum metrics.", actionText: "View PubMed Niacinamide Trial →", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
-        { id: 6, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read PubMed Barrier Anatomy Paper →", link: "https://pubmed.ncbi.nlm.nih.gov/16060702/" }
+        { id: 6, category: "anatomy", badge: "Skin Biology", badgeClass: "badge-science", title: "The Skin Barrier Frame", description: "An architectural overview of the stratum corneum's 'brick and mortar' layout: corneocytes act as protective bricks, and specialized lipids act as mortar.", actionText: "Read PubMed Barrier Function Review →", link: "https://pubmed.ncbi.nlm.nih.gov/19043850/" }
     ];
 
     const databaseGrid = document.getElementById('databaseGrid');
@@ -709,13 +769,12 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCards(btn.getAttribute('data-category'));
     }));
 
-    // --- SHARED DIRECTORY DATA (EXPANDED TO 12 RECOMMENDATIONS) ---
+    // --- SHARED DIRECTORY DATA (12 RECOMMENDATIONS) ---
     const peerRegistryDatabase = [
         { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000 / $3", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate", usage: "Pour onto cotton pad, wipe skin surface gently.", definition: "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents." },
         { id: 2, skinType: "Dry", product: "The Ordinary Natural Moisturizing Factors", cost: "Rp 120.000 / $8", ingredients: "Caprylic Triglyceride, Amino Acids, Ceramides, Hyaluronic Acid", usage: "Apply a pea-sized dot over damp skin right after rinsing.", definition: "A dense, clean barrier matching compound setup to resolve cellular skin flaking without adding external fragrances." },
         { id: 3, skinType: "Sensitive", product: "Cetaphil Gentle Skin Cleanser", cost: "Rp 65.000 / $6", ingredients: "Water, Cetyl Alcohol, Propylene Glycol, Stearyl Alcohol", usage: "Massage lightly over wet face, rinse completely with lukewarm water.", definition: "Classic non-foaming, dermatologist-staple emulsion structure built to cleanse surface boundaries without disrupting pH scores." },
         { id: 4, skinType: "Normal", product: "Azarine Hydrasoothe Sunscreen Gel SPF 45", cost: "Rp 65.000 / $5", ingredients: "Water, Aloe Vera, Green Tea Extract, Propolis, Niacinamide", usage: "Smooth two complete finger lengths across the skin before sun exposure.", definition: "Incredibly lightweight, organic chemical filter matrix that leaves zero white residue tracks or heavy oily sheen layers." },
-        // 8 NEW ADDITIONS
         { id: 5, skinType: "Oily", product: "Cosrx Salicylic Acid Daily Gentle Cleanser", cost: "Rp 110.000 / $7.50", ingredients: "Salicylic Acid 0.5%, Tea Tree Leaf Oil, Botanical Extracts", usage: "Lather a small pea amount with water, cleanse for 45 seconds.", definition: "Micro-dosed BHA cleanser that dissolves sebum buildup and unclogs pores without over-stripping." },
         { id: 6, skinType: "Dry", product: "Hada Labo Gokujyun Premium Lotion", cost: "Rp 140.000 / $9.50", ingredients: "5 Types of Hyaluronic Acid, Hydroxyethyl Urea, Glycerin", usage: "Pat 3-4 drops directly into damp skin immediately post-cleanse.", definition: "Viscous hydrating toner loaded with multiple HA molecular weights for deep cellular hydration." },
         { id: 7, skinType: "Sensitive", product: "Illiyoon Ceramide Ato Concentrate Cream", cost: "Rp 160.000 / $11", ingredients: "Ceramide Skin Complex Capsules, Panax Ginseng Root, Glycerin", usage: "Warm between palms and press gently into dry or inflamed skin zones.", definition: "Patented ceramide capsule technology that repairs severely damaged or raw skin barriers." },
