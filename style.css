@@ -44,36 +44,39 @@ body {
   margin: 0 auto;
 }
 
-/* HEADER & NAV FIXED FOR MOBILE RESPONSIVENESS */
+/* HEADER & NAVIGATION (MATCHING TARGET DESIGN) */
 .app-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
   background: var(--bg-card);
   border-radius: 12px;
   border: 1px solid var(--border-subtle);
   margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .brand-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-shrink: 0;
 }
 
 .brand-heading {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--brand-primary);
 }
 
 .nav-container {
-  flex: 1 1 auto;
-  min-width: 0;
+  width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -94,8 +97,8 @@ body {
   background: transparent;
   border: 1px solid var(--border-subtle);
   color: var(--color-text-main);
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  padding: 0.45rem 1rem;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
@@ -116,7 +119,6 @@ body {
   padding: 0.4rem 0.6rem;
   border-radius: 8px;
   cursor: pointer;
-  flex-shrink: 0;
 }
 
 /* DASHBOARD LAYOUT */
@@ -135,6 +137,11 @@ body {
   transition: background-color 0.3s ease;
 }
 
+.content-card h2, .content-card h3 {
+  color: var(--brand-primary);
+  margin-bottom: 0.5rem;
+}
+
 .hidden {
   display: none !important;
 }
@@ -144,30 +151,38 @@ body {
   font-size: 0.875rem;
 }
 
-/* MATRIX STATS */
+/* SCOREBOARD METRICS (WITH TRANSLUCENT CARDS MATCHING TARGET DESIGN) */
 .metrics-row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
   text-align: center;
 }
 
 .metric-stat-box {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.75rem 0.5rem;
+  border-radius: 8px;
 }
 
 .metric-number {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
 }
 
 .metric-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.9;
+  margin-top: 0.2rem;
 }
 
 /* CHECKBOX MATRIX */
@@ -227,7 +242,18 @@ body {
   transition: opacity 0.2s;
 }
 
-.btn-primary:hover {
+.btn-accent {
+  background: var(--brand-accent);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover, .btn-accent:hover {
   opacity: 0.9;
 }
 
