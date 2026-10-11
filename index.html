@@ -54,7 +54,7 @@
           <span class="metric-label">Routine Streak</span>
         </div>
         <div class="metric-stat-box">
-          <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">2</span>
+          <span id="itemsSavedCount" class="metric-number" style="color: #ffffff;">0</span>
           <span class="metric-label">Trends Avoided</span>
         </div>
         <div class="metric-stat-box">
@@ -64,57 +64,206 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
+    <!-- MAIN DASHBOARD (EXACTLY MATCHING IMAGE 4) -->
     <main id="trackerCard" class="view-section dashboard-grid">
       <!-- LEFT PANEL -->
       <div class="left-panel">
         <div class="content-card">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
             <h2 style="margin-bottom: 0;">Budget Routine Builder</h2>
-            <span id="profileSyncBadge" class="profile-status" style="font-size: 0.7rem; background-color: rgba(200, 157, 71, 0.15); color: var(--brand-accent); padding: 0.25rem 0.55rem; border-radius: 8px; font-weight: 700; text-transform: uppercase;">PROFILE: SAVED & SYNCED</span>
           </div>
-          <p class="text-muted">Select your currency and budget limit, then check the products you use daily to evaluate your routine.</p>
+          <div style="margin-bottom: 0.75rem;">
+            <span id="profileSyncBadge" class="profile-status" style="font-size: 0.7rem; background-color: rgba(200, 157, 71, 0.18); color: var(--brand-accent); padding: 0.25rem 0.55rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">PROFILE: SAVED & SYNCED</span>
+          </div>
+          <p class="text-muted" style="line-height: 1.45;">Select your budget parameters and available products below to configure your rule-based 14-day starter routine.</p>
           
           <div class="input-group" style="margin-bottom: 1rem; margin-top: 1rem;">
-            <label for="currencySelector" style="font-weight: 600; font-size: 0.88rem;">🌐 Preferred Currency:</label>
-            <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.55rem 0.8rem; font-size: 0.88rem; width: auto; min-width: 180px; background: var(--bg-main); margin-top: 0.3rem;">
-              <option value="" disabled>-- Select Currency --</option>
-              <option value="IDR" selected>IDR (Rp)</option>
-              <option value="USD">USD ($)</option>
-              <option value="EUR">EUR (€)</option>
-              <option value="GBP">GBP (£)</option>
-              <option value="SGD">SGD (S$)</option>
-
-              <option value="MYR">MYR (RM)</option>
+            <label for="currencySelector" style="font-weight: 600; font-size: 0.88rem;">🌐 Select Global Currency Display:</label>
+            <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.55rem 0.8rem; font-size: 0.88rem; width: 100%; background: var(--bg-main); margin-top: 0.3rem;">
+              <option value="" selected disabled>-- Select Currency --</option>
+              <option value="AED">AED (AED)</option>
+              <option value="AFN">AFN (AFN)</option>
+              <option value="ALL">ALL (ALL)</option>
+              <option value="AMD">AMD (AMD)</option>
+              <option value="ANG">ANG (NAƒ)</option>
+              <option value="AOA">AOA (Kz)</option>
+              <option value="ARS">ARS ($)</option>
               <option value="AUD">AUD (A$)</option>
+              <option value="AWG">AWG (Afl.)</option>
+              <option value="AZN">AZN (₼)</option>
+              <option value="BAM">BAM (KM)</option>
+              <option value="BBD">BBD (Bds$)</option>
+              <option value="BDT">BDT (৳)</option>
+              <option value="BGN">BGN (лв.)</option>
+              <option value="BHD">BHD (BD)</option>
+              <option value="BIF">BIF (FBu)</option>
+              <option value="BMD">BMD ($)</option>
+              <option value="BND">BND (B$)</option>
+              <option value="BOB">BOB (Bs.)</option>
+              <option value="BRL">BRL (R$)</option>
+              <option value="BSD">BSD (B$)</option>
+              <option value="BTN">BTN (Nu.)</option>
+              <option value="BWP">BWP (P)</option>
+              <option value="BYN">BYN (Br)</option>
+              <option value="BZD">BZD (BZ$)</option>
+              <option value="CAD">CAD (CA$)</option>
+              <option value="CDF">CDF (FC)</option>
+              <option value="CHF">CHF (CHF)</option>
+              <option value="CLP">CLP ($)</option>
+              <option value="CNY">CNY (¥)</option>
+              <option value="COP">COP ($)</option>
+              <option value="CRC">CRC (₡)</option>
+              <option value="CUP">CUP ($MN)</option>
+              <option value="CVE">CVE (Esc)</option>
+              <option value="CZK">CZK (Kč)</option>
+              <option value="DJF">DJF (Fdj)</option>
+              <option value="DKK">DKK (kr.)</option>
+              <option value="DOP">DOP (RD$)</option>
+              <option value="DZD">DZD (DA)</option>
+              <option value="EGP">EGP (E£)</option>
+              <option value="ERN">ERN (Nfk)</option>
+              <option value="ETB">ETB (Br)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="FJD">FJD (FJ$)</option>
+              <option value="FKP">FKP (£)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="GEL">GEL (₾)</option>
+              <option value="GHS">GHS (GH₵)</option>
+              <option value="GIP">GIP (£)</option>
+              <option value="GMD">GMD (D)</option>
+              <option value="GNF">GNF (FG)</option>
+              <option value="GTQ">GTQ (Q)</option>
+              <option value="GYD">GYD (G$)</option>
+              <option value="HKD">HKD (HK$)</option>
+              <option value="HNL">HNL (L)</option>
+              <option value="HRK">HRK (€)</option>
+              <option value="HTG">HTG (G)</option>
+              <option value="HUF">HUF (Ft)</option>
+              <option value="IDR">IDR (Rp)</option>
+              <option value="ILS">ILS (₪)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="IQD">IQD (IQD)</option>
+              <option value="IRR">IRR (IRR)</option>
+              <option value="ISK">ISK (kr.)</option>
+              <option value="JMD">JMD (J$)</option>
+              <option value="JOD">JOD (JD)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="KES">KES (KSh)</option>
+              <option value="KGS">KGS (сом)</option>
+              <option value="KHR">KHR (៛)</option>
+              <option value="KMF">KMF (CF)</option>
+              <option value="KPW">KPW (₩)</option>
+              <option value="KRW">KRW (₩)</option>
+              <option value="KWD">KWD (KD)</option>
+              <option value="KYD">KYD (CI$)</option>
+              <option value="KZT">KZT (₸)</option>
+              <option value="LAK">LAK (₭)</option>
+              <option value="LBP">LBP (L£)</option>
+              <option value="LKR">LKR (Rs)</option>
+              <option value="LRD">LRD (L$)</option>
+              <option value="LSL">LSL (L)</option>
+              <option value="LYD">LYD (LD)</option>
+              <option value="MAD">MAD (MAD)</option>
+              <option value="MDL">MDL (L)</option>
+              <option value="MGA">MGA (Ar)</option>
+              <option value="MKD">MKD (ден)</option>
+              <option value="MMK">MMK (Ks)</option>
+              <option value="MNT">MNT (₮)</option>
+              <option value="MOP">MOP (MOP$)</option>
+              <option value="MRU">MRU (UM)</option>
+              <option value="MUR">MUR (Rs)</option>
+              <option value="MVR">MVR (Rf)</option>
+              <option value="MWK">MWK (MK)</option>
+              <option value="MXN">MXN (Mex$)</option>
+              <option value="MYR">MYR (RM)</option>
+              <option value="MZN">MZN (MT)</option>
+              <option value="NAD">NAD (N$)</option>
+              <option value="NGN">NGN (₦)</option>
+              <option value="NIO">NIO (C$)</option>
+              <option value="NOK">NOK (kr)</option>
+              <option value="NPR">NPR (Rs)</option>
+              <option value="NZD">NZD (NZ$)</option>
+              <option value="OMR">OMR (OMR)</option>
+              <option value="PAB">PAB (B/.)</option>
+              <option value="PEN">PEN (S/)</option>
+              <option value="PGK">PGK (K)</option>
+              <option value="PHP">PHP (₱)</option>
+              <option value="PKR">PKR (Rs)</option>
+              <option value="PLN">PLN (zł)</option>
+              <option value="PYG">PYG (₲)</option>
+              <option value="QAR">QAR (QR)</option>
+              <option value="RON">RON (lei)</option>
+              <option value="RSD">RSD (дин.)</option>
+              <option value="RUB">RUB (₽)</option>
+              <option value="RWF">RWF (FRw)</option>
+              <option value="SAR">SAR (SR)</option>
+              <option value="SBD">SBD (SI$)</option>
+              <option value="SCR">SCR (SR)</option>
+              <option value="SDG">SDG (SDG)</option>
+              <option value="SEK">SEK (kr)</option>
+              <option value="SGD">SGD (S$)</option>
+              <option value="SHP">SHP (£)</option>
+              <option value="SLE">SLE (Le)</option>
+              <option value="SOS">SOS (Ssh)</option>
+              <option value="SRD">SRD ($)</option>
+              <option value="SSP">SSP (£)</option>
+              <option value="STN">STN (Db)</option>
+              <option value="SYP">SYP (LS)</option>
+              <option value="SZL">SZL (E)</option>
+              <option value="THB">THB (฿)</option>
+              <option value="TJS">TJS (SM)</option>
+              <option value="TMT">TMT (m)</option>
+              <option value="TND">TND (DT)</option>
+              <option value="TOP">TOP (T$)</option>
+              <option value="TRY">TRY (₺)</option>
+              <option value="TTD">TTD (TT$)</option>
+              <option value="TWD">TWD (NT$)</option>
+              <option value="TZS">TZS (TSh)</option>
+              <option value="UAH">UAH (₴)</option>
+              <option value="UGX">UGX (USh)</option>
+              <option value="USD">USD ($)</option>
+              <option value="UYU">UYU ($U)</option>
+              <option value="UZS">UZS (so'm)</option>
+              <option value="VES">VES (Bs.S)</option>
+              <option value="VND">VND (₫)</option>
+              <option value="VUV">VUV (VT)</option>
+              <option value="WST">WST (WS$)</option>
+              <option value="XAF">XAF (FCFA)</option>
+              <option value="XCD">XCD (EC$)</option>
+              <option value="XOF">XOF (CFA)</option>
+              <option value="XPF">XPF (CFP)</option>
+              <option value="YER">YER (YR)</option>
+              <option value="ZAR">ZAR (R)</option>
+              <option value="ZMW">ZMW (ZK)</option>
+              <option value="ZWL">ZWL (Z$)</option>
             </select>
           </div>
 
           <div class="input-group" style="margin-bottom: 1.25rem;">
-            <label for="budgetSlider" style="font-weight: 600; font-size: 0.88rem;">Monthly Skincare Budget Limit: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Rp 230.000</span></label>
-            <input type="range" id="budgetSlider" class="range-slider" min="0" max="1000000" step="10000" value="230000">
+            <label for="budgetSlider" style="font-weight: 600; font-size: 0.88rem;">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">0</span></label>
+            <input type="range" id="budgetSlider" class="range-slider" min="0" max="100" step="1" value="0">
           </div>
 
-          <div style="margin-bottom: 1.5rem;">
-            <button type="button" id="starterPackBtn" class="btn-preset">✨ Apply 3-Step Starter Routine</button>
+          <div style="margin-bottom: 1.5rem; text-align: center;">
+            <button type="button" id="starterPackBtn" class="btn-preset" style="width: 100%;">✨ Apply 3-Step Instant Starter Pack</button>
           </div>
 
-          <label style="font-weight: 700; font-size: 0.95rem; display: block;">Select Products You Currently Use Daily:</label>
-          <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check items you use every day to calculate your barrier health score.</p>
+          <label style="font-weight: 700; font-size: 0.95rem; display: block;">Select Products Currently in Your Routine:</label>
+          <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
           
           <div class="selection-matrix-grid">
             <label class="checkbox-card">
-              <input type="checkbox" id="chk-moisturizer" checked>
+              <input type="checkbox" id="chk-moisturizer">
               <div class="checkbox-label-text">
                 🧴 Basic Moisturizer / Glycerin
-                <span class="checkbox-subtext">Protects surface skin cells from drying out</span>
+                <span class="checkbox-subtext">Protects surface cells from drying out</span>
               </div>
             </label>
             <label class="checkbox-card">
-              <input type="checkbox" id="chk-cleanser" checked>
+              <input type="checkbox" id="chk-cleanser">
               <div class="checkbox-label-text">
                 🧼 Gentle Low-pH Cleanser
-                <span class="checkbox-subtext">Washes away grime without stripping natural oils</span>
+                <span class="checkbox-subtext">Washes away grime without stripping lipids</span>
               </div>
             </label>
             <label class="checkbox-card">
@@ -124,27 +273,6 @@
                 <span class="checkbox-subtext">Crucial daily protective UV shield</span>
               </div>
             </label>
-            <label class="checkbox-card">
-              <input type="checkbox" id="chk-toner">
-              <div class="checkbox-label-text">
-                💧 Gentle Hydrating Toner
-                <span class="checkbox-subtext">Adds extra surface-level hydration</span>
-              </div>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" id="chk-niacinamide">
-              <div class="checkbox-label-text">
-                🧪 Niacinamide Serum
-                <span class="checkbox-subtext">Supports barrier repair and regulates oil</span>
-              </div>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" id="chk-actives">
-              <div class="checkbox-label-text">
-                ⚡ High-Potency Active Serums
-                <span class="checkbox-subtext">Retinols or strong unbuffered peeling acids</span>
-              </div>
-            </label>
           </div>
         </div>
 
@@ -152,27 +280,21 @@
         <div id="protocolBox" class="content-card">
           <h3>Your Essential Daily Routine Guide</h3>
           <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); border-radius: 12px; padding: 0.75rem 1rem;">
-            Your routine is balanced for daily barrier maintenance.
+            Check the products you use above to build your customized AM/PM routine schedule.
           </div>
           <div class="routine-split-panel">
             <div class="routine-block">
               <h4>☀️ Morning Routine</h4>
-              <ul id="amRoutineList" class="routine-list">
-                <li>Gentle Low-pH Cleanser</li>
-                <li>Basic Moisturizer / Glycerin</li>
-              </ul>
+              <ul id="amRoutineList" class="routine-list"></ul>
             </div>
             <div class="routine-block">
               <h4>🌙 Evening Routine</h4>
-              <ul id="pmRoutineList" class="routine-list">
-                <li>Gentle Low-pH Cleanser</li>
-                <li>Basic Moisturizer / Glycerin</li>
-              </ul>
+              <ul id="pmRoutineList" class="routine-list"></ul>
             </div>
           </div>
           <div class="routine-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-            <button id="printRoutineBtn" class="btn-preset" style="border-color: var(--brand-accent); color: var(--brand-accent); flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
-            <button id="takeQuizBtn" class="btn-primary" style="flex: 1; cursor: pointer;">🧪 Take Skin Quiz</button>
+            <button id="printRoutineBtn" class="btn-preset" style="flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
+            <button id="takeQuizBtn" class="btn-accent" style="flex: 1; cursor: pointer;">🧪 Take Skin Quiz</button>
           </div>
         </div>
       </div>
@@ -186,7 +308,7 @@
             <canvas id="dermaChart"></canvas>
           </div>
           <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(89, 145, 47, 0.08); border: 1px solid rgba(89, 145, 47, 0.2); color: var(--brand-primary);">
-            🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier saving approximately Rp 150.000!
+            🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier!
           </div>
         </div>
 
