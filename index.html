@@ -324,14 +324,6 @@
       margin-bottom: 0.6rem;
       line-height: 1.45;
     }
-
-    .dict-protip {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      border-top: 1px dashed var(--border-subtle);
-      padding-top: 0.5rem;
-      margin-top: 0.4rem;
-    }
   </style>
 </head>
 <body>
@@ -430,7 +422,6 @@
           <label style="font-weight: 700; font-size: 0.95rem; display: block;">Current Available Products:</label>
           <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
           
-          <!-- ALL 8 PRODUCTS STACKED -->
           <div class="selection-matrix-grid">
             <label class="checkbox-card">
               <input type="checkbox" id="chk-moisturizer">
@@ -629,7 +620,8 @@
     function switchTab(sectionId, btnElement) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(sectionId).classList.remove('hidden');
+      const targetSection = document.getElementById(sectionId);
+      if (targetSection) targetSection.classList.remove('hidden');
       if (btnElement) btnElement.classList.add('active');
     }
 
@@ -653,11 +645,32 @@
     document.getElementById('currencySelector').addEventListener('change', updateBudgetDisplay);
     document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
 
+    // Dynamic Barrier Score Updates from Checkboxes
+    function updateBarrierScore() {
+      let score = 50;
+      if (document.getElementById('chk-moisturizer').checked) score += 15;
+      if (document.getElementById('chk-cleanser').checked) score += 10;
+      if (document.getElementById('chk-sunscreen').checked) score += 15;
+      if (document.getElementById('chk-toner').checked) score += 5;
+      if (document.getElementById('chk-niacinamide').checked) score += 5;
+      if (document.getElementById('chk-actives').checked) score -= 10;
+      if (document.getElementById('chk-lemon').checked) score -= 30;
+      if (document.getElementById('chk-scrubs').checked) score -= 15;
+
+      score = Math.max(0, Math.min(100, score));
+      document.getElementById('optimizationDelta').innerText = score + '%';
+    }
+
+    document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => {
+      chk.addEventListener('change', updateBarrierScore);
+    });
+
     // Starter Pack Selector
     function applyStarterPack() {
       document.getElementById('chk-moisturizer').checked = true;
       document.getElementById('chk-cleanser').checked = true;
       document.getElementById('chk-sunscreen').checked = true;
+      updateBarrierScore();
       alert("Applied 3-step essential starter pack!");
     }
 
