@@ -336,7 +336,6 @@
                         </div>
                     </div>
 
-                    <!-- FIXED BUTTON FUNCTIONALITY -->
                     <div class="routine-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                         <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent); flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
                         <button id="takeQuizBtn" class="btn-primary" style="flex: 1; cursor: pointer;">🧪 Take Skin Quiz</button>
@@ -364,17 +363,18 @@
                     <button onclick="refreshTip()" class="btn-preset" style="margin-top: 10px;">Get Another Reminder</button>
                 </div>
     
+                <!-- UPDATED IN-APP AJAX FEEDBACK FORM -->
                 <div class="content-card">
                     <h2>Help Improve Derma Grow</h2>
                     <p class="text-muted">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
-                    <form id="feedbackForm" action="https://formspree.io/f/xykrgnlq" method="POST">
+                    <form id="feedbackForm">
                         <div class="input-group">
                             <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-primary">Submit Feedback</button>
+                        <button type="submit" id="feedbackSubmitBtn" class="btn-primary">Submit Feedback</button>
                     </form>
-                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem;">
-                        ✓ Feedback submitted successfully. Thank you for helping refine the app!
+                    <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 6px; border: 1px solid var(--brand-primary); text-align: center;">
+                        ✓ Thank you for submitting! Your feedback has been sent successfully.
                     </div>
                 </div>
             </div>
@@ -462,7 +462,7 @@
             <div id="databaseGrid" class="database-cards-grid"></div>
         </section>
 
-        <!-- Shared Directory Section (12 Recommendations) -->
+        <!-- Shared Directory Section -->
         <section id="recommendationsSection" class="view-section hidden">
             <div class="content-card" style="margin-bottom: 1.5rem;">
                 <h2>Shared Product Directory</h2>
@@ -480,13 +480,12 @@
             <div class="peer-split-grid">
                 <div id="peerRegistryGrid" class="database-cards-grid"></div>
 
+                <!-- UPDATED IN-APP AJAX PEER CONTRIBUTION FORM -->
                 <div class="content-card">
                     <h3>Log a Budget Find</h3>
                     <p class="text-muted">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
                     
-                    <form id="peerContributionForm" action="https://formspree.io/f/xykrgnlq" method="POST">
-                        <input type="hidden" name="_subject" value="New Derma Grow Peer Product Contribution!">
-                        
+                    <form id="peerContributionForm">
                         <div class="input-group" style="margin-bottom: 0.75rem;">
                             <label for="peerSkinType">Target Skin Type:</label>
                             <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
@@ -499,17 +498,17 @@
 
                         <div class="input-group" style="margin-bottom: 0.75rem;">
                             <label for="peerProdName">Product Name:</label>
-                            <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Wardah Aloe Hydramild Gel" required>
+                            <input type="text" id="peerProdName" name="Product Details" class="form-input-text" placeholder="e.g., Glad2Glow Centella Soothing Gel" required>
                         </div>
 
                         <div class="input-group" style="margin-bottom: 0.75rem;">
                             <label for="peerPrice">Estimated Retail Cost:</label>
-                            <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 35.000 / $3" required>
+                            <input type="text" id="peerPrice" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 43.000 / $3" required>
                         </div>
 
                         <div class="input-group" style="margin-bottom: 0.75rem;">
                             <label for="peerIngredients">Key Ingredients:</label>
-                            <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Aloe Vera Extract, Glycerin, Provitamin B5" required>
+                            <input type="text" id="peerIngredients" name="Ingredients Highlight" class="form-input-text" placeholder="e.g., Centella Asiatica, Allantoin, Glycerin" required>
                         </div>
 
                         <div class="input-group" style="margin-bottom: 1rem;">
@@ -517,17 +516,17 @@
                             <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..." required></textarea>
                         </div>
 
-                        <button type="submit" class="btn-primary" style="width: 100%;">Submit Budget Find</button>
+                        <button type="submit" id="peerSubmitBtn" class="btn-primary" style="width: 100%;">Submit Budget Find</button>
                     </form>
 
-                    <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; text-align: center;">
-                        ✓ Contribution submitted successfully!
+                    <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 6px; border: 1px solid var(--brand-primary); text-align: center;">
+                        ✓ Thank you for submitting! Your find has been logged successfully.
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- DYNAMIC DICTIONARY SECTION (90 TERMS) -->
+        <!-- DDICTIONARY SECTION (90 TERMS) -->
         <section id="dictionarySection" class="view-section hidden">
             <div class="content-card">
                 <h2 id="dictHeaderTitle">🔬 Skincare Dictionary Pro</h2>
