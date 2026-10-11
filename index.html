@@ -84,12 +84,12 @@
         <div class="content-card">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
             <h2 style="margin-bottom: 0;">Budget Routine Builder</h2>
-            <span id="profileSyncBadge" class="profile-status" style="font-size: 0.7rem; background-color: var(--border-subtle); color: var(--color-text-muted); padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 700; text-transform: uppercase;">Profile: Guest Mode</span>
+            <span id="profileSyncBadge" class="profile-status" style="font-size: 0.7rem; background-color: var(--border-subtle); color: var(--color-text-muted); padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">Profile: Guest Mode</span>
           </div>
           <p class="text-muted">Select your currency and budget limit, then check the products you use daily to evaluate your routine.</p>
           <div class="input-group" style="margin-bottom: 1rem; margin-top: 0.75rem;">
             <label for="currencySelector" style="font-weight: 600; font-size: 0.85rem;">🌐 Preferred Currency:</label>
-            <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.4rem; font-size: 0.85rem; width: auto; min-width: 170px; background: var(--bg-main);">
+            <select id="currencySelector" class="form-input-text" style="height: auto; padding: 0.45rem; font-size: 0.85rem; width: auto; min-width: 170px; background: var(--bg-main);">
               <option value="" selected disabled>-- Select Currency --</option>
               <option value="AED">AED (AED)</option>
               <option value="AFN">AFN (AFN)</option>
@@ -319,7 +319,7 @@
 
         <div id="protocolBox" class="content-card">
           <h3>Your Essential Daily Routine Guide</h3>
-          <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main);">
+          <div id="reportContent" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); border-radius: 12px; padding: 0.75rem 1rem;">
             Check the products you use above to build your customized AM/PM routine schedule.
           </div>
           <div class="routine-split-panel">
@@ -333,7 +333,7 @@
             </div>
           </div>
           <div class="routine-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-            <button id="printRoutineBtn" class="filter-btn" style="border-color: var(--brand-accent); color: var(--brand-accent); flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
+            <button id="printRoutineBtn" class="btn-preset" style="border-color: var(--brand-accent); color: var(--brand-accent); flex: 1; cursor: pointer;">🖨️ Print / Save Routine</button>
             <button id="takeQuizBtn" class="btn-primary" style="flex: 1; cursor: pointer;">🧪 Take Skin Quiz</button>
           </div>
         </div>
@@ -346,30 +346,30 @@
           <div class="chart-container">
             <canvas id="dermaChart"></canvas>
           </div>
-          <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 6px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
+          <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.75rem; border-radius: 12px; background: var(--bg-main); border: 1px solid var(--border-subtle);">
             💡 Select items in the builder above to view barrier health updates.
           </div>
         </div>
 
         <div class="content-card" style="border-left: 4px solid var(--brand-accent);">
           <h3>✨ Confidence Booster</h3>
-          <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted);">
+          <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted); margin-bottom: 0.75rem;">
             "Your skin is a living organ, not a filter. It is doing its best to protect you today."
           </p>
-          <button onclick="refreshTip()" class="btn-preset" style="margin-top: 10px;">Get Another Reminder</button>
+          <button onclick="refreshTip()" class="btn-preset">Get Another Reminder</button>
         </div>
 
         <!-- FEEDBACK FORM -->
         <div class="content-card">
           <h2>Help Improve Derma Grow</h2>
-          <p class="text-muted">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
+          <p class="text-muted" style="margin-bottom: 0.75rem;">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
           <form id="feedbackForm">
-            <div class="input-group">
+            <div class="input-group" style="margin-bottom: 0.75rem;">
               <textarea id="feedbackText" name="feedback" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
             </div>
-            <button type="submit" id="feedbackSubmitBtn" class="btn-primary">Submit Feedback</button>
+            <button type="submit" id="feedbackSubmitBtn" class="btn-accent">Submit Feedback</button>
           </form>
-          <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 6px; border: 1px solid var(--brand-primary); text-align: center;">
+          <div id="feedbackSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 12px; border: 1px solid var(--brand-primary); text-align: center;">
             ✓ Thank you for submitting! Your feedback has been sent successfully.
           </div>
         </div>
@@ -394,7 +394,7 @@
         <div id="quizResultBox" class="quiz-result-display hidden" style="text-align: center; padding: 1rem 0;">
           <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--color-text-muted);">Your Skin Classification:</span>
           <h3 id="skinTypeTitle" style="margin: 0.5rem 0 1rem 0;">NORMAL SKIN</h3>
-          <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left;"></p>
+          <p id="skinTypeDescription" class="alert-notice" style="background-color: var(--bg-main); border-color: var(--border-subtle); color: var(--color-text-main); text-align: left; border-radius: 12px; padding: 0.75rem;"></p>
           <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
             <button id="syncToRoutineBtn" class="btn-primary" style="background-color: var(--brand-primary);">Sync Result to Routine & Directory</button>
             <button id="resetQuizBtn" class="btn-primary">Retake Quiz</button>
@@ -410,7 +410,7 @@
         <p class="text-muted">Take or upload a photo of your skincare product label, or type its ingredients below to evaluate if it matches your skin type safely.</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
           <div>
-            <div style="border: 2px dashed var(--border-subtle); border-radius: 8px; padding: 1.5rem; text-align: center; background: var(--bg-main);">
+            <div style="border: 2px dashed var(--border-subtle); border-radius: 14px; padding: 1.5rem; text-align: center; background: var(--bg-main);">
               <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📸</span>
               <label for="productImageUpload" class="btn-preset" style="display: inline-block; width: auto; padding: 0.5rem 1rem; cursor: pointer;">
                 Choose Product Photo
@@ -419,16 +419,16 @@
               <p class="text-muted" style="margin-top: 0.5rem; font-size: 0.78rem;">Upload a clear photo of product packaging or ingredient list.</p>
             </div>
             <div id="imagePreviewContainer" class="hidden" style="margin-top: 1rem; text-align: center;">
-              <img id="imagePreview" src="" alt="Product Snap" style="max-width: 100%; max-height: 180px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+              <img id="imagePreview" src="" alt="Product Snap" style="max-width: 100%; max-height: 180px; border-radius: 12px; border: 1px solid var(--border-subtle);">
             </div>
           </div>
           <div>
             <label for="aiIngredientInput" style="font-weight: 600;">Or Type Product Ingredients Here:</label>
-            <textarea id="aiIngredientInput" class="form-input-text" rows="4" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..."></textarea>
+            <textarea id="aiIngredientInput" class="form-input-text" rows="4" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..." style="margin-top: 0.3rem;"></textarea>
             <button onclick="analyzeProductIngredients()" class="btn-primary" style="width: 100%; margin-top: 0.75rem;">🔍 Analyze Product Safety with Derma AI</button>
           </div>
         </div>
-        <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1rem; border-radius: 8px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
+        <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1rem; border-radius: 12px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
           <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">Analysis Complete</h3>
           <p id="aiResultBody" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main);"></p>
         </div>
@@ -470,7 +470,7 @@
         <div class="content-card">
           <h3>Log a Budget Find</h3>
           <p class="text-muted">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
-          <form id="peerContributionForm">
+          <form id="peerContributionForm" style="margin-top: 0.75rem;">
             <div class="input-group" style="margin-bottom: 0.75rem;">
               <label for="peerSkinType">Target Skin Type:</label>
               <select id="peerSkinType" name="Target Skin Type" class="form-input-text" style="height: auto; padding: 0.6rem;" required>
@@ -496,21 +496,21 @@
               <label for="peerNotes">Description & Notes:</label>
               <textarea id="peerNotes" name="Peer Recommendation Justification" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..." required></textarea>
             </div>
-            <button type="submit" id="peerSubmitBtn" class="btn-primary" style="width: 100%;">Submit Budget Find</button>
+            <button type="submit" id="peerSubmitBtn" class="btn-accent" style="width: 100%;">Submit Budget Find</button>
           </form>
-          <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 6px; border: 1px solid var(--brand-primary); text-align: center;">
+          <div id="peerSuccessMessage" class="hidden" style="color: #4a6652; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; padding: 0.75rem; background: rgba(89, 145, 47, 0.1); border-radius: 12px; border: 1px solid var(--brand-primary); text-align: center;">
             ✓ Thank you for submitting! Your find has been logged successfully.
           </div>
         </div>
       </div>
     </section>
 
-    <!-- DICTIONARY SECTION (90 TERMS) -->
+    <!-- DICTIONARY SECTION -->
     <section id="dictionarySection" class="view-section hidden">
       <div class="content-card">
         <h2 id="dictHeaderTitle">🔬 Skincare Dictionary Pro</h2>
         <p class="text-muted">Search common skincare ingredients, product formulations, and skin biology terms in plain English.</p>
-        <div class="dictionary-search-box">
+        <div class="dictionary-search-box" style="margin-top: 0.75rem;">
           <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search vocabulary terms (e.g., Niacinamide, Glycerin, Salicylic Acid)...">
         </div>
         <div id="dictionaryListContainer" class="dictionary-grid" style="margin-top: 1.5rem;"></div>
