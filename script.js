@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let currentCurrency = "";
 
-    // HUMAN READABLE PRODUCT MAPPING
+    // HUMAN READABLE TELEMETRY MAPPING
     const readableProductNames = {
         'chk-moisturizer': '🧴 Basic Moisturizer / Glycerin',
         'chk-cleanser': '🧼 Gentle Low-pH Cleanser',
@@ -506,7 +506,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderVisualThresholdChart(labels, metrics);
         updateHonestLocalMetrics(currentEvaluatedScore, trendsAvoidedCount, activeHarmfulTrends);
 
-        // Map IDs to human-readable strings for telemetry log
         const selectedReadableNames = selectors
             .filter(id => document.getElementById(id)?.checked)
             .map(id => readableProductNames[id] || id);
@@ -785,7 +784,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCards(btn.getAttribute('data-category'));
     }));
 
-    // --- SHARED DIRECTORY DATA (12 RECOMMENDATIONS) ---
+    // --- SHARED DIRECTORY DATA ---
     const peerRegistryDatabase = [
         { id: 1, skinType: "Oily", product: "Garnier Micellar Water Blue", cost: "Rp 35.000 / $3", ingredients: "Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate", usage: "Pour onto cotton pad, wipe skin surface gently.", definition: "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents." },
         { id: 2, skinType: "Dry", product: "The Ordinary Natural Moisturizing Factors", cost: "Rp 120.000 / $8", ingredients: "Caprylic Triglyceride, Amino Acids, Ceramides, Hyaluronic Acid", usage: "Apply a pea-sized dot over damp skin right after rinsing.", definition: "A dense, clean barrier matching compound setup to resolve cellular skin flaking without adding external fragrances." },
@@ -827,7 +826,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderPeerRegistry(btn.getAttribute('data-skin'));
     }));
 
-    // --- EXPANDED DICTIONARY DATA MATRIX (90 VOCABULARY TERMS) ---
+    // --- EXPANDED DICTIONARY DATA MATRIX (90 TERMS) ---
     const dictCategories = ["Active Component", "Product Function", "Anatomy", "Biology"];
     const dictMatrix = [
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
