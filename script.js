@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isCalculated: false
     };
 
-    // Global Multi-Currency Engine (~195 World Currencies)
+    // Global Multi-Currency Engine
     const currencyMap = {
         "AED": { locale: "ar-AE", symbol: "AED ", maxBudget: 110, step: 5, defaultVal: 55 },
         "AFN": { locale: "ps-AF", symbol: "AFN ", maxBudget: 2200, step: 50, defaultVal: 1100 },
@@ -170,7 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let currentCurrency = "";
 
-    // HUMAN READABLE TELEMETRY MAPPING
     const readableProductNames = {
         'chk-moisturizer': '🧴 Basic Moisturizer / Glycerin',
         'chk-cleanser': '🧼 Gentle Low-pH Cleanser',
@@ -307,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- DARK MODE TOGGLE & CHART SYNCRONIZATION ---
+    // --- DARK MODE TOGGLE ---
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     if (themeToggleBtn) {
         const savedTheme = localStorage.getItem('dermaTheme');
@@ -387,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 summaryLabel.style.backgroundColor = "rgba(89, 145, 47, 0.1)";
                 summaryLabel.style.color = "var(--brand-primary)";
             } else {
-                summaryLabel.textContent = `💡 Select the items you use daily above to view your barrier health trajectory.`;
+                summaryLabel.textContent = `💡 Select items in the builder above to view barrier health updates.`;
                 summaryLabel.style.backgroundColor = "var(--bg-main)";
                 summaryLabel.style.color = "var(--color-text-main)";
             }
@@ -770,7 +769,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderCards(categoryFilter) {
         if (!databaseGrid) return;
         databaseGrid.innerHTML = scienceDatabase.filter(item => categoryFilter === "all" || item.category === categoryFilter).map(item => `
-            <div class="content-card tab-fade-animation">
+            <div class="content-card">
                 <span class="badge ${item.badgeClass}">${item.badge}</span>
                 <h3>${item.title}</h3>
                 <p>${item.description}</p>
@@ -808,7 +807,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const filteredData = peerRegistryDatabase.filter(item => skinFilter === "all" || item.skinType === skinFilter);
 
         peerRegistryGrid.innerHTML = filteredData.map(item => `
-            <div class="content-card tab-fade-animation" style="border-top: 3px solid var(--brand-accent);">
+            <div class="content-card" style="border-top: 3px solid var(--brand-accent);">
                 <span class="badge ${item.skinType === 'Oily' ? 'badge-science' : item.skinType === 'Dry' ? 'badge-myth' : 'badge-class'}">${item.skinType} Skin</span>
                 <h3 style="margin-top: 0.25rem; font-size: 1.15rem; color: var(--brand-primary);">${item.product}</h3>
                 <p style="font-size: 0.85rem; font-weight: 700; color: var(--brand-accent); margin-bottom: 0.5rem;">Cost: ${item.cost}</p>
@@ -826,7 +825,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderPeerRegistry(btn.getAttribute('data-skin'));
     }));
 
-    // --- EXPANDED DICTIONARY DATA MATRIX (90 TERMS) ---
+    // --- DICTIONARY DATA ---
     const dictCategories = ["Active Component", "Product Function", "Anatomy", "Biology"];
     const dictMatrix = [
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
@@ -849,76 +848,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ["Melanin", 3, "Natural color pigments synthesised by melanocytes to shield cellular DNA from radiation.", "Inflammation or picking pimples accelerates localized melanin spots."],
         ["Sebum", 3, "Native waxy oil secretions layout lubricating external structural layers.", "Balanced sebum acts as a built-in age shield; don't over-strip it."],
         ["Ceramides", 0, "Crucial structural lipids making up over 50% of the natural matrix linking skin cells.", "Look for these if your moisture shield feels raw or flaky."],
-        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."],
-        ["Lactic Acid", 0, "An AHA derived from milk that removes surface buildup while acting as a natural humectant.", "Gentler exfoliation alternative than Glycolic Acid for dry skin types."],
-        ["Azelaic Acid", 0, "Dicarboxylic compound that reduces cellular redness and calms persistent dark marks.", "Great secondary option for handling post-acne blemishes safely."],
-        ["Allantoin", 0, "Soothing botanical derivative that minimizes irritation and protects vulnerable surface cells.", "Commonly added to standard basic cleansers to offset stripping reactions."],
-        ["Zinc Oxide", 0, "Mineral UV barrier providing broad-spectrum coverage while naturally soothing skin surface heat.", "Excellent protective filter choice for reactive or acne-prone profiles."],
-        ["Panthenol", 0, "Provitamin B5 active that converts into pantothenic acid to accelerate barrier repair.", "Binds water efficiently to improve overall layer elasticity scores."],
-        ["Peptides", 0, "Short strings of foundational amino acids acting as messengers to support structural density.", "Helps maintain bounce and firmness when used consistently over time."],
-        ["Ascorbic Acid", 0, "Pure Vitamin C molecule specializing in neutralizing pollution stresses and brightening tone.", "Highly vulnerable to air degradation; store away from direct sunlight."],
-        ["Sulfur", 0, "Traditional mineral active that dries excess surface oil and lifts dead cells out of pores.", "Effective targeted spot treatment for localized oily breakouts."],
-        ["Tea Tree Oil", 0, "Natural botanical essential oil possessing clean anti-microbial properties.", "Must be heavily diluted to prevent localized chemical skin irritation."],
-        ["Adapalene", 0, "Third-generation topical retinoid designed specifically to target clogged pores and acne.", "Requires a gentle initial ramp-up phase (2-3 times weekly) to avoid dryness."],
-        ["Madecassoside", 0, "One of four primary bioactive triterpene compounds isolated from Centella Asiatica.", "Provides targeted anti-inflammatory signaling to repair stressed tissue."],
-        ["Ferulic Acid", 0, "Plant-based antioxidant that boosts the chemical stability and potency of Vitamin C and E.", "Commonly paired with L-Ascorbic acid to double photoprotective capability."],
-        ["Coenzyme Q10", 0, "Fat-soluble antioxidant enzyme that supports cellular energy generation inside skin mitochondria.", "Helps shield skin cells against oxidative stress from daily solar exposure."],
-        ["Alpha Arbutin", 0, "Naturally derived hydroquinone glycoside that inhibits tyrosinase activity without cytotoxicity.", "Excellent gentle ingredient for fading stubborn hyperpigmentation spots."],
-        ["Kojic Acid", 0, "Chelating agent derived from fungi that blocks iron ions required for melanin synthesis.", "Use in low concentrations (<1%) to prevent burning on sensitive skin."],
-        ["Tranexamic Acid", 0, "Synthetic amino acid derivative that interrupts plasmin pathways to reduce redness and melasma.", "Pairs exceptionally well with Niacinamide for dark spot reduction."],
-        ["Bakuchiol", 0, "Plant-derived meroterpene that stimulates collagen pathways similar to topical retinoids.", "Non-photosensitizing active suitable for sensitive skin or morning use."],
-        ["Polyhydroxy Acid", 0, "Next-gen exfoliants with large molecular structures that do not penetrate deeply into skin.", "Ideal exfoliant for rosacea or ultra-sensitive skin types."],
-        ["Mandelic Acid", 0, "Aromatic Alpha Hydroxy Acid derived from bitter almonds with slow, gentle penetration.", "Great AHA choice for darker skin tones prone to post-inflammatory marks."],
-        ["Resveratrol", 0, "Polyphenolic antioxidant produced by red grapes to combat environmental stressors.", "Apply in the evening to assist nighttime cell recovery."],
-        ["Snail Mucin", 0, "Complex biological secretion rich in glycoproteins, hyaluronic acid, and copper peptides.", "Provides deep soothing hydration and aids surface tissue recovery."],
-        ["Bifida Ferment Lysate", 0, "Probiotic ferment filtrate that strengthens the native cutaneous microbiome.", "Helps reduce skin sensitivity against external environmental shifts."],
-        ["Ectoin", 0, "Extremolyte amino acid derivative that forms a protective hydro-complex around skin cells.", "Outstanding stress-protection molecule for dry, reactive skin conditions."],
-        ["Bisabolol", 0, "Primary active component of Chamomile extract renowned for anti-irritant qualities.", "Calms visible redness and enhances topical absorption of skincare actives."],
-        ["Colloidal Oatmeal", 0, "Finely milled oats rich in beta-glucans and avenanthramides that coat dry skin.", "FDA-recognized skin protectant for eczema and severe dryness."],
-        ["Propylene Glycol", 1, "Versatile organic alcohol functioning as a humectant, solvent, and delivery vehicle.", "Enhances penetration of key active compounds into upper epidermis layers."],
-        ["Caprylic Triglyceride", 1, "Derived from coconut oil and glycerin to provide a silky, non-greasy emollient shield.", "Lightweight oil choice that rarely clogs pores or triggers breakouts."],
-        ["Dimethicone", 1, "Fluid silicone polymer that creates a breathable protective barrier across the stratum corneum.", "Prevents transepidermal water loss while leaving a silky smooth feel."],
-        ["Stearic Acid", 1, "Saturated fatty acid that functions as an emulsifier, thickener, and barrier builder.", "Helps restore the natural lipid structure in dry skin formulas."],
-        ["Cetyl Alcohol", 1, "Fatty alcohol that acts as an emollient and stabilizer without drying skin.", "Completely different from harsh drying alcohols like Alcohol Denat."],
-        ["Surfactant", 1, "Surface-active molecules that lower water tension to lift oil and grime away.", "Low-foaming surfactants keep the skin's natural lipid layer intact."],
-        ["Emulsion", 1, "A stable mixture of water and oil phases held together by emulsifying agents.", "Forms the core structural formula for almost all lotions and creams."],
-        ["Micellar Solution", 1, "Purified water containing suspended spherical surfactant clusters that attract oil.", "Cleanses makeup and surface grime without requiring aggressive friction."],
-        ["Chemical Filter", 1, "Organic sun protection compounds that absorb UV rays and convert them to heat.", "Includes Avobenzone, Octisalate, Tinosorb, and Uvinul filters."],
-        ["Physical Filter", 1, "Inorganic mineral particles that reflect and scatter incoming UV wavelengths.", "Includes Zinc Oxide and Titanium Dioxide for immediate physical protection."],
-        ["Astringent", 1, "Topical agents designed to temporarily constrict skin tissue and reduce surface oil.", "Avoid alcohol-based astringents to prevent severe skin barrier drying."],
-        ["pH Adjuster", 1, "Ingredients like Citric Acid or Sodium Hydroxide used to balance product pH.", "Keeps products matched to the skin's natural acidic pH (~4.5 - 5.5)."],
-        ["Chelating Agent", 1, "Compounds like Disodium EDTA that bind metal ions in water to preserve formula quality.", "Prevents trace minerals in tap water from degrading product performance."],
-        ["Preservative", 1, "Essential compounds like Phenoxyethanol that prevent bacterial growth in water products.", "Ensures creams remain safe and free of harmful microbes during use."],
-        ["Serum", 1, "Concentrated, lightweight formulations engineered to deliver high doses of actives.", "Apply directly after cleansing or toning before applying heavier creams."],
-        ["Essence", 1, "Hydrating fluid formulas popular in Asian skincare to prep skin for serums.", "Provides lightweight water layers to boost skin absorption capacity."],
-        ["Ampoule", 1, "Super-charged serum variants featuring elevated active concentrations for short treatment cycles.", "Best reserved for targeted skin recovery or booster treatments."],
-        ["Balm", 1, "Waterless or low-water anhydrous formulations rich in waxes and heavy lipids.", "Ideal protective barrier repair step for severe chapping and winter weather."],
-        ["Cleansing Oil", 1, "Lipid-based cleanser designed on the 'like dissolves like' principle to dissolve SPF and makeup.", "Rinses away cleanly upon contact with water when properly emulsified."],
-        ["Exfoliant", 1, "Chemical or physical agents that remove dead surface skin cells to reveal smoother skin.", "Limit chemical exfoliation to 2-3 times per week to protect your skin barrier."],
-        ["Sebaceous Gland", 2, "Exocrine glands in the dermis that produce and secrete natural lubricating sebum.", "Concentrated heavily on the face, chest, and upper back area."],
-        ["Dermis", 2, "The thick inner layer of skin beneath the epidermis containing collagen and blood vessels.", "Provides structural support, elasticity, and nutrients to the outer skin."],
-        ["Hair Follicle", 2, "Tunnel-shaped pore structure in the dermis where hair grows and sebum exits.", "When clogged with oil and dead cells, acne lesions begin to form."],
-        ["Acid Mantle", 2, "A thin, slightly acidic protective film on the skin surface composed of sebum and sweat.", "Maintains healthy microflora while blocking harmful bacterial growth."],
-        ["Cellular Matrix", 2, "Structural network of collagen, elastin, and glycosaminoglycans supporting skin firmness.", "Gradually degrades with UV exposure and natural biological aging."],
-        ["Corneocytes", 2, "Anucleate, keratin-packed skin cells forming the outer layer of the stratum corneum.", "Function as protective 'bricks' in the skin barrier structural model."],
-        ["Intercellular Lipids", 2, "Lipid bilayer consisting of ceramides, cholesterol, and fatty acids surrounding corneocytes.", "Functions as the protective 'mortar' holding barrier cells together."],
-        ["Desmosomes", 2, "Protein structures that adhere adjacent corneocytes together in upper skin layers.", "Broken down naturally by enzymes during healthy, invisible skin shedding."],
-        ["Melanocytes", 2, "Specialized pigment-producing cells located at the basal layer of the epidermis.", "Transfers melanin packages (melanosomes) to surrounding keratinocytes."],
-        ["Keratinocytes", 2, "The predominant cell type in the epidermis that produces protective keratin protein.", "Migrates upward from the base layer to form the outer skin barrier."],
-        ["Transepidermal Water Loss", 3, "The passive evaporation of water from the internal body through the epidermis.", "Elevated TEWL indicates a compromised, damaged skin barrier."],
-        ["Skin Microbiome", 3, "Ecosystem of billions of friendly bacteria, fungi, and microbes residing on skin.", "A balanced microbiome actively prevents pathogenic skin infections."],
-        ["Desquamation", 3, "The natural, invisible process where dead corneocytes shed from the skin surface.", "Slowing desquamation causes dullness, texture, and clogged pore buildup."],
-        ["Inflammation", 3, "Immune response triggered by tissue injury, irritants, or bacteria causing redness.", "Chronic inflammation breaks down structural skin lipids and collagen."],
-        ["Photosensitivity", 3, "Heightened skin reactivity and vulnerability to damage from UV sunlight exposure.", "Increased by ingredients like AHA acids and prescription retinoids."],
-        ["Comedogenesis", 3, "The process of pore clogging caused by sebum retention and dead cell buildup.", "Forms microcomedones that evolve into whiteheads and blackheads."],
-        ["Post-Inflammatory Hyperpigmentation", 3, "Dark spots left behind after skin inflammation, acne, or physical injury heals.", "More common and persistent in darker skin tones (Fitzpatrick IV-VI)."],
-        ["Post-Inflammatory Erythema", 3, "Pink, red, or purplish marks left behind by acne due to damaged microcapillaries.", "Differs from PIH as it involves vascular dilation rather than melanin."],
-        ["Glycation", 3, "Biological process where excess sugar molecules attach to collagen fibers.", "Causes skin collagen to become rigid, brittle, and prone to sagging."],
-        ["Oxidative Stress", 3, "Imbalance between harmful free radicals and protective neutralizing antioxidants.", "Accelerates premature skin aging, hyperpigmentation, and cell damage."],
-        ["Erythema", 3, "Medical term for abnormal redness of the skin caused by capillary congestion.", "Common symptom of sunburn, skin barrier damage, or rosacea flares."],
-        ["Acid Mantle Recovery", 3, "The biological process where skin restores its natural ~5.5 pH balance after washing.", "Healthy skin recovers its pH within 30-60 minutes after cleansing."],
-        ["Keratinization", 3, "Process in which epithelial cells fill with keratin protein as they move outward.", "Essential process for creating a strong, resilient external skin barrier."],
-        ["Secretion Rate", 3, "The metric measuring the speed at which sebaceous glands produce lipid fluid.", "Higher secretion rates correspond with oily skin classification profiles."]
+        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."]
     ];
 
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
@@ -933,10 +863,6 @@ document.addEventListener("DOMContentLoaded", () => {
             dictHeaderTitle.textContent = `🔬 Skincare Dictionary Pro (${dictMatrix.length} Terms)`;
         }
 
-        if (dictionarySearchInput) {
-            dictionarySearchInput.placeholder = `🔍 Search ${dictMatrix.length} terms (e.g., Niacinamide, Glycerin, Salicylic Acid)...`;
-        }
-
         const filtered = dictMatrix.filter(row => 
             row[0].toLowerCase().includes(cleanSearch) || 
             row[2].toLowerCase().includes(cleanSearch) ||
@@ -949,7 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         dictionaryListContainer.innerHTML = filtered.map(row => `
-            <div class="dict-card tab-fade-animation">
+            <div class="dict-card">
                 <div class="dict-header">
                     <h3>${row[0]}</h3>
                     <span class="dict-tag">${dictCategories[row[1]]}</span>
