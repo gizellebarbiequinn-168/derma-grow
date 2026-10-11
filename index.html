@@ -194,7 +194,7 @@
       margin-top: 0.2rem;
     }
 
-    /* OPTION CARDS */
+    /* OPTION CARDS (SINGLE COLUMN STACK) */
     .selection-matrix-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -324,6 +324,14 @@
       margin-bottom: 0.6rem;
       line-height: 1.45;
     }
+
+    .dict-protip {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      border-top: 1px dashed var(--border-subtle);
+      padding-top: 0.5rem;
+      margin-top: 0.4rem;
+    }
   </style>
 </head>
 <body>
@@ -344,7 +352,7 @@
         <div class="nav-scroll">
           <button id="navDashboard" class="nav-btn active" onclick="switchTab('trackerCard', this)">Dashboard</button>
           <button id="navQuiz" class="nav-btn" onclick="switchTab('quizSection', this)">Skin Type Quiz</button>
-          <button id="navAi" class="nav-btn" onclick="switchTab('aiSection', this)">🧪 Ingredient Safety Checker</button>
+          <button id="navAi" class="nav-btn" onclick="switchTab('aiSection', this)">✨ Derma AI Matcher</button>
           <button id="navRecommendations" class="nav-btn" onclick="switchTab('recommendationsSection', this)">Shared Directory</button>
           <button id="navDictionary" class="nav-btn" onclick="switchTab('dictionarySection', this)">Skincare Dictionary</button>
           <button id="navProfile" class="nav-btn" onclick="switchTab('profileSection', this)">Profile</button>
@@ -422,6 +430,7 @@
           <label style="font-weight: 700; font-size: 0.95rem; display: block;">Current Available Products:</label>
           <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
           
+          <!-- ALL 8 PRODUCTS STACKED -->
           <div class="selection-matrix-grid">
             <label class="checkbox-card">
               <input type="checkbox" id="chk-moisturizer">
@@ -539,21 +548,19 @@
       </div>
     </section>
 
-    <!-- INGREDIENT SAFETY CHECKER SECTION (REMOVED PHOTO UPLOAD) -->
+    <!-- DERMA AI INGREDIENT MATCHER SECTION -->
     <section id="aiSection" class="view-section hidden">
       <div class="content-card">
-        <h2>🧪 Ingredient Safety Checker</h2>
-        <p class="text-muted" style="margin-bottom: 1.25rem;">Type or paste a product's ingredient list below to evaluate if it matches your skin type safely and protects your skin barrier.</p>
-        
+        <h2>✨ Derma Grow AI Ingredient Matcher</h2>
+        <p class="text-muted" style="margin-bottom: 1rem;">Type or paste product ingredients below to evaluate if it matches your skin type safely.</p>
         <div>
-          <label for="aiIngredientInput" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">Type or Paste Product Ingredients Here:</label>
+          <label for="aiIngredientInput" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">Type Product Ingredients Here:</label>
           <textarea id="aiIngredientInput" class="form-input-text" rows="5" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..."></textarea>
-          <button onclick="analyzeProductIngredients()" class="btn-accent" style="width: 100%; margin-top: 1rem;">🔍 Analyze Product Safety with Derma AI</button>
+          <button onclick="analyzeProductIngredients()" class="btn-accent" style="width: 100%; margin-top: 0.85rem;">🔍 Analyze Product Safety with Derma AI</button>
         </div>
-
-        <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1.2rem; border-radius: 14px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
-          <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">Analysis Complete</h3>
-          <div id="aiResultBody" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main);"></div>
+        <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1.1rem; border-radius: 14px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
+          <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">Safety Analysis Results</h3>
+          <p id="aiResultBody" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main);"></p>
         </div>
       </div>
     </section>
@@ -667,11 +674,12 @@
       const aiResultBody = document.getElementById('aiResultBody');
 
       if (!input) {
-        alert("Please paste or type an ingredient list first.");
+        alert("Please paste or type ingredients into the box first!");
         return;
       }
 
       aiAnalysisResult.classList.remove('hidden');
+      aiResultTitle.innerText = "🔍 Safety Evaluation";
 
       const lower = input.toLowerCase();
       let alerts = [];
@@ -683,21 +691,14 @@
       if (lower.includes('fragrance') || lower.includes('parfum') || lower.includes('limonene')) {
         alerts.push("Contains fragrance compounds that can trigger reactions on reactive skin.");
       }
-      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('ceramide') || lower.includes('allantoin')) {
+      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('ceramide') || lower.includes('niacinamide')) {
         pros.push("Contains soothing and barrier-repairing compounds.");
       }
 
-      if (alerts.length > 0) {
-        aiResultTitle.innerText = "⚠️ Safety Analysis: Caution Advised";
-        aiResultTitle.style.color = "var(--status-alert-text)";
-      } else {
-        aiResultTitle.innerText = "✅ Safety Analysis: Barrier Friendly";
-        aiResultTitle.style.color = "var(--brand-primary)";
-      }
-
-      let html = `<p style="margin-bottom:0.75rem;">Formula appears clean and gentle for daily use!</p>`;
-      if (alerts.length) html += `<strong style="color:var(--status-alert-text);">Sensitivity Concerns:</strong><ul style="padding-left:1.2rem; margin-top:0.3rem; margin-bottom:0.75rem;">${alerts.map(a => `<li>${a}</li>`).join('')}</ul>`;
-      if (pros.length) html += `<strong style="color:var(--brand-primary);">Beneficial Actives:</strong><ul style="padding-left:1.2rem; margin-top:0.3rem;">${pros.map(p => `<li>${p}</li>`).join('')}</ul>`;
+      let html = `<strong>Scanned Input:</strong> ${input.substring(0, 120)}${input.length > 120 ? '...' : ''}<br><br>`;
+      if (alerts.length) html += `<strong style="color:var(--status-alert-text);">Sensitivity Concerns:</strong><ul>${alerts.map(a => `<li>${a}</li>`).join('')}</ul><br>`;
+      if (pros.length) html += `<strong style="color:var(--brand-primary);">Beneficial Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
+      if (!alerts.length && !pros.length) html += "Standard baseline formulation detected without obvious flagged irritants.";
 
       aiResultBody.innerHTML = html;
     }
