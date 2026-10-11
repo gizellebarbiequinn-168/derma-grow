@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let currentCurrency = "";
 
-    // HUMAN-READABLE MAPPER FOR TELEMETRY
+    // HUMAN READABLE PRODUCT MAPPING
     const readableProductNames = {
         'chk-moisturizer': '🧴 Basic Moisturizer / Glycerin',
         'chk-cleanser': '🧼 Gentle Low-pH Cleanser',
