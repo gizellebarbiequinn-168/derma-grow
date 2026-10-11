@@ -6,8 +6,6 @@
   <title>Derma Grow — Science-Backed Budget Skincare</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%23ffffff'/%3E%3Cpath d='M 176 138 A 120 120 0 0 1 336 138' fill='none' stroke='%23D3A746' stroke-width='32' stroke-linecap='round'/%3E%3Cpath d='M 256 384 L 256 220 C 256 160 380 160 380 230 C 380 290 256 290 256 290 C 256 290 132 290 132 230 C 132 160 256 160 256 220' fill='none' stroke='%23859682' stroke-width='32' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- In-Browser OCR Library for reading image text -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     :root {
       --bg-main: #f8f9f8;
@@ -132,6 +130,11 @@
       cursor: pointer;
     }
 
+    /* VIEW SECTIONS CONTROL */
+    .view-section.hidden {
+      display: none !important;
+    }
+
     /* DASHBOARD LAYOUT */
     .dashboard-grid {
       display: grid;
@@ -196,7 +199,7 @@
       margin-top: 0.2rem;
     }
 
-    /* OPTION CARDS (SINGLE COLUMN STACK) */
+    /* OPTION CARDS */
     .selection-matrix-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -284,7 +287,7 @@
       background: rgba(89, 145, 47, 0.06);
     }
 
-    /* DICTIONARY GRID & LIGHT GREEN INGREDIENT HEADINGS */
+    /* DICTIONARY GRID */
     .dictionary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -326,14 +329,6 @@
       margin-bottom: 0.6rem;
       line-height: 1.45;
     }
-
-    .dict-protip {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      border-top: 1px dashed var(--border-subtle);
-      padding-top: 0.5rem;
-      margin-top: 0.4rem;
-    }
   </style>
 </head>
 <body>
@@ -354,7 +349,7 @@
         <div class="nav-scroll">
           <button id="navDashboard" class="nav-btn active" onclick="switchTab('trackerCard', this)">Dashboard</button>
           <button id="navQuiz" class="nav-btn" onclick="switchTab('quizSection', this)">Skin Type Quiz</button>
-          <button id="navAi" class="nav-btn" onclick="switchTab('aiSection', this)">✨ Derma AI Snap</button>
+          <button id="navAi" class="nav-btn" onclick="switchTab('aiSection', this)">✨ Derma AI Matcher</button>
           <button id="navRecommendations" class="nav-btn" onclick="switchTab('recommendationsSection', this)">Shared Directory</button>
           <button id="navDictionary" class="nav-btn" onclick="switchTab('dictionarySection', this)">Skincare Dictionary</button>
           <button id="navProfile" class="nav-btn" onclick="switchTab('profileSection', this)">Profile</button>
@@ -363,7 +358,7 @@
     </header>
 
     <!-- HERO HEADER -->
-    <section id="heroSection" class="view-section" style="text-align: center; margin-bottom: 2rem;">
+    <section id="heroSection" style="text-align: center; margin-bottom: 2rem;">
       <h1 style="color: var(--brand-primary); font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
         Smart Skincare Under Your Real Budget
       </h1>
@@ -391,7 +386,7 @@
     </div>
 
     <!-- MAIN DASHBOARD -->
-    <main id="trackerCard" class="view-section dashboard-grid">
+    <section id="trackerCard" class="view-section dashboard-grid">
       <!-- LEFT PANEL -->
       <div class="left-panel">
         <div class="content-card">
@@ -432,12 +427,11 @@
           <label style="font-weight: 700; font-size: 0.95rem; display: block;">Current Available Products:</label>
           <p class="text-muted" style="font-size: 0.82rem; margin-top: 0.2rem; margin-bottom: 0.8rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
           
-          <!-- ALL 8 PRODUCTS STACKED -->
           <div class="selection-matrix-grid">
             <label class="checkbox-card">
               <input type="checkbox" id="chk-moisturizer">
               <div class="checkbox-label-text">
-                🧴 Basic Moisturizer / Glycerin
+                隔离 Basic Moisturizer / Glycerin
                 <span class="checkbox-subtext">Protects surface cells from drying out</span>
               </div>
             </label>
@@ -515,7 +509,7 @@
           <button onclick="refreshTip()" class="btn-preset">Get Another Reminder</button>
         </div>
       </div>
-    </main>
+    </section>
 
     <!-- PROFILE SECTION -->
     <section id="profileSection" class="view-section hidden">
@@ -550,33 +544,18 @@
       </div>
     </section>
 
-    <!-- DERMA AI SNAP SECTION -->
+    <!-- DERMA AI MATCHER SECTION -->
     <section id="aiSection" class="view-section hidden">
       <div class="content-card">
-        <h2>✨ Derma Grow AI Snap & Ingredient Matcher</h2>
-        <p class="text-muted">Take or upload a photo of your skincare product label, or type its ingredients below to evaluate if it matches your skin type safely.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
-          <div>
-            <div style="border: 2px dashed var(--border-subtle); border-radius: 14px; padding: 1.5rem; text-align: center; background: var(--bg-main);">
-              <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📸</span>
-              <label for="productImageUpload" class="btn-preset" style="display: inline-block; width: auto; padding: 0.5rem 1rem; cursor: pointer;">
-                Choose Product Photo
-              </label>
-              <input type="file" id="productImageUpload" accept="image/*" style="display: none;" onchange="handleImageSnap(event)">
-              <p class="text-muted" style="margin-top: 0.5rem; font-size: 0.78rem;">Upload a clear photo of product packaging or ingredient list.</p>
-            </div>
-            <div id="imagePreviewContainer" class="hidden" style="margin-top: 1rem; text-align: center;">
-              <img id="imagePreview" src="" alt="Product Snap" style="max-width: 100%; max-height: 180px; border-radius: 12px; border: 1px solid var(--border-subtle);">
-            </div>
-          </div>
-          <div>
-            <label for="aiIngredientInput" style="font-weight: 600;">Or Type Product Ingredients Here:</label>
-            <textarea id="aiIngredientInput" class="form-input-text" rows="4" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..." style="margin-top: 0.3rem;"></textarea>
-            <button onclick="analyzeProductIngredients()" class="btn-accent" style="width: 100%; margin-top: 0.75rem;">🔍 Analyze Product Safety with Derma AI</button>
-          </div>
+        <h2>✨ Derma Grow AI Ingredient Matcher</h2>
+        <p class="text-muted" style="margin-bottom: 1rem;">Type or paste product ingredients below to evaluate if it matches your skin type safely.</p>
+        <div>
+          <label for="aiIngredientInput" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">Type Product Ingredients Here:</label>
+          <textarea id="aiIngredientInput" class="form-input-text" rows="5" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..."></textarea>
+          <button onclick="analyzeProductIngredients()" class="btn-accent" style="width: 100%; margin-top: 0.85rem;">🔍 Analyze Product Safety with Derma AI</button>
         </div>
-        <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1rem; border-radius: 12px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
-          <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">Analysis Complete</h3>
+        <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1.1rem; border-radius: 14px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
+          <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">Safety Analysis Results</h3>
           <p id="aiResultBody" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main);"></p>
         </div>
       </div>
@@ -646,8 +625,14 @@
     function switchTab(sectionId, btnElement) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(sectionId).classList.remove('hidden');
-      if (btnElement) btnElement.classList.add('active');
+      
+      const targetSection = document.getElementById(sectionId);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+      }
+      if (btnElement) {
+        btnElement.classList.add('active');
+      }
     }
 
     // Dark Theme Toggle
@@ -657,11 +642,45 @@
       document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
     }
 
+    // Currency Selector & Budget Slider Handler
+    const currencySymbols = { IDR: 'Rp', USD: '$', EUR: '€', GBP: '£', SGD: 'S$', MYR: 'RM', AUD: 'A$', CAD: 'CA$', JPY: '¥', INR: '₹' };
+
+    function updateBudgetDisplay() {
+      const curr = document.getElementById('currencySelector').value;
+      const val = document.getElementById('budgetSlider').value;
+      const symbol = currencySymbols[curr] || '';
+      document.getElementById('budgetValue').innerText = curr ? `${symbol} ${val}` : 'Select Currency';
+    }
+
+    document.getElementById('currencySelector').addEventListener('change', updateBudgetDisplay);
+    document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
+
+    // Dynamic Barrier Score Updates from Checkboxes
+    function updateBarrierScore() {
+      let score = 50;
+      if (document.getElementById('chk-moisturizer').checked) score += 15;
+      if (document.getElementById('chk-cleanser').checked) score += 10;
+      if (document.getElementById('chk-sunscreen').checked) score += 15;
+      if (document.getElementById('chk-toner').checked) score += 5;
+      if (document.getElementById('chk-niacinamide').checked) score += 5;
+      if (document.getElementById('chk-actives').checked) score -= 10;
+      if (document.getElementById('chk-lemon').checked) score -= 30;
+      if (document.getElementById('chk-scrubs').checked) score -= 15;
+
+      score = Math.max(0, Math.min(100, score));
+      document.getElementById('optimizationDelta').innerText = score + '%';
+    }
+
+    document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => {
+      chk.addEventListener('change', updateBarrierScore);
+    });
+
     // Starter Pack Selector
     function applyStarterPack() {
       document.getElementById('chk-moisturizer').checked = true;
       document.getElementById('chk-cleanser').checked = true;
       document.getElementById('chk-sunscreen').checked = true;
+      updateBarrierScore();
       alert("Applied 3-step essential starter pack!");
     }
 
@@ -683,50 +702,6 @@
       el.innerText = tips[Math.floor(Math.random() * tips.length)];
     }
 
-    // Image OCR with Tesseract.js (Extracts text from photos automatically)
-    async function handleImageSnap(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const imagePreview = document.getElementById('imagePreview');
-      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-      const aiIngredientInput = document.getElementById('aiIngredientInput');
-      const aiAnalysisResult = document.getElementById('aiAnalysisResult');
-      const aiResultTitle = document.getElementById('aiResultTitle');
-      const aiResultBody = document.getElementById('aiResultBody');
-
-      // Show preview
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        imagePreview.src = e.target.result;
-        imagePreviewContainer.classList.remove('hidden');
-      };
-      reader.readAsDataURL(file);
-
-      // Display scanning status
-      aiAnalysisResult.classList.remove('hidden');
-      aiResultTitle.innerText = "⏳ Scanning Photo Text...";
-      aiResultBody.innerText = "Extracting ingredients from photo using optical recognition. Please wait...";
-
-      try {
-        const result = await Tesseract.recognize(file, 'eng');
-        const text = result.data.text.trim();
-
-        if (text) {
-          aiIngredientInput.value = text;
-          aiResultTitle.innerText = "✨ Ingredients Extracted!";
-          aiResultBody.innerText = "Text read from photo and pasted into text box below. Click 'Analyze Product Safety' now!";
-        } else {
-          aiResultTitle.innerText = "⚠️ No Text Detected";
-          aiResultBody.innerText = "Could not clearly read text from photo. Please try a clearer photo or paste text manually.";
-        }
-      } catch (err) {
-        console.error(err);
-        aiResultTitle.innerText = "⚠️ Photo Read Error";
-        aiResultBody.innerText = "Could not process image automatically. Please paste ingredients into the text box.";
-      }
-    }
-
     // Analyze Ingredients Function
     function analyzeProductIngredients() {
       const input = document.getElementById('aiIngredientInput').value.trim();
@@ -735,7 +710,7 @@
       const aiResultBody = document.getElementById('aiResultBody');
 
       if (!input) {
-        alert("Please select a product photo or paste ingredients first!");
+        alert("Please type or paste ingredients into the box first!");
         return;
       }
 
@@ -752,19 +727,19 @@
       if (lower.includes('fragrance') || lower.includes('parfum') || lower.includes('limonene')) {
         alerts.push("Contains fragrance compounds that can trigger reactions on reactive skin.");
       }
-      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('ceramide')) {
+      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('ceramide') || lower.includes('niacinamide')) {
         pros.push("Contains soothing and barrier-repairing compounds.");
       }
 
-      let html = `<strong>Input Text Preview:</strong> ${input.substring(0, 120)}${input.length > 120 ? '...' : ''}<br><br>`;
+      let html = `<strong>Scanned Input:</strong> ${input.substring(0, 120)}${input.length > 120 ? '...' : ''}<br><br>`;
       if (alerts.length) html += `<strong style="color:var(--status-alert-text);">Sensitivity Concerns:</strong><ul>${alerts.map(a => `<li>${a}</li>`).join('')}</ul><br>`;
       if (pros.length) html += `<strong style="color:var(--brand-primary);">Beneficial Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
-      if (!alerts.length && !pros.length) html += "Standard baseline formulation detected.";
+      if (!alerts.length && !pros.length) html += "Standard baseline formulation detected without obvious flagged irritants.";
 
       aiResultBody.innerHTML = html;
     }
 
-    // Simple Barrier Health Chart Canvas Setup
+    // Barrier Health Chart Canvas Setup
     window.addEventListener('load', () => {
       const ctx = document.getElementById('dermaChart');
       if (ctx && typeof Chart !== 'undefined') {
