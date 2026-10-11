@@ -656,7 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // --- SCIENCE HUB DATA (PERMALINKS FIXED) ---
+    // --- SCIENCE HUB DATA (PERMALINKS VERIFIED) ---
     const scienceDatabase = [
         { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Reference Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid" },
         { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read PubMed Skin Friction Study →", link: "https://pubmed.ncbi.nlm.nih.gov/28805905/" },
@@ -720,9 +720,10 @@ document.addEventListener("DOMContentLoaded", () => {
         renderPeerRegistry(btn.getAttribute('data-skin'));
     }));
 
-    // --- DICTIONARY DATA ---
+    // --- EXPANDED DICTIONARY PRO DATA MATRIX (99 TERMS TOTAL) ---
     const categories = ["Active Component", "Product Function", "Anatomy", "Biology"];
     const matrix = [
+        // Actives (Category 0)
         ["Hyaluronic Acid", 0, "A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.", "Apply to damp skin to prevent drawing moisture outward."],
         ["Niacinamide", 0, "Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.", "Mixes smoothly with most actives without causing flares."],
         ["Retinol", 0, "Vitamin A derivative that accelerates cell turnover and stimulates structural collagen paths.", "Use strictly at night and wear broad-spectrum protection by day."],
@@ -733,17 +734,99 @@ document.addEventListener("DOMContentLoaded", () => {
         ["Squalane", 0, "Saturated, highly shelf-stable emollient oil mimicking native skin lipids.", "Biocompatible fluid that won't trigger standard oily breakouts."],
         ["Benzoyl Peroxide", 0, "Antimicrobial compound that sends oxygen into pore channels to destroy acne-causing bacteria.", "Can discolor colored linens; rinse off completely if using body washes."],
         ["Titanium Dioxide", 0, "Inert mineral active that remains on top of surface layers to deflect UV wavelengths.", "Highly stable and recommended for reactive or rosacea-prone paths."],
+        ["Ceramides", 0, "Crucial structural lipids making up over 50% of the natural matrix linking skin cells.", "Look for these if your moisture shield feels raw or flaky."],
+        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."],
+        ["Lactic Acid", 0, "An AHA derived from milk that removes surface buildup while acting as a natural humectant.", "Gentler exfoliation alternative than Glycolic Acid for dry skin types."],
+        ["Azelaic Acid", 0, "Dicarboxylic compound that reduces cellular redness and calms persistent dark marks.", "Great secondary option for handling post-acne blemishes safely."],
+        ["Allantoin", 0, "Soothing botanical derivative that minimizes irritation and protects vulnerable surface cells.", "Commonly added to standard basic cleansers to offset stripping reactions."],
+        ["Zinc Oxide", 0, "Mineral UV barrier providing broad-spectrum coverage while naturally soothing skin surface heat.", "Excellent protective filter choice for reactive or acne-prone profiles."],
+        ["Panthenol", 0, "Provitamin B5 active that converts into pantothenic acid to accelerate barrier repair.", "Binds water efficiently to improve overall layer elasticity scores."],
+        ["Peptides", 0, "Short strings of foundational amino acids acting as messengers to support structural density.", "Helps maintain bounce and firmness when used consistently over time."],
+        ["Ascorbic Acid", 0, "Pure Vitamin C molecule specializing in neutralizing pollution stresses and brightening tone.", "Highly vulnerable to air degradation; store away from direct sunlight."],
+        ["Sulfur", 0, "Traditional mineral active that dries excess surface oil and lifts dead cells out of pores.", "Effective targeted spot treatment for localized oily breakouts."],
+        ["Tea Tree Oil", 0, "Natural botanical essential oil possessing clean anti-microbial properties.", "Must be heavily diluted to prevent localized chemical skin irritation."],
+        ["Madecassoside", 0, "Active triterpenoid compound isolated from Centella Asiatica for intensive wound healing.", "Accelerates skin barrier repair after over-exfoliation."],
+        ["Adapalene", 0, "Third-generation synthetic topical retinoid targeted at regulating cell turnover and acne.", "Gentler on skin than tretinoin, available over-the-counter in many regions."],
+        ["Tretinoin", 0, "Prescription-strength Vitamin A derivative that binds directly to retinoid receptors.", "Requires gradual introduction (sandwich technique) to avoid retinol burn."],
+        ["Bakuchiol", 0, "Plant-derived antioxidant alternative to retinol that stimulates collagen without irritation.", "Safe for use during pregnancy and sensitive skin routines."],
+        ["Ferulic Acid", 0, "Plant-based antioxidant that stabilizes Vitamin C and E while neutralizing free radicals.", "Doubles the photoprotective efficiency of solar topical barriers."],
+        ["Mandelic Acid", 0, "Large-molecule AHA derived from bitter almonds that exfoliates gently without penetrating too fast.", "Ideal for dark skin tones prone to post-inflammatory hyperpigmentation."],
+        ["Polyhydroxy Acid (PHA)", 0, "Next-generation exfoliating acids with large structure that hydrate while sloughing dead cells.", "Perfect for sensitive or rosacea-prone skin types."],
+        ["Kojic Acid", 0, "Byproduct of fungal fermentation that inhibits tyrosinase enzyme to fade dark spots.", "Best combined with soothing ingredients to avoid surface sensitivity."],
+        ["Tranexamic Acid", 0, "Amino acid synthetic derivative that slows down melanin synthesis triggered by UV rays.", "Highly effective for stubborn melasma and sun discoloration."],
+        ["Alpha Arbutin", 0, "Biosynthetic ingredient that releases hydroquinone slowly to safely brighten hyperpigmentation.", "Water-soluble and works well layered under hyaluronic acid."],
+        ["Resveratrol", 0, "Polyphenolic antioxidant found in grapes that protects skin against environmental oxidation.", "Best applied at night to boost cellular repair mechanisms."],
+        ["Coenzyme Q10 (Ubiquinone)", 0, "Fat-soluble antioxidant naturally present in human cells that energizes skin repair.", "Declines with age; topical application boosts cellular energy."],
+        ["Ectoin", 0, "Extremophilic amino acid derivative that builds a protective water shield around skin cells.", "Prevents allergen-induced irritation and environmental dehydration."],
+        ["Beta-Glucan", 0, "Polysaccharide derived from oats or mushrooms that hydrates 20% more effectively than HA.", "Excellent natural anti-inflammatory for compromised barriers."],
+        ["Bisabolol", 0, "Primary active component of chamomile extract with potent anti-irritant and calming properties.", "Enhances skin penetration of other beneficial ingredients."],
+        ["Snail Mucin", 0, "Complex secretion rich in glycoproteins, glycolic acid, and hyaluronic acid.", "Provides deep surface slip, soothing hydration, and barrier recovery."],
+        ["Propolis", 0, "Resinous bee product containing flavonoids that combat bacterial breakouts and soothe redness.", "Ideal for acne-prone skin needing gentle hydration."],
+        ["Bifida Ferment Lysate", 0, "Probiotic yeast derivative that reduces skin sensitivity and strengthens microflora.", "Boosts skin repair following UV exposure and environmental stress."],
+        ["Galactomyces", 0, "Nutrient-rich ferment filtrate that refines skin texture and balances sebum levels.", "Commonly featured in Korean hydrating first treatment essences."],
+        ["Colloidal Oatmeal", 0, "Finely ground oats containing beta-glucans and avenanthramides to soothe eczema.", "FDA-approved skin protectant for itchy, raw, or irritated tissue."],
+        ["Urea", 0, "Natural moisturizing factor component that exfoliates at high doses and hydrates at low doses.", "Unsurpassed for dry, rough, or keratosis pilaris-prone skin."],
+        ["Lactic Acid Bacteria (Probiotics)", 0, "Live or lysates of beneficial bacteria that support a healthy skin microbiome.", "Helps suppress acne-causing C. acnes overgrowth."],
+        ["Copper Tripeptide-1", 0, "Signal peptide that promotes collagen synthesis, tissue repair, and elastic recoil.", "Great anti-aging component when used without strong acids."],
+        ["Matrixyl 3000", 0, "Synergistic peptide blend (palmitoyl tripeptide-1 & tetrapeptide-7) restoring structural proteins.", "Fills fine lines without causing surface peeling or photosensitivity."],
+        ["Argireline (Acetyl Hexapeptide-8)", 0, "Peptide nickname 'botox in a bottle' that relaxes expression line muscle tension.", "Best targeted around crow's feet and forehead wrinkles."],
+        ["Glutathione", 0, "Master antioxidant tripeptide that neutralizes reactive oxygen species and brightens skin.", "Works best when combined with Vitamin C."],
+        ["Licorice Root Extract (Glabridin)", 0, "Botanical extract that suppresses melanin formation and calms facial redness.", "Natural substitute for hydroquinone in sensitive skin brightening."],
+        ["Green Tea Extract (EGCG)", 0, "Polyphenol power active that regulates oil production and neutralizes inflammation.", "Ideal daytime antioxidant under SPF for oily skin."],
+        ["Capryloyl Salicylic Acid (LHA)", 0, "Lipophilic derivative of salicylic acid with slower, gentler exfoliation penetration.", "Gently dissolves pore debris without inducing redness."],
+        
+        // Product Functions & Formulations (Category 1)
         ["Humectant", 1, "Water-loving ingredients drawing hydration up from deeper cells or humid external environments.", "Glycerin and Hyaluronic Acid are classic functional examples."],
         ["Emollient", 1, "Smoothing oils or fatty lipids that patch structural gaps between dry shedding cells.", "Restores immediate elasticity and silkiness to flaky surfaces."],
         ["Occlusive", 1, "Hydrophobic compounds building an invisible protective seal to curb moisture loss.", "Apply as your final nighttime step to lock in lighter serums."],
         ["Lotion", 1, "Lightweight fluid emulsions combining balanced ratios of oil and water phases.", "Absorbs cleanly without forming heavy waxy residue tracks."],
         ["Moisturizer", 1, "Topical mixtures structured to maintain stratum corneum hydration levels.", "Apply within minutes after cleaning to bind maximum surface water."],
+        ["Micellar Water", 1, "Suspensions of mild surfactant micelles in soft water that attract oil and makeup.", "Rinse off afterwards if you have sensitive or break-out prone skin."],
+        ["Cleansing Oil", 1, "Lipid-based cleanser designed to dissolve water-resistant SPF and sebum daily.", "Emulsify with warm water before rinsing thoroughly."],
+        ["Double Cleansing", 1, "Two-step technique using an oil cleanser followed by a gentle water-based cleanser.", "Ensures complete removal of stubborn sunscreen without harsh scrubbing."],
+        ["Physical Exfoliant", 1, "Abrasive scrubs, brushes, or cloths that manually slough off dead stratum corneum cells.", "Can cause micro-tears if rubbed aggressively; chemical exfoliants are safer."],
+        ["Chemical Exfoliant", 1, "Acids (AHAs, BHAs, PHAs) that dissolve intercellular glue holding dead cells together.", "Increases sun sensitivity; always use daily sunscreen alongside."],
+        ["Essence", 1, "Hydrating liquid treatment formulated to prep skin for serums and increase absorption.", "Pat directly onto clean skin with hands rather than cotton pads."],
+        ["Ampoule", 1, "Super-charged serum containing higher concentrations of active target ingredients.", "Use as a short-term treatment boost during skin flare-ups."],
+        ["Sheet Mask", 1, "Occlusive fabric saturated in hydrating serum to force active ingredients into skin.", "Do not leave on until dry; remove while still damp after 15 minutes."],
+        ["Spot Treatment", 1, "Concentrated active formula designed to be applied directly onto single blemishes.", "Avoid spreading high-potency spot treatments all over the face."],
+        ["Hydrocolloid Patch", 1, "Absorbent fluid-retentive bandage that pulls pus and exudate out of open pimples.", "Prevents picking and creates a clean, moist healing environment."],
+        ["Broad-Spectrum Sunscreen", 1, "Photoprotective formula shielding against both short-wave UVB and long-wave UVA rays.", "UVA causes aging; UVB causes burning. Wear both daily."],
+        ["Chemical UV Filters", 1, "Organic compounds (Avobenzone, Octisalate, Tinosorb) that absorb UV radiation.", "Provide lightweight, white-cast-free finishes on dark skin tones."],
+        ["Physical UV Filters", 1, "Inorganic minerals (Zinc Oxide, Titanium Dioxide) reflecting and scattering UV rays.", "Gentlest option for hyper-reactive or post-procedure skin."],
+        ["PA Rating", 1, "Japanese system measuring protection against UVA rays (+ to ++++).", "Aim for PA+++ or PA++++ for high anti-aging sun defense."],
+        ["SPF (Sun Protection Factor)", 1, "Measure of how long sunscreen protects skin from sunburn-causing UVB rays.", "SPF 30 blocks ~97% of UVB; SPF 50 blocks ~98%."],
+        ["Thermal Water", 1, "Mineral-rich spring water containing selenium or silica to calm inflammation.", "Mist before applying humectants like hyaluronic acid."],
+        ["Squalane Oil", 1, "Refined plant-derived oil stable against oxidation and suitable for acne skin.", "Mix a drop into your moisturizer during cold winter months."],
+        ["Sleeping Mask", 1, "Thick occlusive gel-cream applied as the final step before bed to lock in moisture.", "Rinse off in the morning for extra plumpness."],
+        ["Cleansing Gel", 1, "Water-based clear cleanser with foaming surfactants suitable for oily skin.", "Look for low-pH gel cleansers to avoid stripping skin."],
+
+        // Anatomy & Biology (Categories 2 & 3)
         ["Epidermis", 2, "The stratified outermost biological block shielding against dehydration and external microbes.", "The primary zone where non-prescription cosmetic topical items react."],
         ["Stratum Corneum", 2, "The thin exterior brick-and-mortar skin matrix acting as your primary moisture barrier.", "Keep this layer shielded; avoiding harsh friction preserves it best."],
+        ["Dermis", 2, "Thick inner layer of skin beneath epidermis containing collagen, elastin, and capillaries.", "Sustains structural skin firmness and hydration capacity."],
+        ["Pore", 2, "Opening on the skin surface connected to hair follicles and sebaceous glands.", "Pore size is genetically determined and cannot be permanently closed."],
+        ["Sebaceous Gland", 2, "Microscopic organ in the dermis responsible for producing native sebum oil.", "Overactivity leads to oily sheen and potential clogged pores."],
+        ["Melanocyte", 2, "Specialized cell located in the basal epidermis producing melanin pigment.", "Stimulated by UV rays, heat, friction, and inflammation."],
+        ["Acid Mantle", 2, "Thin acidic film on skin surface (~pH 4.5 - 5.5) made of sebum, sweat, and good bacteria.", "Washing with alkaline bar soaps destroys this natural mantle."],
+        ["Transepidermal Water Loss (TEWL)", 2, "Process where moisture evaporates through the epidermis into the atmosphere.", "Elevated TEWL signals a broken skin barrier needing ceramides."],
+        ["Skin Barrier", 2, "Outermost layer protecting interior tissues from pathogens, toxins, and moisture loss.", "When compromised, expect stinging, redness, and sudden breakouts."],
+        ["Skin Microbiome", 2, "Trillions of beneficial microorganisms living on skin to ward off harmful pathogens.", "Avoid harsh antibacterial washes that wipe out good bacteria."],
         ["Melanin", 3, "Natural color pigments synthesised by melanocytes to shield cellular DNA from radiation.", "Inflammation or picking pimples accelerates localized melanin spots."],
         ["Sebum", 3, "Native waxy oil secretions layout lubricating external structural layers.", "Balanced sebum acts as a built-in age shield; don't over-strip it."],
-        ["Ceramides", 0, "Crucial structural lipids making up over 50% of the natural matrix linking skin cells.", "Look for these if your moisture shield feels raw or flaky."],
-        ["Glycerin", 0, "A cost-effective, time-tested humectant that pulls hydration into surface layers.", "Extremely safe, non-reactive, and perfect for strict budget configurations."]
+        ["Cell Turnover", 3, "Natural 28-day cycle where new skin cells move from basal layer to surface and shed.", "Slows down with age; retinoids help normalize turnover rates."],
+        ["Post-Inflammatory Hyperpigmentation (PIH)", 3, "Dark spots left behind after acne or skin injury due to melanin overproduction.", "Treat with sunscreen, niacinamide, and azelaic acid."],
+        ["Post-Inflammatory Erythema (PIE)", 3, "Red or pink spots left behind after acne due to damaged surface capillaries.", "Responds to soothing ingredients like centella and niacinamide."],
+        ["Comedone", 3, "Plugged pore filled with dead skin cells and dried sebum (open = blackhead, closed = whitehead).", "BHA (salicylic acid) dissolves comedones from within."],
+        ["Purging", 3, "Temporary spike in breakouts when starting cell-turnover actives (retinoid/acids).", "Occurs only in areas you usually break out and clears in 4-6 weeks."],
+        ["Contact Dermatitis", 3, "Allergic or irritant skin reaction causing redness, itching, and swelling.", "Stop all actives and return to a cleanser-moisturizer-SPF routine."],
+        ["Free Radicals", 3, "Unstable molecules generated by UV/pollution that damage cellular collagen.", "Neutralize daily using topical antioxidants like Vitamin C."],
+        ["Photoaging", 3, "Premature skin aging (wrinkles, spots, sagging) caused by chronic UV exposure.", "80% of visible facial aging is driven by photoaging, not age."],
+        ["Acid Mantle pH", 3, "Naturally acidic surface level (~5.0) that prevents bacterial infection.", "Maintain using low-pH cleansers balanced between 4.5 and 5.5."],
+        ["Desquamation", 3, "Natural shedding process of dead skin cells from the stratum corneum layer.", "Gentle AHAs assist desquamation when natural shedding slows down."],
+        ["Collagen", 3, "Structural protein providing skin strength, thickness, and elasticity.", "Degrades under UV light; protected by daily broad-spectrum sunscreen."],
+        ["Elastin", 3, "Highly elastic protein in the dermis allowing skin to bounce back after stretching.", "Loss of elastin leads to visible sagging and deep wrinkles."],
+        ["Keratinocyte", 3, "Predominant cell type in the epidermis that produces protective keratin protein.", "Forms the protective brick wall of your skin barrier."]
     ];
 
     const dictionaryListContainer = document.getElementById('dictionaryListContainer');
