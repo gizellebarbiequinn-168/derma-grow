@@ -170,6 +170,18 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let currentCurrency = "";
 
+    // HUMAN-READABLE MAPPER FOR TELEMETRY
+    const readableProductNames = {
+        'chk-moisturizer': '🧴 Basic Moisturizer / Glycerin',
+        'chk-cleanser': '🧼 Gentle Low-pH Cleanser',
+        'chk-sunscreen': '☀️ Broad-Spectrum Sunscreen',
+        'chk-toner': '💧 Gentle Hydrating Toner',
+        'chk-niacinamide': '🧪 Niacinamide Serum',
+        'chk-actives': '⚡ High-Potency Active Serums',
+        'chk-lemon': '🍋 DIY Lemon Juice Remedies',
+        'chk-scrubs': '🧽 Coarse Physical Face Scrubs'
+    };
+
     // --- NAVIGATION ROUTING ---
     const navDashboard = document.getElementById('navDashboard');
     const navQuiz = document.getElementById('navQuiz');
@@ -494,8 +506,12 @@ document.addEventListener("DOMContentLoaded", () => {
         renderVisualThresholdChart(labels, metrics);
         updateHonestLocalMetrics(currentEvaluatedScore, trendsAvoidedCount, activeHarmfulTrends);
 
-        const activeProducts = selectors.filter(id => document.getElementById(id)?.checked).join(', ');
-        debouncedLogToSheet(budget, trendsAvoidedCount, activeProducts || "None");
+        // Map IDs to human-readable strings for telemetry log
+        const selectedReadableNames = selectors
+            .filter(id => document.getElementById(id)?.checked)
+            .map(id => readableProductNames[id] || id);
+
+        debouncedLogToSheet(budget, trendsAvoidedCount, selectedReadableNames.join(', ') || "None");
     }
 
     function renderVisualThresholdChart(labels, metrics) {
@@ -739,7 +755,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // --- SCIENCE HUB DATA (PERMALINKS VERIFIED) ---
+    // --- SCIENCE HUB DATA ---
     const scienceDatabase = [
         { id: 1, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "The DIY Lemon Juice Trend", description: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", actionText: "View PubChem Citric Acid Data →", link: "https://pubchem.ncbi.nlm.nih.gov/compound/Citric-acid" },
         { id: 2, category: "myths", badge: "Trend Debunker", badgeClass: "badge-myth", title: "Physical Scrubs vs. Friction", description: "Abrasives like crushed seed shells cause micro-scratches in vulnerable surface cells, disrupting moisture protection and causing water loss.", actionText: "Read PubMed Skin Friction Study →", link: "https://pubmed.ncbi.nlm.nih.gov/28805905/" },
