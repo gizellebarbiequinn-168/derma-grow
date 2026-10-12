@@ -215,7 +215,7 @@
         <p class="text-muted" style="margin-bottom: 1.25rem;">Your session ID links your routine choices and quiz preferences to your local session.</p>
         <div style="margin-bottom: 1.25rem;">
           <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Full Name or Display Alias:</label>
-          <input type="text" id="profileNameInput" class="form-input-text" placeholder="Louise Elizabeth" onchange="saveProfileName()">
+          <input type="text" id="profileNameInput" class="form-input-text" placeholder="e.g., Louise Elizabeth" onchange="saveProfileName()">
         </div>
         <div style="margin-bottom: 1.5rem;"><span class="text-muted">Session Reference Code: </span><strong id="sessionRefDisplay" style="color: var(--brand-accent);">user_t20lozq</strong></div>
         <button onclick="saveProfileName(true)" class="btn-accent" style="width: auto; background-color: var(--brand-accent);">Save Profile Settings</button>
@@ -299,19 +299,25 @@
 
   <script>
     let dermaChartInstance = null;
-    const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyR7i3Sqhkg4ewR2yQeoVMOvnPzngV_KIY5VcyF1ts/exec";
+    const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzsOtHSLJxKWzJY1Dz6TLvCewEGz9En-fLh_OS83o-60rFrzvp7IpuRbKP-scMAVxa3/exec";
 
     // USER STATE & SESSION MANAGEMENT
     let currentUserSession = localStorage.getItem("derma_user_session") || "user_t20lozq";
     
     function getUserName() {
-      const inputVal = document.getElementById("profileNameInput").value.trim();
+      const input = document.getElementById("profileNameInput");
+      const inputVal = input ? input.value.trim() : "";
       if (inputVal !== "") return inputVal;
-      return localStorage.getItem("derma_user_name") || "Guest";
+      
+      const storedVal = localStorage.getItem("derma_user_name");
+      if (storedVal && storedVal.trim() !== "") return storedVal;
+      
+      return "Guest";
     }
 
     function saveProfileName(showAlert = false) {
-      const name = getUserName();
+      const input = document.getElementById("profileNameInput");
+      const name = input ? input.value.trim() : "";
       localStorage.setItem("derma_user_name", name);
       if (showAlert) alert("Profile Settings Saved!");
       dispatchTelemetry();
@@ -335,18 +341,19 @@
       const sliderPct = parseInt(document.getElementById('budgetSlider').value, 10) / 100;
       const budgetNum = currObj ? Math.round(sliderPct * currObj.baseMax) : 0;
 
-      const formData = new FormData();
-      formData.append("Timestamp", new Date().toISOString());
-      formData.append("User ID", currentUserSession);
-      formData.append("Username", getUserName());
-      formData.append("Budget", budgetNum);
-      formData.append("Trends Avoided", trendsAvoidedCount);
-      formData.append("Selected Routine", activeProducts.length > 0 ? activeProducts.join(", ") : "");
+      const payload = {
+        userID: currentUserSession,
+        userName: getUserName(),
+        budget: budgetNum,
+        trendsAvoided: trendsAvoidedCount,
+        routine: activeProducts.length > 0 ? activeProducts.join(", ") : "None Selected"
+      };
 
       fetch(TELEMETRY_SHEETS_ENDPOINT, {
         method: "POST",
         mode: "no-cors",
-        body: formData
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
       }).catch(() => {});
     }
 
