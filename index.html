@@ -15,9 +15,6 @@
       --brand-primary: #59912f;
       --brand-accent: #c89d47;
       --border-subtle: #e2e8f0;
-      --status-alert-bg: #fff5f5;
-      --status-alert-border: #feb2b2;
-      --status-alert-text: #c53030;
     }
 
     [data-theme="dark"] {
@@ -28,9 +25,6 @@
       --brand-primary: #70c732;
       --brand-accent: #d4a746;
       --border-subtle: #2c2c2c;
-      --status-alert-bg: #2c0b0b;
-      --status-alert-border: #742a2a;
-      --status-alert-text: #feb2b2;
     }
 
     * {
@@ -566,7 +560,7 @@
           <div id="quizProgressBar" class="progress-bar-fill"></div>
         </div>
 
-        <div id="quizContentBox" style="margin-top: 1rem;">
+        <div id="quizCardBody" style="margin-top: 1rem;">
           <p id="quizQuestionText" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem;">1. What is your biological sex / gender profile?</p>
           <div id="quizOptionsContainer" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
         </div>
@@ -590,86 +584,231 @@
       </div>
     </section>
 
-    <!-- SCIENCE HUB SECTION -->
+    <!-- SCIENCE HUB SECTION (9 ARTICLES) -->
     <section id="scienceHubSection" class="view-section hidden">
       <div class="content-card">
         <h2>Skincare Academy & Science Hub</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Explore debunked internet trends and medical research concepts verified against dermatological references.</p>
         <div>
-          <span class="filter-pill active" onclick="filterScienceCategory('all', this)">All Resources</span>
-          <span class="filter-pill" onclick="filterScienceCategory('debunker', this)">Trend Debunkers</span>
-          <span class="filter-pill" onclick="filterScienceCategory('category', this)">Product Categories</span>
-          <span class="filter-pill" onclick="filterScienceCategory('ingredients', this)">Skincare Ingredients</span>
-          <span class="filter-pill" onclick="filterScienceCategory('biology', this)">Skin Biology</span>
+          <span class="filter-pill active" onclick="filterScienceHub('all', this)">All Resources</span>
+          <span class="filter-pill" onclick="filterScienceHub('trend', this)">Trend Debunkers</span>
+          <span class="filter-pill" onclick="filterScienceHub('category', this)">Product Categories</span>
+          <span class="filter-pill" onclick="filterScienceHub('ingredient', this)">Skincare Ingredients</span>
+          <span class="filter-pill" onclick="filterScienceHub('biology', this)">Skin Biology</span>
         </div>
       </div>
 
-      <div id="scienceHubContainer">
-        <div class="content-card science-card" data-cat="debunker">
+      <div id="scienceHubArticles">
+        <!-- Article 1 -->
+        <div class="content-card science-article" data-cat="trend">
           <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">TREND DEBUNKER</span>
           <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">The DIY Lemon Juice Trend</h3>
           <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.</p>
         </div>
 
-        <div class="content-card science-card" data-cat="debunker">
+        <!-- Article 2 -->
+        <div class="content-card science-article" data-cat="trend">
           <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">TREND DEBUNKER</span>
-          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Coarse Walnut & Sugar Scrubs</h3>
-          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Physical sharp particles create micro-tears on the stratum corneum, allowing pathogen entry and chronic barrier distress.</p>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Toothpaste on Acne Blemishes</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial epithelial tissues, triggering severe secondary hyperpigmentation.</p>
         </div>
 
-        <div class="content-card science-card" data-cat="biology">
-          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SKIN BIOLOGY</span>
-          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">The Stratum Corneum & Lipid Matrix</h3>
-          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Your outer skin layer operates as a brick-and-mortar structure where ceramides, cholesterol, and fatty acids maintain essential hydration levels.</p>
+        <!-- Article 3 -->
+        <div class="content-card science-article" data-cat="trend">
+          <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">TREND DEBUNKER</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Coarse Walnut Shell Scrubs</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Crushed walnut shells feature microscopic jagged edges that create micro-tears in stratum corneum layers, compromising moisture retention.</p>
+        </div>
+
+        <!-- Article 4 -->
+        <div class="content-card science-article" data-cat="category">
+          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">PRODUCT CATEGORY</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Low-pH Gel Cleansers vs. Foaming Bars</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Slightly acidic cleansers (pH 5.0–5.5) maintain microbiome balance, while alkaline bar soaps disrupt protective intercellular lipids.</p>
+        </div>
+
+        <!-- Article 5 -->
+        <div class="content-card science-article" data-cat="category">
+          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">PRODUCT CATEGORY</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Chemical vs. Mineral Sunscreen Agents</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Zinc oxide physically reflects broad-spectrum rays, making it gentler for reactive barrier types compared to high-percentage chemical filters.</p>
+        </div>
+
+        <!-- Article 6 -->
+        <div class="content-card science-article" data-cat="ingredient">
+          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SKINCARE INGREDIENT</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Niacinamide (Vitamin B3) Mechanism</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Inhibits melanosome transfer and boosts ceramide synthesis, enhancing resilience against daily transepidermal water loss.</p>
+        </div>
+
+        <!-- Article 7 -->
+        <div class="content-card science-article" data-cat="ingredient">
+          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SKINCARE INGREDIENT</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Glycerin & Multi-Molecular Humectants</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Draws ambient environmental moisture into upper epidermal cells, accelerating lipid matrix barrier repairs.</p>
+        </div>
+
+        <!-- Article 8 -->
+        <div class="content-card science-article" data-cat="biology">
+          <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SKIN BIOLOGY</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Understanding Stratum Corneum & Acid Mantle</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">The outermost brick-and-mortar layer of keratinocytes and ceramides prevents microbial invasion and controls moisture loss.</p>
+        </div>
+
+        <!-- Article 9 -->
+        <div class="content-card science-article" data-cat="biology">
+          <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SKIN BIOLOGY</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Transepidermal Water Loss (TEWL) Pathways</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Occurs when ambient dryness or over-exfoliation weakens intercellular lipid bonds, leading to inflammation and flaking.</p>
         </div>
       </div>
     </section>
 
-    <!-- SHARED PRODUCT DIRECTORY SECTION -->
+    <!-- SHARED PRODUCT DIRECTORY SECTION (12 PRODUCTS) -->
     <section id="recommendationsSection" class="view-section hidden">
       <div class="content-card">
         <h2>Shared Product Directory</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Browse affordable products recommended by peers and vetted against dermatological ingredient guidelines.</p>
         <div>
-          <span class="filter-pill active" onclick="filterDirectoryCategory('all', this)">All Skin Profiles</span>
-          <span class="filter-pill" onclick="filterDirectoryCategory('normal', this)">Normal Skin</span>
-          <span class="filter-pill" onclick="filterDirectoryCategory('oily', this)">Oily Skin</span>
-          <span class="filter-pill" onclick="filterDirectoryCategory('dry', this)">Dry Skin</span>
-          <span class="filter-pill" onclick="filterDirectoryCategory('sensitive', this)">Sensitive Skin</span>
+          <span class="filter-pill active" onclick="filterProducts('all', this)">All Skin Profiles</span>
+          <span class="filter-pill" onclick="filterProducts('Normal Skin', this)">Normal Skin</span>
+          <span class="filter-pill" onclick="filterProducts('Oily Skin', this)">Oily Skin</span>
+          <span class="filter-pill" onclick="filterProducts('Dry Skin', this)">Dry Skin</span>
+          <span class="filter-pill" onclick="filterProducts('Sensitive Skin', this)">Sensitive Skin</span>
         </div>
       </div>
 
-      <div id="directoryItemsContainer">
-        <div class="content-card directory-card" data-skin="oily" style="border-top: 3px solid var(--brand-accent);">
+      <div id="productsContainer">
+        <!-- 12 PRODUCTS CARDS -->
+        <div class="content-card directory-product-card" data-skin="Oily Skin" style="border-top: 3px solid var(--brand-accent);">
           <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">OILY SKIN</span>
           <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Garnier Micellar Water Blue</h3>
           <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 35.000 / $3</p>
-          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents."</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Oil-free surfactant solution cleanses sunscreen without clogging pore vents."</p>
           <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
             <p>🧪 <strong>Ingredients:</strong> Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate</p>
             <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Pour onto cotton pad, wipe skin surface gently.</p>
           </div>
         </div>
 
-        <div class="content-card directory-card" data-skin="dry" style="border-top: 3px solid var(--brand-accent);">
-          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">DRY SKIN</span>
+        <div class="content-card directory-product-card" data-skin="Oily Skin" style="border-top: 3px solid var(--brand-accent);">
+          <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">OILY SKIN</span>
           <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Glad2Glow Centella Soothing Gel</h3>
           <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 43.000 / $3</p>
-          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Lightweight soothing gel packed with humectants to rehydrate dry, tight skin matrices without greasy residue."</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Ultra-lightweight soothing gel moisturizer for inflammation and excess oil."</p>
           <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
-            <p>🧪 <strong>Ingredients:</strong> Centella Asiatica Extract, Glycerin, Allantoin, Panthenol</p>
-            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Apply an even layer over face post-cleansing.</p>
+            <p>🧪 <strong>Ingredients:</strong> Centella Asiatica, Allantoin, Glycerin, Water</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Apply thin layer AM and PM after serum.</p>
           </div>
         </div>
 
-        <div class="content-card directory-card" data-skin="sensitive" style="border-top: 3px solid var(--brand-accent);">
-          <span style="font-size: 0.7rem; background: #e9d8fd; color: #553c9a; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SENSITIVE SKIN</span>
-          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">CeraVe Hydrating Facial Cleanser</h3>
-          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 180.000 / $12</p>
-          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Non-foaming lotion cleanser containing essential ceramides to repair reactive skin barriers."</p>
+        <div class="content-card directory-product-card" data-skin="Oily Skin" style="border-top: 3px solid var(--brand-accent);">
+          <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">OILY SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">The Ordinary Niacinamide 10% + Zinc 1%</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 90.000 / $6</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "High-potency vitamin formula balances sebum production and minimizes pore congestion."</p>
           <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
-            <p>🧪 <strong>Ingredients:</strong> Ceramides NP/AP/EOP, Hyaluronic Acid, Glycerin</p>
-            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Massage on wet skin, rinse gently with tepid water.</p>
+            <p>🧪 <strong>Ingredients:</strong> Niacinamide, Zinc PCA, Tamarindus Indica Seed Gum</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Smooth 2-3 drops over entire face prior to heavy cream.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Dry Skin" style="border-top: 3px solid #feb2b2;">
+          <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">DRY SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">CeraVe Moisturizing Cream</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 180.000 / $12</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Rich cream formulated with 3 essential ceramides and hyaluronic acid for dry skin barriers."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Ceramide NP, Ceramide AP, Glycerin, Hyaluronic Acid</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Apply liberally as final step to seal moisture.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Dry Skin" style="border-top: 3px solid #feb2b2;">
+          <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">DRY SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Hada Labo Gokujyun Hydrating Lotion</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 65.000 / $5</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Features multiple molecular sizes of Hyaluronic Acid for deep surface hydration."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid, Water</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Pat 3-4 drops gently onto damp skin after cleansing.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Dry Skin" style="border-top: 3px solid #feb2b2;">
+          <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">DRY SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Illiyoon Ceramide Ato Concentrate Cream</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 160.000 / $11</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Encapsulated ceramide skin barrier repair cream for severe dry flaking."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Ceramide Skin Complex, Panax Ginseng Root Extract, Glycerin</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Massage into flaky zones morning and evening.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Sensitive Skin" style="border-top: 3px solid #e9d8a6;">
+          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SENSITIVE SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Cetaphil Gentle Skin Cleanser</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 110.000 / $8</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Non-foaming formula gently lifts dirt without disturbing delicate acid mantle."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Water, Cetyl Alcohol, Propylene Glycol, Sodium Lauryl Sulfate</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Apply without water and wipe with soft cloth or rinse gently.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Sensitive Skin" style="border-top: 3px solid #e9d8a6;">
+          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SENSITIVE SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Skin1004 Madagascar Centella Ampoule</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 120.000 / $8</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "100% pure Centella Asiatica extract soothes redness and repairs compromised skin barriers."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> 100% Centella Asiatica Extract</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Drop directly onto face and pat until fully absorbed.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Sensitive Skin" style="border-top: 3px solid #e9d8a6;">
+          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SENSITIVE SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Avene Thermal Spring Water Spray</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 140.000 / $9</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Calming thermal water spray relieves sudden heat sensation or stinging."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Avene Thermal Spring Water, Nitrogen</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Mist fine cloud over face and allow to sit 2 minutes.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Normal Skin" style="border-top: 3px solid var(--brand-primary);">
+          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">NORMAL SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">COSRX Low pH Good Morning Gel Cleanser</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 85.000 / $6</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Mild botanical cleanser formulated with Tea Tree Oil and natural BHA."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Water, Cocamidopropyl Betaine, Tea Tree Leaf Oil, Betaine Salicylate</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Lather gentle amount with water and massage in circular motion.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Normal Skin" style="border-top: 3px solid var(--brand-primary);">
+          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">NORMAL SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Beauty of Joseon Relief Sun: Rice + Probiotics</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 135.000 / $9</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Creamy SPF50+ PA++++ chemical sunscreen enriched with 30% rice extract."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Water, Oryza Sativa Extract, Dibutyl Adipate, Niacinamide</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Apply generous 2-finger amount 15 minutes before sun exposure.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-product-card" data-skin="Normal Skin" style="border-top: 3px solid var(--brand-primary);">
+          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">NORMAL SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Nivea Sun Protect & White Oil Control SPF50+</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 60.000 / $4</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Affordable daily fluid protection with non-greasy matte finish."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Water, Homosalate, Polformat, Licorice Root Extract</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Reapply every 2 hours during continuous outdoor activity.</p>
           </div>
         </div>
       </div>
@@ -713,69 +852,15 @@
       </div>
     </section>
 
-    <!-- DICTIONARY SECTION -->
+    <!-- DICTIONARY SECTION (89 TERMS) -->
     <section id="dictionarySection" class="view-section hidden">
       <div class="content-card">
-        <h2>🔬 Skincare Dictionary Pro (90 Terms)</h2>
+        <h2>🔬 Skincare Dictionary Pro (89 Terms)</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Search common skincare ingredients, product formulations, and skin biology terms in plain English.</p>
         
-        <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search 90 terms (e.g., Niacinamide, Glycerin, Retinol...)" onkeyup="filterDictionary()">
+        <input type="text" id="dictionarySearchInput" class="form-input-text" placeholder="🔍 Search 89 terms (e.g., Niacinamide, Glycerin, Retinol...)" onkeyup="filterDictionary()">
 
-        <div id="dictionaryListContainer">
-          <div class="dict-card">
-            <div class="dict-header">
-              <h3 style="font-size: 1.1rem;">Hyaluronic Acid</h3>
-              <span class="dict-tag">Active Component</span>
-            </div>
-            <p class="text-muted">A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.</p>
-            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Apply to damp skin to prevent drawing moisture outward.</div>
-          </div>
-
-          <div class="dict-card">
-            <div class="dict-header">
-              <h3 style="font-size: 1.1rem;">Niacinamide</h3>
-              <span class="dict-tag">Active Component</span>
-            </div>
-            <p class="text-muted">Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.</p>
-            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Mixes smoothly with most actives without causing flares.</div>
-          </div>
-
-          <div class="dict-card">
-            <div class="dict-header">
-              <h3 style="font-size: 1.1rem;">Retinol</h3>
-              <span class="dict-tag">Active Component</span>
-            </div>
-            <p class="text-muted">Vitamin A derivative that accelerates cell turnover and stimulates structural collagen paths.</p>
-            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Use strictly at night and wear broad-spectrum protection by day.</div>
-          </div>
-
-          <div class="dict-card">
-            <div class="dict-header">
-              <h3 style="font-size: 1.1rem;">Salicylic Acid</h3>
-              <span class="dict-tag">Active Component</span>
-            </div>
-            <p class="text-muted">Oil-soluble Beta Hydroxy Acid that penetrates pore walls to dissolve sebum plugs.</p>
-            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Best suited for breakout-prone oily skin zones.</div>
-          </div>
-
-          <div class="dict-card">
-            <div class="dict-header">
-              <h3 style="font-size: 1.1rem;">Glycerin</h3>
-              <span class="dict-tag">Active Component</span>
-            </div>
-            <p class="text-muted">Effective humectant that pulls moisture into the outer skin layer to maintain lipid barrier pliability.</p>
-            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Extremely gentle and compatible with all skin profiles.</div>
-          </div>
-
-          <div class="dict-card">
-            <div class="dict-header">
-              <h3 style="font-size: 1.1rem;">Centella Asiatica</h3>
-              <span class="dict-tag">Active Component</span>
-            </div>
-            <p class="text-muted">Botanical extract rich in madecassoside that calms active redness and accelerates micro-repair.</p>
-            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Ideal for soothing sensitive skin flares.</div>
-          </div>
-        </div>
+        <div id="dictionaryListContainer"></div>
       </div>
     </section>
 
@@ -863,39 +948,44 @@
       alert("Applied 3-step essential starter pack!");
     }
 
-    // ALL 18 UNIQUE QUIZ QUESTIONS
+    /* COMPREHENSIVE 18-STEP QUIZ DATA */
     let currentQuizStep = 1;
     const quizQuestions = [
       { q: "1. What is your biological sex / gender profile?", opts: ["Male (Higher androgen/sebum levels & shaving considerations)", "Female (Hormonal fluctuation & cyclical sensitivity)", "Non-Binary / Prefer not to say"] },
       { q: "2. What is your primary climate zone environment?", opts: ["Humid / Tropical", "Dry / Arid", "Temperate / Seasonal Shifts", "Cold / Sub-zero Exposure"] },
       { q: "3. How does your skin feel 2 hours after washing?", opts: ["Tight, dry, or pulling", "Oily across T-zone and cheeks", "Oily on T-zone, dry on cheeks", "Comfortable and neutral"] },
-      { q: "4. What is your primary Fitzpatrick skin type scale?", opts: ["Type I-II (Fair, burns easily)", "Type III-IV (Medium tone, tans gradually)", "Type V-VI (Deep skin, prone to post-inflammatory hyperpigmentation)"] },
-      { q: "5. What is your age group classification?", opts: ["Under 20 (Active hormonal breakout zone)", "20-35 (Preventative care & sebum management)", "36-50 (Early collagen degradation & moisture loss)", "50+ (Barrier repair & structural elasticity focus)"] },
-      { q: "6. How often do you experience active acne breakouts?", opts: ["Constantly / Cystic & inflamed", "Weekly around T-zone", "Occasional hormonal spots", "Rarely / Never"] },
-      { q: "7. How does your skin respond to direct midday sun?", opts: ["Flushes red and stings within 10 minutes", "Tans with mild flushing", "Tans easily without irritation"] },
-      { q: "8. Do you currently use prescription retinoids or strong acids?", opts: ["Yes (Tretinoin/Adapalene/AHA 10%+)", "Occasionally (Over-the-counter retinol)", "No / Active-free routine"] },
-      { q: "9. How frequently do you apply sunscreen daily?", opts: ["Twice or more per day", "Once every morning", "Only when sunny outside", "Rarely or never"] },
-      { q: "10. How does your skin feel after using scented products?", opts: ["Immediate burning, itching, or redness", "Mild transient tingling", "No negative reaction"] },
-      { q: "11. What is your primary skin goal focus?", opts: ["Calm active irritation & repair barrier", "Control excess shine & clear pores", "Deep hydration & plump fine lines", "Fade dark spots & unify tone"] },
-      { q: "12. How many steps are in your current daily routine?", opts: ["1-2 steps (Cleanser/Moisturizer only)", "3-4 steps (Core basic + sunscreen/serum)", "5+ steps (Multi-layer Korean/Western routine)"] },
-      { q: "13. How much water do you drink daily?", opts: ["Less than 1 Liter", "1 to 2 Liters", "2+ Liters consistently"] },
-      { q: "14. How does your skin look midday under artificial office light?", opts: ["Shiny with visible pores", "Flaky with rough patches", "Dull with loss of radiance", "Balanced with mild glow"] },
+      { q: "4. How often do you experience visible pore congestion or blackheads?", opts: ["Daily / Persistent across face", "Occasionally on nose/chin T-zone", "Rarely or never"] },
+      { q: "5. What is your Fitzpatrick skin photo-type sun reaction?", opts: ["Type I-II (Always burns, rarely tans)", "Type III-IV (Sometimes burns, tans uniformly)", "Type V-VI (Rarely burns, deeply pigmented)"] },
+      { q: "6. What is your approximate age bracket?", opts: ["Under 18", "18 – 25", "26 – 40", "41+"] },
+      { q: "7. How does your skin react to new fragrance compounds?", opts: ["Immediate stinging/redness", "Mild itching after 2-3 days", "No reaction at all"] },
+      { q: "8. Do you experience active cystic or hormonal breakouts?", opts: ["Frequently around chin/jawline", "Only during stress/cycle shifts", "Almost never"] },
+      { q: "9. How often do you apply exfoliating chemical acids (AHA/BHA/PHA)?", opts: ["Daily / Multiple times a day", "2-3 times per week", "Never / Unsure how to use"] },
+      { q: "10. What is your primary skin goal?", opts: ["Clear acne and reduce oiliness", "Deep hydration and repair skin barrier", "Soothe persistent redness and sensitivity", "Fade dark spots and even out tone"] },
+      { q: "11. How much water do you consume daily?", opts: ["Less than 1 Liter", "1 to 2 Liters", "More than 2 Liters"] },
+      { q: "12. Do you wear makeup on a daily basis?", opts: ["Heavy full-coverage foundation", "Light tinted moisturizer/SPF", "No makeup"] },
+      { q: "13. How do you remove daily sunscreen or makeup?", opts: ["Single wash with water", "Standard gel/foaming cleanser", "Double cleanse (Oil cleanser + Water-based cleanser)"] },
+      { q: "14. How long does post-acne hyperpigmentation mark linger on your skin?", opts: ["Months or longer (Dark stubborn spots)", "A few weeks", "Fades very quickly"] },
       { q: "15. How often do you experience surface redness or stinging?", opts: ["Daily / Highly reactive", "Occasionally after active serums", "Rarely / Never"] },
-      { q: "16. Do you work in an air-conditioned or heated environment?", opts: ["Yes, full day (High moisture evaporation)", "Partially during the day", "No, naturally ventilated"] },
-      { q: "17. What is your average daily sleep duration?", opts: ["Under 6 hours", "6-8 hours", "8+ hours restorative sleep"] },
-      { q: "18. What is your primary budget comfort level for single products?", opts: ["Budget (<$10 / Rp 100k)", "Mid-tier ($10-$30 / Rp 150k-450k)", "Premium / High-end focus"] }
+      { q: "16. Are you currently using prescribed topical treatments (Tretinoin, Benzoyl Peroxide)?", opts: ["Yes, daily prescription", "Occasionally as spot treatment", "No prescription treatments"] },
+      { q: "17. How many skincare products are currently in your daily routine?", opts: ["1–2 basic products", "3–5 balanced steps", "6+ intensive steps"] },
+      { q: "18. What is your maximum comfortable monthly skincare budget?", opts: ["Under $10 (Rp 150.000)", "$10 – $30 (Rp 150.000 - Rp 450.000)", "$30+ (Rp 450.000+)"] }
     ];
 
     function renderQuizStep() {
-      const qData = quizQuestions[currentQuizStep - 1];
       document.getElementById('quizStepLabel').innerText = `Step ${currentQuizStep} of 18`;
       document.getElementById('quizProgressBar').style.width = `${Math.round((currentQuizStep / 18) * 100)}%`;
-      document.getElementById('quizQuestionText').innerText = qData.q;
-      
-      const container = document.getElementById('quizOptionsContainer');
-      container.innerHTML = qData.opts.map(opt => 
-        `<button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">${opt}</button>`
-      ).join('');
+
+      const qData = quizQuestions[currentQuizStep - 1];
+      const cardBody = document.getElementById('quizCardBody');
+
+      if (currentQuizStep <= 18) {
+        cardBody.innerHTML = `
+          <p style="font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem;">${qData.q}</p>
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            ${qData.opts.map(opt => `<button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">${opt}</button>`).join('')}
+          </div>
+        `;
+      }
     }
 
     function nextQuizStep() {
@@ -903,20 +993,165 @@
         currentQuizStep++;
         renderQuizStep();
       } else {
-        // Step 18 complete -> Render Results Panel
-        document.getElementById('quizStepLabel').innerText = `Completed`;
-        document.getElementById('quizProgressBar').style.width = `100%`;
+        // Show comprehensive results card upon completing step 18
+        const cardBody = document.getElementById('quizCardBody');
+        document.getElementById('quizStepLabel').innerText = "Quiz Completed!";
+        document.getElementById('quizProgressBar').style.width = "100%";
         
-        document.getElementById('quizContentBox').innerHTML = `
-          <div style="background: rgba(89, 145, 47, 0.1); border: 1px solid var(--brand-primary); padding: 1.25rem; border-radius: 16px; margin-top: 1rem;">
-            <h3 style="color: var(--brand-primary); font-size: 1.2rem; margin-bottom: 0.5rem;">🎉 Profile Assessment Complete!</h3>
-            <p style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main); margin-bottom: 1rem;">
-              Based on your 18 clinical parameters, your skin barrier profile is classified as: <strong>Sensitive / Barrier-Focus Type</strong>.
-            </p>
-            <button class="btn-accent" onclick="switchTab('trackerCard', document.getElementById('navDashboard'))">View Custom Budget Routine</button>
+        cardBody.innerHTML = `
+          <div style="text-align: center; padding: 1rem 0;">
+            <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🎉</span>
+            <h3 style="color: var(--brand-primary); font-size: 1.25rem;">Dermatological Evaluation Complete</h3>
+            <p class="text-muted" style="margin-top: 0.4rem; margin-bottom: 1.25rem;">Based on your 18 clinical answers, here is your barrier diagnosis:</p>
+            <div style="background: var(--bg-main); padding: 1rem; border-radius: 14px; text-align: left; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+              <strong style="color: var(--brand-accent); display: block; margin-bottom: 0.3rem;">Primary Skin Profile: Sensitive / Barrier Recovery Focus</strong>
+              <p class="text-muted" style="font-size: 0.85rem;">Your skin responds best to ultra-low irritant, fragrance-free formulations with humectants (Glycerin, Hyaluronic Acid) and non-stripping cleansers.</p>
+            </div>
+            <button class="btn-accent" onclick="switchTab('trackerCard', document.getElementById('navDashboard'))">Go to Recommended Dashboard Routine</button>
           </div>
         `;
       }
+    }
+
+    /* SCIENCE HUB FILTER */
+    function filterScienceHub(cat, el) {
+      document.querySelectorAll('#scienceHubSection .filter-pill').forEach(p => p.classList.remove('active'));
+      if (el) el.classList.add('active');
+      document.querySelectorAll('.science-article').forEach(art => {
+        if (cat === 'all' || art.getAttribute('data-cat') === cat) {
+          art.style.display = 'block';
+        } else {
+          art.style.display = 'none';
+        }
+      });
+    }
+
+    /* SHARED DIRECTORY PRODUCT FILTER */
+    function filterProducts(skinType, el) {
+      document.querySelectorAll('#recommendationsSection .filter-pill').forEach(p => p.classList.remove('active'));
+      if (el) el.classList.add('active');
+      document.querySelectorAll('.directory-product-card').forEach(card => {
+        if (skinType === 'all' || card.getAttribute('data-skin') === skinType) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    /* 89 DICTIONARY TERMS GENERATOR */
+    const dictionaryTerms = [
+      { name: "Hyaluronic Acid", tag: "Active Component", def: "A moisture-binding molecule holding up to 1000x its weight in water to plump skin surface.", tip: "Apply to damp skin to prevent drawing moisture outward." },
+      { name: "Niacinamide", tag: "Active Component", def: "Vitamin B3 compound that strengthens barrier lipids, limits sebum, and unifies tone.", tip: "Mixes smoothly with most actives without causing flares." },
+      { name: "Retinol", tag: "Active Component", def: "Vitamin A derivative that accelerates cell turnover and stimulates structural collagen paths.", tip: "Use strictly at night and wear broad-spectrum protection by day." },
+      { name: "Salicylic Acid", tag: "Active Component", def: "Oil-soluble Beta Hydroxy Acid that penetrates pore walls to dissolve sebum plugs.", tip: "Best suited for breakout-prone oily skin zones." },
+      { name: "Glycerin", tag: "Humectant", def: "Non-comedogenic sugar alcohol that draws atmospheric moisture directly into stratum corneum.", tip: "An essential baseline ingredient in budget skincare routines." },
+      { name: "Ceramides", tag: "Barrier Lipid", def: "Essential intercellular lipids that make up over 50% of skin’s natural protective barrier composition.", tip: "Look for Ceramide NP, AP, and EOP on product labels." },
+      { name: "Centella Asiatica", tag: "Botanical Extract", def: "Medicinal herb extract rich in Madecassoside that rapidly calms erythema and skin stinging.", tip: "Ideal for soothing active breakouts or post-sun irritation." },
+      { name: "Zinc Oxide", tag: "Sunscreen Agent", def: "Physical mineral UV filter offering broad-spectrum protection without irritating reactive skin.", tip: "Great choice for sensitive or rosacea-prone skin." },
+      { name: "Allantoin", tag: "Soothing Compound", def: "Skin conditioning agent that softens keratin and encourages rapid tissue healing.", tip: "Commonly paired with exfoliants to buffer potential irritation." },
+      { name: "Squalane", tag: "Emollient Oil", def: "Hydrogenated, shelf-stable form of squalene that mimics human natural sebum lightweight moisture.", tip: "Non-greasy oil safe for acne-prone skin types." },
+      { name: "Glycolic Acid", tag: "AHA Exfoliant", def: "Smallest molecule Alpha Hydroxy Acid that dissolves surface dead cell bonds to improve texture.", tip: "Can increase sun sensitivity; use weekly at night." },
+      { name: "Lactic Acid", tag: "AHA Exfoliant", def: "Gentler, larger-molecule AHA derived from milk sugars that exfoliates while hydrating surface cells.", tip: "Best AHA option for dry or sensitive skin profiles." },
+      { name: "Azelaic Acid", tag: "Dermatological Active", def: "Dicarboxylic acid that reduces redness, kills acne bacteria, and inhibits tyrosinase dark spots.", tip: "Highly effective for rosacea and post-acne marks." },
+      { name: "Panthenol (Pro-Vitamin B5)", tag: "Humectant & Barrier", def: "Deeply moisturizing provitamin that penetrates lower layers to stimulate tissue repair.", tip: "Found in rich barrier recovery balms." },
+      { name: "Titanium Dioxide", tag: "Sunscreen Agent", def: "Inorganic mineral UV blocker that sits on skin surface to scatter incoming UVA/UVB rays.", tip: "Gentle physical protection with minimal skin absorption." },
+      { name: "Benzoyl Peroxide", tag: "Acne Treatment", def: "Antimicrobial agent that introduces oxygen into pore channels to kill C. acnes bacteria.", tip: "Can bleach dark towels; start with lower 2.5% strength." },
+      { name: "Adenosine", tag: "Cellular Active", def: "Yeast-derived signaling molecule that smooths fine lines and promotes collagen synthesis.", tip: "Popular anti-aging component in Korean formulations." },
+      { name: "Arbutin (Alpha Arbutin)", tag: "Brightening Agent", def: "Hydroquinone derivative that gently lightens hyperpigmentation without harsh cellular toxicity.", tip: "Safe for daily AM and PM use." },
+      { name: "Madecassoside", tag: "Active Extract", def: "Isolated bioactive triterpenoid compound from Centella Asiatica that suppresses skin redness.", tip: "Ideal for post-procedure or micro-tear healing." },
+      { name: "Tea Tree Oil (Melaleuca)", tag: "Botanical Essential Oil", def: "Natural antiseptic oil with terpene compounds that clear mild localized blemishes.", tip: "Always dilute or use formulated gel concentrations under 5%." },
+      { name: "Tocopherol (Vitamin E)", tag: "Antioxidant", def: "Fat-soluble antioxidant that neutralizes free radicals and stabilizes formula oils.", tip: "Synergizes powerfully when paired with Vitamin C." },
+      { name: "Ascorbic Acid (L-Ascorbic Acid)", tag: "Antioxidant Active", def: "Pure active form of Vitamin C that neutralizes pollution damage and boosts collagen.", tip: "Requires low pH (<3.5) to remain effective." },
+      { name: "Sodium Hyaluronate", tag: "Humectant", def: "Salt form of Hyaluronic Acid with smaller molecular size for deeper skin penetration.", tip: "Provides long-lasting surface moisture without heaviness." },
+      { name: "Caprylic/Capric Triglyceride", tag: "Emollient", def: "Derived from coconut oil and glycerin, provides smooth spreadability without clogging pores.", tip: "Standard base ingredient in lightweight creams." },
+      { name: "Polyglutamic Acid", tag: "Humectant", def: "Polypeptide that holds up to 5x more moisture than hyaluronic acid on skin surface.", tip: "Creates a dewy finish when layered over hyaluronic acid." },
+      { name: "Peptides", tag: "Cell Messenger", def: "Short amino acid chains that signal skin cells to build new structural collagen matrix.", tip: "Great non-irritating alternative to retinoids." },
+      { name: "Tranexamic Acid", tag: "Brightening Active", def: "Amino acid derivative that disrupts pathway between melanocytes and keratinocytes to fade melasma.", tip: "Pairs exceptionally well with Niacinamide." },
+      { name: "PHA (Gluconolactone)", tag: "Gentle Exfoliant", def: "Polyhydroxy Acid with large molecular size that exfoliates surface skin without stinging.", tip: "Perfect exfoliant choice for rosacea skin." },
+      { name: "LHA (Capryloyl Salicylic Acid)", tag: "BHA Derivative", def: "Lipophilic hydroxy acid that slowly exfoliates pore walls with minimal cell irritation.", tip: "Suitable for sensitive breakout-prone skin." },
+      { name: "Bakuchiol", tag: "Botanical Active", def: "Plant-derived compound from Babchi seeds that delivers retinol-like collagen renewal without flaking.", tip: "Safe for use during pregnancy or daytime." },
+      { name: "Colloidal Oatmeal", tag: "Skin Protectant", def: "Finely ground oats containing beta-glucans and avenanthramides that relieve severe eczema itching.", tip: "FDA-approved skin protectant for compromised barriers." },
+      { name: "Dimethicone", tag: "Silicone Occlusive", def: "Breathable skin conditioning silicone that seals in water and creates a velvety smooth barrier.", tip: "Does not cause acne despite common online myths." },
+      { name: "Petrolatum", tag: "Severe Occlusive", def: "Refined mineral jelly that prevents 98% of transepidermal water loss when slathered on dry skin.", tip: "Gold standard for slugging dry patches at night." },
+      { name: "Bisabolol", tag: "Soothing Agent", def: "Active constituent of Chamomile extract that reduces inflammatory histamine release.", tip: "Calms irritated red zones effectively." },
+      { name: "Beta-Glucan", tag: "Deep Humectant", def: "Polysaccharide derived from oats or mushrooms that hydrates 20% deeper than hyaluronic acid.", tip: "Accelerates wound healing and red spot fading." },
+      { name: "Licochalcone A", tag: "Botanical Antioxidant", def: "Root extract from Licorice that regulates sebum and reduces inflammatory redness.", tip: "Soothes angry inflamed pimples quickly." },
+      { name: "Kojic Acid", tag: "Brightening Active", def: "Fungal fermentation byproduct that chelates copper to inhibit melanin synthesis.", tip: "Effective for fading dark sun damage spots." },
+      { name: "Ferulic Acid", tag: "Antioxidant Stabilizer", def: "Plant cell wall antioxidant that doubles stability and potency of Vitamin C and E.", tip: "Commonly found in high-grade brightening serums." },
+      { name: "Resveratrol", tag: "Polyphenol Antioxidant", def: "Grape-derived antioxidant that neutralizes environmental skin stressors during sleep.", tip: "Apply at night to support natural cellular repair." },
+      { name: "Sodium PCA", tag: "Natural Moisturizing Factor", def: "Naturally occurring amino acid salt in skin that binds water molecules inside surface cells.", tip: "Restores flexibility to dehydrated skin." },
+      { name: "Urea", tag: "Keratolytic Humectant", def: "Organic compound that hydrates at low doses (<10%) and exfoliates rough calluses at higher doses.", tip: "Excellent for bumpy Strawberry Skin (KP)." },
+      { name: "Lecithin", tag: "Phospholipid Emulsifier", def: "Natural lipid that helps encapsulate active ingredients for deeper delivery into skin.", tip: "Smooths skin texture and enhances barrier penetration." },
+      { name: "Snail Secretion Filtrate", tag: "Mucin Complex", def: "Nutrient-dense mucin containing glycoproteins, glycolic acid, and hyaluronic acid.", tip: "Repairs skin damage and adds deep bounce." },
+      { name: "Propolis Extract", tag: "Bee Resin Complex", def: "Resinous bee mixture packed with flavonoids that offer natural antibacterial defense.", tip: "Gives skin a healthy glow while fighting acne." },
+      { name: "BHA (Betaine Salicylate)", tag: "Gentle BHA", def: "Fat-soluble salicylic acid derivative mixed with betaine for gentler pore exfoliation.", tip: "Popular mild BHA in K-beauty formulations." },
+      { name: "Cholesterol", tag: "Barrier Lipid", def: "Essential skin lipid that works alongside Ceramides and Fatty Acids in a 3:1:1 ratio.", tip: "Crucial for mature or damaged barrier restoration." },
+      { name: "Fatty Acids (Linoleic/Oleic)", tag: "Lipid Building Blocks", def: "Nourishing oils that repair intercellular matrix; linoleic acid balances acne-prone sebum.", tip: "Oily skin benefits most from high-linoleic oils." },
+      { name: "Green Tea Extract (EGCG)", tag: "Polyphenol Antioxidant", def: "Rich in epigallocatechin gallate, reduces skin inflammation and regulates excess androgen oil.", tip: "Calms active acne redness while soothing." },
+      { name: "Allantoin", tag: "Skin Soother", def: "Protects and softens surface skin layer while promoting new tissue growth.", tip: "Non-allergenic soothing staple." },
+      { name: "Caprylyl Glycol", tag: "Preservative Booster", def: "Skin conditioning agent that enhances antimicrobial efficacy of mild preservatives.", tip: "Keeps water-based products safe from mold." },
+      { name: "Phenoxyethanol", tag: "Safe Preservative", def: "Broad-spectrum synthetic preservative used under 1% concentration to replace parabens.", tip: "Dermatologically vetted safe preservative." },
+      { name: "Propanediol", tag: "Solvent & Humectant", def: "Corn-derived natural glycol that improves ingredient absorption without skin stinging.", tip: "Gentle alternative to propylene glycol." },
+      { name: "Butylene Glycol", tag: "Hydrating Solvent", def: "Lightweight liquid alcohol derivative that thins serum viscosity while conditioning skin.", tip: "Found in almost all hydrating toners." },
+      { name: "Xanthan Gum", tag: "Texture Thickener", def: "Natural polysaccharide binder that gives gel serums a smooth, silky slip on application.", tip: "Completely inert and safe for sensitive skin." },
+      { name: "Carbomer", tag: "Gel Polymer", def: "Synthetic thickener that creates clear gel formulations without affecting active ingredients.", tip: "Provides refreshing watery gel textures." },
+      { name: "Ethylhexylglycerin", tag: "Deodorizing Preservative", def: "Mild humectant and skin conditioning agent that boosts antimicrobial preservation.", tip: "Softens skin feel in lightweight lotions." },
+      { name: "Triethanolamine (TEA)", tag: "pH Balancer", def: "Organic compound used in minute amounts to neutralize acidity and balance formulation pH.", tip: "Keeps products at skin-safe pH levels." },
+      { name: "Citric Acid", tag: "pH Adjuster", def: "Weak organic citrus acid used in micro-doses to lower formula pH to skin’s natural ~5.5 level.", tip: "Ensures cleansers remain non-alkaline." },
+      { name: "Sodium Hydroxide", tag: "pH Adjuster", def: "Alkaline salt used by cosmetic chemists to buffer acidic ingredients like AHA or Vitamin C.", tip: "Ensures acids don't burn skin on contact." },
+      { name: "Disodium EDTA", tag: "Chelating Agent", def: "Binds metal ions in tap water to prevent product degradation and maintain freshness.", tip: "Improves foaming and product shelf-life." },
+      { name: "Zinc PCA", tag: "Sebum Regulator", def: "Zinc salt of Pyrrolidone Carboxylic Acid that inhibits 5-alpha reductase oil production.", tip: "Clear skin hero for congested skin profiles." },
+      { name: "Copper Tripeptide-1", tag: "Healing Peptide", def: "Signal peptide that speeds up tissue reconstruction and collagen remodeling.", tip: "Excellent for post-breakout scar recovery." },
+      { name: "Acetyl Hexapeptide-8", tag: "Expression Line Peptide", def: "Often called 'Botox in a bottle', relaxes facial muscle tension to soften expression lines.", tip: "Smooths crow's feet and forehead wrinkles." },
+      { name: "Palmitoyl Pentapeptide-4", tag: "Collagen Booster", def: "Stimulates deep dermis matrix components including collagen I, IV, and hyaluronic acid.", tip: "Found in high-performance anti-aging creams." },
+      { name: "Microbiome Prebiotics", tag: "Skin Flora Food", def: "Plant sugars like Inulin that feed beneficial skin microflora while suppressing bad bacteria.", tip: "Builds long-term barrier immunity." },
+      { name: "Bifida Ferment Lysate", tag: "Probiotic Lysate", def: "Fermented yeast extract that reduces skin sensitivity and boosts cellular repair against UV.", tip: "Key K-beauty skin barrier repair ingredient." },
+      { name: "Galactomyces Ferment", tag: "Fermented Yeast", def: "Nutrient-dense fermentation filtrate that brightens skin tone and controls sebum.", tip: "Fosters glassy clear skin texture." },
+      { name: "Rice Bran Extract", tag: "Nourishing Botanical", def: "Rich in Vitamin E, ferulic acid, and squalene to soften rough texture.", tip: "Traditional Asian brightening staple." },
+      { name: "Mugwort (Artemisia)", tag: "Healing Herb", def: "Medicinal plant extract with potent anti-inflammatory properties for reactive acne.", tip: "Rapidly lowers redness in irritated skin." },
+      { name: "Heartleaf (Houttuynia Cordata)", tag: "Soothing Extract", def: "Rich in polyphenolic flavonoids that cool angry inflamed breakouts.", tip: "Top choice for calming acne flares." },
+      { name: "Licorice Root Extract", tag: "Glabridin Brightener", def: "Contains Glabridin which inhibits tyrosinase dark spot production.", tip: "Natural alternative for fading post-pimple marks." },
+      { name: "Tea Tree Water", tag: "Hydrating Antiseptic", def: "Gentler steam distillate of tea tree leaves that cleanses pores without essential oil drying.", tip: "Refreshing base for acne toners." },
+      { name: "Witch Hazel (Hamamelis)", tag: "Astringent Extract", def: "Contains tannins that temporarily constrict skin surface pores.", tip: "Use alcohol-free versions to prevent over-drying." },
+      { name: "Willow Bark Extract", tag: "Natural BHA Source", def: "Botanical source of salicin that gently thins pore oil plugs.", tip: "Natural gentle alternative to synthetic BHA." },
+      { name: "Papain (Papaya Enzyme)", tag: "Enzymatic Exfoliant", def: "Protein-cleaving enzyme that digests dead surface cell keratin without scrub friction.", tip: "Smooths dry flaking skin without irritation." },
+      { name: "Bromelain (Pineapple Enzyme)", tag: "Enzymatic Exfoliant", def: "Natural enzyme extract that breaks down dull dead skin protein build-up.", tip: "Gives an instant surface radiance glow." },
+      { name: "Silica", tag: "Mattifying Mineral", def: "Natural mineral powder that absorbs excess sebum for a smooth matte finish.", tip: "Commonly found in oil-control sunscreens." },
+      { name: "Kaolin Clay", tag: "Mild Clay Mineral", def: "Soft white clay mineral that draws excess surface oil without over-stripping moisture.", tip: "Safest clay option for dry or sensitive skin." },
+      { name: "Bentonite Clay", tag: "Absorbent Volcanic Clay", def: "Highly absorbent volcanic ash clay that pulls deep pore impurities upward.", tip: "Best for extremely oily acne-prone skin." },
+      { name: "Charcoal Powder", tag: "Pore Detoxifier", def: "Activated carbon powder that adsorbs surface dirt and grime particles.", tip: "Great weekly deep wash ingredient." },
+      { name: "Glycerin Oleate", tag: "Lipid Replenisher", def: "Co-emulsifier derived from natural oils that leaves skin soft after cleansing.", tip: "Prevents clean face tight skin pulling." },
+      { name: "Cocamidopropyl Betaine", tag: "Gentle Surfactant", def: "Coconut-derived mild cleanser agent that produces gentle foam without stripping.", tip: "Standard primary ingredient in low-pH washes." },
+      { name: "Sodium Cocoyl Isethionate", tag: "Baby-Mild Surfactant", def: "Mild coconut fatty acid surfactant known as 'Baby Foam' for sensitive skin.", tip: "Creates luxurious lather without drying." },
+      { name: "Lauryl Glucoside", tag: "Plant Sugar Cleanser", def: "Non-ionic biodegradable surfactant made from corn starch and coconut oil.", tip: "Extremely gentle on compromised acid mantles." },
+      { name: "Decyl Glucoside", tag: "Ultra-Mild Cleanser", def: "Plant-derived gentle cleansing agent favored in hypoallergenic dermatological washes.", tip: "Safe for eczema-prone skin types." },
+      { name: "Polysorbate 20", tag: "Solubilizer", def: "Mild coconut-derived emulsifier that allows essential oils to dissolve in water toners.", tip: "Keeps liquid formulations clear and uniform." },
+      { name: "PEG-40 Hydrogenated Castor Oil", tag: "Emulsifier", def: "Solubilizes oils into water-based serums to ensure even ingredient distribution.", tip: "Provides smooth glide in lightweight liquids." },
+      { name: "Polyacrylate Crosspolymer-6", tag: "Gel Texture Polymer", def: "Modern gel former that gives bouncy elegant texture without stickiness.", tip: "Common in K-beauty watery gel creams." },
+      { name: "Sorbic Acid", tag: "Organic Preservative", def: "Natural organic preservative that protects skincare from yeast and mold growth.", tip: "Gentle non-irritating preservative option." }
+    ];
+
+    function renderDictionary() {
+      const container = document.getElementById('dictionaryListContainer');
+      container.innerHTML = dictionaryTerms.map(t => `
+        <div class="dict-card">
+          <div class="dict-header">
+            <h3 style="font-size: 1.1rem; color: var(--brand-primary);">${t.name}</h3>
+            <span class="dict-tag">${t.tag}</span>
+          </div>
+          <p class="text-muted" style="font-size: 0.88rem;">${t.def}</p>
+          <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> ${t.tip}</div>
+        </div>
+      `).join('');
+    }
+
+    function filterDictionary() {
+      const q = document.getElementById('dictionarySearchInput').value.toLowerCase();
+      document.querySelectorAll('#dictionaryListContainer .dict-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? 'block' : 'none';
+      });
     }
 
     function analyzeProductIngredients() {
@@ -944,47 +1179,15 @@
         alerts.push("Contains fragrance compounds that can trigger reactions on reactive skin.");
       }
       if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('water')) {
-        pros.push("Contains soothing and hydration-maintaining compounds.");
+        pros.push("Contains soothing and barrier-repairing baseline compounds.");
       }
 
       let html = `<strong>Input Text:</strong> ${input.substring(0, 100)}${input.length > 100 ? '...' : ''}<br><br>`;
       if (alerts.length) html += `<strong style="color:var(--status-alert-text);">Concerns:</strong><ul>${alerts.map(a => `<li>${a}</li>`).join('')}</ul><br>`;
-      if (pros.length) html += `<strong style="color:var(--brand-primary);">Beneficial Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
-      if (!alerts.length && !pros.length) html += "Standard formulation detected.";
+      if (pros.length) html += `<strong style="color:var(--brand-primary);">Actives & Base:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
+      if (!alerts.length && !pros.length) html += "Standard baseline formulation detected.";
 
       aiResultBody.innerHTML = html;
-    }
-
-    function filterScienceCategory(cat, el) {
-      document.querySelectorAll('#scienceHubSection .filter-pill').forEach(p => p.classList.remove('active'));
-      if (el) el.classList.add('active');
-      document.querySelectorAll('.science-card').forEach(card => {
-        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function filterDirectoryCategory(skin, el) {
-      document.querySelectorAll('#recommendationsSection .filter-pill').forEach(p => p.classList.remove('active'));
-      if (el) el.classList.add('active');
-      document.querySelectorAll('.directory-card').forEach(card => {
-        if (skin === 'all' || card.getAttribute('data-skin') === skin) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function filterDictionary() {
-      const q = document.getElementById('dictionarySearchInput').value.toLowerCase();
-      document.querySelectorAll('#dictionaryListContainer .dict-card').forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(q) ? 'block' : 'none';
-      });
     }
 
     function refreshTip() {
@@ -1008,6 +1211,7 @@
 
     window.addEventListener('load', () => {
       renderQuizStep();
+      renderDictionary();
 
       const ctx = document.getElementById('dermaChart');
       if (ctx && typeof Chart !== 'undefined') {
