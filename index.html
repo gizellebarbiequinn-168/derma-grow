@@ -45,7 +45,6 @@
     body { background-color: var(--bg-main); color: var(--color-text-main); line-height: 1.5; padding: 1rem; transition: background 0.3s, color 0.3s; }
     .app-container { max-width: 580px; margin: 0 auto; }
 
-    /* HEADER & NAVIGATION */
     .app-header { display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-subtle); margin-bottom: 1.25rem; }
     .header-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
     .brand-container { display: flex; align-items: center; gap: 0.5rem; }
@@ -57,19 +56,16 @@
     .nav-btn.active, .nav-btn:hover { background: var(--brand-primary) !important; color: #ffffff !important; border-color: var(--brand-primary) !important; }
     .theme-toggle-btn { background: var(--bg-main); border: 1px solid var(--border-subtle); font-size: 1.1rem; padding: 0.4rem 0.6rem; border-radius: 12px; cursor: pointer; }
 
-    /* VIEW SECTIONS */
     .view-section.hidden { display: none !important; }
     .content-card { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-subtle); padding: 1.5rem; margin-bottom: 1.25rem; }
     .content-card h2, .content-card h3 { color: var(--brand-primary); margin-bottom: 0.5rem; }
     .text-muted { color: var(--color-text-muted); font-size: 0.88rem; }
 
-    /* KPI SCOREBOARD */
     .metrics-row { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; text-align: center; }
     .metric-stat-box { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; background: rgba(255, 255, 255, 0.15); padding: 0.75rem 0.5rem; border-radius: 12px; }
     .metric-number { font-size: 1.4rem; font-weight: 800; }
     .metric-label { font-size: 0.65rem; color: #ffffff; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.9; margin-top: 0.2rem; }
 
-    /* FORM INPUTS & BUTTONS */
     .form-input-text { width: 100%; padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid var(--border-subtle); background: var(--bg-main); color: var(--color-text-main); font-size: 0.9rem; }
     .range-slider { width: 100%; margin-top: 0.5rem; accent-color: var(--brand-primary); }
     .btn-preset { background: var(--bg-card); border: 1px solid var(--brand-primary); color: var(--brand-primary); padding: 0.75rem 1.2rem; border-radius: 25px; cursor: pointer; font-size: 0.88rem; font-weight: 600; text-align: center; width: 100%; }
@@ -77,14 +73,12 @@
     .filter-pill { background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main); padding: 0.4rem 0.85rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-block; margin-right: 0.3rem; margin-bottom: 0.4rem; }
     .filter-pill.active { background: var(--brand-accent); color: #ffffff; border-color: var(--brand-accent); }
 
-    /* CHECKBOX CARDS */
     .selection-matrix-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
     .checkbox-card { display: flex; align-items: center; gap: 1rem; background: var(--bg-main); padding: 1rem 1.1rem; border-radius: 16px; border: 1px solid var(--border-subtle); cursor: pointer; }
     .checkbox-card input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--brand-primary); }
     .checkbox-label-text { font-size: 0.92rem; font-weight: 600; }
     .checkbox-subtext { display: block; font-size: 0.78rem; font-weight: 400; color: var(--color-text-muted); margin-top: 0.15rem; }
 
-    /* DICTIONARY ITEMS */
     .dict-card { background: var(--bg-main); padding: 1rem 1.1rem; border-radius: 16px; border: 1px solid var(--border-subtle); margin-top: 0.75rem; }
     .dict-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
     .dict-tag { font-size: 0.72rem; background: var(--border-subtle); color: var(--color-text-main); padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 600; }
@@ -94,13 +88,11 @@
     .progress-bar-fill { height: 100%; width: 6%; background: var(--brand-accent); border-radius: 10px; transition: width 0.3s ease; }
     .hidden { display: none !important; }
 
-    /* EDITABLE PAPER FORMATTING */
     .paper-editable-body { outline: none; border-radius: 12px; padding: 0.5rem; transition: background 0.2s; }
     .paper-editable-body:focus { background: var(--bg-main); border: 1px dashed var(--brand-accent); }
     .paper-section-title { color: var(--brand-primary); font-size: 1.15rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.4rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.2rem; }
     .paper-paragraph { font-size: 0.92rem; line-height: 1.6; color: var(--color-text-main); margin-bottom: 0.85rem; text-align: justify; }
 
-    /* DYNAMIC ALERT BANNER */
     .impact-banner { font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; transition: all 0.3s ease; }
     .impact-banner.success { background: var(--status-success-bg); border: 1px solid var(--status-success-border); color: var(--brand-primary); }
     .impact-banner.alert { background: var(--status-alert-bg); border: 1px solid var(--status-alert-border); color: var(--status-alert-text); }
@@ -114,7 +106,6 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- HEADER & NAVIGATION -->
     <header class="app-header">
       <div class="header-top-row">
         <div class="brand-container">
@@ -140,13 +131,11 @@
       </nav>
     </header>
 
-    <!-- HERO HEADER -->
     <section id="heroSection" style="text-align: center; margin-bottom: 1.25rem;">
       <h1 style="color: var(--brand-primary); font-size: 1.6rem; font-weight: 700; margin-bottom: 0.3rem;">Smart Skincare Under Your Real Budget</h1>
       <p class="text-muted" style="max-width: 500px; margin: 0 auto; font-size: 0.88rem; line-height: 1.4;">Build a science-backed daily routine, protect your skin barrier from harsh trends, and find budget recommendations.</p>
     </section>
 
-    <!-- KPI SCOREBOARD -->
     <div id="impactMatrix" class="content-card" style="background-color: var(--brand-primary); padding: 1rem; margin-bottom: 1.25rem;">
       <div class="metrics-row">
         <div class="metric-stat-box"><span id="activeUsersCount" class="metric-number" style="color: #ffffff;">1 Day</span><span class="metric-label">ROUTINE STREAK</span></div>
@@ -155,7 +144,6 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <section id="trackerCard" class="view-section">
       <div class="content-card">
         <h2>Budget Routine Builder</h2>
@@ -191,7 +179,6 @@
         </div>
       </div>
 
-      <!-- ROUTINE GUIDE & CHART CARD -->
       <div class="content-card">
         <h2>Your Essential Daily Routine Guide</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Barrier Health Trajectory Model (14-Day Forecast)</p>
@@ -207,7 +194,6 @@
         </div>
       </div>
 
-      <!-- CONFIDENCE BOOSTER -->
       <div class="content-card" style="border-left: 4px solid var(--brand-accent);">
         <h3>✨ Confidence Booster</h3>
         <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted); margin-bottom: 0.85rem;">"Your skin is a living organ, not a filter. It is doing its best to protect you today."</p>
@@ -215,7 +201,6 @@
       </div>
     </section>
 
-    <!-- EDITABLE RESEARCH PAPER SECTION -->
     <section id="paperSection" class="view-section hidden">
       <div class="content-card">
         <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-bottom: 1rem;">
@@ -223,7 +208,6 @@
           <button onclick="window.print()" class="btn-preset" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print Paper</button>
         </div>
 
-        <!-- contenteditable="true" ALLOWS DIRECT ON-PAGE EDITING -->
         <div id="editablePaperContainer" class="paper-editable-body" contenteditable="true" title="Click anywhere to edit this research paper text live!">
           <h1 style="font-size: 1.35rem; font-weight: 800; color: var(--brand-primary); line-height: 1.3; margin-bottom: 0.5rem;">Derma Grow: Protecting Adolescent Skin Barriers by Algorithmic Detection of Incompatible Active Ingredients in Budget Skincare Routines</h1>
           <p style="font-weight: 700; color: var(--brand-accent); font-size: 0.95rem;">Gizelle Barbie Quinn</p>
@@ -258,7 +242,6 @@
       </div>
     </section>
 
-    <!-- PROFILE SECTION -->
     <section id="profileSection" class="view-section hidden">
       <div class="content-card">
         <h2>User Profile & Sync</h2>
@@ -272,7 +255,6 @@
       </div>
     </section>
 
-    <!-- 18-STEP QUIZ SECTION -->
     <section id="quizSection" class="view-section hidden">
       <div class="content-card">
         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
@@ -285,7 +267,6 @@
       </div>
     </section>
 
-    <!-- DERMA AI MATCHER SECTION -->
     <section id="aiSection" class="view-section hidden">
       <div class="content-card">
         <h2>✨ Derma Grow AI Ingredient Matcher</h2>
@@ -299,7 +280,6 @@
       </div>
     </section>
 
-    <!-- SCIENCE HUB SECTION -->
     <section id="scienceHubSection" class="view-section hidden">
       <div class="content-card">
         <h2>Skincare Academy & Science Hub</h2>
@@ -315,7 +295,6 @@
       <div id="scienceArticlesContainer"></div>
     </section>
 
-    <!-- SHARED DIRECTORY SECTION -->
     <section id="recommendationsSection" class="view-section hidden">
       <div class="content-card">
         <h2>Shared Product Directory</h2>
@@ -331,7 +310,6 @@
       <div id="directoryContainer"></div>
     </section>
 
-    <!-- DICTIONARY SECTION (89 WORDS) -->
     <section id="dictionarySection" class="view-section hidden">
       <div class="content-card">
         <h2>🔬 Skincare Dictionary Pro (89 Terms)</h2>
@@ -351,7 +329,6 @@
     let dermaChartInstance = null;
     const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxsJ2EIs0KmpovS3eWZDJc3XoKkHBII25QTTDfQ3KAU0OFNJzAFvAmnHXMSdAhmnqBi/exec";
 
-    // USER STATE & SESSION MANAGEMENT
     let currentUserSession = localStorage.getItem("derma_user_session") || "user_t20lozq";
     
     function getUserName() {
@@ -382,7 +359,6 @@
       });
     }
 
-    // LIVE TELEMETRY ENGINE TO GOOGLE SHEETS
     function dispatchTelemetry() {
       const activeProducts = [];
       let trendsAvoidedCount = 2;
@@ -430,7 +406,6 @@
       updateChartColors(!isDark);
     }
 
-    /* ALL 195 ISO 4217 WORLD CURRENCIES SORTED STRICTLY ALPHABETICALLY */
     const currencyData = [
       { code: "AED", sym: "AED", name: "United Arab Emirates Dirham", baseMax: 500 },
       { code: "AFN", sym: "AFN", name: "Afghan Afghani", baseMax: 10000 },
@@ -705,7 +680,6 @@
       renderQuizStep();
     }
 
-    /* 18 QUIZ QUESTIONS */
     let currentQuizStep = 1;
     const quizQuestions = [
       { q: "1. What is your biological sex / gender profile?", opts: ["Male", "Female", "Non-Binary / Prefer not to say"] },
@@ -755,7 +729,6 @@
     }
     function nextQuizStep() { currentQuizStep++; renderQuizStep(); }
 
-    /* 9 SCIENCE HUB ARTICLES */
     const scienceArticles = [
       { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "The DIY Lemon Juice Trend", desc: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=citrus+lemon+juice+phytophotodermatitis+skin+barrier" },
       { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Toothpaste on Acne Blemishes", desc: "Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial tissues, triggering secondary dark spots.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=toothpaste+sodium+lauryl+sulfate+contact+dermatitis+acne" },
@@ -786,7 +759,6 @@
       });
     }
 
-    /* 12 SHARED DIRECTORY PRODUCTS DATA */
     const directoryProducts = [
       { skin: "Oily Skin", title: "Garnier Micellar Water Blue", cost: "Rp 35.000 / $3", notes: "Oil-free surfactant solution cleanses sunscreen without clogging pore vents.", ing: "Water, Hexylene Glycol, Glycerin", dir: "Pour onto cotton pad, wipe gently." },
       { skin: "Oily Skin", title: "Glad2Glow Centella Soothing Gel", cost: "Rp 43.000 / $3", notes: "Ultra-lightweight soothing gel moisturizer for inflammation.", ing: "Centella Asiatica, Allantoin, Glycerin", dir: "Apply thin layer AM and PM." },
@@ -824,7 +796,6 @@
       });
     }
 
-    /* 89 DICTIONARY TERMS GENERATOR DATA */
     const dictionaryTerms = [
       { name: "Hyaluronic Acid", tag: "Active Component", def: "Moisture-binding molecule holding up to 1000x its weight in water to plump skin.", tip: "Apply to damp skin to lock in hydration." },
       { name: "Niacinamide", tag: "Active Component", def: "Vitamin B3 compound that strengthens barrier lipids and regulates oil.", tip: "Pairs smoothly with most actives without irritating." },
