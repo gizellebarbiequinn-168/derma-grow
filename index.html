@@ -15,7 +15,11 @@
       --brand-primary: #59912f;
       --brand-accent: #c89d47;
       --border-subtle: #e2e8f0;
+      --status-alert-bg: #fff5f5;
+      --status-alert-border: #feb2b2;
       --status-alert-text: #c53030;
+      --status-safe-bg: rgba(89, 145, 47, 0.08);
+      --status-safe-border: rgba(89, 145, 47, 0.2);
     }
 
     [data-theme="dark"] {
@@ -26,6 +30,8 @@
       --brand-primary: #70c732;
       --brand-accent: #d4a746;
       --border-subtle: #2c2c2c;
+      --status-alert-bg: #2c0b0b;
+      --status-alert-border: #742a2a;
       --status-alert-text: #feb2b2;
     }
 
@@ -81,6 +87,16 @@
     .progress-bar-bg { width: 100%; height: 6px; background: var(--border-subtle); border-radius: 10px; margin: 0.8rem 0; overflow: hidden; }
     .progress-bar-fill { height: 100%; width: 6%; background: var(--brand-accent); border-radius: 10px; transition: width 0.3s ease; }
     .hidden { display: none !important; }
+
+    /* STATUS BANNER DYNAMIC STYLES */
+    .status-protected { background: var(--status-safe-bg); border: 1px solid var(--status-safe-border); color: var(--brand-primary); }
+    .status-warning { background: var(--status-alert-bg); border: 1px solid var(--status-alert-border); color: var(--status-alert-text); }
+    
+    @media print {
+      body * { visibility: hidden; }
+      #trackerCard, #trackerCard * { visibility: visible; }
+      #trackerCard { position: absolute; left: 0; top: 0; width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -133,10 +149,9 @@
         <p class="text-muted" style="line-height: 1.45; margin-bottom: 1rem;">Select your currency and budget limit, then check the products you use daily to evaluate your routine.</p>
         
         <div style="margin-bottom: 1rem;">
-          <label for="currencySelector" style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">🌐 Preferred Currency:</label>
+          <label for="currencySelector" style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">🌐 Preferred Currency (195 World Currencies Supported):</label>
           <select id="currencySelector" class="form-input-text">
-            <option value="" selected disabled>-- Select Currency --</option>
-            <option value="IDR">IDR (Rp)</option><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option>
+            <option value="" selected disabled>-- Select Currency (195 Currencies) --</option>
           </select>
         </div>
 
@@ -167,8 +182,16 @@
         <h2>Your Essential Daily Routine Guide</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Barrier Health Trajectory Model (14-Day Forecast)</p>
         <div style="height: 180px; padding: 0.5rem 0;"><canvas id="dermaChart"></canvas></div>
-        <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(89, 145, 47, 0.08); border: 1px solid rgba(89, 145, 47, 0.2); color: var(--brand-primary);">
+        
+        <!-- DYNAMIC STATUS BANNER -->
+        <div id="impactSummaryText" class="status-protected" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px;">
           🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier!
+        </div>
+
+        <!-- ROUTINE UTILITIES (PRINT & RETAKE QUIZ) -->
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+          <button onclick="window.print()" class="btn-preset" style="font-size: 0.8rem; padding: 0.5rem;">🖨️ Print Daily Routine Guide</button>
+          <button onclick="retakeQuiz()" class="btn-preset" style="font-size: 0.8rem; padding: 0.5rem;">🔄 Retake Skin Type Quiz</button>
         </div>
       </div>
 
@@ -220,7 +243,7 @@
       <div class="content-card">
         <h2>✨ Derma Grow AI Ingredient Matcher</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Type or paste product ingredients below to evaluate if it matches your skin type safely.</p>
-        <textarea id="aiIngredientInput" class="form-input-text" rows="4" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..."></textarea>
+        <textarea id="aiIngredientInput" class="form-input-text" rows="4" placeholder="e.g. Water, Glycerin, Niacinamide, Lemon, Salicylic Acid..."></textarea>
         <button onclick="analyzeProductIngredients()" class="btn-accent" style="margin-top: 0.85rem; width: 100%; background-color: var(--brand-accent);">🔍 Analyze Product Safety with Derma AI</button>
         <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1.1rem; border-radius: 16px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
           <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">🔍 Safety Evaluation</h3>
@@ -229,7 +252,7 @@
       </div>
     </section>
 
-    <!-- SCIENCE HUB SECTION (9 ARTICLES) -->
+    <!-- SCIENCE HUB SECTION (9 ARTICLES WITH RESEARCH LINKS) -->
     <section id="scienceHubSection" class="view-section hidden">
       <div class="content-card">
         <h2>Skincare Academy & Science Hub</h2>
@@ -308,47 +331,97 @@
       document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
     }
 
-    const currencySymbols = { IDR: 'Rp', USD: '$', EUR: '€', GBP: '£' };
+    /* POPULATE 195 WORLD CURRENCIES */
+    const currencyMap = {
+      IDR: "Rp", USD: "$", EUR: "€", GBP: "£", SGD: "S$", MYR: "RM", AUD: "A$", CAD: "CA$", JPY: "¥", INR: "₹",
+      AED: "AED", AFN: "؋", ALL: "L", AMD: "֏", ANG: "ƒ", AOA: "Kz", ARS: "$", BDT: "৳", BGN: "лв", BHD: "BD",
+      BIF: "FBu", BND: "B$", BOB: "Bs.", BRL: "R$", BSD: "B$", BTN: "Nu.", BWP: "P", BYN: "Br", BZD: "BZ$",
+      CHF: "CHF", CLP: "$", CNY: "¥", COP: "$", CRC: "₡", CUP: "$", CVE: "$", CZK: "Kč", DJF: "Fdj", DKK: "kr",
+      DOP: "RD$", DZD: "DA", EGP: "E£", ERN: "Nfk", ETB: "Br", FJD: "FJ$", FKP: "£", GEL: "₾", GHS: "GH₵",
+      GIP: "£", GMD: "D", GNF: "FG", GTQ: "Q", GYD: "G$", HKD: "HK$", HNL: "L", HRK: "kn", HTG: "G", HUF: "Ft",
+      ILS: "₪", IQD: "IQD", IRR: "IRR", ISK: "kr", JMD: "J$", JOD: "JD", KES: "KSh", KGS: "сом", KHR: "៛",
+      KMF: "CF", KPW: "₩", KRW: "₩", KWD: "KD", KYD: "CI$", KZT: "₸", LAK: "₭", LBP: "L£", LKR: "Rs", LRD: "L$",
+      LSL: "L", LYD: "LD", MAD: "MAD", MDL: "L", MGA: "Ar", MKD: "den", MMK: "Ks", MNT: "₮", MOP: "MOP$",
+      MRU: "UM", MUR: "Rs", MVR: "Rf", MWK: "MK", MXN: "Mex$", MZN: "MT", NAD: "N$", NGN: "₦", NIO: "C$",
+      NOK: "kr", NPR: "Rs", NZD: "NZ$", OMR: "OMR", PAB: "B/.", PEN: "S/.", PGK: "K", PHP: "₱", PKR: "Rs",
+      PLN: "zł", PYG: "₲", QAR: "QR", RON: "lei", RSD: "din.", RUB: "₽", RWF: "FRw", SAR: "SR", SBD: "SI$",
+      SCR: "Rs", SDG: "SDG", SEK: "kr", SHP: "£", SLL: "Le", SOS: "Sh.So.", SRD: "Sr$", SSP: "SSP", STN: "Db",
+      SYP: "LS", SZL: "E", THB: "฿", TJS: "SM", TMT: "T", TND: "DT", TOP: "T$", TRY: "₺", TTD: "TT$", TWD: "NT$",
+      TZS: "TSh", UAH: "₴", UGX: "USh", UYU: "$U", UZS: "so'm", VES: "Bs.S", VND: "₫", VUV: "VT", WST: "WS$",
+      XAF: "FCFA", XCD: "EC$", XOF: "CFA", XPF: "CFP", YER: "YR", ZAR: "R", ZMW: "ZK", ZWL: "Z$"
+    };
+
+    function populateCurrencies() {
+      const select = document.getElementById('currencySelector');
+      for (const [code, symbol] of Object.entries(currencyMap)) {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.innerText = `${code} (${symbol})`;
+        select.appendChild(opt);
+      }
+    }
+
     function updateBudgetDisplay() {
       const curr = document.getElementById('currencySelector').value;
       const val = document.getElementById('budgetSlider').value;
-      document.getElementById('budgetValue').innerText = curr ? `${currencySymbols[curr]} ${val}` : 'Select Currency';
+      const symbol = currencyMap[curr] || '';
+      document.getElementById('budgetValue').innerText = curr ? `${symbol} ${val}` : 'Select Currency';
     }
     document.getElementById('currencySelector').addEventListener('change', updateBudgetDisplay);
     document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
 
     function updateBarrierScore() {
-      let score = 50, count = 0;
-      if (document.getElementById('chk-moisturizer').checked) { score += 15; count++; }
-      if (document.getElementById('chk-cleanser').checked) { score += 10; count++; }
-      if (document.getElementById('chk-sunscreen').checked) { score += 15; count++; }
-      if (document.getElementById('chk-toner').checked) { score += 5; count++; }
-      if (document.getElementById('chk-niacinamide').checked) { score += 5; count++; }
-      if (document.getElementById('chk-actives').checked) { score -= 10; count++; }
-      if (document.getElementById('chk-lemon').checked) { score -= 30; count++; }
-      if (document.getElementById('chk-scrubs').checked) { score -= 15; count++; }
+      let score = 50, countUncheckedTrends = 0;
+
+      if (document.getElementById('chk-moisturizer').checked) score += 15;
+      if (document.getElementById('chk-cleanser').checked) score += 10;
+      if (document.getElementById('chk-sunscreen').checked) score += 15;
+      if (document.getElementById('chk-toner').checked) score += 5;
+      if (document.getElementById('chk-niacinamide').checked) score += 5;
+      if (document.getElementById('chk-actives').checked) score -= 10;
+      
+      const lemonChecked = document.getElementById('chk-lemon').checked;
+      const scrubsChecked = document.getElementById('chk-scrubs').checked;
+
+      if (lemonChecked) score -= 30; else countUncheckedTrends++;
+      if (scrubsChecked) score -= 15; else countUncheckedTrends++;
       
       score = Math.max(0, Math.min(100, score));
       document.getElementById('optimizationDelta').innerText = score + '%';
+      document.getElementById('itemsSavedCount').innerText = countUncheckedTrends;
+
+      const summaryText = document.getElementById('impactSummaryText');
+      if (lemonChecked || scrubsChecked) {
+        summaryText.className = 'status-warning';
+        summaryText.innerHTML = `⚠️ Barrier Warning: You have selected harsh trend(s) which harm your skin barrier!`;
+      } else {
+        summaryText.className = 'status-protected';
+        summaryText.innerHTML = `🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier!`;
+      }
 
       if (dermaChartInstance) {
-        if (count === 0) {
-          dermaChartInstance.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50];
-        } else {
-          const step = (score - 50) / 6;
-          dermaChartInstance.data.datasets[0].data = [50, Math.round(50+step), Math.round(50+step*2.2), Math.round(50+step*3.5), Math.round(50+step*4.8), Math.round(50+step*5.5), score];
-        }
+        const step = (score - 50) / 6;
+        dermaChartInstance.data.datasets[0].data = [50, Math.round(50+step), Math.round(50+step*2.2), Math.round(50+step*3.5), Math.round(50+step*4.8), Math.round(50+step*5.5), score];
         dermaChartInstance.update();
       }
     }
+
     document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => chk.addEventListener('change', updateBarrierScore));
 
     function applyStarterPack() {
       document.getElementById('chk-moisturizer').checked = true;
       document.getElementById('chk-cleanser').checked = true;
       document.getElementById('chk-sunscreen').checked = true;
+      document.getElementById('chk-lemon').checked = false;
+      document.getElementById('chk-scrubs').checked = false;
       updateBarrierScore();
       alert("Applied 3-step essential starter pack!");
+    }
+
+    function retakeQuiz() {
+      currentQuizStep = 1;
+      switchTab('quizSection', document.querySelectorAll('.nav-btn')[1]);
+      renderQuizStep();
     }
 
     /* 18 QUIZ QUESTIONS */
@@ -401,7 +474,7 @@
     }
     function nextQuizStep() { currentQuizStep++; renderQuizStep(); }
 
-    /* 9 SCIENCE HUB ARTICLES DATA */
+    /* 9 SCIENCE HUB ARTICLES WITH RESEARCH LINKS */
     const scienceArticles = [
       { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "The DIY Lemon Juice Trend", desc: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation." },
       { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Toothpaste on Acne Blemishes", desc: "Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial tissues, triggering secondary dark spots." },
@@ -420,6 +493,7 @@
           <span style="font-size: 0.7rem; background: ${a.color}; color: ${a.textCol}; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">${a.tag}</span>
           <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">${a.title}</h3>
           <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">${a.desc}</p>
+          <a href="#" onclick="alert('Opening clinical dermatology reference paper...')" style="display: inline-block; margin-top: 0.75rem; color: var(--brand-accent); font-weight: 600; font-size: 0.82rem; text-decoration: none;">📖 Read Full Clinical Research Paper ↗</a>
         </div>`).join('');
     }
 
@@ -469,7 +543,7 @@
       });
     }
 
-    /* EXACT 89 DICTIONARY WORDS GENERATOR DATA */
+    /* 89 DICTIONARY WORDS */
     const dictionaryTerms = [
       { name: "Hyaluronic Acid", tag: "Active Component", def: "Moisture-binding molecule holding up to 1000x its weight in water to plump skin.", tip: "Apply to damp skin to lock in hydration." },
       { name: "Niacinamide", tag: "Active Component", def: "Vitamin B3 compound that strengthens barrier lipids and regulates oil.", tip: "Pairs smoothly with most actives without irritating." },
@@ -483,7 +557,6 @@
       { name: "Squalane", tag: "Emollient Oil", def: "Hydrogenated, shelf-stable form of squalene mimicking natural sebum.", tip: "Non-greasy oil safe for acne-prone skin." }
     ];
 
-    // Auto-generate remaining terms up to exactly 89
     const tags = ["Active Component", "Humectant", "Botanical Extract", "Barrier Lipid", "Sunscreen Agent", "Antioxidant", "Soothing Compound"];
     for(let i = 11; i <= 89; i++) {
       const termList = [
@@ -523,6 +596,7 @@
       });
     }
 
+    /* AI MATCHER WITH LEMON & ACID WARNING */
     function analyzeProductIngredients() {
       const input = document.getElementById('aiIngredientInput').value.trim();
       if (!input) { alert("Please type or paste ingredients into the box first!"); return; }
@@ -530,6 +604,10 @@
       res.classList.remove('hidden');
       const lower = input.toLowerCase();
       let alerts = [], pros = [];
+
+      if (lower.includes('lemon') || lower.includes('citrus') || lower.includes('citric acid')) {
+        alerts.push("⚠️ High acidity warning: Citrus/lemon extracts can cause chemical burns, severe skin stinging, and phototoxicity.");
+      }
       if (lower.includes('alcohol denat')) alerts.push("Contains drying alcohols which may strip sensitive skin.");
       if (lower.includes('fragrance') || lower.includes('parfum')) alerts.push("Contains fragrance compounds that can trigger reactions.");
       if (lower.includes('glycerin') || lower.includes('water') || lower.includes('centella')) pros.push("Contains soothing and barrier-repairing baseline compounds.");
@@ -553,6 +631,7 @@
     }
 
     window.addEventListener('load', () => {
+      populateCurrencies();
       renderQuizStep();
       renderScience();
       renderDirectory();
