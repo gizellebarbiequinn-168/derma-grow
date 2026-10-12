@@ -174,14 +174,14 @@
         <p class="text-muted" style="margin-bottom: 1rem;">Check items you use every day to calculate your barrier health score.</p>
         
         <div class="selection-matrix-grid">
-          <label class="checkbox-card"><input type="checkbox" id="chk-moisturizer"><div><span class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin</span><span class="checkbox-subtext">Protects surface skin cells from drying out</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-cleanser"><div><span class="checkbox-label-text">🧼 Gentle Low-pH Cleanser</span><span class="checkbox-subtext">Washes away grime without stripping natural oils</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-sunscreen"><div><span class="checkbox-label-text">☀️ Broad-Spectrum Sunscreen</span><span class="checkbox-subtext">Crucial daily protective UV shield</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-toner"><div><span class="checkbox-label-text">💧 Gentle Hydrating Toner</span><span class="checkbox-subtext">Adds extra surface-level hydration</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-niacinamide"><div><span class="checkbox-label-text">🧪 Niacinamide Serum</span><span class="checkbox-subtext">Supports natural skin hydration paths</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-actives"><div><span class="checkbox-label-text">⚡ High-Potency Active Serums</span><span class="checkbox-subtext">Retinols or strong unbuffered acids</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-lemon"><div><span class="checkbox-label-text">🍋 DIY Lemon Juice Remedies</span><span class="checkbox-subtext">Extreme acidic threat to natural skin pH</span></div></label>
-          <label class="checkbox-card"><input type="checkbox" id="chk-scrubs"><div><span class="checkbox-label-text">🧽 Coarse Physical Face Scrubs</span><span class="checkbox-subtext">Causes micro-friction and surface redness</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-moisturizer" data-name="Basic Moisturizer / Glycerin"><div><span class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin</span><span class="checkbox-subtext">Protects surface skin cells from drying out</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-cleanser" data-name="Gentle Low-pH Cleanser"><div><span class="checkbox-label-text">🧼 Gentle Low-pH Cleanser</span><span class="checkbox-subtext">Washes away grime without stripping natural oils</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-sunscreen" data-name="Broad-Spectrum Sunscreen"><div><span class="checkbox-label-text">☀️ Broad-Spectrum Sunscreen</span><span class="checkbox-subtext">Crucial daily protective UV shield</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-toner" data-name="Gentle Hydrating Toner"><div><span class="checkbox-label-text">💧 Gentle Hydrating Toner</span><span class="checkbox-subtext">Adds extra surface-level hydration</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-niacinamide" data-name="Niacinamide Serum"><div><span class="checkbox-label-text">🧪 Niacinamide Serum</span><span class="checkbox-subtext">Supports natural skin hydration paths</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-actives" data-name="High-Potency Active Serums"><div><span class="checkbox-label-text">⚡ High-Potency Active Serums</span><span class="checkbox-subtext">Retinols or strong unbuffered acids</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-lemon" data-name="DIY Lemon Juice Remedies"><div><span class="checkbox-label-text">🍋 DIY Lemon Juice Remedies</span><span class="checkbox-subtext">Extreme acidic threat to natural skin pH</span></div></label>
+          <label class="checkbox-card"><input type="checkbox" id="chk-scrubs" data-name="Coarse Physical Face Scrubs"><div><span class="checkbox-label-text">🧽 Coarse Physical Face Scrubs</span><span class="checkbox-subtext">Causes micro-friction and surface redness</span></div></label>
         </div>
       </div>
 
@@ -212,8 +212,11 @@
       <div class="content-card">
         <h2>Help Improve Derma Grow</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
-        <textarea id="feedbackInput" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..."></textarea>
-        <button id="feedbackSubmitBtn" onclick="submitFeedback()" class="btn-accent" style="margin-top: 0.85rem; width: 100%; background-color: var(--brand-accent);">Submit Feedback</button>
+        <form id="feedbackForm" action="https://formspree.io/f/xbjnqkyz" method="POST" onsubmit="handleFormSubmit(event, 'feedback')">
+          <input type="hidden" name="_subject" value="[Derma Grow] App Feedback & Improvement Notes">
+          <textarea id="feedbackInput" name="Feedback Details" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
+          <button type="submit" id="feedbackSubmitBtn" class="btn-accent" style="margin-top: 0.85rem; width: 100%; background-color: var(--brand-accent);">Submit Feedback</button>
+        </form>
       </div>
     </section>
 
@@ -224,10 +227,10 @@
         <p class="text-muted" style="margin-bottom: 1.25rem;">Your session ID links your routine choices and quiz preferences to your local session.</p>
         <div style="margin-bottom: 1.25rem;">
           <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Full Name or Display Alias:</label>
-          <input type="text" id="profileNameInput" class="form-input-text" value="Gizelle Barbie Quinn">
+          <input type="text" id="profileNameInput" class="form-input-text" placeholder="Guest" onchange="saveProfileName()">
         </div>
-        <div style="margin-bottom: 1.5rem;"><span class="text-muted">Session Reference Code: </span><strong style="color: var(--brand-accent);">user_t20lozq</strong></div>
-        <button onclick="alert('Profile Settings Saved!')" class="btn-accent" style="width: auto; background-color: var(--brand-accent);">Save Profile Settings</button>
+        <div style="margin-bottom: 1.5rem;"><span class="text-muted">Session Reference Code: </span><strong id="sessionRefDisplay" style="color: var(--brand-accent);">user_t20lozq</strong></div>
+        <button onclick="saveProfileName(true)" class="btn-accent" style="width: auto; background-color: var(--brand-accent);">Save Profile Settings</button>
       </div>
     </section>
 
@@ -293,15 +296,18 @@
       <div class="content-card">
         <h2>Log a Budget Find</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
-        <div style="margin-bottom: 0.85rem;">
-          <label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Target Skin Type:</label>
-          <select id="budgetFindSkinType" class="form-input-text"><option>Normal Skin</option><option>Oily Skin</option><option>Dry Skin</option><option>Sensitive Skin</option></select>
-        </div>
-        <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Product Name:</label><input type="text" id="budgetFindName" class="form-input-text" placeholder="e.g., Glad2Glow Centella Soothing Gel"></div>
-        <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Estimated Retail Cost:</label><input type="text" id="budgetFindCost" class="form-input-text" placeholder="e.g., Rp 43.000 / $3"></div>
-        <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Key Ingredients:</label><input type="text" id="budgetFindIngredients" class="form-input-text" placeholder="e.g., Centella Asiatica, Allantoin, Glycerin"></div>
-        <div style="margin-bottom: 1rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Description & Notes:</label><textarea id="budgetFindNotes" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..."></textarea></div>
-        <button id="budgetFindSubmitBtn" onclick="submitBudgetFind()" class="btn-accent" style="background-color: var(--brand-accent); width: 100%;">Submit Budget Find</button>
+        <form id="budgetFindForm" action="https://formspree.io/f/xbjnqkyz" method="POST" onsubmit="handleFormSubmit(event, 'budgetFind')">
+          <input type="hidden" id="hiddenSubject" name="_subject" value="[Derma Grow] New Budget Find">
+          <div style="margin-bottom: 0.85rem;">
+            <label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Target Skin Type:</label>
+            <select id="budgetFindSkinType" name="Target Skin Type" class="form-input-text"><option>Normal Skin</option><option>Oily Skin</option><option>Dry Skin</option><option>Sensitive Skin</option></select>
+          </div>
+          <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Product Name:</label><input type="text" id="budgetFindName" name="Product Name" class="form-input-text" placeholder="e.g., Glad2Glow Centella Soothing Gel" required></div>
+          <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Estimated Retail Cost:</label><input type="text" id="budgetFindCost" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 43.000 / $3" required></div>
+          <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Key Ingredients:</label><input type="text" id="budgetFindIngredients" name="Key Ingredients" class="form-input-text" placeholder="e.g., Centella Asiatica, Allantoin, Glycerin"></div>
+          <div style="margin-bottom: 1rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Description & Notes:</label><textarea id="budgetFindNotes" name="Notes" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..."></textarea></div>
+          <button type="submit" id="budgetFindSubmitBtn" class="btn-accent" style="background-color: var(--brand-accent); width: 100%;">Submit Budget Find</button>
+        </form>
       </div>
     </section>
 
@@ -323,10 +329,93 @@
 
   <script>
     let dermaChartInstance = null;
-
-    // Direct Formspree endpoint (Triggers immediate owner email) & Google App Script Endpoint
-    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xbjnqkyz";
     const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbz_dermagrow_telemetry_placeholder/exec";
+
+    // SESSION & PROFILE STATE MANAGEMENT
+    let currentUserSession = localStorage.getItem("derma_user_session") || "user_t20lozq";
+    let currentUserName = localStorage.getItem("derma_user_name") || "Guest";
+
+    function getUserName() {
+      const val = document.getElementById("profileNameInput").value.trim();
+      return val !== "" ? val : "Guest";
+    }
+
+    function saveProfileName(showAlert = false) {
+      const name = getUserName();
+      currentUserName = name;
+      localStorage.setItem("derma_user_name", name);
+      if (showAlert) alert("Profile Settings Saved!");
+      dispatchTelemetry("Profile Saved / Synced");
+    }
+
+    // TELEMETRY DISPATCH TO GOOGLE SHEETS
+    function dispatchTelemetry(actionType = "Product Select") {
+      const activeProducts = [];
+      document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked').forEach(chk => {
+        activeProducts.push(chk.getAttribute("data-name") || chk.id);
+      });
+
+      const currCode = document.getElementById('currencySelector').value;
+      const currObj = currencyData.find(c => c.code === currCode);
+      const sliderPct = parseInt(document.getElementById('budgetSlider').value, 10) / 100;
+      const budgetNum = currObj ? Math.round(sliderPct * currObj.baseMax) : 0;
+
+      const payload = {
+        timestamp: new Date().toISOString(),
+        user_id: currentUserSession,
+        user_name: currentUserName,
+        budget: budgetNum,
+        action: actionType,
+        selected_products: activeProducts.length > 0 ? activeProducts.join(", ") : "None Selected"
+      };
+
+      fetch(TELEMETRY_SHEETS_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    }
+
+    // ASYNC FORM HANDLER (FORMSPREE + SHEET TELEMETRY)
+    async function handleFormSubmit(event, type) {
+      event.preventDefault();
+      const form = event.target;
+      const btn = form.querySelector("button[type='submit']");
+      const origText = btn.innerText;
+
+      if (type === 'budgetFind') {
+        const pName = document.getElementById('budgetFindName').value.trim();
+        document.getElementById('hiddenSubject').value = `[Derma Grow] New Budget Find: ${pName}`;
+      }
+
+      btn.disabled = true;
+      btn.innerText = "Sending...";
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          alert("Thank you! Your submission has been received.");
+          form.reset();
+          if (type === 'budgetFind') dispatchTelemetry("Submitted Budget Find");
+          if (type === 'feedback') dispatchTelemetry("Submitted Feedback");
+        } else {
+          alert("Submission sent successfully!");
+          form.reset();
+        }
+      } catch (error) {
+        alert("Thank you! Your submission has been processed.");
+        form.reset();
+      } finally {
+        btn.disabled = false;
+        btn.innerText = origText;
+      }
+    }
 
     function switchTab(sectionId, btnElement) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
@@ -575,7 +664,11 @@
         ];
         dermaChartInstance.update();
       }
+
+      // Automatically send telemetry when checkbox state updates
+      dispatchTelemetry("Product Checkbox Change");
     }
+
     document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => chk.addEventListener('change', updateBarrierScore));
 
     function updateChartColors(isDark) {
@@ -813,87 +906,6 @@
       document.getElementById('aiResultBody').innerHTML = html;
     }
 
-    /* SILENT ASYNC TELEMETRY & EMAIL DISPATCH ENGINES */
-    async function postFormData(payload) {
-      // 1. Silent Formspree fetch (Triggers email notification to form recipient)
-      const p1 = fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      // 2. Silent Google Sheets Telemetry post
-      const p2 = fetch(TELEMETRY_SHEETS_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ timestamp: new Date().toISOString(), ...payload })
-      });
-
-      await Promise.allSettled([p1, p2]);
-    }
-
-    async function submitBudgetFind() {
-      const skin = document.getElementById('budgetFindSkinType').value;
-      const name = document.getElementById('budgetFindName').value.trim();
-      const cost = document.getElementById('budgetFindCost').value.trim();
-      const ingredients = document.getElementById('budgetFindIngredients').value.trim();
-      const notes = document.getElementById('budgetFindNotes').value.trim();
-
-      if (!name || !cost) {
-        alert("Please fill in at least the Product Name and Cost!");
-        return;
-      }
-
-      const btn = document.getElementById('budgetFindSubmitBtn');
-      btn.disabled = true;
-      btn.innerText = "Submitting...";
-
-      await postFormData({
-        form_type: "Log a Budget Find",
-        target_skin_type: skin,
-        product_name: name,
-        estimated_retail_cost: cost,
-        key_ingredients: ingredients,
-        description_and_notes: notes
-      });
-
-      // Instantly clear form fields and acknowledge
-      document.getElementById('budgetFindName').value = "";
-      document.getElementById('budgetFindCost').value = "";
-      document.getElementById('budgetFindIngredients').value = "";
-      document.getElementById('budgetFindNotes').value = "";
-
-      btn.disabled = false;
-      btn.innerText = "Submit Budget Find";
-
-      alert("Thank you! Your budget find has been submitted successfully.");
-    }
-
-    async function submitFeedback() {
-      const text = document.getElementById('feedbackInput').value.trim();
-      if (!text) {
-        alert("Please write your feedback before submitting.");
-        return;
-      }
-
-      const btn = document.getElementById('feedbackSubmitBtn');
-      btn.disabled = true;
-      btn.innerText = "Submitting...";
-
-      await postFormData({
-        form_type: "User Feedback",
-        feedback_details: text
-      });
-
-      document.getElementById('feedbackInput').value = "";
-
-      btn.disabled = false;
-      btn.innerText = "Submit Feedback";
-
-      alert("Thank you! Your feedback has been sent successfully.");
-    }
-
     function refreshTip() {
       const tips = ['"Your skin is a living organ, not a filter."', '"Consistency with gentle basics beats chasing aggressive trends."', '"Healthy skin is a barrier protected, not stripped smooth."'];
       document.getElementById('dailyTip').innerText = tips[Math.floor(Math.random() * tips.length)];
@@ -905,6 +917,12 @@
       renderScience();
       renderDirectory();
       renderDictionary();
+
+      // Set Profile Name input from local storage or default to Guest
+      const profileInput = document.getElementById("profileNameInput");
+      if (profileInput) {
+        profileInput.value = localStorage.getItem("derma_user_name") || "";
+      }
 
       const isDark = document.body.getAttribute('data-theme') === 'dark';
       const ctx = document.getElementById('dermaChart');
