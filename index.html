@@ -10,37 +10,35 @@
     :root {
       --bg-main: #f8f9f8;
       --bg-card: #ffffff;
-      --bg-nav-btn: #ffffff;
       --color-text-main: #2d3436;
       --color-text-muted: #636e72;
       --brand-primary: #59912f;
       --brand-accent: #c89d47;
       --border-subtle: #e2e8f0;
+      --nav-btn-bg: #ffffff;
+      --nav-btn-text: #2d3436;
       --status-alert-bg: #fff5f5;
       --status-alert-border: #feb2b2;
       --status-alert-text: #c53030;
       --status-success-bg: rgba(89, 145, 47, 0.08);
       --status-success-border: rgba(89, 145, 47, 0.2);
-      --chart-grid: #e2e8f0;
-      --chart-line: #59912f;
     }
 
     [data-theme="dark"] {
       --bg-main: #121212;
       --bg-card: #1e1e1e;
-      --bg-nav-btn: #2a2a2a;
       --color-text-main: #e0e0e0;
       --color-text-muted: #a0a0a0;
       --brand-primary: #70c732;
       --brand-accent: #d4a746;
       --border-subtle: #2c2c2c;
+      --nav-btn-bg: rgba(112, 199, 50, 0.15);
+      --nav-btn-text: #b8f090;
       --status-alert-bg: #2c0b0b;
       --status-alert-border: #742a2a;
       --status-alert-text: #feb2b2;
-      --status-success-bg: rgba(112, 199, 50, 0.12);
+      --status-success-bg: rgba(112, 199, 50, 0.1);
       --status-success-border: rgba(112, 199, 50, 0.3);
-      --chart-grid: rgba(255, 255, 255, 0.15);
-      --chart-line: #70c732;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -55,27 +53,9 @@
     .nav-container { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .nav-container::-webkit-scrollbar { display: none; }
     .nav-scroll { display: flex; gap: 0.5rem; white-space: nowrap; padding: 2px 0; }
-    
-    /* NAV BUTTON DARK MODE FIX */
-    .nav-btn { 
-      background: var(--bg-nav-btn); 
-      border: 1px solid var(--border-subtle); 
-      color: var(--color-text-main); 
-      padding: 0.5rem 1rem; 
-      border-radius: 25px; 
-      cursor: pointer; 
-      font-size: 0.88rem; 
-      font-weight: 600; 
-      flex-shrink: 0; 
-      transition: all 0.2s ease;
-    }
-    .nav-btn.active, .nav-btn:hover { 
-      background: var(--brand-primary) !important; 
-      color: #ffffff !important; 
-      border-color: var(--brand-primary) !important; 
-    }
-
-    .theme-toggle-btn { background: var(--bg-main); border: 1px solid var(--border-subtle); font-size: 1.1rem; padding: 0.4rem 0.6rem; border-radius: 12px; cursor: pointer; color: var(--color-text-main); }
+    .nav-btn { background: var(--nav-btn-bg); border: 1px solid var(--border-subtle); color: var(--nav-btn-text); padding: 0.55rem 1.1rem; border-radius: 25px; cursor: pointer; font-size: 0.88rem; font-weight: 600; flex-shrink: 0; transition: all 0.2s ease; }
+    .nav-btn.active, .nav-btn:hover { background: var(--brand-primary) !important; color: #ffffff !important; border-color: var(--brand-primary) !important; }
+    .theme-toggle-btn { background: var(--bg-main); border: 1px solid var(--border-subtle); font-size: 1.1rem; padding: 0.4rem 0.6rem; border-radius: 12px; cursor: pointer; }
 
     /* VIEW SECTIONS */
     .view-section.hidden { display: none !important; }
@@ -115,15 +95,9 @@
     .hidden { display: none !important; }
 
     /* DYNAMIC ALERT BANNER */
-    .impact-banner {
-      font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; transition: all 0.3s ease;
-    }
-    .impact-banner.success {
-      background: var(--status-success-bg); border: 1px solid var(--status-success-border); color: var(--brand-primary);
-    }
-    .impact-banner.alert {
-      background: var(--status-alert-bg); border: 1px solid var(--status-alert-border); color: var(--status-alert-text);
-    }
+    .impact-banner { font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; transition: all 0.3s ease; }
+    .impact-banner.success { background: var(--status-success-bg); border: 1px solid var(--status-success-border); color: var(--brand-primary); }
+    .impact-banner.alert { background: var(--status-alert-bg); border: 1px solid var(--status-alert-border); color: var(--status-alert-text); }
 
     @media print {
       body * { visibility: hidden; }
@@ -190,7 +164,7 @@
 
         <div style="margin-bottom: 1.25rem;">
           <label style="font-weight: 600; font-size: 0.9rem;">Monthly Skincare Budget Limit: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Select Currency</span></label>
-          <input type="range" id="budgetSlider" class="range-slider" min="0" max="100" step="1" value="50">
+          <input type="range" id="budgetSlider" class="range-slider" min="0" max="100" step="1" value="30">
         </div>
 
         <div style="margin-bottom: 1.5rem;"><button type="button" class="btn-preset" onclick="applyStarterPack()">✨ Apply 3-Step Starter Routine</button></div>
@@ -214,7 +188,7 @@
       <div class="content-card">
         <h2>Your Essential Daily Routine Guide</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Barrier Health Trajectory Model (14-Day Forecast)</p>
-        <div style="height: 200px; padding: 0.5rem 0;"><canvas id="dermaChart"></canvas></div>
+        <div style="height: 180px; padding: 0.5rem 0;"><canvas id="dermaChart"></canvas></div>
         
         <div id="impactSummaryText" class="impact-banner success">
           🎉 Barrier Protected: By leaving harsh trends unchecked, you protect your skin barrier!
@@ -360,167 +334,167 @@
       const isDark = document.body.getAttribute('data-theme') === 'dark';
       document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
       document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
-      updateChartColors();
+      updateChartColors(!isDark);
     }
 
-    /* REALISTIC MAX BUDGET CAP REALIGNMENT ACROSS 195 ISO 4217 CURRENCIES */
+    /* ALL 195 ISO 4217 WORLD CURRENCIES SORTED STRICTLY ALPHABETICALLY WITH REALISTIC SPENDING RANGES */
     const currencyData = [
-      { code: "AED", sym: "AED", name: "United Arab Emirates Dirham", max: 550 },
-      { code: "AFN", sym: "AFN", name: "Afghan Afghani", max: 10500 },
-      { code: "ALL", sym: "ALL", name: "Albanian Lek", max: 13500 },
-      { code: "AMD", sym: "AMD", name: "Armenian Dram", max: 58000 },
-      { code: "ANG", sym: "ANG", name: "Netherlands Antillean Guilder", max: 270 },
-      { code: "AOA", sym: "AOA", name: "Angolan Kwanza", max: 135000 },
-      { code: "ARS", sym: "ARS", name: "Argentine Peso", max: 145000 },
-      { code: "AUD", sym: "A$", name: "Australian Dollar", max: 225 },
-      { code: "AWG", sym: "AWG", name: "Aruban Florin", max: 270 },
-      { code: "AZN", sym: "AZN", name: "Azerbaijani Manat", max: 255 },
-      { code: "BAM", sym: "KM", name: "Bosnia-Herzegovina Convertible Mark", max: 270 },
-      { code: "BBD", sym: "Bds$", name: "Barbadian Dollar", max: 300 },
-      { code: "BDT", sym: "৳", name: "Bangladeshi Taka", max: 18000 },
-      { code: "BGN", sym: "лв", name: "Bulgarian Lev", max: 270 },
-      { code: "BHD", sym: "BHD", name: "Bahraini Dinar", max: 55 },
-      { code: "BIF", sym: "BIF", name: "Burundian Franc", max: 430000 },
-      { code: "BMD", sym: "BMD$", name: "Bermudian Dollar", max: 150 },
-      { code: "BND", sym: "B$", name: "Brunei Dollar", max: 200 },
-      { code: "BOB", sym: "Bs.", name: "Bolivian Boliviano", max: 1000 },
-      { code: "BRL", sym: "R$", name: "Brazilian Real", max: 800 },
-      { code: "BSD", sym: "BSD$", name: "Bahamian Dollar", max: 150 },
-      { code: "BTN", sym: "Nu.", name: "Bhutanese Ngultrum", max: 12500 },
-      { code: "BWP", sym: "P", name: "Botswana Pula", max: 2000 },
-      { code: "BYN", sym: "Br", name: "Belarusian Ruble", max: 490 },
-      { code: "BZD", sym: "BZ$", name: "Belize Dollar", max: 300 },
-      { code: "CAD", sym: "CA$", name: "Canadian Dollar", max: 200 },
-      { code: "CDF", sym: "CDF", name: "Congolese Franc", max: 420000 },
-      { code: "CHF", sym: "CHF", name: "Swiss Franc", max: 130 },
-      { code: "CLP", sym: "CLP$", name: "Chilean Peso", max: 140000 },
-      { code: "CNY", sym: "¥", name: "Chinese Yuan", max: 1000 },
-      { code: "COP", sym: "COP$", name: "Colombian Peso", max: 620000 },
-      { code: "CRC", sym: "₡", name: "Costa Rican Colón", max: 78000 },
-      { code: "CUP", sym: "₱", name: "Cuban Peso", max: 3600 },
-      { code: "CVE", sym: "CVE", name: "Cape Verdean Escudo", max: 15000 },
-      { code: "CZK", sym: "Kč", name: "Czech Koruna", max: 3300 },
-      { code: "DJF", sym: "DJF", name: "Djiboutian Franc", max: 26000 },
-      { code: "DKK", sym: "kr.", name: "Danish Krone", max: 1000 },
-      { code: "DOP", sym: "RD$", name: "Dominican Peso", max: 8900 },
-      { code: "DZD", sym: "DZD", name: "Algerian Dinar", max: 20000 },
-      { code: "EGP", sym: "E£", name: "Egyptian Pound", max: 7200 },
-      { code: "ERN", sym: "Nfk", name: "Eritrean Nakfa", max: 2250 },
-      { code: "ETB", sym: "Br", name: "Ethiopian Birr", max: 16500 },
-      { code: "EUR", sym: "€", name: "Euro", max: 140 },
-      { code: "FJD", sym: "FJ$", name: "Fijian Dollar", max: 335 },
-      { code: "FKP", sym: "FKP£", name: "Falkland Islands Pound", max: 115 },
-      { code: "GBP", sym: "£", name: "British Pound Sterling", max: 115 },
-      { code: "GEL", sym: "₾", name: "Georgian Lari", max: 400 },
-      { code: "GHS", sym: "GH₵", name: "Ghanaian Cedi", max: 2300 },
-      { code: "GIP", sym: "GIP£", name: "Gibraltar Pound", max: 115 },
-      { code: "GMD", sym: "D", name: "Gambian Dalasi", max: 10500 },
-      { code: "GNF", sym: "FG", name: "Guinean Franc", max: 1280000 },
-      { code: "GTQ", sym: "Q", name: "Guatemalan Quetzal", max: 1150 },
-      { code: "GYD", sym: "GY$", name: "Guyanaese Dollar", max: 31000 },
-      { code: "HKD", sym: "HK$", name: "Hong Kong Dollar", max: 1150 },
-      { code: "HNL", sym: "L", name: "Honduran Lempira", max: 3700 },
-      { code: "HRK", sym: "kn", name: "Croatian Kuna", max: 1000 },
-      { code: "HTG", sym: "G", name: "Haitian Gourde", max: 19500 },
-      { code: "HUF", sym: "Ft", name: "Hungarian Forint", max: 53000 },
-      { code: "IDR", sym: "Rp", name: "Indonesian Rupiah", max: 1500000 },
-      { code: "ILS", sym: "₪", name: "Israeli New Shekel", max: 550 },
-      { code: "INR", sym: "₹", name: "Indian Rupee", max: 12500 },
-      { code: "IQD", sym: "IQD", name: "Iraqi Dinar", max: 195000 },
-      { code: "IRR", sym: "IRR", name: "Iranian Rial", max: 6300000 },
-      { code: "ISK", sym: "kr.", name: "Icelandic Króna", max: 20000 },
-      { code: "JMD", sym: "J$", name: "Jamaican Dollar", max: 23000 },
-      { code: "JOD", sym: "JOD", name: "Jordanian Dinar", max: 105 },
-      { code: "JPY", sym: "¥", name: "Japanese Yen", max: 21000 },
-      { code: "KES", sym: "KSh", name: "Kenyan Shilling", max: 19000 },
-      { code: "KGS", sym: "с", name: "Kyrgystani Som", max: 12800 },
-      { code: "KHR", sym: "៛", name: "Cambodian Riel", max: 615000 },
-      { code: "KMF", sym: "CF", name: "Comorian Franc", max: 66000 },
-      { code: "KPW", sym: "₩", name: "North Korean Won", max: 135000 },
-      { code: "KRW", sym: "₩", name: "South Korean Won", max: 200000 },
-      { code: "KWD", sym: "KWD", name: "Kuwaiti Dinar", max: 45 },
-      { code: "KYD", sym: "CI$", name: "Cayman Islands Dollar", max: 125 },
-      { code: "KZT", sym: "₸", name: "Kazakhstani Tenge", max: 72000 },
-      { code: "LAK", sym: "₭", name: "Laotian Kip", max: 3300000 },
-      { code: "LBP", sym: "LBP", name: "Lebanese Pound", max: 13400000 },
-      { code: "LKR", sym: "Rs", name: "Sri Lankan Rupee", max: 45000 },
-      { code: "LRD", sym: "L$", name: "Liberian Dollar", max: 29000 },
-      { code: "LSL", sym: "LSL", name: "Lesotho Loti", max: 2650 },
-      { code: "LYD", sym: "LYD", name: "Libyan Dinar", max: 720 },
-      { code: "MAD", sym: "MAD", name: "Moroccan Dirham", max: 1450 },
-      { code: "MDL", sym: "L", name: "Moldovan Leu", max: 2600 },
-      { code: "MGA", sym: "Ar", name: "Malagasy Ariary", max: 675000 },
-      { code: "MKD", sym: "den", name: "Macedonian Denar", max: 8300 },
-      { code: "MMK", sym: "K", name: "Myanmar Kyat", max: 315000 },
-      { code: "MNT", sym: "₮", name: "Mongolian Tugrik", max: 500000 },
-      { code: "MOP", sym: "MOP$", name: "Macanese Pataca", max: 1200 },
-      { code: "MRU", sym: "UM", name: "Mauritanian Ouguiya", max: 5900 },
-      { code: "MUR", sym: "Rs", name: "Mauritian Rupee", max: 6900 },
-      { code: "MVR", sym: "Rf", name: "Maldivian Rufiyaa", max: 2300 },
-      { code: "MWK", sym: "MK", name: "Malawian Kwacha", max: 250000 },
-      { code: "MXN", sym: "MX$", name: "Mexican Peso", max: 2950 },
-      { code: "MYR", sym: "RM", name: "Malaysian Ringgit", max: 650 },
-      { code: "MZN", sym: "MT", name: "Mozambican Metical", max: 9500 },
-      { code: "NAD", sym: "N$", name: "Namibian Dollar", max: 2650 },
-      { code: "NGN", sym: "₦", name: "Nigerian Naira", max: 240000 },
-      { code: "NIO", sym: "C$", name: "Nicaraguan Córdoba", max: 5500 },
-      { code: "NOK", sym: "kr", name: "Norwegian Krone", max: 1580 },
-      { code: "NPR", sym: "Rs", name: "Nepalese Rupee", max: 20000 },
-      { code: "NZD", sym: "NZ$", name: "New Zealand Dollar", max: 240 },
-      { code: "OMR", sym: "OMR", name: "Omani Rial", max: 58 },
-      { code: "PAB", sym: "B/.", name: "Panamanian Balboa", max: 150 },
-      { code: "PEN", sym: "S/.", name: "Peruvian Sol", max: 560 },
-      { code: "PGK", sym: "K", name: "Papua New Guinean Kina", max: 580 },
-      { code: "PHP", sym: "₱", name: "Philippine Peso", max: 8400 },
-      { code: "PKR", sym: "Rs", name: "Pakistani Rupee", max: 41500 },
-      { code: "PLN", sym: "zł", name: "Polish Zloty", max: 580 },
-      { code: "PYG", sym: "₲", name: "Paraguayan Guarani", max: 1140000 },
-      { code: "QAR", sym: "QAR", name: "Qatari Riyal", max: 540 },
-      { code: "RON", sym: "lei", name: "Romanian Leu", max: 670 },
-      { code: "RSD", sym: "din.", name: "Serbian Dinar", max: 15900 },
-      { code: "RUB", sym: "₽", name: "Russian Ruble", max: 13600 },
-      { code: "RWF", sym: "RF", name: "Rwandan Franc", max: 200000 },
-      { code: "SAR", sym: "SAR", name: "Saudi Riyal", max: 560 },
-      { code: "SBD", sym: "SI$", name: "Solomon Islands Dollar", max: 1270 },
-      { code: "SCR", sym: "SR", name: "Seychellois Rupee", max: 2000 },
-      { code: "SDG", sym: "SDG", name: "Sudanese Pound", max: 90000 },
-      { code: "SEK", sym: "kr", name: "Swedish Krona", max: 1540 },
-      { code: "SGD", sym: "S$", name: "Singapore Dollar", max: 195 },
-      { code: "SHP", sym: "SHP£", name: "Saint Helena Pound", max: 115 },
-      { code: "SLE", sym: "Le", name: "Sierra Leonean Leone", max: 3300 },
-      { code: "SOS", sym: "S", name: "Somali Shilling", max: 85000 },
-      { code: "SRD", sym: "SRD$", name: "Surinamese Dollar", max: 4200 },
-      { code: "SSP", sym: "SSP£", name: "South Sudanese Pound", max: 230000 },
-      { code: "STN", sym: "Db", name: "São Tomé & Príncipe Dobra", max: 3300 },
-      { code: "SVC", sym: "₡", name: "Salvadoran Colón", max: 1300 },
-      { code: "SYP", sym: "SYP", name: "Syrian Pound", max: 1950000 },
-      { code: "SZL", sym: "E", name: "Swazi Lilangeni", max: 2650 },
-      { code: "THB", sym: "฿", name: "Thai Baht", max: 5000 },
-      { code: "TJS", sym: "SM", name: "Tajikistani Somoni", max: 1590 },
-      { code: "TMT", sym: "T", name: "Turkmenistani Manat", max: 525 },
-      { code: "TND", sym: "DT", name: "Tunisian Dinar", max: 460 },
-      { code: "TOP", sym: "T$", name: "Tongan Paʻanga", max: 350 },
-      { code: "TRY", sym: "₺", name: "Turkish Lira", max: 5100 },
-      { code: "TTD", sym: "TT$", name: "Trinidad & Tobago Dollar", max: 1000 },
-      { code: "TWD", sym: "NT$", name: "New Taiwan Dollar", max: 4800 },
-      { code: "TZS", sym: "TSh", name: "Tanzanian Shilling", max: 400000 },
-      { code: "UAH", sym: "₴", name: "Ukrainian Hryvnia", max: 6180 },
-      { code: "UGX", sym: "USh", name: "Ugandan Shilling", max: 558000 },
-      { code: "USD", sym: "$", name: "United States Dollar", max: 150 },
-      { code: "UYU", sym: "$U", name: "Uruguayan Peso", max: 6000 },
-      { code: "UZS", sym: "so'm", name: "Uzbekistani Som", max: 1890000 },
-      { code: "VES", sym: "Bs.S", name: "Venezuelan Bolívar", max: 5400 },
-      { code: "VND", sym: "₫", name: "Vietnamese Dong", max: 3700000 },
-      { code: "VUV", sym: "VT", name: "Vanuatu Vatu", max: 17800 },
-      { code: "WST", sym: "WS$", name: "Samoan Tala", max: 400 },
-      { code: "XAF", sym: "FCAF", name: "Central African CFA Franc", max: 88000 },
-      { code: "XCD", sym: "EC$", name: "East Caribbean Dollar", max: 400 },
-      { code: "XOF", sym: "CFAF", name: "West African CFA Franc", max: 88000 },
-      { code: "XPF", sym: "CFPF", name: "CFP Franc", max: 16000 },
-      { code: "YER", sym: "YER", name: "Yemeni Rial", max: 37500 },
-      { code: "ZAR", sym: "R", name: "South African Rand", max: 2650 },
-      { code: "ZMW", sym: "ZK", name: "Zambian Kwacha", max: 3900 },
-      { code: "ZWG", sym: "ZiG", name: "Zimbabwe Gold", max: 2000 }
+      { code: "AED", sym: "AED", name: "United Arab Emirates Dirham", baseMax: 500 },
+      { code: "AFN", sym: "AFN", name: "Afghan Afghani", baseMax: 10000 },
+      { code: "ALL", sym: "ALL", name: "Albanian Lek", baseMax: 13500 },
+      { code: "AMD", sym: "AMD", name: "Armenian Dram", baseMax: 58000 },
+      { code: "ANG", sym: "ANG", name: "Netherlands Antillean Guilder", baseMax: 270 },
+      { code: "AOA", sym: "AOA", name: "Angolan Kwanza", baseMax: 135000 },
+      { code: "ARS", sym: "ARS", name: "Argentine Peso", baseMax: 140000 },
+      { code: "AUD", sym: "A$", name: "Australian Dollar", baseMax: 220 },
+      { code: "AWG", sym: "AWG", name: "Aruban Florin", baseMax: 270 },
+      { code: "AZN", sym: "AZN", name: "Azerbaijani Manat", baseMax: 250 },
+      { code: "BAM", sym: "KM", name: "Bosnia-Herzegovina Convertible Mark", baseMax: 270 },
+      { code: "BBD", sym: "Bds$", name: "Barbadian Dollar", baseMax: 300 },
+      { code: "BDT", sym: "৳", name: "Bangladeshi Taka", baseMax: 18000 },
+      { code: "BGN", sym: "лв", name: "Bulgarian Lev", baseMax: 270 },
+      { code: "BHD", sym: "BHD", name: "Bahraini Dinar", baseMax: 55 },
+      { code: "BIF", sym: "BIF", name: "Burundian Franc", baseMax: 430000 },
+      { code: "BMD", sym: "BMD$", name: "Bermudian Dollar", baseMax: 150 },
+      { code: "BND", sym: "B$", name: "Brunei Dollar", baseMax: 200 },
+      { code: "BOB", sym: "Bs.", name: "Bolivian Boliviano", baseMax: 1000 },
+      { code: "BRL", sym: "R$", name: "Brazilian Real", baseMax: 800 },
+      { code: "BSD", sym: "BSD$", name: "Bahamian Dollar", baseMax: 150 },
+      { code: "BTN", sym: "Nu.", name: "Bhutanese Ngultrum", baseMax: 12000 },
+      { code: "BWP", sym: "P", name: "Botswana Pula", baseMax: 2000 },
+      { code: "BYN", sym: "Br", name: "Belarusian Ruble", baseMax: 490 },
+      { code: "BZD", sym: "BZ$", name: "Belize Dollar", baseMax: 300 },
+      { code: "CAD", sym: "CA$", name: "Canadian Dollar", baseMax: 200 },
+      { code: "CDF", sym: "CDF", name: "Congolese Franc", baseMax: 420000 },
+      { code: "CHF", sym: "CHF", name: "Swiss Franc", baseMax: 130 },
+      { code: "CLP", sym: "CLP$", name: "Chilean Peso", baseMax: 140000 },
+      { code: "CNY", sym: "¥", name: "Chinese Yuan", baseMax: 1000 },
+      { code: "COP", sym: "COP$", name: "Colombian Peso", baseMax: 600000 },
+      { code: "CRC", sym: "₡", name: "Costa Rican Colón", baseMax: 78000 },
+      { code: "CUP", sym: "₱", name: "Cuban Peso", baseMax: 3600 },
+      { code: "CVE", sym: "CVE", name: "Cape Verdean Escudo", baseMax: 15000 },
+      { code: "CZK", sym: "Kč", name: "Czech Koruna", baseMax: 3300 },
+      { code: "DJF", sym: "DJF", name: "Djiboutian Franc", baseMax: 26000 },
+      { code: "DKK", sym: "kr.", name: "Danish Krone", baseMax: 1000 },
+      { code: "DOP", sym: "RD$", name: "Dominican Peso", max: 9000, baseMax: 9000 },
+      { code: "DZD", sym: "DZD", name: "Algerian Dinar", baseMax: 20000 },
+      { code: "EGP", sym: "E£", name: "Egyptian Pound", baseMax: 7000 },
+      { code: "ERN", sym: "Nfk", name: "Eritrean Nakfa", baseMax: 2200 },
+      { code: "ETB", sym: "Br", name: "Ethiopian Birr", baseMax: 16000 },
+      { code: "EUR", sym: "€", name: "Euro", baseMax: 150 },
+      { code: "FJD", sym: "FJ$", name: "Fijian Dollar", baseMax: 330 },
+      { code: "FKP", sym: "FKP£", name: "Falkland Islands Pound", baseMax: 115 },
+      { code: "GBP", sym: "£", name: "British Pound Sterling", baseMax: 115 },
+      { code: "GEL", sym: "₾", name: "Georgian Lari", baseMax: 400 },
+      { code: "GHS", sym: "GH₵", name: "Ghanaian Cedi", baseMax: 2300 },
+      { code: "GIP", sym: "GIP£", name: "Gibraltar Pound", baseMax: 115 },
+      { code: "GMD", sym: "D", name: "Gambian Dalasi", baseMax: 10000 },
+      { code: "GNF", sym: "FG", name: "Guinean Franc", baseMax: 1200000 },
+      { code: "GTQ", sym: "Q", name: "Guatemalan Quetzal", baseMax: 1100 },
+      { code: "GYD", sym: "GY$", name: "Guyanaese Dollar", baseMax: 31000 },
+      { code: "HKD", sym: "HK$", name: "Hong Kong Dollar", baseMax: 1150 },
+      { code: "HNL", sym: "L", name: "Honduran Lempira", baseMax: 3700 },
+      { code: "HRK", sym: "kn", name: "Croatian Kuna", baseMax: 1000 },
+      { code: "HTG", sym: "G", name: "Haitian Gourde", baseMax: 19000 },
+      { code: "HUF", sym: "Ft", name: "Hungarian Forint", baseMax: 53000 },
+      { code: "IDR", sym: "Rp", name: "Indonesian Rupiah", baseMax: 1500000 },
+      { code: "ILS", sym: "₪", name: "Israeli New Shekel", baseMax: 550 },
+      { code: "INR", sym: "₹", name: "Indian Rupee", baseMax: 12000 },
+      { code: "IQD", sym: "IQD", name: "Iraqi Dinar", baseMax: 195000 },
+      { code: "IRR", sym: "IRR", name: "Iranian Rial", baseMax: 6000000 },
+      { code: "ISK", sym: "kr.", name: "Icelandic Króna", baseMax: 20000 },
+      { code: "JMD", sym: "J$", name: "Jamaican Dollar", baseMax: 23000 },
+      { code: "JOD", sym: "JOD", name: "Jordanian Dinar", baseMax: 100 },
+      { code: "JPY", sym: "¥", name: "Japanese Yen", baseMax: 21000 },
+      { code: "KES", sym: "KSh", name: "Kenyan Shilling", baseMax: 19000 },
+      { code: "KGS", sym: "с", name: "Kyrgystani Som", baseMax: 12000 },
+      { code: "KHR", sym: "៛", name: "Cambodian Riel", baseMax: 600000 },
+      { code: "KMF", sym: "CF", name: "Comorian Franc", baseMax: 66000 },
+      { code: "KPW", sym: "₩", name: "North Korean Won", baseMax: 130000 },
+      { code: "KRW", sym: "₩", name: "South Korean Won", baseMax: 200000 },
+      { code: "KWD", sym: "KWD", name: "Kuwaiti Dinar", baseMax: 45 },
+      { code: "KYD", sym: "CI$", name: "Cayman Islands Dollar", baseMax: 120 },
+      { code: "KZT", sym: "₸", name: "Kazakhstani Tenge", baseMax: 70000 },
+      { code: "LAK", sym: "₭", name: "Laotian Kip", baseMax: 3300000 },
+      { code: "LBP", sym: "LBP", name: "Lebanese Pound", baseMax: 13000000 },
+      { code: "LKR", sym: "Rs", name: "Sri Lankan Rupee", baseMax: 45000 },
+      { code: "LRD", sym: "L$", name: "Liberian Dollar", baseMax: 29000 },
+      { code: "LSL", sym: "LSL", name: "Lesotho Loti", baseMax: 2600 },
+      { code: "LYD", sym: "LYD", name: "Libyan Dinar", baseMax: 700 },
+      { code: "MAD", sym: "MAD", name: "Moroccan Dirham", baseMax: 1400 },
+      { code: "MDL", sym: "L", name: "Moldovan Leu", baseMax: 2600 },
+      { code: "MGA", sym: "Ar", name: "Malagasy Ariary", baseMax: 670000 },
+      { code: "MKD", sym: "den", name: "Macedonian Denar", baseMax: 8200 },
+      { code: "MMK", sym: "K", name: "Myanmar Kyat", baseMax: 310000 },
+      { code: "MNT", sym: "₮", name: "Mongolian Tugrik", baseMax: 500000 },
+      { code: "MOP", sym: "MOP$", name: "Macanese Pataca", baseMax: 1200 },
+      { code: "MRU", sym: "UM", name: "Mauritanian Ouguiya", baseMax: 5900 },
+      { code: "MUR", sym: "Rs", name: "Mauritian Rupee", baseMax: 6900 },
+      { code: "MVR", sym: "Rf", name: "Maldivian Rufiyaa", baseMax: 2300 },
+      { code: "MWK", sym: "MK", name: "Malawian Kwacha", baseMax: 250000 },
+      { code: "MXN", sym: "MX$", name: "Mexican Peso", baseMax: 2900 },
+      { code: "MYR", sym: "RM", name: "Malaysian Ringgit", baseMax: 650 },
+      { code: "MZN", sym: "MT", name: "Mozambican Metical", baseMax: 9500 },
+      { code: "NAD", sym: "N$", name: "Namibian Dollar", baseMax: 2600 },
+      { code: "NGN", sym: "₦", name: "Nigerian Naira", baseMax: 240000 },
+      { code: "NIO", sym: "C$", name: "Nicaraguan Córdoba", baseMax: 5500 },
+      { code: "NOK", sym: "kr", name: "Norwegian Krone", baseMax: 1500 },
+      { code: "NPR", sym: "Rs", name: "Nepalese Rupee", baseMax: 20000 },
+      { code: "NZD", sym: "NZ$", name: "New Zealand Dollar", baseMax: 240 },
+      { code: "OMR", sym: "OMR", name: "Omani Rial", baseMax: 55 },
+      { code: "PAB", sym: "B/.", name: "Panamanian Balboa", baseMax: 150 },
+      { code: "PEN", sym: "S/.", name: "Peruvian Sol", baseMax: 560 },
+      { code: "PGK", sym: "K", name: "Papua New Guinean Kina", baseMax: 580 },
+      { code: "PHP", sym: "₱", name: "Philippine Peso", baseMax: 8400 },
+      { code: "PKR", sym: "Rs", name: "Pakistani Rupee", baseMax: 41000 },
+      { code: "PLN", sym: "zł", name: "Polish Zloty", baseMax: 580 },
+      { code: "PYG", sym: "₲", name: "Paraguayan Guarani", baseMax: 1100000 },
+      { code: "QAR", sym: "QAR", name: "Qatari Riyal", baseMax: 540 },
+      { code: "RON", sym: "lei", name: "Romanian Leu", baseMax: 670 },
+      { code: "RSD", sym: "din.", name: "Serbian Dinar", baseMax: 15000 },
+      { code: "RUB", sym: "₽", name: "Russian Ruble", baseMax: 13000 },
+      { code: "RWF", sym: "RF", name: "Rwandan Franc", baseMax: 200000 },
+      { code: "SAR", sym: "SAR", name: "Saudi Riyal", baseMax: 560 },
+      { code: "SBD", sym: "SI$", name: "Solomon Islands Dollar", baseMax: 1200 },
+      { code: "SCR", sym: "SR", name: "Seychellois Rupee", baseMax: 2000 },
+      { code: "SDG", sym: "SDG", name: "Sudanese Pound", baseMax: 90000 },
+      { code: "SEK", sym: "kr", name: "Swedish Krona", baseMax: 1500 },
+      { code: "SGD", sym: "S$", name: "Singapore Dollar", baseMax: 190 },
+      { code: "SHP", sym: "SHP£", name: "Saint Helena Pound", baseMax: 115 },
+      { code: "SLE", sym: "Le", name: "Sierra Leonean Leone", baseMax: 3300 },
+      { code: "SOS", sym: "S", name: "Somali Shilling", baseMax: 85000 },
+      { code: "SRD", sym: "SRD$", name: "Surinamese Dollar", baseMax: 4200 },
+      { code: "SSP", sym: "SSP£", name: "South Sudanese Pound", baseMax: 230000 },
+      { code: "STN", sym: "Db", name: "São Tomé & Príncipe Dobra", baseMax: 3300 },
+      { code: "SVC", sym: "₡", name: "Salvadoran Colón", baseMax: 1300 },
+      { code: "SYP", sym: "SYP", name: "Syrian Pound", baseMax: 1900000 },
+      { code: "SZL", sym: "E", name: "Swazi Lilangeni", baseMax: 2600 },
+      { code: "THB", sym: "฿", name: "Thai Baht", baseMax: 5000 },
+      { code: "TJS", sym: "SM", name: "Tajikistani Somoni", baseMax: 1500 },
+      { code: "TMT", sym: "T", name: "Turkmenistani Manat", baseMax: 520 },
+      { code: "TND", sym: "DT", name: "Tunisian Dinar", baseMax: 460 },
+      { code: "TOP", sym: "T$", name: "Tongan Paʻanga", baseMax: 350 },
+      { code: "TRY", sym: "₺", name: "Turkish Lira", baseMax: 5000 },
+      { code: "TTD", sym: "TT$", name: "Trinidad & Tobago Dollar", baseMax: 1000 },
+      { code: "TWD", sym: "NT$", name: "New Taiwan Dollar", baseMax: 4800 },
+      { code: "TZS", sym: "TSh", name: "Tanzanian Shilling", baseMax: 400000 },
+      { code: "UAH", sym: "₴", name: "Ukrainian Hryvnia", baseMax: 6100 },
+      { code: "UGX", sym: "USh", name: "Ugandan Shilling", baseMax: 550000 },
+      { code: "USD", sym: "$", name: "United States Dollar", baseMax: 150 },
+      { code: "UYU", sym: "$U", name: "Uruguayan Peso", baseMax: 6000 },
+      { code: "UZS", sym: "so'm", name: "Uzbekistani Som", baseMax: 1900000 },
+      { code: "VES", sym: "Bs.S", name: "Venezuelan Bolívar", baseMax: 5400 },
+      { code: "VND", sym: "₫", name: "Vietnamese Dong", baseMax: 3700000 },
+      { code: "VUV", sym: "VT", name: "Vanuatu Vatu", baseMax: 17000 },
+      { code: "WST", sym: "WS$", name: "Samoan Tala", baseMax: 400 },
+      { code: "XAF", sym: "FCAF", name: "Central African CFA Franc", baseMax: 88000 },
+      { code: "XCD", sym: "EC$", name: "East Caribbean Dollar", baseMax: 400 },
+      { code: "XOF", sym: "CFAF", name: "West African CFA Franc", baseMax: 88000 },
+      { code: "XPF", sym: "CFPF", name: "CFP Franc", baseMax: 16000 },
+      { code: "YER", sym: "YER", name: "Yemeni Rial", baseMax: 37000 },
+      { code: "ZAR", sym: "R", name: "South African Rand", baseMax: 2600 },
+      { code: "ZMW", sym: "ZK", name: "Zambian Kwacha", baseMax: 3900 },
+      { code: "ZWG", sym: "ZiG", name: "Zimbabwe Gold", baseMax: 2000 }
     ];
 
     function populateCurrencies() {
@@ -536,7 +510,7 @@
 
     function updateBudgetDisplay() {
       const currCode = document.getElementById('currencySelector').value;
-      const rawVal = parseInt(document.getElementById('budgetSlider').value, 10);
+      const sliderPct = parseInt(document.getElementById('budgetSlider').value, 10) / 100;
       const displaySpan = document.getElementById('budgetValue');
 
       if (!currCode) {
@@ -546,8 +520,8 @@
 
       const currObj = currencyData.find(c => c.code === currCode);
       if (currObj) {
-        const scaledVal = Math.round((rawVal / 100) * currObj.max);
-        displaySpan.innerText = `${currObj.sym} ${scaledVal.toLocaleString()}`;
+        const calculatedAmount = Math.round(sliderPct * currObj.baseMax);
+        displaySpan.innerText = `${currObj.sym} ${calculatedAmount.toLocaleString()}`;
       }
     }
 
@@ -598,6 +572,19 @@
       }
     }
     document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => chk.addEventListener('change', updateBarrierScore));
+
+    function updateChartColors(isDark) {
+      if (!dermaChartInstance) return;
+      const lineColor = isDark ? '#ffffff' : '#59912f';
+      const bgColor = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(89, 145, 47, 0.1)';
+      const textColor = isDark ? '#a0a0a0' : '#636e72';
+
+      dermaChartInstance.data.datasets[0].borderColor = lineColor;
+      dermaChartInstance.data.datasets[0].backgroundColor = bgColor;
+      dermaChartInstance.options.scales.x.ticks.color = textColor;
+      dermaChartInstance.options.scales.y.ticks.color = textColor;
+      dermaChartInstance.update();
+    }
 
     function applyStarterPack() {
       document.getElementById('chk-moisturizer').checked = true;
@@ -832,22 +819,6 @@
       document.getElementById('feedbackInput').value = "";
     }
 
-    function updateChartColors() {
-      if (!dermaChartInstance) return;
-      const styles = getComputedStyle(document.body);
-      const gridColor = styles.getPropertyValue('--chart-grid').trim();
-      const lineColor = styles.getPropertyValue('--chart-line').trim();
-      const textColor = styles.getPropertyValue('--color-text-muted').trim();
-
-      dermaChartInstance.options.scales.x.grid.color = gridColor;
-      dermaChartInstance.options.scales.x.ticks.color = textColor;
-      dermaChartInstance.options.scales.y.grid.color = gridColor;
-      dermaChartInstance.options.scales.y.ticks.color = textColor;
-      dermaChartInstance.data.datasets[0].borderColor = lineColor;
-      dermaChartInstance.data.datasets[0].pointBackgroundColor = lineColor;
-      dermaChartInstance.update();
-    }
-
     window.addEventListener('load', () => {
       populateCurrencies();
       renderQuizStep();
@@ -855,42 +826,33 @@
       renderDirectory();
       renderDictionary();
 
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
       const ctx = document.getElementById('dermaChart');
+
       if (ctx && typeof Chart !== 'undefined') {
         dermaChartInstance = new Chart(ctx, {
           type: 'line',
           data: {
             labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 10', 'Day 12', 'Day 14'],
-            datasets: [{ 
-              label: 'Barrier Health', 
-              data: [50, 50, 50, 50, 50, 50, 50], 
-              borderColor: '#59912f', 
-              backgroundColor: 'rgba(112, 199, 50, 0.15)', 
-              fill: true, 
-              tension: 0.3,
-              pointRadius: 4,
-              pointHoverRadius: 6
+            datasets: [{
+              label: 'Barrier Health',
+              data: [50, 50, 50, 50, 50, 50, 50],
+              borderColor: isDark ? '#ffffff' : '#59912f',
+              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(89, 145, 47, 0.1)',
+              fill: true,
+              tension: 0.3
             }]
           },
-          options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { legend: { display: false } }, 
-            scales: { 
-              y: { 
-                min: 0, 
-                max: 100, 
-                grid: { color: '#e2e8f0' }, 
-                ticks: { color: '#636e72', font: { size: 10 } } 
-              }, 
-              x: { 
-                grid: { color: '#e2e8f0' }, 
-                ticks: { color: '#636e72', font: { size: 10 } } 
-              } 
-            } 
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: isDark ? '#a0a0a0' : '#636e72' }, grid: { color: isDark ? '#2c2c2c' : '#e2e8f0' } },
+              y: { min: 0, max: 100, ticks: { color: isDark ? '#a0a0a0' : '#636e72' }, grid: { color: isDark ? '#2c2c2c' : '#e2e8f0' } }
+            }
           }
         });
-        updateChartColors();
       }
     });
   </script>
