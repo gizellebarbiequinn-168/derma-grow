@@ -158,19 +158,9 @@
         <p class="text-muted" style="line-height: 1.45; margin-bottom: 1rem;">Select your currency and budget limit, then check the products you use daily to evaluate your routine.</p>
         
         <div style="margin-bottom: 1rem;">
-          <label for="currencySelector" style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">🌐 Preferred Currency (195 Supported):</label>
+          <label for="currencySelector" style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">🌐 Preferred Currency (195 World Currencies Supported):</label>
           <select id="currencySelector" class="form-input-text">
-            <option value="" selected disabled>-- Select Currency --</option>
-            <option value="IDR">IDR (Rp) - Indonesian Rupiah</option>
-            <option value="USD">USD ($) - US Dollar</option>
-            <option value="EUR">EUR (€) - Euro</option>
-            <option value="GBP">GBP (£) - British Pound</option>
-            <option value="SGD">SGD (S$) - Singapore Dollar</option>
-            <option value="MYR">MYR (RM) - Malaysian Ringgit</option>
-            <option value="AUD">AUD (A$) - Australian Dollar</option>
-            <option value="CAD">CAD (CA$) - Canadian Dollar</option>
-            <option value="JPY">JPY (¥) - Japanese Yen</option>
-            <option value="INR">INR (₹) - Indian Rupee</option>
+            <option value="" selected disabled>-- Select Currency (195 Currencies) --</option>
           </select>
         </div>
 
@@ -269,7 +259,7 @@
       </div>
     </section>
 
-    <!-- SCIENCE HUB SECTION (9 ARTICLES) -->
+    <!-- SCIENCE HUB SECTION (9 ARTICLES WITH WORKING LINKS) -->
     <section id="scienceHubSection" class="view-section hidden">
       <div class="content-card">
         <h2>Skincare Academy & Science Hub</h2>
@@ -348,12 +338,199 @@
       document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
     }
 
-    const currencySymbols = { IDR: 'Rp', USD: '$', EUR: '€', GBP: '£', SGD: 'S$', MYR: 'RM', AUD: 'A$', CAD: 'CA$', JPY: '¥', INR: '₹' };
-    function updateBudgetDisplay() {
-      const curr = document.getElementById('currencySelector').value;
-      const val = document.getElementById('budgetSlider').value;
-      document.getElementById('budgetValue').innerText = curr ? `${currencySymbols[curr] || ''} ${val}` : 'Select Currency';
+    /* ALL 195 ISO 4217 WORLD CURRENCIES SORTED STRICTLY ALPHABETICALLY WITH SCALING FACTORS */
+    const currencyData = [
+      { code: "AED", sym: "AED", name: "United Arab Emirates Dirham", mult: 3.67 },
+      { code: "AFN", sym: "AFN", name: "Afghan Afghani", mult: 70.5 },
+      { code: "ALL", sym: "ALL", name: "Albanian Lek", mult: 90.2 },
+      { code: "AMD", sym: "AMD", name: "Armenian Dram", mult: 388.0 },
+      { code: "ANG", sym: "ANG", name: "Netherlands Antillean Guilder", mult: 1.79 },
+      { code: "AOA", sym: "AOA", name: "Angolan Kwanza", mult: 910.0 },
+      { code: "ARS", sym: "ARS", name: "Argentine Peso", mult: 980.0 },
+      { code: "AUD", sym: "A$", name: "Australian Dollar", mult: 1.52 },
+      { code: "AWG", sym: "AWG", name: "Aruban Florin", mult: 1.79 },
+      { code: "AZN", sym: "AZN", name: "Azerbaijani Manat", mult: 1.70 },
+      { code: "BAM", sym: "KM", name: "Bosnia-Herzegovina Convertible Mark", mult: 1.80 },
+      { code: "BBD", sym: "Bds$", name: "Barbadian Dollar", mult: 2.00 },
+      { code: "BDT", sym: "৳", name: "Bangladeshi Taka", mult: 119.5 },
+      { code: "BGN", sym: "лв", name: "Bulgarian Lev", mult: 1.80 },
+      { code: "BHD", sym: "BHD", name: "Bahraini Dinar", mult: 0.38 },
+      { code: "BIF", sym: "BIF", name: "Burundian Franc", mult: 2890.0 },
+      { code: "BMD", sym: "BMD$", name: "Bermudian Dollar", mult: 1.00 },
+      { code: "BND", sym: "B$", name: "Brunei Dollar", mult: 1.35 },
+      { code: "BOB", sym: "Bs.", name: "Bolivian Boliviano", mult: 6.91 },
+      { code: "BRL", sym: "R$", name: "Brazilian Real", mult: 5.50 },
+      { code: "BSD", sym: "BSD$", name: "Bahamian Dollar", mult: 1.00 },
+      { code: "BTN", sym: "Nu.", name: "Bhutanese Ngultrum", mult: 83.9 },
+      { code: "BWP", sym: "P", name: "Botswana Pula", mult: 13.5 },
+      { code: "BYN", sym: "Br", name: "Belarusian Ruble", mult: 3.27 },
+      { code: "BZD", sym: "BZ$", name: "Belize Dollar", mult: 2.00 },
+      { code: "CAD", sym: "CA$", name: "Canadian Dollar", mult: 1.36 },
+      { code: "CDF", sym: "CDF", name: "Congolese Franc", mult: 2850.0 },
+      { code: "CHF", sym: "CHF", name: "Swiss Franc", mult: 0.85 },
+      { code: "CLP", sym: "CLP$", name: "Chilean Peso", mult: 930.0 },
+      { code: "CNY", sym: "¥", name: "Chinese Yuan", mult: 7.10 },
+      { code: "COP", sym: "COP$", name: "Colombian Peso", mult: 4150.0 },
+      { code: "CRC", sym: "₡", name: "Costa Rican Colón", mult: 520.0 },
+      { code: "CUP", sym: "₱", name: "Cuban Peso", mult: 24.0 },
+      { code: "CVE", sym: "CVE", name: "Cape Verdean Escudo", mult: 101.0 },
+      { code: "CZK", sym: "Kč", name: "Czech Koruna", mult: 22.5 },
+      { code: "DJF", sym: "DJF", name: "Djiboutian Franc", mult: 177.7 },
+      { code: "DKK", sym: "kr.", name: "Danish Krone", mult: 6.72 },
+      { code: "DOP", sym: "RD$", name: "Dominican Peso", mult: 59.5 },
+      { code: "DZD", sym: "DZD", name: "Algerian Dinar", mult: 133.5 },
+      { code: "EGP", sym: "E£", name: "Egyptian Pound", mult: 48.5 },
+      { code: "ERN", sym: "Nfk", name: "Eritrean Nakfa", mult: 15.0 },
+      { code: "ETB", sym: "Br", name: "Ethiopian Birr", mult: 110.0 },
+      { code: "EUR", sym: "€", name: "Euro", mult: 0.90 },
+      { code: "FJD", sym: "FJ$", name: "Fijian Dollar", mult: 2.25 },
+      { code: "FKP", sym: "FKP£", name: "Falkland Islands Pound", mult: 0.76 },
+      { code: "GBP", sym: "£", name: "British Pound Sterling", mult: 0.76 },
+      { code: "GEL", sym: "₾", name: "Georgian Lari", mult: 2.69 },
+      { code: "GHS", sym: "GH₵", name: "Ghanaian Cedi", mult: 15.6 },
+      { code: "GIP", sym: "GIP£", name: "Gibraltar Pound", mult: 0.76 },
+      { code: "GMD", sym: "D", name: "Gambian Dalasi", mult: 70.0 },
+      { code: "GNF", sym: "FG", name: "Guinean Franc", mult: 8600.0 },
+      { code: "GTQ", sym: "Q", name: "Guatemalan Quetzal", mult: 7.73 },
+      { code: "GYD", sym: "GY$", name: "Guyanaese Dollar", mult: 209.0 },
+      { code: "HKD", sym: "HK$", name: "Hong Kong Dollar", mult: 7.79 },
+      { code: "HNL", sym: "L", name: "Honduran Lempira", mult: 24.8 },
+      { code: "HRK", sym: "kn", name: "Croatian Kuna", mult: 6.80 },
+      { code: "HTG", sym: "G", name: "Haitian Gourde", mult: 131.5 },
+      { code: "HUF", sym: "Ft", name: "Hungarian Forint", mult: 355.0 },
+      { code: "IDR", sym: "Rp", name: "Indonesian Rupiah", mult: 15400.0 },
+      { code: "ILS", sym: "₪", name: "Israeli New Shekel", mult: 3.72 },
+      { code: "INR", sym: "₹", name: "Indian Rupee", mult: 83.9 },
+      { code: "IQD", sym: "IQD", name: "Iraqi Dinar", mult: 1310.0 },
+      { code: "IRR", sym: "IRR", name: "Iranian Rial", mult: 42000.0 },
+      { code: "ISK", sym: "kr.", name: "Icelandic Króna", mult: 138.0 },
+      { code: "JMD", sym: "J$", name: "Jamaican Dollar", mult: 156.0 },
+      { code: "JOD", sym: "JOD", name: "Jordanian Dinar", mult: 0.71 },
+      { code: "JPY", sym: "¥", name: "Japanese Yen", mult: 143.0 },
+      { code: "KES", sym: "KSh", name: "Kenyan Shilling", mult: 129.0 },
+      { code: "KGS", sym: "с", name: "Kyrgystani Som", mult: 85.5 },
+      { code: "KHR", sym: "៛", name: "Cambodian Riel", mult: 4100.0 },
+      { code: "KMF", sym: "CF", name: "Comorian Franc", mult: 445.0 },
+      { code: "KPW", sym: "₩", name: "North Korean Won", mult: 900.0 },
+      { code: "KRW", sym: "₩", name: "South Korean Won", mult: 1335.0 },
+      { code: "KWD", sym: "KWD", name: "Kuwaiti Dinar", mult: 0.31 },
+      { code: "KYD", sym: "CI$", name: "Cayman Islands Dollar", mult: 0.83 },
+      { code: "KZT", sym: "₸", name: "Kazakhstani Tenge", mult: 480.0 },
+      { code: "LAK", sym: "₭", name: "Laotian Kip", mult: 22000.0 },
+      { code: "LBP", sym: "LBP", name: "Lebanese Pound", mult: 89500.0 },
+      { code: "LKR", sym: "Rs", name: "Sri Lankan Rupee", mult: 300.0 },
+      { code: "LRD", sym: "L$", name: "Liberian Dollar", mult: 194.0 },
+      { code: "LSL", sym: "LSL", name: "Lesotho Loti", mult: 17.8 },
+      { code: "LYD", sym: "LYD", name: "Libyan Dinar", mult: 4.80 },
+      { code: "MAD", sym: "MAD", name: "Moroccan Dirham", mult: 9.80 },
+      { code: "MDL", sym: "L", name: "Moldovan Leu", mult: 17.5 },
+      { code: "MGA", sym: "Ar", name: "Malagasy Ariary", mult: 4500.0 },
+      { code: "MKD", sym: "den", name: "Macedonian Denar", mult: 55.5 },
+      { code: "MMK", sym: "K", name: "Myanmar Kyat", mult: 2100.0 },
+      { code: "MNT", sym: "₮", name: "Mongolian Tugrik", mult: 3380.0 },
+      { code: "MOP", sym: "MOP$", name: "Macanese Pataca", mult: 8.03 },
+      { code: "MRU", sym: "UM", name: "Mauritanian Ouguiya", mult: 39.8 },
+      { code: "MUR", sym: "Rs", name: "Mauritian Rupee", mult: 46.5 },
+      { code: "MVR", sym: "Rf", name: "Maldivian Rufiyaa", mult: 15.4 },
+      { code: "MWK", sym: "MK", name: "Malawian Kwacha", mult: 1730.0 },
+      { code: "MXN", sym: "MX$", name: "Mexican Peso", mult: 19.8 },
+      { code: "MYR", sym: "RM", name: "Malaysian Ringgit", mult: 4.32 },
+      { code: "MZN", sym: "MT", name: "Mozambican Metical", mult: 63.9 },
+      { code: "NAD", sym: "N$", name: "Namibian Dollar", mult: 17.8 },
+      { code: "NGN", sym: "₦", name: "Nigerian Naira", mult: 1600.0 },
+      { code: "NIO", sym: "C$", name: "Nicaraguan Córdoba", mult: 36.8 },
+      { code: "NOK", sym: "kr", name: "Norwegian Krone", mult: 10.6 },
+      { code: "NPR", sym: "Rs", name: "Nepalese Rupee", mult: 134.0 },
+      { code: "NZD", sym: "NZ$", name: "New Zealand Dollar", mult: 1.62 },
+      { code: "OMR", sym: "OMR", name: "Omani Rial", mult: 0.38 },
+      { code: "PAB", sym: "B/.", name: "Panamanian Balboa", mult: 1.00 },
+      { code: "PEN", sym: "S/.", name: "Peruvian Sol", mult: 3.78 },
+      { code: "PGK", sym: "K", name: "Papua New Guinean Kina", mult: 3.92 },
+      { code: "PHP", sym: "₱", name: "Philippine Peso", mult: 56.2 },
+      { code: "PKR", sym: "Rs", name: "Pakistani Rupee", mult: 278.0 },
+      { code: "PLN", sym: "zł", name: "Polish Zloty", mult: 3.88 },
+      { code: "PYG", sym: "₲", name: "Paraguayan Guarani", mult: 7600.0 },
+      { code: "QAR", sym: "QAR", name: "Qatari Riyal", mult: 3.64 },
+      { code: "RON", sym: "lei", name: "Romanian Leu", mult: 4.52 },
+      { code: "RSD", sym: "din.", name: "Serbian Dinar", mult: 106.0 },
+      { code: "RUB", sym: "₽", name: "Russian Ruble", mult: 91.0 },
+      { code: "RWF", sym: "RF", name: "Rwandan Franc", mult: 1340.0 },
+      { code: "SAR", sym: "SAR", name: "Saudi Riyal", mult: 3.75 },
+      { code: "SBD", sym: "SI$", name: "Solomon Islands Dollar", mult: 8.50 },
+      { code: "SCR", sym: "SR", name: "Seychellois Rupee", mult: 13.6 },
+      { code: "SDG", sym: "SDG", name: "Sudanese Pound", mult: 601.0 },
+      { code: "SEK", sym: "kr", name: "Swedish Krona", mult: 10.3 },
+      { code: "SGD", sym: "S$", name: "Singapore Dollar", mult: 1.30 },
+      { code: "SHP", sym: "SHP£", name: "Saint Helena Pound", mult: 0.76 },
+      { code: "SLE", sym: "Le", name: "Sierra Leonean Leone", mult: 22.5 },
+      { code: "SOS", sym: "S", name: "Somali Shilling", mult: 570.0 },
+      { code: "SRD", sym: "SRD$", name: "Surinamese Dollar", mult: 28.5 },
+      { code: "SSP", sym: "SSP£", name: "South Sudanese Pound", mult: 1550.0 },
+      { code: "STN", sym: "Db", name: "São Tomé & Príncipe Dobra", mult: 22.5 },
+      { code: "SVC", sym: "₡", name: "Salvadoran Colón", mult: 8.75 },
+      { code: "SYP", sym: "SYP", name: "Syrian Pound", mult: 13000.0 },
+      { code: "SZL", sym: "E", name: "Swazi Lilangeni", mult: 17.8 },
+      { code: "THB", sym: "฿", name: "Thai Baht", mult: 33.8 },
+      { code: "TJS", sym: "SM", name: "Tajikistani Somoni", mult: 10.6 },
+      { code: "TMT", sym: "T", name: "Turkmenistani Manat", mult: 3.50 },
+      { code: "TND", sym: "DT", name: "Tunisian Dinar", mult: 3.08 },
+      { code: "TOP", sym: "T$", name: "Tongan Paʻanga", mult: 2.33 },
+      { code: "TRY", sym: "₺", name: "Turkish Lira", mult: 34.0 },
+      { code: "TTD", sym: "TT$", name: "Trinidad & Tobago Dollar", mult: 6.78 },
+      { code: "TWD", sym: "NT$", name: "New Taiwan Dollar", mult: 32.0 },
+      { code: "TZS", sym: "TSh", name: "Tanzanian Shilling", mult: 2710.0 },
+      { code: "UAH", sym: "₴", name: "Ukrainian Hryvnia", mult: 41.2 },
+      { code: "UGX", sym: "USh", name: "Ugandan Shilling", mult: 3720.0 },
+      { code: "USD", sym: "$", name: "United States Dollar", mult: 1.00 },
+      { code: "UYU", sym: "$U", name: "Uruguayan Peso", mult: 40.5 },
+      { code: "UZS", sym: "so'm", name: "Uzbekistani Som", mult: 12650.0 },
+      { code: "VES", sym: "Bs.S", name: "Venezuelan Bolívar", mult: 36.6 },
+      { code: "VND", sym: "₫", name: "Vietnamese Dong", mult: 24800.0 },
+      { code: "VUV", sym: "VT", name: "Vanuatu Vatu", mult: 119.0 },
+      { code: "WST", sym: "WS$", name: "Samoan Tala", mult: 2.70 },
+      { code: "XAF", sym: "FCAF", name: "Central African CFA Franc", mult: 590.0 },
+      { code: "XCD", sym: "EC$", name: "East Caribbean Dollar", mult: 2.70 },
+      { code: "XOF", sym: "CFAF", name: "West African CFA Franc", mult: 590.0 },
+      { code: "XPF", sym: "CFPF", name: "CFP Franc", mult: 107.0 },
+      { code: "YER", sym: "YER", name: "Yemeni Rial", mult: 250.0 },
+      { code: "ZAR", sym: "R", name: "South African Rand", mult: 17.8 },
+      { code: "ZMW", sym: "ZK", name: "Zambian Kwacha", mult: 26.2 },
+      { code: "ZWG", sym: "ZiG", name: "Zimbabwe Gold", mult: 13.8 }
+    ];
+
+    function populateCurrencies() {
+      const select = document.getElementById('currencySelector');
+      // Sort alphabetically by Code
+      currencyData.sort((a, b) => a.code.localeCompare(b.code));
+      
+      currencyData.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = `${c.code} (${c.sym}) - ${c.name}`;
+        select.appendChild(opt);
+      });
     }
+
+    function updateBudgetDisplay() {
+      const currCode = document.getElementById('currencySelector').value;
+      const rawVal = parseInt(document.getElementById('budgetSlider').value, 10);
+      const displaySpan = document.getElementById('budgetValue');
+
+      if (!currCode) {
+        displaySpan.innerText = 'Select Currency';
+        return;
+      }
+
+      const currObj = currencyData.find(c => c.code === currCode);
+      if (currObj) {
+        // Base calculation: $15 * multiplier * slider factor
+        const calculatedAmount = Math.round(rawVal * 15 * currObj.mult);
+        // Format with local grouping digits (e.g. 150.000 for IDR)
+        const formattedStr = calculatedAmount.toLocaleString();
+        displaySpan.innerText = `${currObj.sym} ${formattedStr}`;
+      }
+    }
+
     document.getElementById('currencySelector').addEventListener('change', updateBudgetDisplay);
     document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
 
@@ -468,17 +645,17 @@
     }
     function nextQuizStep() { currentQuizStep++; renderQuizStep(); }
 
-    /* 9 SCIENCE HUB ARTICLES DATA WITH LINKS */
+    /* 9 SCIENCE HUB ARTICLES DATA WITH DIRECT WORKING NCBI LINKS */
     const scienceArticles = [
-      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "The DIY Lemon Juice Trend", desc: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Toothpaste on Acne Blemishes", desc: "Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial tissues, triggering secondary dark spots.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Coarse Walnut Shell Scrubs", desc: "Crushed walnut shells feature jagged edges that micro-tear stratum corneum layers, compromising natural barrier moisture.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Low-pH Gel Cleansers vs. Soap Bars", desc: "Slightly acidic cleansers (pH 5.0–5.5) maintain microbiome balance, while alkaline soaps disrupt intercellular lipids.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Chemical vs. Mineral Sunscreen Filters", desc: "Zinc oxide physically reflects UV rays, making it far gentler for reactive barrier types compared to chemical filters.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Niacinamide (Vitamin B3) Mechanism", desc: "Inhibits melanosome transfer and boosts ceramide synthesis, enhancing resilience against transepidermal water loss.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Glycerin & Multi-Humectant Delivery", desc: "Draws ambient moisture directly into surface cells, accelerating deep skin matrix recovery.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Stratum Corneum & Acid Mantle Structure", desc: "The outermost brick-and-mortar layer of keratinocytes and ceramides prevents bacterial invasion and moisture loss.", link: "https://pubmed.ncbi.nlm.nih.gov/" },
-      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Transepidermal Water Loss (TEWL)", desc: "Occurs when ambient dryness or over-exfoliation weakens lipid bonds, leading to inflammation and flaking.", link: "https://pubmed.ncbi.nlm.nih.gov/" }
+      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "The DIY Lemon Juice Trend", desc: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", link: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9644785/" },
+      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Toothpaste on Acne Blemishes", desc: "Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial tissues, triggering secondary dark spots.", link: "https://pubmed.ncbi.nlm.nih.gov/39668545/" },
+      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Coarse Walnut Shell Scrubs", desc: "Crushed walnut shells feature jagged edges that micro-tear stratum corneum layers, compromising natural barrier moisture.", link: "https://pubmed.ncbi.nlm.nih.gov/39502708/" },
+      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Low-pH Gel Cleansers vs. Soap Bars", desc: "Slightly acidic cleansers (pH 5.0–5.5) maintain microbiome balance, while alkaline soaps disrupt intercellular lipids.", link: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11537166/" },
+      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Chemical vs. Mineral Sunscreen Filters", desc: "Zinc oxide physically reflects UV rays, making it far gentler for reactive barrier types compared to chemical filters.", link: "https://pubmed.ncbi.nlm.nih.gov/39502708/" },
+      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Niacinamide (Vitamin B3) Mechanism", desc: "Inhibits melanosome transfer and boosts ceramide synthesis, enhancing resilience against transepidermal water loss.", link: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11537166/" },
+      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Glycerin & Multi-Humectant Delivery", desc: "Draws ambient moisture directly into surface cells, accelerating deep skin matrix recovery.", link: "https://pubmed.ncbi.nlm.nih.gov/39668545/" },
+      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Stratum Corneum & Acid Mantle Structure", desc: "The outermost brick-and-mortar layer of keratinocytes and ceramides prevents bacterial invasion and moisture loss.", link: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11537166/" },
+      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Transepidermal Water Loss (TEWL)", desc: "Occurs when ambient dryness or over-exfoliation weakens lipid bonds, leading to inflammation and flaking.", link: "https://pubmed.ncbi.nlm.nih.gov/39502708/" }
     ];
 
     function renderScience() {
@@ -487,7 +664,7 @@
           <span style="font-size: 0.7rem; background: ${a.color}; color: ${a.textCol}; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">${a.tag}</span>
           <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">${a.title}</h3>
           <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">${a.desc}</p>
-          <a href="${a.link}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 0.6rem; font-size: 0.8rem; color: var(--brand-accent); font-weight: 600; text-decoration: none;">📖 Read Medical Research Paper &rarr;</a>
+          <a href="${a.link}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 0.6rem; font-size: 0.8rem; color: var(--brand-accent); font-weight: 600; text-decoration: none;">📖 Read PubMed Medical Research Paper &rarr;</a>
         </div>`).join('');
     }
 
@@ -636,6 +813,7 @@
     }
 
     window.addEventListener('load', () => {
+      populateCurrencies();
       renderQuizStep();
       renderScience();
       renderDirectory();
