@@ -262,11 +262,35 @@
       margin-top: 0.15rem;
     }
 
+    /* DIRECTORY LINKS & CARDS */
+    .directory-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .product-link-card {
+      background: var(--bg-main);
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: var(--color-text-main);
+    }
+
+    .product-link-card:hover {
+      border-color: var(--brand-primary);
+    }
+
     /* DICTIONARY GRID */
     .dictionary-grid {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      margin-top: 1rem;
     }
 
     .dict-card {
@@ -274,6 +298,16 @@
       padding: 1rem 1.1rem;
       border-radius: 14px;
       border: 1px solid var(--border-subtle);
+    }
+
+    .dict-tag {
+      font-size: 0.7rem;
+      background: var(--border-subtle);
+      color: var(--color-text-muted);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      float: right;
     }
   </style>
 </head>
@@ -296,9 +330,11 @@
           <button id="navDashboard" class="nav-btn active" onclick="switchTab('trackerCard', this)">Dashboard</button>
           <button id="navQuiz" class="nav-btn" onclick="switchTab('quizSection', this)">Skin Type Quiz</button>
           <button id="navAi" class="nav-btn" onclick="switchTab('aiSection', this)">✨ Derma AI Matcher</button>
+          <button id="navScience" class="nav-btn" onclick="switchTab('scienceSection', this)">Science Hub</button>
           <button id="navRecommendations" class="nav-btn" onclick="switchTab('recommendationsSection', this)">Shared Directory</button>
           <button id="navDictionary" class="nav-btn" onclick="switchTab('dictionarySection', this)">Skincare Dictionary</button>
           <button id="navProfile" class="nav-btn" onclick="switchTab('profileSection', this)">Profile</button>
+          <button id="navFeedback" class="nav-btn" onclick="switchTab('feedbackSection', this)">Feedback</button>
         </div>
       </nav>
     </header>
@@ -437,27 +473,6 @@
       </div>
     </section>
 
-    <!-- PROFILE SECTION -->
-    <section id="profileSection" class="view-section hidden">
-      <div class="content-card">
-        <p class="text-muted" style="margin-bottom: 0.5rem; font-size: 1.1rem;">2</p>
-        <h2>User Profile & Sync</h2>
-        <p class="text-muted" style="margin-bottom: 1.25rem;">Your session ID links your routine choices and quiz preferences to your local session.</p>
-
-        <div style="margin-bottom: 1.25rem;">
-          <label for="profileNameInput" style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Full Name or Display Alias:</label>
-          <input type="text" id="profileNameInput" class="form-input-text" value="Gizelle Barbie Quinn" placeholder="e.g. Gizelle Barbie Quinn">
-        </div>
-
-        <div style="margin-bottom: 1.5rem;">
-          <span class="text-muted">Session Reference Code: </span>
-          <strong style="color: var(--brand-accent);">user_t20lozq</strong>
-        </div>
-
-        <button onclick="alert('Profile Saved!')" class="btn-accent">Save Profile Settings</button>
-      </div>
-    </section>
-
     <!-- SKIN TYPE QUIZ SECTION -->
     <section id="quizSection" class="view-section hidden">
       <div class="content-card">
@@ -465,12 +480,15 @@
         <p class="text-muted" style="margin-bottom: 1rem;">Identify your primary skin needs to optimize product selections.</p>
         <div>
           <p style="font-weight:600; margin-bottom: 0.5rem;">How does your skin feel midday?</p>
-          <button class="btn-preset" style="margin: 0.3rem 0; text-align: left;" onclick="selectQuizResult('Oily Skin')">A) Shiny or oily all over</button>
-          <button class="btn-preset" style="margin: 0.3rem 0; text-align: left;" onclick="selectQuizResult('Dry Skin')">B) Tight, flaky, or dull</button>
-          <button class="btn-preset" style="margin: 0.3rem 0; text-align: left;" onclick="selectQuizResult('Sensitive Skin')">C) Easily red or irritated</button>
-          <button class="btn-preset" style="margin: 0.3rem 0; text-align: left;" onclick="selectQuizResult('Normal Skin')">D) Balanced and comfortable</button>
+          <button class="btn-preset" style="margin: 0.35rem 0; text-align: left;" onclick="selectQuizResult('Oily Skin', 'Opt for lightweight gel moisturizers and BHA cleansers.')">A) Shiny or oily all over</button>
+          <button class="btn-preset" style="margin: 0.35rem 0; text-align: left;" onclick="selectQuizResult('Dry Skin', 'Focus on cream cleansers, rich ceramides, and hyaluronic acid.')">B) Tight, flaky, or dull</button>
+          <button class="btn-preset" style="margin: 0.35rem 0; text-align: left;" onclick="selectQuizResult('Sensitive Skin', 'Stick to fragrance-free products with Centella and Glycerin.')">C) Easily red or irritated</button>
+          <button class="btn-preset" style="margin: 0.35rem 0; text-align: left;" onclick="selectQuizResult('Normal Skin', 'Maintain hydration with basic low-pH cleanser and sunscreen.')">D) Balanced and comfortable</button>
         </div>
-        <div id="quizResult" class="hidden" style="margin-top: 1rem; padding:1rem; background:rgba(89,145,47,0.1); border-radius:12px; color:var(--brand-primary); font-weight:600;"></div>
+        <div id="quizResult" class="hidden" style="margin-top: 1.25rem; padding: 1rem; background: rgba(89, 145, 47, 0.1); border-radius: 14px; border: 1px solid var(--brand-primary);">
+          <h3 id="quizResultTitle" style="color: var(--brand-primary); font-size: 1rem; margin-bottom: 0.3rem;"></h3>
+          <p id="quizResultBody" style="font-size: 0.88rem; color: var(--color-text-main);"></p>
+        </div>
       </div>
     </section>
 
@@ -486,30 +504,92 @@
         </div>
         <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1.1rem; border-radius: 14px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
           <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">Safety Analysis Results</h3>
-          <p id="aiResultBody" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main);"></p>
+          <div id="aiResultBody" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main);"></div>
         </div>
       </div>
     </section>
 
-    <!-- SHARED DIRECTORY SECTION -->
+    <!-- SCIENCE HUB SECTION -->
+    <section id="scienceSection" class="view-section hidden">
+      <div class="content-card">
+        <h2>🔬 Science Hub</h2>
+        <p class="text-muted" style="margin-bottom: 1rem;">Evidence-based guides on skin barrier protection and cosmetic chemistry.</p>
+        <div class="dictionary-grid">
+          <div class="dict-card">
+            <h3 style="color: var(--brand-primary); font-size: 1.05rem;">The Acid Mantle & pH Balance</h3>
+            <p class="text-muted" style="margin-top: 0.3rem;">Healthy human skin maintains a slightly acidic pH between 4.7 and 5.7. High-pH soaps disrupt lipids and encourage bacterial proliferation.</p>
+          </div>
+          <div class="dict-card">
+            <h3 style="color: var(--brand-primary); font-size: 1.05rem;">Transepidermal Water Loss (TEWL)</h3>
+            <p class="text-muted" style="margin-top: 0.3rem;">TEWL measures water evaporating through the skin. Occlusives like petrolatum or ceramides lock in moisture and reduce TEWL significantly.</p>
+          </div>
+          <div class="dict-card">
+            <h3 style="color: var(--brand-primary); font-size: 1.05rem;">Chemical vs Physical Exfoliation</h3>
+            <p class="text-muted" style="margin-top: 0.3rem;">Coarse walnut or apricot scrubs cause irregular micro-tears. Mild hydroxy acids (BHA/AHA) dissolve intercellular cement evenly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHARED DIRECTORY & SUBMISSION SECTION -->
     <section id="recommendationsSection" class="view-section hidden">
       <div class="content-card">
         <h2>Shared Product Directory</h2>
-        <p class="text-muted" style="margin-bottom: 1rem;">Community recommended affordable products vetted for safety.</p>
-        <div class="dictionary-grid">
-          <div class="dict-card">
-            <strong>Glad2Glow Centella Soothing Gel</strong>
-            <p class="text-muted">Gentle hydration ($3)</p>
-          </div>
-          <div class="dict-card">
-            <strong>The Ordinary Niacinamide 10%</strong>
-            <p class="text-muted">Sebum control ($6)</p>
-          </div>
-          <div class="dict-card">
-            <strong>CeraVe Hydrating Cleanser</strong>
-            <p class="text-muted">Barrier support ($12)</p>
-          </div>
+        <p class="text-muted" style="margin-bottom: 1rem;">Community-recommended affordable products vetted for safety with store links.</p>
+        <div class="directory-list">
+          <a href="https://www.google.com/search?q=Glad2Glow+Centella+Soothing+Gel" target="_blank" class="product-link-card">
+            <div>
+              <strong>Glad2Glow Centella Soothing Gel</strong>
+              <span class="checkbox-subtext">Gentle hydration ($3)</span>
+            </div>
+            <span style="color: var(--brand-primary); font-weight: 700;">🔗 View Product</span>
+          </a>
+
+          <a href="https://www.google.com/search?q=The+Ordinary+Niacinamide+10%" target="_blank" class="product-link-card">
+            <div>
+              <strong>The Ordinary Niacinamide 10% + Zinc 1%</strong>
+              <span class="checkbox-subtext">Sebum control ($6)</span>
+            </div>
+            <span style="color: var(--brand-primary); font-weight: 700;">🔗 View Product</span>
+          </a>
+
+          <a href="https://www.google.com/search?q=CeraVe+Hydrating+Facial+Cleanser" target="_blank" class="product-link-card">
+            <div>
+              <strong>CeraVe Hydrating Cleanser</strong>
+              <span class="checkbox-subtext">Barrier support ($12)</span>
+            </div>
+            <span style="color: var(--brand-primary); font-weight: 700;">🔗 View Product</span>
+          </a>
+
+          <a href="https://www.google.com/search?q=COSRX+Advanced+Snail+96+Mucin+Power+Essence" target="_blank" class="product-link-card">
+            <div>
+              <strong>COSRX Advanced Snail 96 Mucin Essence</strong>
+              <span class="checkbox-subtext">Soothes flakiness ($14)</span>
+            </div>
+            <span style="color: var(--brand-primary); font-weight: 700;">🔗 View Product</span>
+          </a>
+
+          <a href="https://www.google.com/search?q=Beauty+of+Joseon+Relief+Sun+SPF50" target="_blank" class="product-link-card">
+            <div>
+              <strong>Beauty of Joseon Relief Sun Rice + Probiotics</strong>
+              <span class="checkbox-subtext">Lightweight SPF50 protection ($11)</span>
+            </div>
+            <span style="color: var(--brand-primary); font-weight: 700;">🔗 View Product</span>
+          </a>
         </div>
+      </div>
+
+      <!-- RECOMMENDATION SUBMISSION FORM -->
+      <div class="content-card">
+        <h3>Submit Product Recommendation</h3>
+        <p class="text-muted" style="margin-bottom: 0.75rem;">Logged in as: <strong style="color:var(--brand-accent);">Gizelle Barbie Quinn</strong></p>
+        <div style="margin-bottom: 0.75rem;">
+          <input type="text" id="recProductName" class="form-input-text" placeholder="Product Name (e.g. Pyunkang Yul Moisture Serum)">
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <input type="text" id="recProductPrice" class="form-input-text" placeholder="Estimated Price (e.g. $8)">
+        </div>
+        <button onclick="submitProductRecommendation()" class="btn-accent" style="width: 100%;">Submit Product for Community Vetting</button>
       </div>
     </section>
 
@@ -517,21 +597,94 @@
     <section id="dictionarySection" class="view-section hidden">
       <div class="content-card">
         <h2>🔬 Skincare Dictionary Pro</h2>
-        <p class="text-muted" style="margin-bottom:1rem;">Search common skincare ingredients in plain English.</p>
-        <div class="dictionary-grid">
-          <div class="dict-card">
+        <p class="text-muted" style="margin-bottom: 0.75rem;">Search common skincare ingredients in plain English.</p>
+        
+        <input type="text" id="dictSearchInput" class="form-input-text" placeholder="🔍 Search ingredient (e.g. Niacinamide, Retinol, Zinc...)" onkeyup="filterDictionary()">
+        
+        <div class="dictionary-grid" id="dictContainer">
+          <div class="dict-card" data-name="hyaluronic acid">
+            <span class="dict-tag">Humectant</span>
             <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Hyaluronic Acid</h3>
             <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">A moisture-binding molecule that holds up to 1000x its weight in water to plump the skin surface.</p>
           </div>
-          <div class="dict-card">
+          <div class="dict-card" data-name="niacinamide">
+            <span class="dict-tag">Vitamin B3</span>
             <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Niacinamide</h3>
             <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Vitamin B3 compound that strengthens the barrier, limits excess sebum production, and unifies tone.</p>
           </div>
-          <div class="dict-card">
+          <div class="dict-card" data-name="retinol">
+            <span class="dict-tag">Vitamin A</span>
             <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Retinol</h3>
             <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Accelerates cell turnover and stimulates structural collagen paths.</p>
           </div>
+          <div class="dict-card" data-name="salicylic acid BHA">
+            <span class="dict-tag">BHA Exfoliant</span>
+            <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Salicylic Acid (BHA)</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Oil-soluble exfoliant that penetrates pore walls to dissolve trapped sebum and congestion.</p>
+          </div>
+          <div class="dict-card" data-name="centella asiatica cica">
+            <span class="dict-tag">Soothing Extract</span>
+            <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Centella Asiatica (Cica)</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Botanical antioxidant rich in madecassoside that calms active redness and accelerates repair.</p>
+          </div>
+          <div class="dict-card" data-name="ceramides lipid">
+            <span class="dict-tag">Barrier Lipid</span>
+            <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Ceramides</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Natural intercellular fats that form over 50% of skin composition to seal in hydration.</p>
+          </div>
+          <div class="dict-card" data-name="zinc pca">
+            <span class="dict-tag">Sebum Regulator</span>
+            <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Zinc PCA</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Synthetic salt compound that reduces excess sebum production without drying skin cell membranes.</p>
+          </div>
+          <div class="dict-card" data-name="glycolic acid AHA">
+            <span class="dict-tag">AHA Exfoliant</span>
+            <h3 style="color: var(--brand-primary); font-size: 1.1rem;">Glycolic Acid (AHA)</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.2rem;">Small-molecule Alpha Hydroxy Acid that sheds dead surface skin cells to restore radiance.</p>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- PROFILE SECTION -->
+    <section id="profileSection" class="view-section hidden">
+      <div class="content-card">
+        <h2>User Profile & Sync</h2>
+        <p class="text-muted" style="margin-bottom: 1.25rem;">Your session ID links your routine choices and quiz preferences to your local session.</p>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label for="profileNameInput" style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Full Name or Display Alias:</label>
+          <input type="text" id="profileNameInput" class="form-input-text" value="Gizelle Barbie Quinn" placeholder="e.g. Gizelle Barbie Quinn">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <span class="text-muted">Session Reference Code: </span>
+          <strong style="color: var(--brand-accent);">user_t20lozq</strong>
+        </div>
+
+        <button onclick="alert('Profile Saved Successfully!')" class="btn-accent">Save Profile Settings</button>
+      </div>
+    </section>
+
+    <!-- FEEDBACK SECTION -->
+    <section id="feedbackSection" class="view-section hidden">
+      <div class="content-card">
+        <h2>💬 User Feedback & Requests</h2>
+        <p class="text-muted" style="margin-bottom: 1rem;">Let us know how we can improve your Derma Grow experience.</p>
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.3rem;">Feedback Topic:</label>
+          <select id="feedbackTopic" class="form-input-text">
+            <option value="Feature Request">Feature Request</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="Product Recommendation">Product Recommendation</option>
+            <option value="General Feedback">General Feedback</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.3rem;">Your Comments:</label>
+          <textarea id="feedbackText" class="form-input-text" rows="4" placeholder="Type your feedback or report here..."></textarea>
+        </div>
+        <button onclick="submitFeedback()" class="btn-accent" style="width: 100%;">Send Feedback</button>
       </div>
     </section>
 
@@ -597,10 +750,48 @@
       alert("Applied 3-step essential starter pack!");
     }
 
-    function selectQuizResult(type) {
-      const res = document.getElementById('quizResult');
-      res.innerText = `Your Skin Type Classification: ${type}`;
-      res.classList.remove('hidden');
+    function selectQuizResult(type, recommendation) {
+      const resContainer = document.getElementById('quizResult');
+      const resTitle = document.getElementById('quizResultTitle');
+      const resBody = document.getElementById('quizResultBody');
+      resTitle.innerText = `Result: ${type}`;
+      resBody.innerText = recommendation;
+      resContainer.classList.remove('hidden');
+    }
+
+    function filterDictionary() {
+      const query = document.getElementById('dictSearchInput').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('#dictContainer .dict-card');
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        if (name.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function submitProductRecommendation() {
+      const name = document.getElementById('recProductName').value.trim();
+      const price = document.getElementById('recProductPrice').value.trim();
+      if (!name) {
+        alert("Please enter a product name first!");
+        return;
+      }
+      alert(`Thank you, Gizelle! "${name}" (${price || 'N/A'}) has been submitted for vetting.`);
+      document.getElementById('recProductName').value = '';
+      document.getElementById('recProductPrice').value = '';
+    }
+
+    function submitFeedback() {
+      const text = document.getElementById('feedbackText').value.trim();
+      if (!text) {
+        alert("Please write your feedback message first!");
+        return;
+      }
+      alert("Thank you! Your feedback has been received.");
+      document.getElementById('feedbackText').value = '';
     }
 
     function analyzeProductIngredients() {
@@ -627,11 +818,11 @@
       if (lower.includes('fragrance') || lower.includes('parfum')) {
         alerts.push("Contains fragrance compounds that can trigger reactions on reactive skin.");
       }
-      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella')) {
+      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('ceramide') || lower.includes('niacinamide')) {
         pros.push("Contains soothing and barrier-repairing compounds.");
       }
 
-      let html = `<strong>Input Text:</strong> ${input.substring(0, 100)}...<br><br>`;
+      let html = `<strong>Input Text:</strong> ${input.substring(0, 100)}${input.length > 100 ? '...' : ''}<br><br>`;
       if (alerts.length) html += `<strong style="color:red;">Concerns:</strong><ul>${alerts.map(a => `<li>${a}</li>`).join('')}</ul><br>`;
       if (pros.length) html += `<strong style="color:green;">Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
       if (!alerts.length && !pros.length) html += "Standard formulation detected.";
