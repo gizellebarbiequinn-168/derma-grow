@@ -219,7 +219,7 @@
     }
 
     .btn-accent {
-      background-color: var(--brand-accent);
+      background-color: var(--brand-primary);
       color: #ffffff;
       border: none;
       padding: 0.85rem 1.5rem;
@@ -425,23 +425,23 @@
         </div>
 
         <div style="margin-bottom: 1.25rem;">
-          <label style="font-weight: 600; font-size: 0.9rem;">Monthly Skincare Budget: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Select Currency</span></label>
+          <label style="font-weight: 600; font-size: 0.9rem;">Monthly Skincare Budget Limit: <span id="budgetValue" style="color: var(--brand-accent); font-weight: 700;">Select Currency</span></label>
           <input type="range" id="budgetSlider" class="range-slider" min="0" max="100" step="1" value="0">
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-          <button type="button" class="btn-preset" onclick="applyStarterPack()">✨ Apply 3-Step Instant Starter Pack</button>
+          <button type="button" class="btn-preset" onclick="applyStarterPack()">✨ Apply 3-Step Starter Routine</button>
         </div>
 
-        <h3 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.2rem;">Select Products Currently in Your Routine:</h3>
-        <p class="text-muted" style="margin-bottom: 1rem;">Check the items you use daily to calculate your barrier health trajectory.</p>
+        <h3 style="font-size: 1rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 0.2rem;">Select Products You Currently Use Daily:</h3>
+        <p class="text-muted" style="margin-bottom: 1rem;">Check items you use every day to calculate your barrier health score.</p>
         
         <div class="selection-matrix-grid">
           <label class="checkbox-card">
             <input type="checkbox" id="chk-moisturizer">
             <div>
               <span class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin</span>
-              <span class="checkbox-subtext">Protects surface cells from drying out</span>
+              <span class="checkbox-subtext">Protects surface skin cells from drying out</span>
             </div>
           </label>
 
@@ -449,7 +449,7 @@
             <input type="checkbox" id="chk-cleanser">
             <div>
               <span class="checkbox-label-text">🧼 Gentle Low-pH Cleanser</span>
-              <span class="checkbox-subtext">Washes away grime without stripping lipids</span>
+              <span class="checkbox-subtext">Washes away grime without stripping natural oils</span>
             </div>
           </label>
 
@@ -511,7 +511,7 @@
           <canvas id="dermaChart"></canvas>
         </div>
         <div id="impactSummaryText" style="font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; background: rgba(89, 145, 47, 0.08); border: 1px solid rgba(89, 145, 47, 0.2); color: var(--brand-primary);">
-          🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier saving approximately Rp 150.000!
+          🎉 Barrier Protected: By leaving 2 harsh trend(s) unchecked, you protect your skin barrier!
         </div>
       </div>
 
@@ -519,7 +519,7 @@
       <div class="content-card" style="border-left: 4px solid var(--brand-accent);">
         <h3>✨ Confidence Booster</h3>
         <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted); margin-bottom: 0.85rem;">
-          Pores and texture are completely natural human features, not flaws.
+          "Your skin is a living organ, not a filter. It is doing its best to protect you today."
         </p>
         <button onclick="refreshTip()" class="btn-preset" style="width: auto;">Get Another Reminder</button>
       </div>
@@ -549,7 +549,7 @@
           <strong style="color: var(--brand-accent);">user_t20lozq</strong>
         </div>
 
-        <button onclick="alert('Profile Settings Saved!')" class="btn-accent" style="width: auto;">Save Profile Settings</button>
+        <button onclick="alert('Profile Settings Saved!')" class="btn-accent" style="width: auto; background-color: var(--brand-accent);">Save Profile Settings</button>
       </div>
     </section>
 
@@ -585,7 +585,7 @@
         <div>
           <label for="aiIngredientInput" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">Type Product Ingredients Here:</label>
           <textarea id="aiIngredientInput" class="form-input-text" rows="4" placeholder="e.g. Water, Glycerin, Niacinamide, Salicylic Acid 2%, Fragrance..."></textarea>
-          <button onclick="analyzeProductIngredients()" class="btn-accent" style="margin-top: 0.85rem; width: 100%;">🔍 Analyze Product Safety with Derma AI</button>
+          <button onclick="analyzeProductIngredients()" class="btn-accent" style="margin-top: 0.85rem; width: 100%; background-color: var(--brand-accent);">🔍 Analyze Product Safety with Derma AI</button>
         </div>
         <div id="aiAnalysisResult" class="hidden" style="margin-top: 1.5rem; padding: 1.1rem; border-radius: 16px; background: var(--bg-main); border: 1px solid var(--brand-accent);">
           <h3 id="aiResultTitle" style="color: var(--brand-primary); margin-bottom: 0.5rem;">🔍 Safety Evaluation</h3>
@@ -675,7 +675,7 @@
           <textarea class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..."></textarea>
         </div>
 
-        <button onclick="alert('Budget Find Submitted!')" class="btn-accent">Submit Budget Find</button>
+        <button onclick="alert('Budget Find Submitted!')" class="btn-accent" style="background-color: var(--brand-accent);">Submit Budget Find</button>
       </div>
     </section>
 
@@ -736,6 +736,8 @@
 
   <!-- APP JAVASCRIPT LOGIC -->
   <script>
+    let dermaChartInstance = null;
+
     function switchTab(sectionId, btnElement) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -764,17 +766,38 @@
 
     function updateBarrierScore() {
       let score = 50;
-      if (document.getElementById('chk-moisturizer').checked) score += 15;
-      if (document.getElementById('chk-cleanser').checked) score += 10;
-      if (document.getElementById('chk-sunscreen').checked) score += 15;
-      if (document.getElementById('chk-toner').checked) score += 5;
-      if (document.getElementById('chk-niacinamide').checked) score += 5;
-      if (document.getElementById('chk-actives').checked) score -= 10;
-      if (document.getElementById('chk-lemon').checked) score -= 30;
-      if (document.getElementById('chk-scrubs').checked) score -= 15;
+      let countChecked = 0;
+
+      if (document.getElementById('chk-moisturizer').checked) { score += 15; countChecked++; }
+      if (document.getElementById('chk-cleanser').checked) { score += 10; countChecked++; }
+      if (document.getElementById('chk-sunscreen').checked) { score += 15; countChecked++; }
+      if (document.getElementById('chk-toner').checked) { score += 5; countChecked++; }
+      if (document.getElementById('chk-niacinamide').checked) { score += 5; countChecked++; }
+      if (document.getElementById('chk-actives').checked) { score -= 10; countChecked++; }
+      if (document.getElementById('chk-lemon').checked) { score -= 30; countChecked++; }
+      if (document.getElementById('chk-scrubs').checked) { score -= 15; countChecked++; }
 
       score = Math.max(0, Math.min(100, score));
       document.getElementById('optimizationDelta').innerText = score + '%';
+
+      // Dynamic graph update: flat line if no items checked, rising curve when checked
+      if (dermaChartInstance) {
+        if (countChecked === 0) {
+          dermaChartInstance.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50];
+        } else {
+          const step = (score - 50) / 6;
+          dermaChartInstance.data.datasets[0].data = [
+            50,
+            Math.round(50 + step * 1),
+            Math.round(50 + step * 2.2),
+            Math.round(50 + step * 3.5),
+            Math.round(50 + step * 4.8),
+            Math.round(50 + step * 5.5),
+            score
+          ];
+        }
+        dermaChartInstance.update();
+      }
     }
 
     document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => {
@@ -861,9 +884,9 @@
 
     function refreshTip() {
       const tips = [
-        "Pores and texture are completely natural human features, not flaws.",
-        "Consistency with gentle basics beats chasing aggressive trends.",
-        "Healthy skin is a barrier protected, not stripped smooth."
+        '"Your skin is a living organ, not a filter. It is doing its best to protect you today."',
+        '"Consistency with gentle basics beats chasing aggressive trends."',
+        '"Healthy skin is a barrier protected, not stripped smooth."'
       ];
       document.getElementById('dailyTip').innerText = tips[Math.floor(Math.random() * tips.length)];
     }
@@ -881,13 +904,13 @@
     window.addEventListener('load', () => {
       const ctx = document.getElementById('dermaChart');
       if (ctx && typeof Chart !== 'undefined') {
-        new Chart(ctx, {
+        dermaChartInstance = new Chart(ctx, {
           type: 'line',
           data: {
             labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 10', 'Day 12', 'Day 14'],
             datasets: [{
               label: 'Barrier Health',
-              data: [50, 55, 63, 72, 80, 85, 90],
+              data: [50, 50, 50, 50, 50, 50, 50],
               borderColor: '#59912f',
               backgroundColor: 'rgba(89, 145, 47, 0.1)',
               fill: true,
