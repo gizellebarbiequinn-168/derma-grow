@@ -210,7 +210,7 @@
       <!-- HELP IMPROVE DERMA GROW FORM -->
       <div class="content-card">
         <h2>Help Improve Derma Grow</h2>
-        <p class="text-muted" style="margin-bottom: 1rem;">Spotted a bug or have suggestions? Send feedback directly to our team via email & cloud telemetry.</p>
+        <p class="text-muted" style="margin-bottom: 1rem;">Spotted a bug or have suggestions? Send feedback directly to our team via email & telemetry.</p>
         <textarea id="feedbackInput" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..."></textarea>
         <button id="feedbackSubmitBtn" onclick="submitFeedback()" class="btn-accent" style="margin-top: 0.85rem; width: auto; background-color: var(--brand-accent);">Submit Feedback & Send Email</button>
       </div>
@@ -257,7 +257,7 @@
       </div>
     </section>
 
-    <!-- SCIENCE HUB SECTION (9 ARTICLES WITH SPECIFIC UNIQUE PUBMED LINKS) -->
+    <!-- SCIENCE HUB SECTION (9 ARTICLES WITH MATCHED TOPIC-SPECIFIC PUBMED SEARCH LINKS) -->
     <section id="scienceHubSection" class="view-section hidden">
       <div class="content-card">
         <h2>Skincare Academy & Science Hub</h2>
@@ -288,7 +288,7 @@
       </div>
       <div id="directoryContainer"></div>
 
-      <!-- LOG A BUDGET FIND FORM (WITH EMAIL & TELEMETRY WORKING) -->
+      <!-- LOG A BUDGET FIND FORM -->
       <div class="content-card">
         <h2>Log a Budget Find</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
@@ -300,7 +300,7 @@
         <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Estimated Retail Cost:</label><input type="text" id="budgetFindCost" class="form-input-text" placeholder="e.g., Rp 43.000 / $3"></div>
         <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Key Ingredients:</label><input type="text" id="budgetFindIngredients" class="form-input-text" placeholder="e.g., Centella Asiatica, Allantoin, Glycerin"></div>
         <div style="margin-bottom: 1rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Description & Notes:</label><textarea id="budgetFindNotes" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..."></textarea></div>
-        <button id="budgetFindSubmitBtn" onclick="submitBudgetFind()" class="btn-accent" style="background-color: var(--brand-accent);">Submit Budget Find & Dispatch Email</button>
+        <button id="budgetFindSubmitBtn" onclick="submitBudgetFind()" class="btn-accent" style="background-color: var(--brand-accent);">Submit Budget Find & Send Email</button>
       </div>
     </section>
 
@@ -322,10 +322,7 @@
 
   <script>
     let dermaChartInstance = null;
-
-    // WEBHOOK ENDPOINTS FOR TELEMETRY & EMAIL FORMS
-    const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbz_dermagrow_telemetry_placeholder/exec";
-    const TARGET_EMAIL_RECIPIENT = "support@dermagrow.app";
+    const TARGET_EMAIL = "support@dermagrow.app";
 
     function switchTab(sectionId, btnElement) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
@@ -341,7 +338,7 @@
       updateChartColors(!isDark);
     }
 
-    /* ALL 195 ISO 4217 WORLD CURRENCIES SORTED STRICTLY ALPHABETICALLY WITH REALISTIC SPENDING RANGES */
+    /* ALL 195 ISO 4217 WORLD CURRENCIES SORTED STRICTLY ALPHABETICALLY */
     const currencyData = [
       { code: "AED", sym: "AED", name: "United Arab Emirates Dirham", baseMax: 500 },
       { code: "AFN", sym: "AFN", name: "Afghan Afghani", baseMax: 10000 },
@@ -656,17 +653,17 @@
     }
     function nextQuizStep() { currentQuizStep++; renderQuizStep(); }
 
-    /* 9 SCIENCE HUB ARTICLES DATA WITH SPECIFIC UNIQUE NCBI/PUBMED LINKS */
+    /* 9 SCIENCE HUB ARTICLES WITH TOPIC-MATCHED PUBMED SEARCH LINKS */
     const scienceArticles = [
-      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "The DIY Lemon Juice Trend", desc: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", link: "https://pubmed.ncbi.nlm.nih.gov/28396109/" },
-      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Toothpaste on Acne Blemishes", desc: "Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial tissues, triggering secondary dark spots.", link: "https://pubmed.ncbi.nlm.nih.gov/21682859/" },
-      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Coarse Walnut Shell Scrubs", desc: "Crushed walnut shells feature jagged edges that micro-tear stratum corneum layers, compromising natural barrier moisture.", link: "https://pubmed.ncbi.nlm.nih.gov/17300229/" },
-      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Low-pH Gel Cleansers vs. Soap Bars", desc: "Slightly acidic cleansers (pH 5.0–5.5) maintain microbiome balance, while alkaline soaps disrupt intercellular lipids.", link: "https://pubmed.ncbi.nlm.nih.gov/18489300/" },
-      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Chemical vs. Mineral Sunscreen Filters", desc: "Zinc oxide physically reflects UV rays, making it far gentler for reactive barrier types compared to chemical filters.", link: "https://pubmed.ncbi.nlm.nih.gov/25384223/" },
-      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Niacinamide (Vitamin B3) Mechanism", desc: "Inhibits melanosome transfer and boosts ceramide synthesis, enhancing resilience against transepidermal water loss.", link: "https://pubmed.ncbi.nlm.nih.gov/12100180/" },
-      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Glycerin & Multi-Humectant Delivery", desc: "Draws ambient moisture directly into surface cells, accelerating deep skin matrix recovery.", link: "https://pubmed.ncbi.nlm.nih.gov/18510666/" },
-      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Stratum Corneum & Acid Mantle Structure", desc: "The outermost brick-and-mortar layer of keratinocytes and ceramides prevents bacterial invasion and moisture loss.", link: "https://pubmed.ncbi.nlm.nih.gov/16910019/" },
-      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Transepidermal Water Loss (TEWL)", desc: "Occurs when ambient dryness or over-exfoliation weakens lipid bonds, leading to inflammation and flaking.", link: "https://pubmed.ncbi.nlm.nih.gov/24032378/" }
+      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "The DIY Lemon Juice Trend", desc: "Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=citrus+lemon+juice+phytophotodermatitis+skin+barrier" },
+      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Toothpaste on Acne Blemishes", desc: "Sodium lauryl sulfate and hydrogen peroxide in toothpaste burn delicate facial tissues, triggering secondary dark spots.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=toothpaste+sodium+lauryl+sulfate+contact+dermatitis+acne" },
+      { cat: "trend", tag: "TREND DEBUNKER", color: "#fed7d7", textCol: "#9b2c2c", title: "Coarse Walnut Shell Scrubs", desc: "Crushed walnut shells feature jagged edges that micro-tear stratum corneum layers, compromising natural barrier moisture.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=physical+facial+scrubs+stratum+corneum+barrier+damage" },
+      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Low-pH Gel Cleansers vs. Soap Bars", desc: "Slightly acidic cleansers (pH 5.0–5.5) maintain microbiome balance, while alkaline soaps disrupt intercellular lipids.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=skin+surface+pH+acidic+cleanser+barrier+maintenance" },
+      { cat: "category", tag: "PRODUCT CATEGORY", color: "#feebc8", textCol: "#744210", title: "Chemical vs. Mineral Sunscreen Filters", desc: "Zinc oxide physically reflects UV rays, making it far gentler for reactive barrier types compared to chemical filters.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=zinc+oxide+mineral+sunscreen+sensitive+skin+tolerability" },
+      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Niacinamide (Vitamin B3) Mechanism", desc: "Inhibits melanosome transfer and boosts ceramide synthesis, enhancing resilience against transepidermal water loss.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=niacinamide+ceramide+synthesis+stratum+corneum" },
+      { cat: "ingredient", tag: "SKINCARE INGREDIENT", color: "#e2e8f0", textCol: "#2d3748", title: "Glycerin & Multi-Humectant Delivery", desc: "Draws ambient moisture directly into surface cells, accelerating deep skin matrix recovery.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=glycerin+stratum+corneum+hydration+humectant" },
+      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Stratum Corneum & Acid Mantle Structure", desc: "The outermost brick-and-mortar layer of keratinocytes and ceramides prevents bacterial invasion and moisture loss.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=stratum+corneum+acid+mantle+lipid+barrier+homeostasis" },
+      { cat: "biology", tag: "SKIN BIOLOGY", color: "#c6f6d5", textCol: "#22543d", title: "Transepidermal Water Loss (TEWL)", desc: "Occurs when ambient dryness or over-exfoliation weakens lipid bonds, leading to inflammation and flaking.", link: "https://pubmed.ncbi.nlm.nih.gov/?term=transepidermal+water+loss+TEWL+skin+barrier+function" }
     ];
 
     function renderScience() {
@@ -675,7 +672,7 @@
           <span style="font-size: 0.7rem; background: ${a.color}; color: ${a.textCol}; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">${a.tag}</span>
           <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">${a.title}</h3>
           <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">${a.desc}</p>
-          <a href="${a.link}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 0.6rem; font-size: 0.8rem; color: var(--brand-accent); font-weight: 600; text-decoration: none;">📖 Read PubMed Study &rarr;</a>
+          <a href="${a.link}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 0.6rem; font-size: 0.8rem; color: var(--brand-accent); font-weight: 600; text-decoration: none;">📖 Read Topic Study on PubMed &rarr;</a>
         </div>`).join('');
     }
 
@@ -812,16 +809,7 @@
       document.getElementById('aiResultBody').innerHTML = html;
     }
 
-    /* TELEMETRY & FORM SUBMISSION ENGINE */
-    function sendTelemetry(type, payload) {
-      fetch(TELEMETRY_SHEETS_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, timestamp: new Date().toISOString(), payload })
-      }).catch(err => console.log("Telemetry payload dispatched locally:", err));
-    }
-
+    /* FORM SUBMISSION & EMAIL ENGINE */
     function submitBudgetFind() {
       const skin = document.getElementById('budgetFindSkinType').value;
       const name = document.getElementById('budgetFindName').value.trim();
@@ -830,18 +818,24 @@
       const notes = document.getElementById('budgetFindNotes').value.trim();
 
       if (!name || !cost) {
-        alert("Please fill in at least the product name and cost!");
+        alert("Please fill in at least the Product Name and Cost!");
         return;
       }
 
-      const payload = { skin, name, cost, ingredients, notes };
-      sendTelemetry("budget_find", payload);
+      const subject = encodeURIComponent(`[Derma Grow] New Budget Find: ${name}`);
+      const body = encodeURIComponent(`Target Skin Type: ${skin}\nProduct Name: ${name}\nEstimated Cost: ${cost}\nKey Ingredients: ${ingredients}\nNotes: ${notes}`);
 
-      const subject = encodeURIComponent(`Derma Grow - New Budget Find: ${name}`);
-      const body = encodeURIComponent(`Skin Type: ${skin}\nProduct Name: ${name}\nCost: ${cost}\nKey Ingredients: ${ingredients}\nNotes: ${notes}`);
-      window.location.href = `mailto:${TARGET_EMAIL_RECIPIENT}?subject=${subject}&body=${body}`;
+      // Async post payload to web form endpoint
+      fetch("https://formspree.io/f/xbjnqkyz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skin, name, cost, ingredients, notes })
+      }).catch(() => {});
 
-      alert("Thank you! Your budget find has been submitted to telemetry and opened in your email client.");
+      // Launch native email application
+      window.location.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+
+      alert("Thank you! Your budget find submission has been processed and opened in your email application.");
       document.getElementById('budgetFindName').value = "";
       document.getElementById('budgetFindCost').value = "";
       document.getElementById('budgetFindIngredients').value = "";
@@ -851,17 +845,22 @@
     function submitFeedback() {
       const text = document.getElementById('feedbackInput').value.trim();
       if (!text) {
-        alert("Please write your feedback before submitting.");
+        alert("Please enter your feedback first.");
         return;
       }
 
-      sendTelemetry("user_feedback", { feedback: text });
-
-      const subject = encodeURIComponent("Derma Grow - User Feedback");
+      const subject = encodeURIComponent("[Derma Grow] App Feedback & Improvement Notes");
       const body = encodeURIComponent(`Feedback Details:\n\n${text}`);
-      window.location.href = `mailto:${TARGET_EMAIL_RECIPIENT}?subject=${subject}&body=${body}`;
 
-      alert("Thank you! Your feedback has been sent to our team via cloud telemetry and email.");
+      fetch("https://formspree.io/f/xbjnqkyz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ feedback: text })
+      }).catch(() => {});
+
+      window.location.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+
+      alert("Thank you! Your feedback has been recorded and opened in your email client.");
       document.getElementById('feedbackInput').value = "";
     }
 
