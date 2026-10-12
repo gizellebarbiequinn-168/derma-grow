@@ -74,7 +74,6 @@
     .range-slider { width: 100%; margin-top: 0.5rem; accent-color: var(--brand-primary); }
     .btn-preset { background: var(--bg-card); border: 1px solid var(--brand-primary); color: var(--brand-primary); padding: 0.75rem 1.2rem; border-radius: 25px; cursor: pointer; font-size: 0.88rem; font-weight: 600; text-align: center; width: 100%; }
     .btn-accent { background-color: var(--brand-primary); color: #ffffff; border: none; padding: 0.85rem 1.5rem; border-radius: 14px; font-size: 0.92rem; font-weight: 600; cursor: pointer; width: 100%; transition: opacity 0.2s; }
-    .btn-accent:disabled { opacity: 0.6; cursor: not-allowed; }
     .filter-pill { background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main); padding: 0.4rem 0.85rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-block; margin-right: 0.3rem; margin-bottom: 0.4rem; }
     .filter-pill.active { background: var(--brand-accent); color: #ffffff; border-color: var(--brand-accent); }
 
@@ -207,17 +206,6 @@
         <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted); margin-bottom: 0.85rem;">"Your skin is a living organ, not a filter. It is doing its best to protect you today."</p>
         <button onclick="refreshTip()" class="btn-preset" style="width: auto;">Get Another Reminder</button>
       </div>
-
-      <!-- HELP IMPROVE DERMA GROW FORM -->
-      <div class="content-card">
-        <h2>Help Improve Derma Grow</h2>
-        <p class="text-muted" style="margin-bottom: 1rem;">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
-        <form id="feedbackForm" action="https://formspree.io/f/xykrgnlq" method="POST" onsubmit="handleFormSubmit(event, 'feedback')">
-          <input type="hidden" name="_subject" value="[Derma Grow] App Feedback & Improvement Notes">
-          <textarea id="feedbackInput" name="Feedback Details" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
-          <button type="submit" id="feedbackSubmitBtn" class="btn-accent" style="margin-top: 0.85rem; width: 100%; background-color: var(--brand-accent);">Submit Feedback</button>
-        </form>
-      </div>
     </section>
 
     <!-- PROFILE SECTION -->
@@ -291,24 +279,6 @@
         </div>
       </div>
       <div id="directoryContainer"></div>
-
-      <!-- LOG A BUDGET FIND FORM -->
-      <div class="content-card">
-        <h2>Log a Budget Find</h2>
-        <p class="text-muted" style="margin-bottom: 1rem;">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
-        <form id="budgetFindForm" action="https://formspree.io/f/xykrgnlq" method="POST" onsubmit="handleFormSubmit(event, 'budgetFind')">
-          <input type="hidden" id="hiddenSubject" name="_subject" value="[Derma Grow] New Budget Find">
-          <div style="margin-bottom: 0.85rem;">
-            <label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Target Skin Type:</label>
-            <select id="budgetFindSkinType" name="Target Skin Type" class="form-input-text"><option>Normal Skin</option><option>Oily Skin</option><option>Dry Skin</option><option>Sensitive Skin</option></select>
-          </div>
-          <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Product Name:</label><input type="text" id="budgetFindName" name="Product Name" class="form-input-text" placeholder="e.g., Glad2Glow Centella Soothing Gel" required></div>
-          <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Estimated Retail Cost:</label><input type="text" id="budgetFindCost" name="Estimated Cost" class="form-input-text" placeholder="e.g., Rp 43.000 / $3" required></div>
-          <div style="margin-bottom: 0.85rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Key Ingredients:</label><input type="text" id="budgetFindIngredients" name="Key Ingredients" class="form-input-text" placeholder="e.g., Centella Asiatica, Allantoin, Glycerin"></div>
-          <div style="margin-bottom: 1rem;"><label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Description & Notes:</label><textarea id="budgetFindNotes" name="Notes" class="form-input-text" rows="3" placeholder="Explain how this product helps your skin type..."></textarea></div>
-          <button type="submit" id="budgetFindSubmitBtn" class="btn-accent" style="background-color: var(--brand-accent); width: 100%;">Submit Budget Find</button>
-        </form>
-      </div>
     </section>
 
     <!-- DICTIONARY SECTION (89 WORDS) -->
@@ -374,46 +344,6 @@
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params
       }).catch(() => {});
-    }
-
-    // FORMSPREE DIRECT EMAIL SUBMISSION
-    async function handleFormSubmit(event, type) {
-      event.preventDefault();
-      const form = event.target;
-      const btn = form.querySelector("button[type='submit']");
-      const origText = btn.innerText;
-
-      if (type === 'budgetFind') {
-        const pName = document.getElementById('budgetFindName').value.trim();
-        document.getElementById('hiddenSubject').value = `[Derma Grow] New Budget Find: ${pName}`;
-      }
-
-      btn.disabled = true;
-      btn.innerText = "Sending...";
-
-      try {
-        const response = await fetch(form.action, {
-          method: form.method,
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          alert("Thank you! Your submission has been sent directly to the team.");
-          form.reset();
-          if (type === 'budgetFind') dispatchTelemetry("Submitted Budget Find");
-          if (type === 'feedback') dispatchTelemetry("Submitted Feedback");
-        } else {
-          alert("Thank you! Your submission has been processed.");
-          form.reset();
-        }
-      } catch (error) {
-        alert("Thank you! Your submission has been processed.");
-        form.reset();
-      } finally {
-        btn.disabled = false;
-        btn.innerText = origText;
-      }
     }
 
     function switchTab(sectionId, btnElement) {
