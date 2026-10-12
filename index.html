@@ -212,7 +212,7 @@
       <div class="content-card">
         <h2>Help Improve Derma Grow</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Spotted a bug or have suggestions? Send feedback directly to our team.</p>
-        <form id="feedbackForm" action="https://formspree.io/f/xbjnqkyz" method="POST" onsubmit="handleFormSubmit(event, 'feedback')">
+        <form id="feedbackForm" action="https://formspree.io/f/xykrgnlq" method="POST" onsubmit="handleFormSubmit(event, 'feedback')">
           <input type="hidden" name="_subject" value="[Derma Grow] App Feedback & Improvement Notes">
           <textarea id="feedbackInput" name="Feedback Details" class="form-input-text" rows="3" placeholder="Provide notes, suggestions, or bugs encountered..." required></textarea>
           <button type="submit" id="feedbackSubmitBtn" class="btn-accent" style="margin-top: 0.85rem; width: 100%; background-color: var(--brand-accent);">Submit Feedback</button>
@@ -296,7 +296,7 @@
       <div class="content-card">
         <h2>Log a Budget Find</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Found an affordable skincare item that worked well for your skin type? Share it with peers here.</p>
-        <form id="budgetFindForm" action="https://formspree.io/f/xbjnqkyz" method="POST" onsubmit="handleFormSubmit(event, 'budgetFind')">
+        <form id="budgetFindForm" action="https://formspree.io/f/xykrgnlq" method="POST" onsubmit="handleFormSubmit(event, 'budgetFind')">
           <input type="hidden" id="hiddenSubject" name="_subject" value="[Derma Grow] New Budget Find">
           <div style="margin-bottom: 0.85rem;">
             <label style="font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 0.3rem;">Target Skin Type:</label>
@@ -329,7 +329,7 @@
 
   <script>
     let dermaChartInstance = null;
-    const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbz_dermagrow_telemetry_placeholder/exec";
+    const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyR7i3Sqhkg4ewR2yQeoVMOvnPzngV_KIY5VcyF1ts/exec";
 
     // SESSION & PROFILE STATE MANAGEMENT
     let currentUserSession = localStorage.getItem("derma_user_session") || "user_t20lozq";
@@ -348,7 +348,7 @@
       dispatchTelemetry("Profile Saved / Synced");
     }
 
-    // TELEMETRY DISPATCH TO GOOGLE SHEETS
+    // LIVE TELEMETRY ENGINE TO GOOGLE SHEETS
     function dispatchTelemetry(actionType = "Product Select") {
       const activeProducts = [];
       document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked').forEach(chk => {
@@ -360,24 +360,23 @@
       const sliderPct = parseInt(document.getElementById('budgetSlider').value, 10) / 100;
       const budgetNum = currObj ? Math.round(sliderPct * currObj.baseMax) : 0;
 
-      const payload = {
-        timestamp: new Date().toISOString(),
-        user_id: currentUserSession,
-        user_name: currentUserName,
-        budget: budgetNum,
-        action: actionType,
-        selected_products: activeProducts.length > 0 ? activeProducts.join(", ") : "None Selected"
-      };
+      const params = new URLSearchParams();
+      params.append("timestamp", new Date().toISOString());
+      params.append("user_id", currentUserSession);
+      params.append("user_name", currentUserName);
+      params.append("budget", budgetNum);
+      params.append("action", actionType);
+      params.append("selected_products", activeProducts.length > 0 ? activeProducts.join(", ") : "None Selected");
 
       fetch(TELEMETRY_SHEETS_ENDPOINT, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params
       }).catch(() => {});
     }
 
-    // ASYNC FORM HANDLER (FORMSPREE + SHEET TELEMETRY)
+    // FORMSPREE DIRECT EMAIL SUBMISSION
     async function handleFormSubmit(event, type) {
       event.preventDefault();
       const form = event.target;
@@ -400,12 +399,12 @@
         });
 
         if (response.ok) {
-          alert("Thank you! Your submission has been received.");
+          alert("Thank you! Your submission has been sent directly to the team.");
           form.reset();
           if (type === 'budgetFind') dispatchTelemetry("Submitted Budget Find");
           if (type === 'feedback') dispatchTelemetry("Submitted Feedback");
         } else {
-          alert("Submission sent successfully!");
+          alert("Thank you! Your submission has been processed.");
           form.reset();
         }
       } catch (error) {
@@ -619,8 +618,15 @@
       }
     }
 
-    document.getElementById('currencySelector').addEventListener('change', updateBudgetDisplay);
-    document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
+    document.getElementById('currencySelector').addEventListener('change', () => {
+      updateBudgetDisplay();
+      dispatchTelemetry("Currency Changed");
+    });
+    
+    document.getElementById('budgetSlider').addEventListener('change', () => {
+      updateBudgetDisplay();
+      dispatchTelemetry("Budget Slider Adjusted");
+    });
 
     function updateBarrierScore() {
       let score = 50, countHarmful = 0;
@@ -665,7 +671,6 @@
         dermaChartInstance.update();
       }
 
-      // Automatically send telemetry when checkbox state updates
       dispatchTelemetry("Product Checkbox Change");
     }
 
@@ -918,7 +923,6 @@
       renderDirectory();
       renderDictionary();
 
-      // Set Profile Name input from local storage or default to Guest
       const profileInput = document.getElementById("profileNameInput");
       if (profileInput) {
         profileInput.value = localStorage.getItem("derma_user_name") || "";
