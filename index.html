@@ -215,7 +215,7 @@
         <p class="text-muted" style="margin-bottom: 1.25rem;">Your session ID links your routine choices and quiz preferences to your local session.</p>
         <div style="margin-bottom: 1.25rem;">
           <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Full Name or Display Alias:</label>
-          <input type="text" id="profileNameInput" class="form-input-text" placeholder="Guest" onchange="saveProfileName()">
+          <input type="text" id="profileNameInput" class="form-input-text" placeholder="Louise Elizabeth" onchange="saveProfileName()">
         </div>
         <div style="margin-bottom: 1.5rem;"><span class="text-muted">Session Reference Code: </span><strong id="sessionRefDisplay" style="color: var(--brand-accent);">user_t20lozq</strong></div>
         <button onclick="saveProfileName(true)" class="btn-accent" style="width: auto; background-color: var(--brand-accent);">Save Profile Settings</button>
@@ -301,48 +301,52 @@
     let dermaChartInstance = null;
     const TELEMETRY_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyR7i3Sqhkg4ewR2yQeoVMOvnPzngV_KIY5VcyF1ts/exec";
 
-    // SESSION & PROFILE STATE MANAGEMENT
+    // USER STATE & SESSION MANAGEMENT
     let currentUserSession = localStorage.getItem("derma_user_session") || "user_t20lozq";
-    let currentUserName = localStorage.getItem("derma_user_name") || "Guest";
-
+    
     function getUserName() {
-      const val = document.getElementById("profileNameInput").value.trim();
-      return val !== "" ? val : "Guest";
+      const inputVal = document.getElementById("profileNameInput").value.trim();
+      if (inputVal !== "") return inputVal;
+      return localStorage.getItem("derma_user_name") || "Guest";
     }
 
     function saveProfileName(showAlert = false) {
       const name = getUserName();
-      currentUserName = name;
       localStorage.setItem("derma_user_name", name);
       if (showAlert) alert("Profile Settings Saved!");
-      dispatchTelemetry("Profile Saved / Synced");
+      dispatchTelemetry();
     }
 
     // LIVE TELEMETRY ENGINE TO GOOGLE SHEETS
-    function dispatchTelemetry(actionType = "Product Select") {
+    function dispatchTelemetry() {
       const activeProducts = [];
+      let trendsAvoidedCount = 2;
+
       document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]:checked').forEach(chk => {
         activeProducts.push(chk.getAttribute("data-name") || chk.id);
       });
+
+      if (document.getElementById('chk-lemon').checked) trendsAvoidedCount--;
+      if (document.getElementById('chk-scrubs').checked) trendsAvoidedCount--;
+      trendsAvoidedCount = Math.max(0, trendsAvoidedCount);
 
       const currCode = document.getElementById('currencySelector').value;
       const currObj = currencyData.find(c => c.code === currCode);
       const sliderPct = parseInt(document.getElementById('budgetSlider').value, 10) / 100;
       const budgetNum = currObj ? Math.round(sliderPct * currObj.baseMax) : 0;
 
-      const params = new URLSearchParams();
-      params.append("timestamp", new Date().toISOString());
-      params.append("user_id", currentUserSession);
-      params.append("user_name", currentUserName);
-      params.append("budget", budgetNum);
-      params.append("action", actionType);
-      params.append("selected_products", activeProducts.length > 0 ? activeProducts.join(", ") : "None Selected");
+      const formData = new FormData();
+      formData.append("Timestamp", new Date().toISOString());
+      formData.append("User ID", currentUserSession);
+      formData.append("Username", getUserName());
+      formData.append("Budget", budgetNum);
+      formData.append("Trends Avoided", trendsAvoidedCount);
+      formData.append("Selected Routine", activeProducts.length > 0 ? activeProducts.join(", ") : "");
 
       fetch(TELEMETRY_SHEETS_ENDPOINT, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
+        body: formData
       }).catch(() => {});
     }
 
@@ -550,12 +554,12 @@
 
     document.getElementById('currencySelector').addEventListener('change', () => {
       updateBudgetDisplay();
-      dispatchTelemetry("Currency Changed");
+      dispatchTelemetry();
     });
     
     document.getElementById('budgetSlider').addEventListener('change', () => {
       updateBudgetDisplay();
-      dispatchTelemetry("Budget Slider Adjusted");
+      dispatchTelemetry();
     });
 
     function updateBarrierScore() {
@@ -601,7 +605,7 @@
         dermaChartInstance.update();
       }
 
-      dispatchTelemetry("Product Checkbox Change");
+      dispatchTelemetry();
     }
 
     document.querySelectorAll('.selection-matrix-grid input[type="checkbox"]').forEach(chk => chk.addEventListener('change', updateBarrierScore));
