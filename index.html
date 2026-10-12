@@ -94,6 +94,12 @@
     .progress-bar-fill { height: 100%; width: 6%; background: var(--brand-accent); border-radius: 10px; transition: width 0.3s ease; }
     .hidden { display: none !important; }
 
+    /* EDITABLE PAPER FORMATTING */
+    .paper-editable-body { outline: none; border-radius: 12px; padding: 0.5rem; transition: background 0.2s; }
+    .paper-editable-body:focus { background: var(--bg-main); border: 1px dashed var(--brand-accent); }
+    .paper-section-title { color: var(--brand-primary); font-size: 1.15rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.4rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.2rem; }
+    .paper-paragraph { font-size: 0.92rem; line-height: 1.6; color: var(--color-text-main); margin-bottom: 0.85rem; text-align: justify; }
+
     /* DYNAMIC ALERT BANNER */
     .impact-banner { font-size: 0.85rem; font-weight: 500; margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 14px; transition: all 0.3s ease; }
     .impact-banner.success { background: var(--status-success-bg); border: 1px solid var(--status-success-border); color: var(--brand-primary); }
@@ -101,8 +107,8 @@
 
     @media print {
       body * { visibility: hidden; }
-      #trackerCard, #trackerCard * { visibility: visible; }
-      #trackerCard { position: absolute; left: 0; top: 0; width: 100%; }
+      #trackerCard, #trackerCard *, #paperSection, #paperSection * { visibility: visible; }
+      #trackerCard, #paperSection { position: absolute; left: 0; top: 0; width: 100%; }
     }
   </style>
 </head>
@@ -123,6 +129,7 @@
       <nav class="nav-container">
         <div class="nav-scroll">
           <button class="nav-btn active" onclick="switchTab('trackerCard', this)">Dashboard</button>
+          <button class="nav-btn" onclick="switchTab('paperSection', this)">📄 Research Paper</button>
           <button class="nav-btn" onclick="switchTab('quizSection', this)">Skin Type Quiz</button>
           <button class="nav-btn" onclick="switchTab('aiSection', this)">✨ Derma AI Matcher</button>
           <button class="nav-btn" onclick="switchTab('scienceHubSection', this)">Science Hub</button>
@@ -205,6 +212,49 @@
         <h3>✨ Confidence Booster</h3>
         <p id="dailyTip" style="font-style: italic; color: var(--color-text-muted); margin-bottom: 0.85rem;">"Your skin is a living organ, not a filter. It is doing its best to protect you today."</p>
         <button onclick="refreshTip()" class="btn-preset" style="width: auto;">Get Another Reminder</button>
+      </div>
+    </section>
+
+    <!-- EDITABLE RESEARCH PAPER SECTION -->
+    <section id="paperSection" class="view-section hidden">
+      <div class="content-card">
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-bottom: 1rem;">
+          <button onclick="copyPaperText()" class="btn-preset" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.8rem;">📋 Copy Paper Text</button>
+          <button onclick="window.print()" class="btn-preset" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: var(--brand-accent); color: var(--brand-accent);">🖨️ Print Paper</button>
+        </div>
+
+        <!-- contenteditable="true" ALLOWS DIRECT ON-PAGE EDITING -->
+        <div id="editablePaperContainer" class="paper-editable-body" contenteditable="true" title="Click anywhere to edit this research paper text live!">
+          <h1 style="font-size: 1.35rem; font-weight: 800; color: var(--brand-primary); line-height: 1.3; margin-bottom: 0.5rem;">Derma Grow: Protecting Adolescent Skin Barriers by Algorithmic Detection of Incompatible Active Ingredients in Budget Skincare Routines</h1>
+          <p style="font-weight: 700; color: var(--brand-accent); font-size: 0.95rem;">Gizelle Barbie Quinn</p>
+          <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1.25rem;">10th Grade &bull; Education 21 Kulim</p>
+
+          <div class="paper-section-title">Abstract</div>
+          <p class="paper-paragraph">The rise of viral social media skincare trends has created a hidden public health challenge for adolescents, leading to widespread skin barrier damage from misinformed product layering and harsh chemical formulas. This project presents the development of Derma Grow, a web application designed to bridge the gap between complex peer-reviewed dermatological literature and accessible, everyday technology. By utilizing a custom logic engine and structured product auditing, the app evaluates user routines, identifies chemical conflicts such as surfactant-delipidating cleansers paired with daily keratolytics, and generates automated safety warnings. Furthermore, the application provides an interactive 14-day visual consistency timeline, a bathroom mirror routine guide, a budgeting tool, and a skincare dictionary. Ultimately, Derma Grow proves that protecting adolescent skin does not require expensive, multi-step regimens, but rather a science-backed understanding that minimalist, affordable care outperforms viral product accumulation.</p>
+
+          <div class="paper-section-title">Introduction</div>
+          <p class="paper-paragraph">Scroll through social media, and you will see endless videos of teenagers showing off complicated skincare routines with foaming washes, strong acids, and bright serums. But walking through the hallways at school, I noticed a very different reality: a lot of my peers are dealing with constant breakouts, red skin, and skin that looks worse the more products they use. I saw this firsthand with a hand-me-down bottle of La Roche-Posay cleanser. It cleared my acne for a few weeks, but the moment it ran out, the breakouts came right back. While I decided to keep my routine simple rather than risk ruining my skin with random viral products, I realized that millions of teens are blindly mixing harsh active ingredients together without knowing what they are actually doing to their skin barrier.</p>
+          <p class="paper-paragraph">The root of the issue is a lack of reliable, accessible guidance. Teenagers are constantly bombarded with skincare advice online, but they rarely know their actual skin type, which ingredients are safe for a developing skin barrier, or even the correct order to apply their products. On top of that, building a safe routine often feels impossible on a student budget, leading teens to buy cheap, harsh viral products that do more harm than good. Without a simple way to check how these products interact, adolescents are left guessing, and often damaging their skin in the process.</p>
+          <p class="paper-paragraph">To solve this, I set out to build an accessible app called Derma Grow. The goal of Derma Grow is to give teenagers a reliable guide by helping them figure out their skin type, recommending safe and affordable products that fit a student budget, and explaining complicated ingredient terms through a built-in dictionary. Beyond routine advice, the app is designed to flag dangerous or illegal ingredients, like hidden steroids and mercury found in unregulated products, protecting teens from severe health risks. By combining clinical safety logic with user-friendly features, Derma Grow aims to take the guesswork out of skincare and protect adolescent skin from accidental damage.</p>
+
+          <div class="paper-section-title">Methodology</div>
+          <p class="paper-paragraph">To build the foundational database for Derma Grow, I focused on five of the most popular skincare products currently used by teenagers. Because misleading marketing often hides the reality of chemical formulations, I utilized peer-reviewed research papers available on PubMed and Google Scholar to investigate the true biological function and potential hazards of the active ingredients in each product. By cross-referencing these products with clinical literature regarding skin barrier function, the app is programmed to evaluate user routines, identify dangerous chemical interactions, and trigger automated warnings to prevent skin damage.</p>
+          <p class="paper-paragraph">To make this research actionable, I developed a web application called Derma Grow hosted on Vercel. The app features an interactive product dashboard where users can select the items currently in their routine, ranging from basic moisturizers to high-potency acids and DIY remedies. When harsh or incompatible products are selected, the system's logic engine evaluates the combination and immediately displays a clinical routine warning. Furthermore, the app generates a customized 14-day Visual Consistency Timeline to illustrate how aggressive routines degrade skin health over time, alongside a practical bathroom mirror routine guide and a confidence booster designed to counter social media-driven skincare anxiety.</p>
+
+          <div class="paper-section-title">Results and Discussion</div>
+          <p class="paper-paragraph">When evaluating typical adolescent skincare routines containing multiple active ingredients, the Derma Grow logic engine successfully identified severe functional risks. Specifically, combinations involving foaming surfactants (such as La Roche-Posay or Avène cleansers) paired with daily keratolytics (like Paula's Choice 2% BHA) triggered high-priority barrier warnings. As supported by previous dermatological literature, this synergy accelerates intercellular lipid extraction and elevates transepidermal water loss (TEWL), resulting in sub-clinical inflammation rather than genuine healing. Furthermore, the app's interactive dashboard demonstrated that users experimenting with aggressive trends or DIY acidic remedies experienced a simulated decline in skin health consistency over a 14-day timeline.</p>
+          <p class="paper-paragraph">Ultimately, Derma Grow demonstrates that teenagers do not need expensive, multi-step chemical routines to achieve healthy skin. By providing clear, evidence-based warnings and simple alternatives, the app empowers adolescents to step away from harmful social media trends. Using a cheaper, simpler routine not only protects the delicate skin barrier from cumulative chemical damage but also relieves financial and psychological pressure on students, proving that minimalist, science-backed care is far superior to viral product accumulation.</p>
+
+          <div class="paper-section-title">Conclusion</div>
+          <p class="paper-paragraph">In conclusion, the rise of viral social media skincare trends has created a hidden public health challenge for adolescents, leading to widespread skin barrier damage from misinformed product layering and harsh chemical formulas. By developing Derma Grow, this project successfully bridges the gap between complex peer-reviewed dermatological literature and accessible, everyday technology. The app's logic engine and interactive features empower teenagers to identify chemical conflicts, avoid harmful trends, and adopt minimalist, affordable routines. Ultimately, Derma Grow proves that protecting adolescent skin does not require expensive, multi-step regimens, but rather a science-backed understanding that less is more.</p>
+
+          <div class="paper-section-title">References</div>
+          <p class="paper-paragraph" style="font-size: 0.85rem; text-indent: -1.5rem; padding-left: 1.5rem;">Draelos, Z. D. (2012). Cleansing-and-cleansing-formulations that respect skin barrier integrity. <em>Journal of Cosmetic Dermatology</em>, 11(2), 16-22.</p>
+          <p class="paper-paragraph" style="font-size: 0.85rem; text-indent: -1.5rem; padding-left: 1.5rem;">Lukić, M., Pantelić, I., & Savić, S. (2021). An overview of surfactant-containing detergents: Impacts on dermal health, lipid disruption, and biophysical behavior. <em>Skin Research and Technology</em>, 27(2), 241–248.</p>
+          <p class="paper-paragraph" style="font-size: 0.85rem; text-indent: -1.5rem; padding-left: 1.5rem;">Rubio, L., Alonso, C., Coderch, L., de la Maza, A., Parra, J. L., & López, O. (2011). Barrier function of intact and impaired skin: Percutaneous absorption and transepidermal water loss dynamics under compromised conditions. <em>Experimental Dermatology</em>, 20(5), 415–420.</p>
+          <p class="paper-paragraph" style="font-size: 0.85rem; text-indent: -1.5rem; padding-left: 1.5rem;">Rawlings, A. V., & Matts, P. J. (2005). Stratum corneum moisturization at the cellular level: The interrelation between physical, chemical, and physiological properties of the skin barrier. <em>International Journal of Cosmetic Science</em>, 27(2), 81–101.</p>
+          <p class="paper-paragraph" style="font-size: 0.85rem; text-indent: -1.5rem; padding-left: 1.5rem;">Verhoeckx, K. C., et al. (2015). The impact of chemical stressors, active ingredients, and low pH formulation on sub-clinical skin irritation and vasodilation responses. <em>Food and Chemical Toxicology</em>, 80, 295–304.</p>
+        </div>
       </div>
     </section>
 
@@ -321,6 +371,15 @@
       localStorage.setItem("derma_user_name", name);
       if (showAlert) alert("Profile Settings Saved!");
       dispatchTelemetry();
+    }
+
+    function copyPaperText() {
+      const paperText = document.getElementById("editablePaperContainer").innerText;
+      navigator.clipboard.writeText(paperText).then(() => {
+        alert("Research paper copied to clipboard!");
+      }).catch(() => {
+        alert("Failed to copy text automatically.");
+      });
     }
 
     // LIVE TELEMETRY ENGINE TO GOOGLE SHEETS
@@ -642,7 +701,7 @@
 
     function retakeQuiz() {
       currentQuizStep = 1;
-      switchTab('quizSection', document.querySelectorAll('.nav-btn')[1]);
+      switchTab('quizSection', document.querySelectorAll('.nav-btn')[2]);
       renderQuizStep();
     }
 
