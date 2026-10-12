@@ -440,7 +440,7 @@
           <label class="checkbox-card">
             <input type="checkbox" id="chk-moisturizer">
             <div>
-              <span class="checkbox-label-text">🧴 Basic Moisturizer / Glycerin</span>
+              <span class="checkbox-label-text">隔离 Basic Moisturizer / Glycerin</span>
               <span class="checkbox-subtext">Protects surface skin cells from drying out</span>
             </div>
           </label>
@@ -566,13 +566,9 @@
           <div id="quizProgressBar" class="progress-bar-fill"></div>
         </div>
 
-        <div style="margin-top: 1rem;">
+        <div id="quizContentBox" style="margin-top: 1rem;">
           <p id="quizQuestionText" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem;">1. What is your biological sex / gender profile?</p>
-          <div id="quizOptionsContainer" style="display: flex; flex-direction: column; gap: 0.6rem;">
-            <button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">Male (Higher androgen/sebum levels & shaving considerations)</button>
-            <button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">Female (Hormonal fluctuation & cyclical sensitivity)</button>
-            <button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">Non-Binary / Prefer not to say</button>
-          </div>
+          <div id="quizOptionsContainer" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
         </div>
       </div>
     </section>
@@ -600,18 +596,32 @@
         <h2>Skincare Academy & Science Hub</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Explore debunked internet trends and medical research concepts verified against dermatological references.</p>
         <div>
-          <span class="filter-pill active">All Resources</span>
-          <span class="filter-pill">Trend Debunkers</span>
-          <span class="filter-pill">Product Categories</span>
-          <span class="filter-pill">Skincare Ingredients</span>
-          <span class="filter-pill">Skin Biology</span>
+          <span class="filter-pill active" onclick="filterScienceCategory('all', this)">All Resources</span>
+          <span class="filter-pill" onclick="filterScienceCategory('debunker', this)">Trend Debunkers</span>
+          <span class="filter-pill" onclick="filterScienceCategory('category', this)">Product Categories</span>
+          <span class="filter-pill" onclick="filterScienceCategory('ingredients', this)">Skincare Ingredients</span>
+          <span class="filter-pill" onclick="filterScienceCategory('biology', this)">Skin Biology</span>
         </div>
       </div>
 
-      <div class="content-card">
-        <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">TREND DEBUNKER</span>
-        <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">The DIY Lemon Juice Trend</h3>
-        <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.</p>
+      <div id="scienceHubContainer">
+        <div class="content-card science-card" data-cat="debunker">
+          <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">TREND DEBUNKER</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">The DIY Lemon Juice Trend</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Applying raw lemon juice strips your natural acid mantle (~4.5 pH) due to its extreme acidity (~2.0 pH), inducing chemical irritation and hyperpigmentation.</p>
+        </div>
+
+        <div class="content-card science-card" data-cat="debunker">
+          <span style="font-size: 0.7rem; background: #fed7d7; color: #9b2c2c; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">TREND DEBUNKER</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Coarse Walnut & Sugar Scrubs</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Physical sharp particles create micro-tears on the stratum corneum, allowing pathogen entry and chronic barrier distress.</p>
+        </div>
+
+        <div class="content-card science-card" data-cat="biology">
+          <span style="font-size: 0.7rem; background: #e2e8f0; color: #2d3748; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SKIN BIOLOGY</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">The Stratum Corneum & Lipid Matrix</h3>
+          <p class="text-muted" style="line-height: 1.45; margin-top: 0.4rem;">Your outer skin layer operates as a brick-and-mortar structure where ceramides, cholesterol, and fatty acids maintain essential hydration levels.</p>
+        </div>
       </div>
     </section>
 
@@ -621,22 +631,46 @@
         <h2>Shared Product Directory</h2>
         <p class="text-muted" style="margin-bottom: 1rem;">Browse affordable products recommended by peers and vetted against dermatological ingredient guidelines.</p>
         <div>
-          <span class="filter-pill active">All Skin Profiles</span>
-          <span class="filter-pill">Normal Skin</span>
-          <span class="filter-pill">Oily Skin</span>
-          <span class="filter-pill">Dry Skin</span>
-          <span class="filter-pill">Sensitive Skin</span>
+          <span class="filter-pill active" onclick="filterDirectoryCategory('all', this)">All Skin Profiles</span>
+          <span class="filter-pill" onclick="filterDirectoryCategory('normal', this)">Normal Skin</span>
+          <span class="filter-pill" onclick="filterDirectoryCategory('oily', this)">Oily Skin</span>
+          <span class="filter-pill" onclick="filterDirectoryCategory('dry', this)">Dry Skin</span>
+          <span class="filter-pill" onclick="filterDirectoryCategory('sensitive', this)">Sensitive Skin</span>
         </div>
       </div>
 
-      <div class="content-card" style="border-top: 3px solid var(--brand-accent);">
-        <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">OILY SKIN</span>
-        <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Garnier Micellar Water Blue</h3>
-        <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 35.000 / $3</p>
-        <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents."</p>
-        <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
-          <p>🧪 <strong>Ingredients:</strong> Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate</p>
-          <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Pour onto cotton pad, wipe skin surface gently.</p>
+      <div id="directoryItemsContainer">
+        <div class="content-card directory-card" data-skin="oily" style="border-top: 3px solid var(--brand-accent);">
+          <span style="font-size: 0.7rem; background: #c6f6d5; color: #22543d; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">OILY SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Garnier Micellar Water Blue</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 35.000 / $3</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Oil-free, ultra-low cost surfactant solution that cleanses away sunscreen layers without clogging active pore vents."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Water, Hexylene Glycol, Glycerin, Disodium Cocoamphodiacetate</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Pour onto cotton pad, wipe skin surface gently.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-card" data-skin="dry" style="border-top: 3px solid var(--brand-accent);">
+          <span style="font-size: 0.7rem; background: #feebc8; color: #744210; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">DRY SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">Glad2Glow Centella Soothing Gel</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 43.000 / $3</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Lightweight soothing gel packed with humectants to rehydrate dry, tight skin matrices without greasy residue."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Centella Asiatica Extract, Glycerin, Allantoin, Panthenol</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Apply an even layer over face post-cleansing.</p>
+          </div>
+        </div>
+
+        <div class="content-card directory-card" data-skin="sensitive" style="border-top: 3px solid var(--brand-accent);">
+          <span style="font-size: 0.7rem; background: #e9d8fd; color: #553c9a; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 700; text-transform: uppercase;">SENSITIVE SKIN</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.5rem;">CeraVe Hydrating Facial Cleanser</h3>
+          <p style="color: var(--brand-accent); font-weight: 700; font-size: 0.9rem;">Cost: Rp 180.000 / $12</p>
+          <p class="text-muted" style="margin-top: 0.4rem;"><strong>Notes:</strong> "Non-foaming lotion cleanser containing essential ceramides to repair reactive skin barriers."</p>
+          <div style="background: var(--bg-main); padding: 0.75rem; border-radius: 12px; margin-top: 0.75rem; font-size: 0.85rem;">
+            <p>🧪 <strong>Ingredients:</strong> Ceramides NP/AP/EOP, Hyaluronic Acid, Glycerin</p>
+            <p style="margin-top: 0.25rem;">⚙️ <strong>Directions:</strong> Massage on wet skin, rinse gently with tepid water.</p>
+          </div>
         </div>
       </div>
 
@@ -723,6 +757,24 @@
             <p class="text-muted">Oil-soluble Beta Hydroxy Acid that penetrates pore walls to dissolve sebum plugs.</p>
             <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Best suited for breakout-prone oily skin zones.</div>
           </div>
+
+          <div class="dict-card">
+            <div class="dict-header">
+              <h3 style="font-size: 1.1rem;">Glycerin</h3>
+              <span class="dict-tag">Active Component</span>
+            </div>
+            <p class="text-muted">Effective humectant that pulls moisture into the outer skin layer to maintain lipid barrier pliability.</p>
+            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Extremely gentle and compatible with all skin profiles.</div>
+          </div>
+
+          <div class="dict-card">
+            <div class="dict-header">
+              <h3 style="font-size: 1.1rem;">Centella Asiatica</h3>
+              <span class="dict-tag">Active Component</span>
+            </div>
+            <p class="text-muted">Botanical extract rich in madecassoside that calms active redness and accelerates micro-repair.</p>
+            <div class="dict-pro-insight">🧠 <strong>Pro Insight:</strong> Ideal for soothing sensitive skin flares.</div>
+          </div>
         </div>
       </div>
     </section>
@@ -780,7 +832,6 @@
       score = Math.max(0, Math.min(100, score));
       document.getElementById('optimizationDelta').innerText = score + '%';
 
-      // Dynamic graph update: flat line if no items checked, rising curve when checked
       if (dermaChartInstance) {
         if (countChecked === 0) {
           dermaChartInstance.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50];
@@ -812,29 +863,59 @@
       alert("Applied 3-step essential starter pack!");
     }
 
+    // ALL 18 UNIQUE QUIZ QUESTIONS
     let currentQuizStep = 1;
     const quizQuestions = [
       { q: "1. What is your biological sex / gender profile?", opts: ["Male (Higher androgen/sebum levels & shaving considerations)", "Female (Hormonal fluctuation & cyclical sensitivity)", "Non-Binary / Prefer not to say"] },
       { q: "2. What is your primary climate zone environment?", opts: ["Humid / Tropical", "Dry / Arid", "Temperate / Seasonal Shifts", "Cold / Sub-zero Exposure"] },
-      { q: "3. How does your skin feel 2 hours after washing?", opts: ["Tight, dry, or pulling", "Oily across T-zone and cheeks", "Oily on T-zone, dry on cheeks", "Comfortable and neutral"] }
+      { q: "3. How does your skin feel 2 hours after washing?", opts: ["Tight, dry, or pulling", "Oily across T-zone and cheeks", "Oily on T-zone, dry on cheeks", "Comfortable and neutral"] },
+      { q: "4. What is your primary Fitzpatrick skin type scale?", opts: ["Type I-II (Fair, burns easily)", "Type III-IV (Medium tone, tans gradually)", "Type V-VI (Deep skin, prone to post-inflammatory hyperpigmentation)"] },
+      { q: "5. What is your age group classification?", opts: ["Under 20 (Active hormonal breakout zone)", "20-35 (Preventative care & sebum management)", "36-50 (Early collagen degradation & moisture loss)", "50+ (Barrier repair & structural elasticity focus)"] },
+      { q: "6. How often do you experience active acne breakouts?", opts: ["Constantly / Cystic & inflamed", "Weekly around T-zone", "Occasional hormonal spots", "Rarely / Never"] },
+      { q: "7. How does your skin respond to direct midday sun?", opts: ["Flushes red and stings within 10 minutes", "Tans with mild flushing", "Tans easily without irritation"] },
+      { q: "8. Do you currently use prescription retinoids or strong acids?", opts: ["Yes (Tretinoin/Adapalene/AHA 10%+)", "Occasionally (Over-the-counter retinol)", "No / Active-free routine"] },
+      { q: "9. How frequently do you apply sunscreen daily?", opts: ["Twice or more per day", "Once every morning", "Only when sunny outside", "Rarely or never"] },
+      { q: "10. How does your skin feel after using scented products?", opts: ["Immediate burning, itching, or redness", "Mild transient tingling", "No negative reaction"] },
+      { q: "11. What is your primary skin goal focus?", opts: ["Calm active irritation & repair barrier", "Control excess shine & clear pores", "Deep hydration & plump fine lines", "Fade dark spots & unify tone"] },
+      { q: "12. How many steps are in your current daily routine?", opts: ["1-2 steps (Cleanser/Moisturizer only)", "3-4 steps (Core basic + sunscreen/serum)", "5+ steps (Multi-layer Korean/Western routine)"] },
+      { q: "13. How much water do you drink daily?", opts: ["Less than 1 Liter", "1 to 2 Liters", "2+ Liters consistently"] },
+      { q: "14. How does your skin look midday under artificial office light?", opts: ["Shiny with visible pores", "Flaky with rough patches", "Dull with loss of radiance", "Balanced with mild glow"] },
+      { q: "15. How often do you experience surface redness or stinging?", opts: ["Daily / Highly reactive", "Occasionally after active serums", "Rarely / Never"] },
+      { q: "16. Do you work in an air-conditioned or heated environment?", opts: ["Yes, full day (High moisture evaporation)", "Partially during the day", "No, naturally ventilated"] },
+      { q: "17. What is your average daily sleep duration?", opts: ["Under 6 hours", "6-8 hours", "8+ hours restorative sleep"] },
+      { q: "18. What is your primary budget comfort level for single products?", opts: ["Budget (<$10 / Rp 100k)", "Mid-tier ($10-$30 / Rp 150k-450k)", "Premium / High-end focus"] }
     ];
+
+    function renderQuizStep() {
+      const qData = quizQuestions[currentQuizStep - 1];
+      document.getElementById('quizStepLabel').innerText = `Step ${currentQuizStep} of 18`;
+      document.getElementById('quizProgressBar').style.width = `${Math.round((currentQuizStep / 18) * 100)}%`;
+      document.getElementById('quizQuestionText').innerText = qData.q;
+      
+      const container = document.getElementById('quizOptionsContainer');
+      container.innerHTML = qData.opts.map(opt => 
+        `<button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">${opt}</button>`
+      ).join('');
+    }
 
     function nextQuizStep() {
       if (currentQuizStep < 18) {
         currentQuizStep++;
-        document.getElementById('quizStepLabel').innerText = `Step ${currentQuizStep} of 18`;
-        document.getElementById('quizProgressBar').style.width = `${Math.round((currentQuizStep / 18) * 100)}%`;
-        
-        const qData = quizQuestions[currentQuizStep - 1] || { 
-          q: `${currentQuizStep}. How often do you experience surface redness or stinging?`, 
-          opts: ["Daily / Highly reactive", "Occasionally after active serums", "Rarely / Never"] 
-        };
-
-        document.getElementById('quizQuestionText').innerText = qData.q;
-        const container = document.getElementById('quizOptionsContainer');
-        container.innerHTML = qData.opts.map(opt => `<button class="btn-preset" style="text-align: left; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--color-text-main);" onclick="nextQuizStep()">${opt}</button>`).join('');
+        renderQuizStep();
       } else {
-        alert("Quiz complete! Your custom skin type profile has been saved.");
+        // Step 18 complete -> Render Results Panel
+        document.getElementById('quizStepLabel').innerText = `Completed`;
+        document.getElementById('quizProgressBar').style.width = `100%`;
+        
+        document.getElementById('quizContentBox').innerHTML = `
+          <div style="background: rgba(89, 145, 47, 0.1); border: 1px solid var(--brand-primary); padding: 1.25rem; border-radius: 16px; margin-top: 1rem;">
+            <h3 style="color: var(--brand-primary); font-size: 1.2rem; margin-bottom: 0.5rem;">🎉 Profile Assessment Complete!</h3>
+            <p style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-main); margin-bottom: 1rem;">
+              Based on your 18 clinical parameters, your skin barrier profile is classified as: <strong>Sensitive / Barrier-Focus Type</strong>.
+            </p>
+            <button class="btn-accent" onclick="switchTab('trackerCard', document.getElementById('navDashboard'))">View Custom Budget Routine</button>
+          </div>
+        `;
       }
     }
 
@@ -862,21 +943,45 @@
       if (lower.includes('fragrance') || lower.includes('parfum')) {
         alerts.push("Contains fragrance compounds that can trigger reactions on reactive skin.");
       }
-      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella')) {
-        pros.push("Contains soothing and barrier-repairing compounds.");
+      if (lower.includes('glycerin') || lower.includes('hyaluronic') || lower.includes('centella') || lower.includes('water')) {
+        pros.push("Contains soothing and hydration-maintaining compounds.");
       }
 
       let html = `<strong>Input Text:</strong> ${input.substring(0, 100)}${input.length > 100 ? '...' : ''}<br><br>`;
       if (alerts.length) html += `<strong style="color:var(--status-alert-text);">Concerns:</strong><ul>${alerts.map(a => `<li>${a}</li>`).join('')}</ul><br>`;
-      if (pros.length) html += `<strong style="color:var(--brand-primary);">Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
+      if (pros.length) html += `<strong style="color:var(--brand-primary);">Beneficial Actives:</strong><ul>${pros.map(p => `<li>${p}</li>`).join('')}</ul><br>`;
       if (!alerts.length && !pros.length) html += "Standard formulation detected.";
 
       aiResultBody.innerHTML = html;
     }
 
+    function filterScienceCategory(cat, el) {
+      document.querySelectorAll('#scienceHubSection .filter-pill').forEach(p => p.classList.remove('active'));
+      if (el) el.classList.add('active');
+      document.querySelectorAll('.science-card').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterDirectoryCategory(skin, el) {
+      document.querySelectorAll('#recommendationsSection .filter-pill').forEach(p => p.classList.remove('active'));
+      if (el) el.classList.add('active');
+      document.querySelectorAll('.directory-card').forEach(card => {
+        if (skin === 'all' || card.getAttribute('data-skin') === skin) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
     function filterDictionary() {
       const q = document.getElementById('dictionarySearchInput').value.toLowerCase();
-      document.querySelectorAll('.dict-card').forEach(card => {
+      document.querySelectorAll('#dictionaryListContainer .dict-card').forEach(card => {
         const text = card.innerText.toLowerCase();
         card.style.display = text.includes(q) ? 'block' : 'none';
       });
@@ -902,6 +1007,8 @@
     }
 
     window.addEventListener('load', () => {
+      renderQuizStep();
+
       const ctx = document.getElementById('dermaChart');
       if (ctx && typeof Chart !== 'undefined') {
         dermaChartInstance = new Chart(ctx, {
